@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTaskManager.Persistence", "StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj", "{1F8EECCF-B228-4A9B-BDEF-760AA42A25E4}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "studytaskmanager.webapi", "StudyTaskManager.WebApi\studytaskmanager.webapi.esproj", "{042D7082-30A2-4156-A4DE-A7480DB36A05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6CF23718-39D4-444B-B241-B91CC06FBC8F} = {6CF23718-39D4-444B-B241-B91CC06FBC8F}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{05020099-94C8-4168-B1A0-C67299053D06}"
 EndProject

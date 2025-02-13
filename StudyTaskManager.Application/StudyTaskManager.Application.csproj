@@ -49,5 +49,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj">
+      <Project>{ee499693-4808-45bb-837d-ec8d3abd04b8}</Project>
+      <Name>StudyTaskManager.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj">
+      <Project>{1f8eeccf-b228-4a9b-bdef-760aa42a25e4}</Project>
+      <Name>StudyTaskManager.Persistence</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
