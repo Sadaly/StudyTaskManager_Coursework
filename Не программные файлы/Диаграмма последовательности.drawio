@@ -512,7 +512,7 @@
         <mxCell id="3MGng4BcUYbXlGZzXN4c-14" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1100" y="350" as="sourcePoint" />
-            <mxPoint x="1740" y="350" as="targetPoint" />
+            <mxPoint x="1580" y="350" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="3MGng4BcUYbXlGZzXN4c-15" value="32.Просмотр доступных чатов" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
