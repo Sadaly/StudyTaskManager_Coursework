@@ -1,0 +1,6 @@
+@StudyTaskManager.WebAPI_HostAddress = http://localhost:5048
+
+GET {{StudyTaskManager.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
