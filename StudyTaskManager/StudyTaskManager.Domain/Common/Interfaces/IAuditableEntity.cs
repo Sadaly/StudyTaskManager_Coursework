@@ -1,5 +1,4 @@
-﻿// Этот файл определяет дочерний интерфейс интерфейсов IEntity, определенных выше. 
-namespace StudyTaskManager.Domain.Common.Interfaces
+﻿namespace StudyTaskManager.Domain.Common.Interfaces
 {
     /// <summary>
     /// Этот интерфейс добавляет дополнительные свойства для отслеживания информации о контрольном журнале объекта.

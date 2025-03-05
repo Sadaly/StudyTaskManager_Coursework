@@ -1,6 +1,4 @@
-﻿// Этот файл содержит класс BaseEntity, реализующий интерфейс IEntity.
-
-using StudyTaskManager.Domain.Common.Interfaces;
+﻿using StudyTaskManager.Domain.Common.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.Common
@@ -10,7 +8,7 @@ namespace StudyTaskManager.Domain.Common
     /// </summary>
     public abstract class BaseEntity : IEntity
     {
-        private readonly List<BaseEvent> _domainEvents = new();
+        private readonly List<BaseEvent> _domainEvents = [];
 
         public int Id { get; set; }
 
