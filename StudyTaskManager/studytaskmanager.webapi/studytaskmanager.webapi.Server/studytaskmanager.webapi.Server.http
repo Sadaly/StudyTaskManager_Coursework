@@ -1,0 +1,6 @@
+@studytaskmanager.webapi.Server_HostAddress = http://localhost:5250
+
+GET {{studytaskmanager.webapi.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

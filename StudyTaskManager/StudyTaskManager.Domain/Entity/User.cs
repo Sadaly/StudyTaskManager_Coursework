@@ -11,6 +11,6 @@
         public string NumberPhone { get; }
         public DateTime RegistrationDate { get; }
         public IReadOnlyCollection<PersonalChat> PersonalChat => _personalChat;
-        private List<PersonalChat> _personalChat
+        private List<PersonalChat> _personalChat;
      }
 }

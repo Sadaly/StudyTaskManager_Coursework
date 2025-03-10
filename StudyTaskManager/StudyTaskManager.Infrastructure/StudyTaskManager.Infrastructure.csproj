@@ -7,4 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StudyTaskManager.Application\StudyTaskManager.Application.csproj" />
+    <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
