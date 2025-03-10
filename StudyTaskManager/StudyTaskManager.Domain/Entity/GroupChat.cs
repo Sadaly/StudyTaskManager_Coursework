@@ -12,9 +12,9 @@ namespace StudyTaskManager.Domain.Entity
         /// </summary>
         public Guid Id { get; set; }
         /// <summary>
-        /// Ссылка на группу
+        /// Ссылка на группу по id
         /// </summary>
-        public Group Group { get; set; } = null!;
+        public int GroupId { get; set; }
         /// <summary>
         /// Название чата (not null)
         /// </summary>
@@ -22,6 +22,22 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Модификатор, показывающий доступен ли чат всем участникам группы или нет
         /// </summary>
-        public bool Is_Public { get; set; }
+        public bool IsPublic { get; set; }
+
+
+        /// <summary>
+        /// Ссылка на группу
+        /// </summary>
+        public Group Group { get; set; } = null!;
+        /// <summary>
+        /// Перечисление сообщений в чате
+        /// </summary>
+        public IReadOnlyCollection<GroupChatMessage>? GroupChatMessages => _groupChatMessages;
+        private List<GroupChatMessage>? _groupChatMessages;
+        /// <summary>
+        /// Перечисление участников в чате
+        /// </summary>
+        public IReadOnlyCollection<GroupChatParticipant>? GroupChatParticipants => _groupChatParticipants;
+        private List<GroupChatParticipant>? _groupChatParticipants;
     }
 }

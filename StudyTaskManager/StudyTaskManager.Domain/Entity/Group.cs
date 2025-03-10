@@ -20,9 +20,15 @@ namespace StudyTaskManager.Domain.Entity
         /// </summary>
         public string? Description { get; set; }
         /// <summary>
+        /// Id роли по умолчанию
+        /// </summary>
+        public int DefaultRoleId { get; set; }
+
+
+        /// <summary>
         /// Роль по умолчанию. Для новых созданных групп будет установлена базовая роль
         /// </summary>
-        public GroupRole Role { get; set; } = null!;
+        public GroupRole DefaultRole { get; set; } = null!;
         /// <summary>
         /// Перечисление пользователей в группе
         /// </summary>

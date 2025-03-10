@@ -22,6 +22,6 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Дата блокировки пользователя
         /// </summary>
-        public DateTime Blocked_Date { get; set; }
+        public DateTime BlockedDate { get; set; }
     }
 }
