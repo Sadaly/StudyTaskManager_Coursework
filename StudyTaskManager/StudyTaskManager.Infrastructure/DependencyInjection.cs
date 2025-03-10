@@ -1,4 +1,3 @@
-
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,10 +8,10 @@ namespace StudyTaskManager.Infrustracture
     /// </summary>
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrustracture(this IServiceCollection services)
         /// <summary>
-        /// Сюда добавляются новые сервисы
+        /// Конструктор для добавления сервисов
         /// </summary>
+        public static IServiceCollection AddInfrustracture(this IServiceCollection services)
         { 
             return services;
         }

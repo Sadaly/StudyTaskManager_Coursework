@@ -1,16 +1,16 @@
 ﻿namespace StudyTaskManager.Domain.Entity
 {
-    class Message
+    public class PersonalMessage
     {
         /// <summary>
         /// Отправитель
         /// </summary>
-        public User Sender { get; }
+        public User Sender { get; } = null!;
 
         /// <summary>
         /// Сообщение
         /// </summary>
-        public string Content { get; }
+        public string Content { get; } = null!;
 
         /// <summary>
         /// Дата написания

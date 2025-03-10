@@ -1,10 +1,10 @@
 ﻿namespace StudyTaskManager.Domain.Entity
 {
-    class PersonalChat
+    public class PersonalChat
     {
-        public User User1 { get; }
-        public User User2 { get; }
-        public IReadOnlyCollection<Message> Messages => _messages;
-        private List<Message> _messages;
+        public User User1 { get; } = null!;
+        public User User2 { get; } = null!;
+        public IReadOnlyCollection<PersonalMessage>? Messages => _messages;
+        private List<PersonalMessage>? _messages;
     }
 }

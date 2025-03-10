@@ -23,9 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTaskManager.Persistenc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTaskManager.Shared", "StudyTaskManager.Shared\StudyTaskManager.Shared.csproj", "{A3821125-6AAB-4FEA-9F87-0620F9966FCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "studytaskmanager.webapi.Server", "studytaskmanager.webapi\studytaskmanager.webapi.Server\studytaskmanager.webapi.Server.csproj", "{694565F4-E4B0-4C1A-A5DB-FFEF402F740A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTaskManager.WebAPI", "studytaskmanager.webapi\studytaskmanager.webapi.Server\StudyTaskManager.WebAPI.csproj", "{694565F4-E4B0-4C1A-A5DB-FFEF402F740A}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "studytaskmanager.webapi.client", "studytaskmanager.webapi\studytaskmanager.webapi.client\studytaskmanager.webapi.client.esproj", "{C1D7ED0A-065D-44A3-8675-8BDA7546C55C}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "StudyTaskManager.Presentation", "studytaskmanager.webapi\studytaskmanager.webapi.client\StudyTaskManager.Presentation.esproj", "{C1D7ED0A-065D-44A3-8675-8BDA7546C55C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,7 +77,6 @@ Global
 		{0B882709-24DA-4DAC-B32F-308559906B9B} = {8E2927EF-8F55-4A06-BD0A-D907A189183F}
 		{C93C2875-9BFE-47CE-9A4A-A5D69789E753} = {8E2927EF-8F55-4A06-BD0A-D907A189183F}
 		{A3821125-6AAB-4FEA-9F87-0620F9966FCD} = {04F920EC-D4D6-4448-8C5F-EA531C28B699}
-		{694565F4-E4B0-4C1A-A5DB-FFEF402F740A} = {304E3791-89D1-45E1-84B6-019AC87FF7EC}
 		{C1D7ED0A-065D-44A3-8675-8BDA7546C55C} = {304E3791-89D1-45E1-84B6-019AC87FF7EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

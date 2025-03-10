@@ -3,14 +3,14 @@
     // Абстрактный класс пользователя.
     // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
     // Для создания экземпляров нужно будет использовать какой нибудь паттерн, строитель или фабрику.
-    abstract class User
+    public abstract class User
     {
-        public string UserName { get; }
-        public SystemRole SystemRole { get; }
-        public string Email { get; }
-        public string NumberPhone { get; }
+        public string UserName { get; } = null!;
+        public SystemRole SystemRole { get; } = null!;
+        public string Email { get; } = null!;
+        public string NumberPhone { get; } = null!;
         public DateTime RegistrationDate { get; }
-        public IReadOnlyCollection<PersonalChat> PersonalChat => _personalChat;
-        private List<PersonalChat> _personalChat;
+        public IReadOnlyCollection<PersonalChat>? PersonalChat => _personalChat;
+        private List<PersonalChat>? _personalChat;
      }
 }

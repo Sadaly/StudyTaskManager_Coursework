@@ -2,31 +2,31 @@
 
 namespace StudyTaskManager.Domain.Entity
 {
-    abstract class SystemRole
+    public abstract class SystemRole
     {
         /// <summary>
         /// Название
         /// </summary>
-        public string Title { get; }
+        public string Title { get; } = null!;
 
         /// <summary>
         /// Возможность просматривать чужие группы
         /// </summary>
-        public bool The_ability_to_view_other_peoples_groups { get; }
+        public bool Can_View_Peoples_Groups { get; }
 
         /// <summary>
         /// Возможность изменять системные роли другим
         /// </summary>
-        public bool The_possibility_of_changing_the_system_role_to_others { get; }
+        public bool Can_Change_System_Roles { get; }
 
         /// <summary>
         /// Возможность блокировать пользователя
         /// </summary>
-        public bool The_possibility_of_blocking_the_user { get; }
+        public bool Can_Block_Users { get; }
 
         /// <summary>
         /// Возможность удаления чата
         /// </summary>
-        public bool The_ability_to_delete_a_chat { get; }
+        public bool Can_Delete_Chats { get; }
     }
 }
