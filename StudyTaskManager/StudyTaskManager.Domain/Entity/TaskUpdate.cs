@@ -1,13 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Domain.Common.Interfaces;
 
 namespace StudyTaskManager.Domain.Entity
 {
     //Todo
-    internal class TaskUpdate
+    public class TaskUpdate : IEntity
     {
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        public Guid Id { get; }
+
+        /// <summary>
+        /// Id создателя апдейта
+        /// </summary>
+        public int CreatorId { get; }
+
+        /// <summary>
+        /// Id задачи
+        /// </summary>
+        public int TaskId { get; }
+
+        /// <summary>
+        /// Дата создания апдейта
+        /// </summary>
+        public DateTime DateCreated { get; }
+
+        /// <summary>
+        /// Содержание
+        /// </summary>
+        public string Content { get; } = null!;
+
+
+
+        /// <summary>
+        /// Ссылка на создателя апдейта
+        /// </summary>
+        public User Creator { get; } = null!;
+
+        /// <summary>
+        /// Ссылка на задачу
+        /// </summary>
+        public Task Task { get; } = null!;
     }
 }

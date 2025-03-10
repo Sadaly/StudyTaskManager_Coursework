@@ -1,11 +1,23 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿using StudyTaskManager.Domain.Common.Interfaces;
+
+namespace StudyTaskManager.Domain.Entity
 {
-    public class PersonalMessage
+    public class PersonalMessage : IEntity
     {
         /// <summary>
-        /// Отправитель
+        /// Уникальный идентификатор
         /// </summary>
-        public User Sender { get; } = null!;
+        public Guid Id { get; }
+
+        /// <summary>
+        /// Id отправителя
+        /// </summary>
+        public int SenderId { get; }
+
+        /// <summary>
+        /// Id личного чата
+        /// </summary>
+        public int PersonalChatId { get; }
 
         /// <summary>
         /// Сообщение
@@ -15,11 +27,23 @@
         /// <summary>
         /// Дата написания
         /// </summary>
-        public DateTime DateWriting { get; }
+        public DateTime DateWriten { get; }
 
         /// <summary>
         /// Флаг прочитано собеседником 
         /// </summary>
-        public bool FlagReadByTheInterviewee { get; }
+        public bool Is_Read_By_Other_User{ get; set; }
+
+
+
+        /// <summary>
+        /// Отправитель
+        /// </summary>
+        public User Sender { get; } = null!;
+
+        /// <summary>
+        /// Личный чат
+        /// </summary>
+        public PersonalChat PersonalChat { get; } = null!;
     }
 }

@@ -10,7 +10,7 @@ namespace StudyTaskManager.Domain.Common
     {
         private readonly List<BaseEvent> _domainEvents = [];
 
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         [NotMapped]
         public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();

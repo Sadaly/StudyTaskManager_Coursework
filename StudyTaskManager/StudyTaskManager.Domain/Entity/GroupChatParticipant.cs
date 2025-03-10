@@ -8,20 +8,23 @@
         /// <summary>
         /// Id пользователя, относящийся к чату
         /// </summary>
-        public int UserId { get; set; }
+        public int UserId { get; }
+
         /// <summary>
         /// Id чата, к которому пользователь относится
         /// </summary>
-        public int GroupChatId { get; set; }
+        public int GroupChatId { get; }
+
 
 
         /// <summary>
         /// Пользователь, относящийся к чату
         /// </summary>
-        public User User { get; set; } = null!;
+        public User User { get; } = null!;
+
         /// <summary>
         /// Чат, к которому пользователь относится
         /// </summary>
-        public GroupChat GroupChat { get; set; } = null!;
+        public GroupChat GroupChat { get; } = null!;
     }
 }

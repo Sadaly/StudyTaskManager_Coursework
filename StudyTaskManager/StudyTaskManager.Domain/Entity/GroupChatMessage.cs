@@ -11,32 +11,38 @@
         /// <summary>
         /// Ссылка на id группового чата
         /// </summary>
-        public int GroupChatId { get; set; } 
+        public int GroupChatId { get; } 
+
         /// <summary>
         /// Порядковый номер сообщения
         /// </summary>
-        public int Ordinal { get; set; }
+        public int Ordinal { get; }
+
         /// <summary>
-        /// Id автора сообщения
+        /// Id отправителя сообщения
         /// </summary>
-        public int AuthorId { get; set; }
+        public int SenderId { get; }
+
         /// <summary>
         /// Содержание сообщения
         /// </summary>
         public string Content { get; set; } = null!;
+
         /// <summary>
         /// Время отправки сообщения
         /// </summary>
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; }
+
 
 
         /// <summary>
-        /// Автор сообщения
+        /// Отправитель сообщения
         /// </summary>
-        public User Author { get; set; } = null!;
+        public User Sender { get; } = null!;
+
         /// <summary>
         /// Ссылка на групповой чат
         /// </summary>
-        public GroupChat GroupChat { get; set; } = null!;
+        public GroupChat GroupChat { get; } = null!;
     }
 }

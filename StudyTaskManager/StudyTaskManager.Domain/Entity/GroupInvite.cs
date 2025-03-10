@@ -8,19 +8,23 @@
         /// <summary>
         /// Id отправитель сообщения
         /// </summary>
-        public int SenderId { get; set; }
+        public int SenderId { get; }
+
         /// <summary>
         /// Id получатель сообщения
         /// </summary>
-        public int ReceiverId { get; set; }
+        public int ReceiverId { get; }
+
+
 
         /// <summary>
         /// Отправитель сообщения
         /// </summary>
-        public User Sender { get; set; } = null!;
+        public User Sender { get; } = null!;
+
         /// <summary>
         /// Получатель сообщения
         /// </summary>
-        public User Receiver { get; set; } = null!;
+        public User Receiver { get; } = null!;
     }
 }
