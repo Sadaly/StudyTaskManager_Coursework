@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\StudyTaskManager.Application\StudyTaskManager.Application.csproj" />
+    <ProjectReference Include="..\..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
+    <ProjectReference Include="..\..\StudyTaskManager.Infrastructure\StudyTaskManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj" />
     <ProjectReference Include="..\studytaskmanager.webapi.client\studytaskmanager.webapi.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
