@@ -1,11 +1,13 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.User
 {
-    // Абстрактный класс пользователя.
+    /// <summary>
+    /// Абстрактный класс пользователя
+    /// </summary>
     // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
     // Для создания экземпляров нужно будет использовать какой нибудь паттерн, строитель или фабрику.
-    public abstract class User : IEntity
+    public abstract class AbsUser : IEntity
     {
         /// <summary>
         /// Уникальный идентификатор
@@ -38,7 +40,6 @@ namespace StudyTaskManager.Domain.Entity
         public DateTime RegistrationDate { get; }
 
 
-
         /// <summary>
         /// Ссылка на системную роль
         /// </summary>
@@ -47,7 +48,7 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Ссылка на личные чаты
         /// </summary>
-        public IReadOnlyCollection<PersonalChat>? PersonalChat => _personalChat;
-        private List<PersonalChat>? _personalChat;
-     }
+        public IReadOnlyCollection<Chat.PersonalChat>? PersonalChat => _personalChat;
+        private List<Chat.PersonalChat>? _personalChat;
+    }
 }

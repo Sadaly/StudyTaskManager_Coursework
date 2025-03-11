@@ -1,6 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     //Todo
     public class TaskUpdate : IEntity
@@ -35,7 +35,7 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Ссылка на создателя апдейта
         /// </summary>
-        public User Creator { get; } = null!;
+        public User.AbsUser Creator { get; } = null!;
 
         /// <summary>
         /// Ссылка на задачу

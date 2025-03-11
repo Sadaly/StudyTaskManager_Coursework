@@ -1,6 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Log
 {
     /// <summary>
     /// Лог действий в группах
@@ -33,7 +33,7 @@ namespace StudyTaskManager.Domain.Entity
         public int? InitiatorId { get; }
 
         /// <summary>
-        /// Id человека, который был затрон действием
+        /// Id человека, который был затрон действием, если он есть
         /// </summary>
         public int? SubjectId { get; }
 
@@ -47,7 +47,7 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Ссылка на группу
         /// </summary>
-        public Group? Group { get; }
+        public Group.Group? Group { get; }
 
         /// <summary>
         /// Ссылка на лог действие
@@ -57,11 +57,11 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Ссылка на инициатора действия
         /// </summary>
-        public User? Initiator { get; }
+        public User.AbsUser? Initiator { get; }
 
         /// <summary>
         /// Ссылка на субъекта действия
         /// </summary>
-        public User? Subject { get; }
+        public User.AbsUser? Subject { get; }
     }
 }

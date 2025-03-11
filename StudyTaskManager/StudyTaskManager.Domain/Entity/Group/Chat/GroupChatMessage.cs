@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
     /// <summary>
     /// Текстовые сообщения оставленные в группе. В отличии от остальных сущностей, оно имеет составной ключ. Он состоит из Id_чата и порядкового номера сообщения
@@ -38,7 +38,7 @@
         /// <summary>
         /// Отправитель сообщения
         /// </summary>
-        public User Sender { get; } = null!;
+        public User.AbsUser Sender { get; } = null!;
 
         /// <summary>
         /// Ссылка на групповой чат

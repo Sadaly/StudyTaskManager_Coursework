@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
     /// Пользователь в группе
@@ -40,6 +40,6 @@
         /// <summary>
         /// Ссылка на пользователя
         /// </summary>
-        public User User { get; } = null!;
+        public User.AbsUser User { get; } = null!;
     }
 }

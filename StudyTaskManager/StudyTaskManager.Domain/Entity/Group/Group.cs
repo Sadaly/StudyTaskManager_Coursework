@@ -1,6 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
     /// Группа, объединяющая пользователь для выполнения задач и общения
@@ -55,8 +55,8 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Перечисление логов
         /// </summary>
-        public IReadOnlyCollection<Log>? GroupLogs => _groupLogs;
-        private List<Log>? _groupLogs;
+        public IReadOnlyCollection<Log.Log>? GroupLogs => _groupLogs;
+        private List<Log.Log>? _groupLogs;
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
     /// Роль пользователей в группе

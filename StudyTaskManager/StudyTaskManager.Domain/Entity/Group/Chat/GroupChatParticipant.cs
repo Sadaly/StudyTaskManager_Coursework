@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
     /// <summary>
     /// Класс, который показывает принадлежность определенного пользователя к определенному чату
@@ -20,7 +20,7 @@
         /// <summary>
         /// Пользователь, относящийся к чату
         /// </summary>
-        public User User { get; } = null!;
+        public User.AbsUser User { get; } = null!;
 
         /// <summary>
         /// Чат, к которому пользователь относится

@@ -1,8 +1,10 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Group.Task
 {
-    //Todo
+    /// <summary>
+    /// Статус задачи
+    /// </summary>
     public class TaskStatus : IEntity
     {
         /// <summary>

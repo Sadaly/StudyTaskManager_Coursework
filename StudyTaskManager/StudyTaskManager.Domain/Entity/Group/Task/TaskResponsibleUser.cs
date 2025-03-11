@@ -1,14 +1,14 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     /// <summary>
     /// Пользователь ответственный за задачу
     /// </summary>
     public class TaskResponsibleUser
-    { 
+    {
         /// <summary>
         /// Id ответственного пользователя
         /// </summary>
-        public int? ResponsibleUserId { get; set; }
+        public int ResponsibleUserId { get; set; }
 
         /// <summary>
         /// Id группы
@@ -25,7 +25,7 @@
         /// <summary>
         /// ССылка на ответственного пользователя
         /// </summary>
-        public User? ResponsibleUser { get; set; }
+        public User.AbsUser? ResponsibleUser { get; set; }
 
         /// <summary>
         /// Ссылка на группу

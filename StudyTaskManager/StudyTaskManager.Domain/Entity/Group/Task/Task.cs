@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
+using System.Diagnostics;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     /// <summary>
     /// Задача
@@ -18,7 +19,7 @@ namespace StudyTaskManager.Domain.Entity
         public int GroupId { get; }
 
         /// <summary>
-        /// Id родительской задачи
+        /// Id родительской задачи, если она есть
         /// </summary>
         public int? ParentId { get; set; }
 
@@ -42,7 +43,7 @@ namespace StudyTaskManager.Domain.Entity
         /// </summary>
         public string? Description { get; }
 
-        
+
 
         /// <summary>
         /// Ссылка на группу
@@ -50,7 +51,7 @@ namespace StudyTaskManager.Domain.Entity
         public Group Group { get; } = null!;
 
         /// <summary>
-        /// Ссылка на родительскую задачу
+        /// Ссылка на родительскую задачу, если она есть
         /// </summary>
         public Task? Parent { get; set; }
 
@@ -58,5 +59,15 @@ namespace StudyTaskManager.Domain.Entity
         /// Ссылка на статус
         /// </summary>
         public TaskStatus Status { get; set; } = null!;
+
+        /// <summary>
+        /// Ответственный за задачу
+        /// </summary>
+        public TaskResponsibleUser? Responsible { get; set; }
+
+        /// <summary>
+        /// Ответственный за задачу
+        /// </summary>
+        public User.AbsUser? ResponsibleUser { get; set; }
     }
 }

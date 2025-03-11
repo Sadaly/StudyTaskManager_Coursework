@@ -1,11 +1,14 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.User.Chat
 {
+    /// <summary>
+    /// Личное сообщение от одного пользователя другому
+    /// </summary>
     public class PersonalMessage : IEntity
     {
         /// <summary>
-        /// Уникальный идентификатор
+        /// Уникальный идентификатор сообщения
         /// </summary>
         public Guid Id { get; }
 
@@ -32,14 +35,14 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Флаг прочитано собеседником 
         /// </summary>
-        public bool Is_Read_By_Other_User{ get; set; }
+        public bool Is_Read_By_Other_User { get; set; }
 
 
 
         /// <summary>
         /// Отправитель
         /// </summary>
-        public User Sender { get; } = null!;
+        public AbsUser Sender { get; } = null!;
 
         /// <summary>
         /// Личный чат

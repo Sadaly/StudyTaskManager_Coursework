@@ -1,7 +1,10 @@
 ﻿using StudyTaskManager.Domain.Common.Interfaces;
 
-namespace StudyTaskManager.Domain.Entity
+namespace StudyTaskManager.Domain.Entity.User.Chat
 {
+    /// <summary>
+    /// Личный чат между двумя пользователями
+    /// </summary>
     public class PersonalChat : IEntity
     {
         /// <summary>
@@ -24,12 +27,12 @@ namespace StudyTaskManager.Domain.Entity
         /// <summary>
         /// Пользователь 1
         /// </summary>
-        public User User1 { get; } = null!;
+        public AbsUser User1 { get; } = null!;
 
         /// <summary>
         /// Пользователь 2
         /// </summary>
-        public User User2 { get; } = null!;
+        public AbsUser User2 { get; } = null!;
 
         /// <summary>
         /// Перечисление сообщений из личных чатов

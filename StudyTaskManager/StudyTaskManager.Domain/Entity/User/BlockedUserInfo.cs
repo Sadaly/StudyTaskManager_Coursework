@@ -1,9 +1,9 @@
-﻿namespace StudyTaskManager.Domain.Entity
+﻿namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
-    /// Заблокированный пользователь
+    /// Запись о том, что пользователь был заблокирован
     /// </summary>
-    public class BlockedUser
+    public class BlockedUserInfo
     {
         /// <summary>
         /// Уникальный идентификатор
@@ -25,6 +25,6 @@
         /// <summary>
         /// Ссылка на самого пользователя
         /// </summary>
-        public User User { get; set; } = null!;
+        public AbsUser User { get; set; } = null!;
     }
 }
