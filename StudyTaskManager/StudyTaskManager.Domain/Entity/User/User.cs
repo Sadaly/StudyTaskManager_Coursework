@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
-    /// Обычный пользователь (Конкректный класс)
+    /// Обычный пользователь (Конкретный класс)
     /// </summary>
     class User : AbsUser
     {

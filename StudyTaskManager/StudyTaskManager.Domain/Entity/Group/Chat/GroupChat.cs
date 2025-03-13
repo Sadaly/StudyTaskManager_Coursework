@@ -1,5 +1,4 @@
 ﻿using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Domain.Common.Interfaces;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {

@@ -1,5 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Domain.Common.Interfaces;
+using StudyTaskManager.Domain.Common;
 using System.Diagnostics;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
