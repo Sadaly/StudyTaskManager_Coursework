@@ -1,12 +1,13 @@
-﻿using StudyTaskManager.Domain.Common.Interfaces;
+﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Common.Interfaces;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
     /// <summary>
     /// Чат для текстового общения внутри группы
     /// </summary>
-    public class GroupChat : IEntity
-    {
+    public class GroupChat : BaseEntity
+	{
         /// <summary>
         /// Уникальный идентификатор
         /// </summary>

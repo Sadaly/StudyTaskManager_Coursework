@@ -3,7 +3,7 @@
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     //Todo
-    public class TaskUpdate : IEntity
+    public class GroupTaskUpdate : IEntity
     {
         /// <summary>
         /// Уникальный идентификатор
@@ -40,6 +40,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Ссылка на задачу
         /// </summary>
-        public Task Task { get; } = null!;
+        public GroupTask Task { get; } = null!;
     }
 }

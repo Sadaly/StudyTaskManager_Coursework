@@ -5,7 +5,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// <summary>
     /// Статус задачи
     /// </summary>
-    public class TaskStatus : IEntity
+    public class GroupTaskStatus : IEntity
     {
         /// <summary>
         /// Уникальный идентификатор

@@ -1,10 +1,12 @@
-﻿namespace StudyTaskManager.Domain.Entity.Group.Chat
+﻿using StudyTaskManager.Domain.Common;
+
+namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
     /// <summary>
     /// Показывает последнее прочитанное сообщение пользователем
     /// </summary>
-    public class GroupChatParticipantLastRead
-    {
+    public class GroupChatParticipantLastRead : BaseEntity
+	{
         /// <summary>
         /// Id последнего прочитанного сообщения пользователем в чате. 
         /// Создается лишь тогда, когда пользователь впервые открыл чат. 

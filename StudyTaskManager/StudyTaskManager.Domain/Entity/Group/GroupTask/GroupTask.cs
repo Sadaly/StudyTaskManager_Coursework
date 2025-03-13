@@ -1,4 +1,5 @@
-﻿using StudyTaskManager.Domain.Common.Interfaces;
+﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Common.Interfaces;
 using System.Diagnostics;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
@@ -6,7 +7,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// <summary>
     /// Задача
     /// </summary>
-    public class Task : IEntity
+    public class GroupTask : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор
@@ -43,27 +44,27 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// </summary>
         public string? Description { get; }
 
-
-
         /// <summary>
-        /// Ссылка на группу
+        /// Id ответственного за задачу
         /// </summary>
-        public Group Group { get; } = null!;
+        public int? ResponsibleId { get; set; }
+
+
+
+		/// <summary>
+		/// Ссылка на группу
+		/// </summary>
+		public Group Group { get; } = null!;
 
         /// <summary>
         /// Ссылка на родительскую задачу, если она есть
         /// </summary>
-        public Task? Parent { get; set; }
+        public GroupTask? Parent { get; set; }
 
         /// <summary>
         /// Ссылка на статус
         /// </summary>
-        public TaskStatus Status { get; set; } = null!;
-
-        /// <summary>
-        /// Ответственный за задачу
-        /// </summary>
-        public TaskResponsibleUser? Responsible { get; set; }
+        public GroupTaskStatus Status { get; set; } = null!;
 
         /// <summary>
         /// Ответственный за задачу
