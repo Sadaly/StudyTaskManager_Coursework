@@ -7,7 +7,7 @@ namespace StudyTaskManager.Domain.Entity.User
     /// </summary>
     // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
     // Для создания экземпляров нужно будет использовать какой нибудь паттерн, строитель или фабрику.
-    public abstract class AbsUser : IEntity
+    public abstract class AbsUser : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор

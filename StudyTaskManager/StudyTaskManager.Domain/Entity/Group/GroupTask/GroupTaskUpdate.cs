@@ -3,7 +3,7 @@
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     //Todo
-    public class GroupTaskUpdate : IEntity
+    public class GroupTaskUpdate : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор

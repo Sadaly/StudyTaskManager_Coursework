@@ -5,7 +5,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     /// <summary>
     /// Личное сообщение от одного пользователя другому
     /// </summary>
-    public class PersonalMessage : IEntity
+    public class PersonalMessage : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор сообщения

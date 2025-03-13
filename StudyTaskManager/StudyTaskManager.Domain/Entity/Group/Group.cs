@@ -5,7 +5,7 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// <summary>
     /// Группа, объединяющая пользователь для выполнения задач и общения
     /// </summary>
-    public class Group : IEntity
+    public class Group : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор

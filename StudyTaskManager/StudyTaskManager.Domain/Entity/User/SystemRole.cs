@@ -2,7 +2,7 @@
 
 namespace StudyTaskManager.Domain.Entity.User
 {
-    public abstract class SystemRole : IEntity
+    public abstract class SystemRole : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор

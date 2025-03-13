@@ -5,7 +5,7 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// <summary>
     /// Роль пользователей в группе
     /// </summary>
-    public class GroupRole : IEntity
+    public class GroupRole : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор

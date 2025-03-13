@@ -3,7 +3,7 @@
     /// <summary>
     /// Этот интерфейс добавляет дополнительные свойства для отслеживания информации о контрольном журнале объекта.
     /// </summary>
-    public interface IAuditableEntity : IEntity
+    public interface IAuditableEntity : BaseEntity
     {
         int? CreatedBy { get; set; }
         DateTime? CreatedDate { get; set; }

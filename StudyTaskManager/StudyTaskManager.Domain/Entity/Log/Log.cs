@@ -5,7 +5,7 @@ namespace StudyTaskManager.Domain.Entity.Log
     /// <summary>
     /// Лог действий в группах
     /// </summary>
-    public class Log : IEntity
+    public class Log : BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор
