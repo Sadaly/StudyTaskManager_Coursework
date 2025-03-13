@@ -1,4 +1,4 @@
-﻿using StudyTaskManager.Domain.Common.Interfaces;
+﻿using StudyTaskManager.Domain.Abstractions;
 
 namespace StudyTaskManager.Domain.Common
 {

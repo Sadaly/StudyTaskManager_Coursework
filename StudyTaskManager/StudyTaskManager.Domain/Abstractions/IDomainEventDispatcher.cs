@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Common.Interfaces
+﻿using StudyTaskManager.Domain.Common;
+
+namespace StudyTaskManager.Domain.Abstractions
 {
     /// <summary>
     /// Этот интерфейс объявляет метод, который можно использовать для отправки событий предметной области по всему приложению.

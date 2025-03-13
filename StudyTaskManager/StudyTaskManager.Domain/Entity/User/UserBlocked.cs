@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
-    /// Заблокированный пользователь (Конкректный класс)
+    /// Заблокированный пользователь (Конкретный класс)
     /// </summary>
-    class UserBloked : AbsUser
+    class UserBlocked : AbsUser
     {
         /// <summary>
-        /// Информация о блокированни пользователя.
+        /// Информация о блокировании пользователя.
         /// </summary>
         public BlockedUserInfo BlockedUserInfo { get; private set; } = null!;
     }

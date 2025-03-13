@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StudyTaskManager.Domain.Entity.User
+﻿namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
     /// Обычный пользователь (Конкретный класс)
     /// </summary>
-    class User : AbsUser
+    public class User : AbsUser
     {
     }
 }

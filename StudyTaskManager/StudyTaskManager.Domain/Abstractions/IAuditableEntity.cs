@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Domain.Common.Interfaces;
+﻿namespace StudyTaskManager.Domain.Abstractions;
 
 /// <summary>
 /// Этот интерфейс добавляет дополнительные свойства для отслеживания информации о контрольном журнале объекта.

@@ -1,5 +1,4 @@
 ﻿using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Domain.Common;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -7,7 +6,7 @@ namespace StudyTaskManager.Domain.Entity.User
     /// Абстрактный класс пользователя
     /// </summary>
     // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
-    // Для создания экземпляров нужно будет использовать какой нибудь паттерн, строитель или фабрику.
+    // Для создания экземпляров нужно будет использовать какой-нибудь паттерн, строитель или фабрику.
     public abstract class AbsUser : BaseEntity
     {
         /// <summary>

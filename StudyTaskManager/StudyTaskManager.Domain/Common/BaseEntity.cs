@@ -1,4 +1,4 @@
-﻿using StudyTaskManager.Domain.Common.Interfaces;
+﻿using StudyTaskManager.Domain.Abstractions;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.Common
