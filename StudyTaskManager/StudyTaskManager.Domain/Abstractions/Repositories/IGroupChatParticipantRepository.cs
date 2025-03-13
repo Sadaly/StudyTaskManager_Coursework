@@ -1,6 +1,4 @@
-﻿using StudyTaskManager.Domain.Entity.Group.Chat;
-
-namespace StudyTaskManager.Domain.Abstractions.Repositories
+﻿namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
     /// <summary>
     /// Хранилище участников групп
@@ -11,12 +9,12 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Добавление нового участника группы
         /// </summary>
         /// <param name="GroupChatParticipant">Ссылка на групповой чат</param>
-        void Add(GroupChatParticipant GroupChatParticipant);
+        void Add(Entity.Group.Chat.GroupChatParticipant GroupChatParticipant);
 
         /// <summary>
         /// Удаление участника группы
         /// </summary>
         /// <param name="GroupChatParticipant">Ссылка на групповой чат</param>
-        void Remove(GroupChatParticipant GroupChatParticipant);
+        void Remove(Entity.Group.Chat.GroupChatParticipant GroupChatParticipant);
     }
 }

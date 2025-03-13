@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace StudyTaskManager.Domain.Abstractions.Repositories
+﻿namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
     /// <summary>
     /// Хранилище групп
@@ -11,12 +9,12 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Добавление новой группы
         /// </summary>
         /// <param name="Group">Ссылка на группу</param>
-        void Add(Group Group);
+        void Add(Entity.Group.Group Group);
 
         /// <summary>
         /// Удаление группы
         /// </summary>
         /// <param name="Group">Ссылка на группу</param>
-        void Remove(Group Group);
+        void Remove(Entity.Group.Group Group);
     }
 }

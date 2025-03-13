@@ -1,7 +1,4 @@
-﻿using StudyTaskManager.Domain.Entity.User;
-using System.Text.RegularExpressions;
-
-namespace StudyTaskManager.Domain.Abstractions.Repositories
+﻿namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
     /// <summary>
     /// Хранилище пользователей
@@ -12,6 +9,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Добавление нового пользователя
         /// </summary>
         /// <param name="User">Ссылка на группу</param>
-        void Add(User User);
+        void Add(Entity.User.User User);
     }
 }
