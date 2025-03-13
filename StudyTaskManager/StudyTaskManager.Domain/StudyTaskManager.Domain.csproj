@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Abstractions\Repositories\IGroupRepository.cs~RF2b0d84c.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
