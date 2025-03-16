@@ -37,7 +37,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Отправитель
         /// </summary>
-        public AbsUser Sender { get; } = null!;
+        public User Sender { get; } = null!;
 
         /// <summary>
         /// Личный чат

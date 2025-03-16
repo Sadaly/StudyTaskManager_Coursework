@@ -40,6 +40,6 @@
         /// <summary>
         /// Ссылка на пользователя
         /// </summary>
-        public User.AbsUser User { get; } = null!;
+        public User.User User { get; } = null!;
     }
 }

@@ -41,6 +41,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Пользователь, который посмотрел какое-либо последнее сообщение в чате
         /// </summary>
-        public User.AbsUser User { get; } = null!;
+        public User.User User { get; } = null!;
     }
 }

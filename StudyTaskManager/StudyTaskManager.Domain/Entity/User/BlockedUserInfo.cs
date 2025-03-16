@@ -25,6 +25,6 @@
         /// <summary>
         /// Ссылка на самого пользователя
         /// </summary>
-        public AbsUser User { get; set; } = null!;
+        public User User { get; set; } = null!;
     }
 }

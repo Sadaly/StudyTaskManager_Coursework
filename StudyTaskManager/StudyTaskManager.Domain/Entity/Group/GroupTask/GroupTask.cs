@@ -62,6 +62,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Ответственный за задачу
         /// </summary>
-        public User.AbsUser? ResponsibleUser { get; set; }
+        public User.User? ResponsibleUser { get; set; }
     }
 }

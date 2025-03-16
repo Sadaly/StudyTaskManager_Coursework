@@ -22,7 +22,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Пользователь, относящийся к чату
         /// </summary>
-        public User.AbsUser User { get; } = null!;
+        public User.User User { get; } = null!;
 
         /// <summary>
         /// Чат, к которому пользователь относится

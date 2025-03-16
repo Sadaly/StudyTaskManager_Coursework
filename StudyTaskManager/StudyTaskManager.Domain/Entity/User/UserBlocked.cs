@@ -9,7 +9,7 @@ namespace StudyTaskManager.Domain.Entity.User
     /// <summary>
     /// Заблокированный пользователь (Конкретный класс)
     /// </summary>
-    class UserBlocked : AbsUser
+    class UserBlocked : User
     {
         /// <summary>
         /// Информация о блокировании пользователя.

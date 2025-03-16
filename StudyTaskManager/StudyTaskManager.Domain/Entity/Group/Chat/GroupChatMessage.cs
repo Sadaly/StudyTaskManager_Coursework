@@ -40,7 +40,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Отправитель сообщения
         /// </summary>
-        public User.AbsUser Sender { get; } = null!;
+        public User.User Sender { get; } = null!;
 
         /// <summary>
         /// Ссылка на групповой чат

@@ -22,12 +22,12 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Пользователь 1
         /// </summary>
-        public AbsUser User1 { get; } = null!;
+        public User User1 { get; } = null!;
 
         /// <summary>
         /// Пользователь 2
         /// </summary>
-        public AbsUser User2 { get; } = null!;
+        public User User2 { get; } = null!;
 
         /// <summary>
         /// Перечисление сообщений из личных чатов

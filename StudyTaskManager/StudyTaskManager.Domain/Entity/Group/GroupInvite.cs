@@ -36,12 +36,12 @@
         /// <summary>
         /// Отправитель приглашения 
         /// </summary>
-        public User.AbsUser Sender { get; } = null!;
+        public User.User Sender { get; } = null!;
 
         /// <summary>
         /// Получатель приглашения
         /// </summary>
-        public User.AbsUser Receiver { get; } = null!;
+        public User.User Receiver { get; } = null!;
 
         /// <summary>
         /// Группа в которую приглашают

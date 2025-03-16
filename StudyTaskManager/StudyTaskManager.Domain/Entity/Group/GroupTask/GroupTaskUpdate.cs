@@ -30,7 +30,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Ссылка на создателя апдейта
         /// </summary>
-        public User.AbsUser Creator { get; } = null!;
+        public User.User Creator { get; } = null!;
 
         /// <summary>
         /// Ссылка на задачу
