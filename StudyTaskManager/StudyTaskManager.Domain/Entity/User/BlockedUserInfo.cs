@@ -3,12 +3,12 @@
     /// <summary>
     /// Запись о том, что пользователь был заблокирован
     /// </summary>
-    public class BlockedUserInfo
+    public class BlockedUserInfo : Common.BaseEntity
     {
         /// <summary>
         /// Уникальный идентификатор
         /// </summary>
-        public int UserId { get; }
+        public Guid UserId { get; }
 
         /// <summary>
         /// Причина блокировки

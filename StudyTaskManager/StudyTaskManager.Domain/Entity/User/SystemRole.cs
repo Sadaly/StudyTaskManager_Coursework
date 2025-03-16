@@ -2,13 +2,8 @@
 
 namespace StudyTaskManager.Domain.Entity.User
 {
-    public abstract class SystemRole : BaseEntity
+    public abstract class SystemRole : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Название
         /// </summary>

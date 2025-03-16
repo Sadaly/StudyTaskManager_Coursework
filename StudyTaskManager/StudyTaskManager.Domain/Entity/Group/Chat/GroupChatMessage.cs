@@ -9,11 +9,11 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     /// Это позволяет реализовать функционал непрочитанных сообщений. Например: если человек прочел последнее сообщение под номером 50. Мы можем подгрузить n сообщений до
     /// и k сообщений после, т.к. они все пронумерованы для определенного чата
     public class GroupChatMessage : BaseEntity
-	{
+    {
         /// <summary>
         /// Ссылка на id группового чата
         /// </summary>
-        public int GroupChatId { get; } 
+        public Guid GroupChatId { get; }
 
         /// <summary>
         /// Порядковый номер сообщения
@@ -23,7 +23,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Id отправителя сообщения
         /// </summary>
-        public int SenderId { get; }
+        public Guid SenderId { get; }
 
         /// <summary>
         /// Содержание сообщения

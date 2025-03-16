@@ -12,17 +12,17 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Создается лишь тогда, когда пользователь впервые открыл чат. 
         /// Если последнее сообщение в чате совпадает с последним прочитанным, то это поле не меняется
         /// </summary>
-        public int LastReadMessageId { get; set; }
+        public Guid LastReadMessageId { get; set; }
 
         /// <summary>
         /// Id чата, к которому относится прочитанное сообщение
         /// </summary>
-        public int GroupChatId { get; }
+        public Guid GroupChatId { get; }
 
         /// <summary>
         /// Id пользователя, который посмотрел какое-либо последнее сообщение в чате
         /// </summary>
-        public int UserId { get; }
+        public Guid UserId { get; }
 
 
 

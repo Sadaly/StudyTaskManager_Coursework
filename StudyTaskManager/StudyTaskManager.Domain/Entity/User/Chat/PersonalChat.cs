@@ -5,22 +5,17 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     /// <summary>
     /// Личный чат между двумя пользователями
     /// </summary>
-    public class PersonalChat : BaseEntity
+    public class PersonalChat : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Id пользователя 1
         /// </summary>
-        public int UserId1 { get; }
+        public Guid UserId1 { get; }
 
         /// <summary>
         /// Id пользователя 2
         /// </summary>
-        public int UserId2 { get; }
+        public Guid UserId2 { get; }
 
 
 

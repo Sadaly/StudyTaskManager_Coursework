@@ -5,13 +5,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// <summary>
     /// Статус задачи
     /// </summary>
-    public class GroupTaskStatus : BaseEntity
-	{
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
+    public class GroupTaskStatus : BaseEntityWithID
+    {
         /// <summary>
         /// Название
         /// </summary>
@@ -25,7 +20,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Id группы
         /// </summary>
-        public int GroupId { get; }
+        public Guid GroupId { get; }
 
         /// <summary>
         /// Может ли статус быть обновлен

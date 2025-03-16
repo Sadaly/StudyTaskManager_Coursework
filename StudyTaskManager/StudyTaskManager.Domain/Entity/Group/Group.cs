@@ -5,13 +5,8 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// <summary>
     /// Группа, объединяющая пользователь для выполнения задач и общения
     /// </summary>
-    public class Group : BaseEntity
+    public class Group : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Название группы (not null)
         /// </summary>
@@ -25,7 +20,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Id роли по умолчанию
         /// </summary>
-        public int DefaultRoleId { get; set; }
+        public Guid DefaultRoleId { get; set; }
 
 
 
@@ -57,6 +52,5 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public IReadOnlyCollection<Log.Log>? GroupLogs => _groupLogs;
         private List<Log.Log>? _groupLogs;
-
     }
 }
