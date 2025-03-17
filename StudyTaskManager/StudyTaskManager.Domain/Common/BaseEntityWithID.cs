@@ -7,17 +7,9 @@ namespace StudyTaskManager.Domain.Common
     /// </summary>
     public abstract class BaseEntityWithID : BaseEntity
     {
-        private readonly List<BaseEntityWithID> _domainEvents = [];
-
-        [NotMapped]
-        public IReadOnlyCollection<BaseEntityWithID> DomainEvents => _domainEvents.AsReadOnly();
         public Guid Id { get; protected set; }
 
         protected BaseEntityWithID() { }
         protected BaseEntityWithID(Guid id) { Id = id; }
-
-        public void AddDomainEvent(BaseEntityWithID domainEvent) => _domainEvents.Add(domainEvent);
-        public void RemoveDomainEvent(BaseEntityWithID domainEvent) => _domainEvents.Remove(domainEvent);
-        public void ClearDomainEvents() => _domainEvents.Clear();
     }
 }

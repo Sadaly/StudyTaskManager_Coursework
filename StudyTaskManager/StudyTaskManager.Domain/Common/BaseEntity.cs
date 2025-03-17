@@ -7,5 +7,13 @@ namespace StudyTaskManager.Domain.Common
     /// </summary>
     public abstract class BaseEntity : IEntity
     {
+        private readonly List<IDomainEvent> _domainEvents = new();
+
+        public IReadOnlyCollection<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
+
+        public void ClearDomainEvents() => _domainEvents.Clear();
+
+        protected void RaiseDomainEvent(IDomainEvent domainEvent) =>
+            _domainEvents.Add(domainEvent);
     }
 }

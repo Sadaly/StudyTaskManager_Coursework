@@ -1,4 +1,6 @@
 using FluentValidation;
+using Gatherly.Application.Behaviors;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace StudyTaskManager.Application
@@ -18,7 +20,9 @@ namespace StudyTaskManager.Application
             services.AddMediatR(configuration => 
                 configuration.RegisterServicesFromAssemblies(assembly));
 
-            services.AddValidatorsFromAssembly(assembly);
+            services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
             return services;
         }

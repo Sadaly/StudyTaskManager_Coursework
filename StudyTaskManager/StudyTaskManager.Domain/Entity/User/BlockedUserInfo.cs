@@ -13,18 +13,21 @@
         /// <summary>
         /// Причина блокировки
         /// </summary>
-        public string Reason { get; set; } = null!;
+        public string Reason { get; } = null!;
 
         /// <summary>
         /// Дата блокировки пользователя
         /// </summary>
-        public DateTime BlockedDate { get; set; }
+        public DateTime BlockedDate { get; }
 
-
+        /// <summary>
+        /// Роль пользователя перед блокировкой
+        /// </summary>
+        public Guid PrevRoleId { get; }
 
         /// <summary>
         /// Ссылка на самого пользователя
         /// </summary>
-        public User User { get; set; } = null!;
+        public User User { get; } = null!;
     }
 }
