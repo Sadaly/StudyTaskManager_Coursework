@@ -23,6 +23,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
                 Email = request.Email,
                 NumberPhone = request.NumberPhone,
                 SystemRoleId = request.SystemRoleId,
+                PasswordHash = request.Password,
             };
             
             _userRepository.Add(user);

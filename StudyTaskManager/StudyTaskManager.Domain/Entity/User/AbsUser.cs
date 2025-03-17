@@ -27,12 +27,18 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Почта пользователя
         /// </summary>
-        public string? Email { get; set; }
+        public string Email { get; set; } = null!;
 
-        /// <summary>
-        /// Номер телефона пользователя
-        /// </summary>
-        public string? NumberPhone { get; set; }
+        //Todo реализовать механизм Хеширования, он должен быть в виде отдельного сервиса
+		/// <summary>
+		/// Хэш пароля пользователя
+		/// </summary>
+		public string PasswordHash { get; set; } = null!;
+
+		/// <summary>
+		/// Номер телефона пользователя
+		/// </summary>
+		public string? NumberPhone { get; set; }
 
         /// <summary>
         /// Дата регистрации

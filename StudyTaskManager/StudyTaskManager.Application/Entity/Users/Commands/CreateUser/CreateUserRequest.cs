@@ -1,12 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
 
-namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
-{
-    internal class CreateUserRequest
-    {
-    }
-}
+public sealed record CreateUserRequest(string UserName, int SystemRoleId, string? Email, string? NumberPhone);
