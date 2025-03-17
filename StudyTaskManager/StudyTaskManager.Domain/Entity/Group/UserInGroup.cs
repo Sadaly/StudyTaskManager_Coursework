@@ -3,22 +3,22 @@
     /// <summary>
     /// Пользователь в группе
     /// </summary>
-    public class UserInGroup
+    public class UserInGroup : Common.BaseEntity
     {
         /// <summary>
         /// Id группы
         /// </summary>
-        public int GroupId { get; }
+        public Guid GroupId { get; }
 
         /// <summary>
         /// Id роли 
         /// </summary>
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
 
         /// <summary>
         /// Id пользователя
         /// </summary>
-        public int UserId { get; }
+        public Guid UserId { get; }
 
         /// <summary>
         /// Время вступления
@@ -40,6 +40,6 @@
         /// <summary>
         /// Ссылка на пользователя
         /// </summary>
-        public User.AbsUser User { get; } = null!;
+        public User.User User { get; } = null!;
     }
 }

@@ -5,17 +5,12 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// <summary>
     /// Роль пользователей в группе
     /// </summary>
-    public class GroupRole : BaseEntity
+    public class GroupRole : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Указывает на id группы, в которой эта роль была создана, для базовых ролей используется значение null
         /// </summary>
-        public int? GroupId { get; }
+        public Guid? GroupId { get; }
 
         /// <summary>
         /// Название роли
@@ -53,6 +48,5 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// Указывает на группу, в которой эта роль была создана, для базовых ролей используется значение null
         /// </summary>
         public Group? Group { get; }
-
     }
 }

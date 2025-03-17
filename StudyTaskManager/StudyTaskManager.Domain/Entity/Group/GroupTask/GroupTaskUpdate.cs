@@ -3,22 +3,17 @@
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
     //Todo
-    public class GroupTaskUpdate : BaseEntity
+    public class GroupTaskUpdate : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Id создателя апдейта
         /// </summary>
-        public int CreatorId { get; }
+        public Guid CreatorId { get; }
 
         /// <summary>
         /// Id задачи
         /// </summary>
-        public int TaskId { get; }
+        public Guid TaskId { get; }
 
         /// <summary>
         /// Дата создания апдейта
@@ -35,7 +30,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Ссылка на создателя апдейта
         /// </summary>
-        public User.AbsUser Creator { get; } = null!;
+        public User.User Creator { get; } = null!;
 
         /// <summary>
         /// Ссылка на задачу

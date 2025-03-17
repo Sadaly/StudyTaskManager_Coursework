@@ -5,13 +5,8 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     /// <summary>
     /// Личное сообщение от одного пользователя другому
     /// </summary>
-    public class PersonalMessage : BaseEntity
+    public class PersonalMessage : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор сообщения
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Id отправителя
         /// </summary>
@@ -20,7 +15,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Id личного чата
         /// </summary>
-        public int PersonalChatId { get; }
+        public Guid PersonalChatId { get; }
 
         /// <summary>
         /// Сообщение
@@ -42,7 +37,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Отправитель
         /// </summary>
-        public AbsUser Sender { get; } = null!;
+        public User Sender { get; } = null!;
 
         /// <summary>
         /// Личный чат

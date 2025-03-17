@@ -9,6 +9,6 @@
         /// Добавление нового пользователя
         /// </summary>
         /// <param name="User">Ссылка на группу</param>
-        void Add(Entity.User.User User);
+        void Add(Entity.User.UserBase User);
     }
 }

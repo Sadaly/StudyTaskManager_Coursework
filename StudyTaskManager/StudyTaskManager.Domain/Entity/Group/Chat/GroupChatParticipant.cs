@@ -10,19 +10,19 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Id пользователя, относящийся к чату
         /// </summary>
-        public int UserId { get; }
+        public Guid UserId { get; }
 
         /// <summary>
         /// Id чата, к которому пользователь относится
         /// </summary>
-        public int GroupChatId { get; }
+        public Guid GroupChatId { get; }
 
 
 
         /// <summary>
         /// Пользователь, относящийся к чату
         /// </summary>
-        public User.AbsUser User { get; } = null!;
+        public User.User User { get; } = null!;
 
         /// <summary>
         /// Чат, к которому пользователь относится

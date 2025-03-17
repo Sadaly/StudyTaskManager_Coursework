@@ -5,13 +5,8 @@ namespace StudyTaskManager.Domain.Entity.Log
     /// <summary>
     /// Лог действий в группах
     /// </summary>
-    public class Log : BaseEntity
+    public class Log : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Id группы
         /// </summary>
@@ -57,11 +52,11 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Ссылка на инициатора действия
         /// </summary>
-        public User.AbsUser? Initiator { get; }
+        public User.User? Initiator { get; }
 
         /// <summary>
         /// Ссылка на субъекта действия
         /// </summary>
-        public User.AbsUser? Subject { get; }
+        public User.User? Subject { get; }
     }
 }

@@ -3,17 +3,17 @@
     /// <summary>
     /// Приглашение для пользователя в группу
     /// </summary>
-    public class GroupInvite
+    public class GroupInvite : Common.BaseEntity
     {
         /// <summary>
         /// Id отправителя приглашения
         /// </summary>
-        public int SenderId { get; }
+        public Guid SenderId { get; }
 
         /// <summary>
         /// Id получателя приглашения
         /// </summary>
-        public int ReceiverId { get; }
+        public Guid ReceiverId { get; }
 
         /// <summary>
         /// Дата отправки приглашения
@@ -23,7 +23,7 @@
         /// <summary>
         /// ID группы в которую приглашают
         /// </summary>
-        public int IDGroup { get; }
+        public Guid IDGroup { get; }
 
         /// <summary>
         /// Флаг, показывающий было ли принято приглашение (null не принято. false отклонено. true принято)
@@ -36,12 +36,12 @@
         /// <summary>
         /// Отправитель приглашения 
         /// </summary>
-        public User.AbsUser Sender { get; } = null!;
+        public User.User Sender { get; } = null!;
 
         /// <summary>
         /// Получатель приглашения
         /// </summary>
-        public User.AbsUser Receiver { get; } = null!;
+        public User.User Receiver { get; } = null!;
 
         /// <summary>
         /// Группа в которую приглашают

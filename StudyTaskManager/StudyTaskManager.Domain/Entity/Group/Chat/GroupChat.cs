@@ -5,17 +5,12 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     /// <summary>
     /// Чат для текстового общения внутри группы
     /// </summary>
-    public class GroupChat : BaseEntity
+    public class GroupChat : BaseEntityWithID
 	{
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Ссылка на группу по id
         /// </summary>
-        public int GroupId { get; }
+        public Guid GroupId { get; }
 
         /// <summary>
         /// Название чата (not null)
@@ -26,7 +21,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Модификатор, показывающий доступен ли чат всем участникам группы или нет
         /// </summary>
         public bool IsPublic { get; set; }
-
 
 
         /// <summary>

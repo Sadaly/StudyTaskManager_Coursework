@@ -18,7 +18,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
         public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             //Todo: использовать конструктор для класса
-            var user = new User{
+            var user = new UserBase{
                 UserName = request.UserName,
                 Email = request.Email,
                 NumberPhone = request.NumberPhone,

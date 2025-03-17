@@ -5,13 +5,8 @@ namespace StudyTaskManager.Domain.Entity.Log
     /// <summary>
     /// Действия для логов
     /// </summary>
-    public class LogAction : BaseEntity
+    public class LogAction : BaseEntityWithID
     {
-        /// <summary>
-        /// Уникальный идентификатор
-        /// </summary>
-        public Guid Id { get; }
-
         /// <summary>
         /// Название действия
         /// </summary>
