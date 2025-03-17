@@ -25,6 +25,11 @@ namespace StudyTaskManager.Domain.Entity.User
         public string? Email { get; set; }
 
         /// <summary>
+        /// Хэшированный пароль пользователя
+        /// </summary>
+        public string PasswordHash { get; set; } = null!;
+
+        /// <summary>
         /// Номер телефона пользователя
         /// </summary>
         public string? NumberPhone { get; set; }
