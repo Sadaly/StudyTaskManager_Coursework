@@ -1,4 +1,5 @@
-﻿using StudyTaskManager.Domain.ValueObjects;
+﻿using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -12,6 +13,14 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// </summary>
         /// <param name="User">Ссылка на группу</param>
         void Add(Entity.User.User User);
+
+        /// <summary>
+        /// Получить пользователя по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default);
         Task<bool> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default);
