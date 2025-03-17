@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Log
 {
@@ -10,12 +11,12 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Id группы
         /// </summary>
-        public int? GroupId { get; }
+        public Guid? GroupId { get; }
 
         /// <summary>
         /// Id действия лога
         /// </summary>
-        public int LogActionId { get; }
+        public Guid LogActionId { get; }
 
         /// <summary>
         /// Время действия
@@ -25,17 +26,17 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Id человека, который является причиной появления запси в лог
         /// </summary>
-        public int? InitiatorId { get; }
+        public Guid? InitiatorId { get; }
 
         /// <summary>
         /// Id человека, который был затрон действием, если он есть
         /// </summary>
-        public int? SubjectId { get; }
+        public Guid? SubjectId { get; }
 
         /// <summary>
         /// Описание
         /// </summary>
-        public string? Description { get; set; }
+        public LogDescription? Description { get; set; }
 
 
 

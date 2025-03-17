@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -7,7 +8,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Название
         /// </summary>
-        public string Name { get; set; } = null!;
+        public SystemRoleName Name { get; set; } = null!;
 
         /// <summary>
         /// Возможность просматривать чужие группы

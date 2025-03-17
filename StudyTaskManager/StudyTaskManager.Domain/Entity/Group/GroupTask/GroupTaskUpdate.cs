@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
@@ -23,7 +24,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Содержание
         /// </summary>
-        public string Content { get; } = null!;
+        public GroupTaskContent Content { get; } = null!;
 
 
 

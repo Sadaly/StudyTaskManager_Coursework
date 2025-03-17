@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -15,7 +16,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Название роли
         /// </summary>
-        public string RoleName { get; set; } = null!;
+        public GroupRoleName RoleName { get; set; } = null!;
 
         /// <summary>
         /// Индикатор, указывающий на то, может ли пользователь создавать задачи

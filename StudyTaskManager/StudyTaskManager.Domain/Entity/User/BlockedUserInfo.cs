@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Entity.User
+﻿using StudyTaskManager.Domain.ValueObjects;
+
+namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
     /// Запись о том, что пользователь был заблокирован
@@ -13,7 +15,7 @@
         /// <summary>
         /// Причина блокировки
         /// </summary>
-        public string Reason { get; } = null!;
+        public BlockReason Reason { get; } = null!;
 
         /// <summary>
         /// Дата блокировки пользователя

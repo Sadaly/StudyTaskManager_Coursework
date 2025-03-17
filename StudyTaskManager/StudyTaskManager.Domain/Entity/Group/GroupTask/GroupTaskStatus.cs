@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
@@ -10,12 +11,12 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Название
         /// </summary>
-        public string Name { get; set; } = null!;
+        public GroupTaskStatusName Name { get; set; } = null!;
 
         /// <summary>
         /// Описание
         /// </summary>
-        public string? Description { get; set; }
+        public GroupTaskStatusDescription? Description { get; set; }
 
         /// <summary>
         /// Id группы

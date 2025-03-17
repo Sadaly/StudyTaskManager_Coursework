@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
@@ -33,14 +34,24 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         public Guid StatusId { get; set; }
 
         /// <summary>
+        /// Заголовок задачи
+        /// </summary>
+        public GroupTaskHeadLine HeadLine { get; set; } = null!;
+
+        /// <summary>
         /// Описание задачи
         /// </summary>
-        public string? Description { get; }
+        public GroupTaskDescription? Description { get; set; }
 
         /// <summary>
         /// Id ответственного за задачу
         /// </summary>
         public Guid? ResponsibleId { get; set; }
+
+        /// <summary>
+        /// Индикатор, показывающий просрочен ли дедлайн
+        /// </summary>
+        private bool IsDeadLineExpired { get; set; }
 
 
 

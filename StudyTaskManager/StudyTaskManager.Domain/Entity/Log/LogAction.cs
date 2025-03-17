@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Log
 {
@@ -10,11 +11,11 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Название действия
         /// </summary>
-        public string Name { get; set; } = null!;
+        public LogActionName Name { get; set; } = null!;
 
         /// <summary>
         /// Описание действия
         /// </summary>
-        public string Description { get; set; } = null!;
+        public LogActionDescription Description { get; set; } = null!;
     }
 }

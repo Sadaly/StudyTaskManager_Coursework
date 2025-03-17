@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User.Chat
 {
@@ -10,7 +11,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Id отправителя
         /// </summary>
-        public int SenderId { get; }
+        public Guid SenderId { get; }
 
         /// <summary>
         /// Id личного чата
@@ -20,7 +21,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Сообщение
         /// </summary>
-        public string Content { get; } = null!;
+        public MessageContent Content { get; } = null!;
 
         /// <summary>
         /// Дата написания

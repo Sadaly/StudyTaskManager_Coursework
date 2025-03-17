@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
@@ -18,7 +19,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Порядковый номер сообщения
         /// </summary>
-        public int Ordinal { get; }
+        public ulong Ordinal { get; }
 
         /// <summary>
         /// Id отправителя сообщения
@@ -28,7 +29,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Содержание сообщения
         /// </summary>
-        public string Content { get; set; } = null!;
+        public MessageContent Content { get; set; } = null!;
 
         /// <summary>
         /// Время отправки сообщения

@@ -23,7 +23,7 @@
         /// <summary>
         /// ID группы в которую приглашают
         /// </summary>
-        public Guid IDGroup { get; }
+        public Guid GroupId { get; }
 
         /// <summary>
         /// Флаг, показывающий было ли принято приглашение (null не принято. false отклонено. true принято)
