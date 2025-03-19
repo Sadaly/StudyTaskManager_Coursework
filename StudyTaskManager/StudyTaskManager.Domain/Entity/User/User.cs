@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
+using StudyTaskManager.Domain.Entity.User.Chat;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -42,7 +43,8 @@ namespace StudyTaskManager.Domain.Entity.User
             this.RegistrationDate = DateTime.UtcNow;
 
             // Инициализация списка личных чатов
-            _personalChat = new List<Chat.PersonalChat>();
+            _personalChatsAsUser1 = new List<Chat.PersonalChat>();
+            _personalChatsAsUser2 = new List<Chat.PersonalChat>();
 
             //Todo оставшаяся реализация, связанная с чатами
         }
@@ -83,14 +85,24 @@ namespace StudyTaskManager.Domain.Entity.User
         public SystemRole? SystemRole { get; set; }
 
         /// <summary>
-        /// Ссылка на личные чаты пользователя
+        /// Приватное поле для хранения списка личных чатов, где пользователь является User1
         /// </summary>
-        public IReadOnlyCollection<Chat.PersonalChat>? PersonalChat => _personalChat;
+        private List<Chat.PersonalChat>? _personalChatsAsUser1;
 
         /// <summary>
-        /// Приватное поле для хранения списка личных чатов пользователя
+        /// Приватное поле для хранения списка личных чатов, где пользователь является User2
         /// </summary>
-        private List<Chat.PersonalChat>? _personalChat;
+        private List<Chat.PersonalChat>? _personalChatsAsUser2;
+
+        /// <summary>
+        /// Чаты, где пользователь является User1
+        /// </summary>
+        public ICollection<PersonalChat>? PersonalChatsAsUser1 => _personalChatsAsUser1;
+
+        /// <summary>
+        /// Чаты, где пользователь является User2
+        /// </summary>
+        public ICollection<PersonalChat>? PersonalChatsAsUser2 => _personalChatsAsUser2;
 
         /// <summary>
         /// Метод создания нового пользователя
