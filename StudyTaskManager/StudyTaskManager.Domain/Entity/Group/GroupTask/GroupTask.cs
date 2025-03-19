@@ -36,12 +36,12 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Заголовок задачи
         /// </summary>
-        public GroupTaskHeadLine HeadLine { get; set; } = null!;
+        public Title HeadLine { get; set; } = null!;
 
         /// <summary>
         /// Описание задачи
         /// </summary>
-        public GroupTaskDescription? Description { get; set; }
+        public Content? Description { get; set; }
 
         /// <summary>
         /// Id ответственного за задачу

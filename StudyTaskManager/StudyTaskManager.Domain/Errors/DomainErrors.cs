@@ -70,5 +70,27 @@ namespace StudyTaskManager.Domain.Errors
                 "Password.TooLong",
                 "Пароль слишком короткий");
         }
+
+        public static class Content
+        {
+            public static readonly Error Empty = new(
+                "Content.Empty",
+                "Содержание пусто");
+
+            public static readonly Error TooLong = new(
+                "Content.TooLong",
+                "Содержание слишком длинное");
+        }
+
+        public static class Title
+        {
+            public static readonly Error Empty = new(
+                "Title.Empty",
+                "Название пусто");
+
+            public static readonly Error TooLong = new(
+                "Title.TooLong",
+                "Название слишком длинное");
+        }
     }
 }

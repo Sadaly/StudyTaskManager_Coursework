@@ -1,5 +1,4 @@
 ﻿using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Log
 {
@@ -8,6 +7,28 @@ namespace StudyTaskManager.Domain.Entity.Log
     /// </summary>
     public class Log : BaseEntityWithID
     {
+        private Log(Guid id, LogAction LogAction, string? Description, Group.Group? Group, User.User? Initiator, User.User? Subject) : base(id)
+        {
+            if (Group != null)
+            {
+                this.GroupId = Group.Id;
+                this.Group = Group;
+            }
+            if (Initiator != null)
+            {
+                this.InitiatorId = Initiator.Id;
+                this.Initiator = Initiator;
+            }
+            if (Subject != null)
+            {
+                this.SubjectId = Subject.Id;
+                this.Subject = Subject;
+            }
+            this.Description = Description;
+            this.LogAction = LogAction;
+            this.DateTime = DateTime.UtcNow;
+        }
+
         /// <summary>
         /// Id группы
         /// </summary>
@@ -36,7 +57,7 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Описание
         /// </summary>
-        public LogDescription? Description { get; set; }
+        public string? Description { get; set; }
 
 
 
@@ -59,5 +80,24 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// Ссылка на субъекта действия
         /// </summary>
         public User.User? Subject { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="LogAction"></param>
+        /// <param name="Description"></param>
+        /// <param name="Group"></param>
+        /// <param name="Initiator"></param>
+        /// <param name="Subject"></param>
+        /// <returns></returns>
+        public Log Create(Guid id, LogAction LogAction, string? Description, Group.Group? Group, User.User? Initiator, User.User? Subject)
+        {
+            var Log = new Log(id, LogAction, Description, Group, Initiator, Subject);
+
+            //Todo создание события
+
+            return Log;
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Название чата (not null)
         /// </summary>
-        public GroupChatName Name { get; set; } = null!;
+        public Title Name { get; set; } = null!;
 
         /// <summary>
         /// Модификатор, показывающий доступен ли чат всем участникам группы или нет

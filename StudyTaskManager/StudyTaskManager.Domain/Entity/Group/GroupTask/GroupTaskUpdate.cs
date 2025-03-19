@@ -24,7 +24,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Содержание
         /// </summary>
-        public GroupTaskContent Content { get; } = null!;
+        public Content Content { get; } = null!;
 
 
 

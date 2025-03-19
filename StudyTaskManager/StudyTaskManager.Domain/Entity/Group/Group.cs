@@ -11,12 +11,12 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Название группы (not null)
         /// </summary>
-        public GroupName Name { get; set; } = null!;
+        public Title Name { get; set; } = null!;
 
         /// <summary>
         /// Описание группы. Может быть пустым
         /// </summary>
-        public GroupDescription? Description { get; set; }
+        public Content? Description { get; set; }
 
         /// <summary>
         /// Id роли по умолчанию

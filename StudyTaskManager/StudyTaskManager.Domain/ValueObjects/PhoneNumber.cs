@@ -19,10 +19,10 @@ namespace StudyTaskManager.Domain.ValueObjects
         public string Value { get; set; }
 
         /// <summary>
-        /// Создание экземпляра класса с проверкой входящих значений
+        /// Создание экземпляра <see cref="PhoneNumber"/> с проверкой входящих значений
         /// </summary>
-        /// <param name="phoneNumber">Строка с телефоном</param>
-        /// <returns></returns>
+        /// <param name="phoneNumber">Строка с номером телефона</param>
+        /// <returns>Новый экземпляр <see cref="PhoneNumber"/></returns>
         public static Result<PhoneNumber> Create(string phoneNumber)
         {
             var cleanedNumber = Regex.Replace(phoneNumber, @"[^0-9+]", "");

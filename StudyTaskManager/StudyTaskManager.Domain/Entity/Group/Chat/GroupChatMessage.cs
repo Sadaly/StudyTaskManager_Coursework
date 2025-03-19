@@ -29,7 +29,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Содержание сообщения
         /// </summary>
-        public MessageContent Content { get; set; } = null!;
+        public Content Content { get; set; } = null!;
 
         /// <summary>
         /// Время отправки сообщения

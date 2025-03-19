@@ -11,12 +11,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Название
         /// </summary>
-        public GroupTaskStatusName Name { get; set; } = null!;
-
-        /// <summary>
-        /// Описание
-        /// </summary>
-        public GroupTaskStatusDescription? Description { get; set; }
+        public Title Name { get; set; } = null!;
 
         /// <summary>
         /// Id группы

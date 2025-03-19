@@ -7,6 +7,15 @@ namespace StudyTaskManager.Domain.Entity.User
     /// </summary>
     public class BlockedUserInfo : Common.BaseEntity
     {
+        private BlockedUserInfo(string Reason, Guid PrevRoleId, User User) : base()
+        {
+            this.Reason = Reason;
+            this.BlockedDate = DateTime.UtcNow;
+            this.PrevRoleId = PrevRoleId;
+            this.UserId = User.Id;
+            this.User = User;
+        }
+
         /// <summary>
         /// Уникальный идентификатор
         /// </summary>
@@ -15,7 +24,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Причина блокировки
         /// </summary>
-        public BlockReason Reason { get; } = null!;
+        public string Reason { get; } = null!;
 
         /// <summary>
         /// Дата блокировки пользователя
@@ -31,5 +40,22 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Ссылка на самого пользователя
         /// </summary>
         public User User { get; } = null!;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Reason"></param>
+        /// <param name="BlockedDate"></param>
+        /// <param name="PrevRoleId"></param>
+        /// <param name="User"></param>
+        /// <returns>Новый экземпляр класс <see cref="BlockedUserInfo"/></returns>
+        public BlockedUserInfo Create(string Reason, Guid PrevRoleId, User User)
+        {
+            var BlockedUserInfo = new BlockedUserInfo(Reason, PrevRoleId, User);
+
+            //Todo создание события
+
+            return BlockedUserInfo;
+        }
     }
 }

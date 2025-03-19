@@ -16,10 +16,10 @@ namespace StudyTaskManager.Domain.ValueObjects
         public string Value { get; set; }
 
         /// <summary>
-        /// Создание экземпляра класса с проверкой входящих значений
+        /// Создание экземпляра <see cref="Password"/> с проверкой входящих значений
         /// </summary>
         /// <param name="password">Строка с паролем</param>
-        /// <returns></returns>
+        /// <returns>Новый экземпляр <see cref="Password"/></returns>
         public static Result<Password> Create(string password)
         {
             if (string.IsNullOrWhiteSpace(password))

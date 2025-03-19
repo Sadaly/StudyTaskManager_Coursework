@@ -12,7 +12,7 @@ namespace StudyTaskManager.Domain.Entity.User
     public class User : BaseEntityWithID
     {
         /// <summary>
-        /// Конструктор класс User
+        /// Конструктор класс <see cref="User"/>
         /// </summary>
         /// <param name="id">Уникальный идентификатор</param>
         /// <param name="userName">Имя пользователя</param>
@@ -37,7 +37,7 @@ namespace StudyTaskManager.Domain.Entity.User
                 SystemRoleId = systemRole.Id;
                 SystemRole = systemRole;
             }
-
+            this.RegistrationDate = DateTime.UtcNow;
             //Todo оставшаяся реализация, связанная с чатами
         }
 
@@ -92,7 +92,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
-        /// <returns></returns>
+        /// <returns>Новый экземпляр класс <see cref="User"/></returns>
         public static User Create(
             Guid id, 
             UserName userName, 

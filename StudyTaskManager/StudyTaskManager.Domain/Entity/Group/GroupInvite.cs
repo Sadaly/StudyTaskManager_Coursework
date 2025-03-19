@@ -5,6 +5,20 @@
     /// </summary>
     public class GroupInvite : Common.BaseEntity
     {
+        private GroupInvite(User.User Sender, User.User Receiver, Group Group) : base()
+        {
+            this.Sender = Sender;
+            this.SenderId = Sender.Id;
+
+            this.Receiver = Receiver;
+            this.ReceiverId = Receiver.Id;
+
+            this.Group = Group;
+            this.GroupId = Group.Id;
+
+            DateInvitation = DateTime.UtcNow;
+        }
+
         /// <summary>
         /// Id отправителя приглашения
         /// </summary>

@@ -14,10 +14,10 @@ namespace StudyTaskManager.Domain.ValueObjects
         public string Value { get; }
 
         /// <summary>
-        /// Создание экземпляра класса с проверкой входящих значений
+        /// Создание экземпляра <see cref="Email"/>  с проверкой входящих значений
         /// </summary>
         /// <param name="email">Строка с почтой</param>
-        /// <returns></returns>
+        /// <returns>Новый экземпляр <see cref="Email"/></returns>
         public static Result<Email> Create(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

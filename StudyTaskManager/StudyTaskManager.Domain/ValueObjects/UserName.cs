@@ -17,10 +17,10 @@ namespace StudyTaskManager.Domain.ValueObjects
 
 
         /// <summary>
-        /// Создание экземпляра класса с проверкой входящих значений
+        /// Создание экземпляра <see cref="UserName"/> с проверкой входящих значений
         /// </summary>
         /// <param name="username">Строка с именем</param>
-        /// <returns></returns>
+        /// <returns>Новый экземпляр <see cref="UserName"/></returns>
         public static Result<UserName> Create(string username)
         {
             if (string.IsNullOrWhiteSpace(username))

@@ -21,7 +21,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Сообщение
         /// </summary>
-        public MessageContent Content { get; } = null!;
+        public Content Content { get; } = null!;
 
         /// <summary>
         /// Дата написания
