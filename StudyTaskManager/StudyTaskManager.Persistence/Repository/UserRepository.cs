@@ -27,7 +27,7 @@ internal sealed class UserRepository : IUserRepository
     public async Task<bool> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default) =>
         !await _dbContext.Set<User>().AnyAsync(x => x.UserName == userName, cancellationToken);
 
-    Task IRepository<User>.AddAsync(User entity)
+    public Task AddAsync(User entity)
     {
         throw new NotImplementedException();
     }

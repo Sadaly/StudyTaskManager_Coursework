@@ -12,9 +12,7 @@
     <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
     <ProjectReference Include="..\StudyTaskManager.Infrastructure\StudyTaskManager.Infrastructure.csproj" />
     <ProjectReference Include="..\StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj" />
-    <ProjectReference Include="..\StudyTaskManager.Shared\StudyTaskManager.Shared.csproj" />
     <ProjectReference Include="..\studytaskmanager.webapi\studytaskmanager.webapi.client\StudyTaskManager.Presentation.esproj" />
-    <ProjectReference Include="..\StudyTaskManager\StudyTaskManager.csproj" />
   </ItemGroup>
 
 </Project>

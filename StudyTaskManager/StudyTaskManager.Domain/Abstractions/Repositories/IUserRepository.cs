@@ -12,7 +12,7 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Добавление нового пользователя
         /// </summary>
         /// <param name="User">Ссылка на группу</param>
-        void Add(User User);
+        Task AddAsync(User User);
 
         /// <summary>
         /// Получить пользователя по id
