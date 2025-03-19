@@ -8,6 +8,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Возвращает все сообщения из этого чата.
         /// </summary>
         /// <param name="personalChat">Чат по которому ведется поиск.</param>
-        public Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat);
+        Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat);
     }
 }

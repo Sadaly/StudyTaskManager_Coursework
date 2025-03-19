@@ -8,6 +8,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Получить все задачи группы.
         /// </summary>
-        public Task<List<GroupTask>> GetByGroupAsync(Group group);
+        Task<List<GroupTask>> GetByGroupAsync(Group group);
     }
 }

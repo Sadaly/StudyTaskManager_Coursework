@@ -7,6 +7,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Возвращает список апдейтов для задачи.
         /// </summary>
-        public Task<List<GroupTaskUpdate>> GetByTaskAsync(GroupTask groupTask);
+        Task<List<GroupTaskUpdate>> GetByTaskAsync(GroupTask groupTask);
     }
 }

@@ -7,11 +7,11 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать роли группы.
         /// </summary>
-        public Task<List<GroupRole>> GetByGroupAsync(Group group);
+        Task<List<GroupRole>> GetByGroupAsync(Group group);
 
         /// <summary>
         /// Выдать роли общие для всех групп.
         /// </summary>
-        public Task<List<GroupRole>> GetByWithoutGroupAsync();
+        Task<List<GroupRole>> GetByWithoutGroupAsync();
     }
 }
