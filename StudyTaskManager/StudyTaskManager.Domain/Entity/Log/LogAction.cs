@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 
 namespace StudyTaskManager.Domain.Entity.Log
 {
@@ -40,7 +41,7 @@ namespace StudyTaskManager.Domain.Entity.Log
         {
             var logAction = new LogAction(id, name, description);
 
-            // TODO: Добавить создание доменного события, связанного с созданием действия для логов.
+            logAction.RaiseDomainEvent(new LogActionCreatedDomainEvent(id));
 
             return logAction;
         }

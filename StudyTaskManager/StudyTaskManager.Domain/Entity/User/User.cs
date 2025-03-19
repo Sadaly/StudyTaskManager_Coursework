@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.Entity.User.Chat;
 namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
-    /// Абстрактный класс пользователя
+    /// Класс пользователя
     /// </summary>
     // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
     // Для создания экземпляров нужно будет использовать какой-нибудь паттерн, строитель или фабрику.
@@ -39,14 +39,11 @@ namespace StudyTaskManager.Domain.Entity.User
                 SystemRole = systemRole;
             }
 
-            // Устанавливаем дату регистрации автоматически при создании пользователя
             this.RegistrationDate = DateTime.UtcNow;
 
             // Инициализация списка личных чатов
             _personalChatsAsUser1 = new List<Chat.PersonalChat>();
             _personalChatsAsUser2 = new List<Chat.PersonalChat>();
-
-            //Todo оставшаяся реализация, связанная с чатами
         }
 
         /// <summary>
@@ -129,6 +126,42 @@ namespace StudyTaskManager.Domain.Entity.User
             user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id));
 
             return user;
+        }
+
+        public User UpdateRole(SystemRole role)
+        {
+            this.SystemRole = role;
+
+            this.RaiseDomainEvent(new UserRoleChangedDomainEvent(this.Id));
+
+            return this;
+        }
+
+        public User ChangeName(UserName UserName)
+        {
+            this.UserName = UserName;
+
+            this.RaiseDomainEvent(new UserNameChangedDomainEvent(this.Id));
+
+            return this;
+        }
+
+        public User ChangePassword(Password Password)
+        {
+            this.PasswordHash = PasswordHash.Create(Password).Value;
+
+            this.RaiseDomainEvent(new UserPasswordChangedDomainEvent(this.Id));
+
+            return this;
+        }
+
+        public User ChangePhoneNumber(PhoneNumber PhoneNumber)
+        {
+            this.PhoneNumber = PhoneNumber;
+
+            this.RaiseDomainEvent(new UserPhoneNumberChangedDomainEvent(this.Id));
+
+            return this;
         }
     }
 }

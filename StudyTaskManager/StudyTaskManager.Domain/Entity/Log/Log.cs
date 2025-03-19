@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 
 namespace StudyTaskManager.Domain.Entity.Log
 {
@@ -20,6 +21,7 @@ namespace StudyTaskManager.Domain.Entity.Log
             : base(id)
         {
             LogAction = logAction;
+            LogActionId = logAction.Id;
             Description = description;
             DateTime = DateTime.UtcNow;
 
@@ -50,7 +52,7 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <summary>
         /// Идентификатор действия лога.
         /// </summary>
-        public Guid LogActionId => LogAction.Id;
+        public Guid LogActionId { get; }
 
         /// <summary>
         /// Время фиксации действия.
@@ -106,7 +108,7 @@ namespace StudyTaskManager.Domain.Entity.Log
         {
             var log = new Log(id, logAction, description, group, initiator, subject);
 
-            // TODO: Добавить создание события, связанного с логированием действия.
+            log.RaiseDomainEvent(new LogCreatedDomainEvent(id));
 
             return log;
         }
