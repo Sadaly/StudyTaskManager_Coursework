@@ -1,65 +1,113 @@
-﻿namespace StudyTaskManager.Domain.Entity.Group
+﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Errors;
+using StudyTaskManager.Domain.Shared;
+using System;
+
+namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
-    /// Приглашение для пользователя в группу
+    /// Приглашение пользователя в группу.
     /// </summary>
-    public class GroupInvite : Common.BaseEntity
+    public class GroupInvite : BaseEntity
     {
-        private GroupInvite(User.User Sender, User.User Receiver, Group Group) : base()
+        /// <summary>
+        /// Приватный конструктор для создания объекта <see cref="GroupInvite"/>.
+        /// </summary>
+        private GroupInvite(User.User sender, User.User receiver, Group group) : base()
         {
-            this.Sender = Sender;
-            this.SenderId = Sender.Id;
+            Sender = sender;
+            SenderId = sender.Id;
 
-            this.Receiver = Receiver;
-            this.ReceiverId = Receiver.Id;
+            Receiver = receiver;
+            ReceiverId = receiver.Id;
 
-            this.Group = Group;
-            this.GroupId = Group.Id;
+            Group = group;
+            GroupId = group.Id;
 
             DateInvitation = DateTime.UtcNow;
         }
 
         /// <summary>
-        /// Id отправителя приглашения
+        /// ID отправителя приглашения.
         /// </summary>
         public Guid SenderId { get; }
 
         /// <summary>
-        /// Id получателя приглашения
+        /// ID получателя приглашения.
         /// </summary>
         public Guid ReceiverId { get; }
 
         /// <summary>
-        /// Дата отправки приглашения
+        /// Дата отправки приглашения.
         /// </summary>
         public DateTime DateInvitation { get; }
 
         /// <summary>
-        /// ID группы в которую приглашают
+        /// ID группы, в которую приглашают.
         /// </summary>
         public Guid GroupId { get; }
 
         /// <summary>
-        /// Флаг, показывающий было ли принято приглашение (null не принято. false отклонено. true принято)
+        /// Флаг принятия приглашения (false — не принято, true — принято).
         /// </summary>
-        // Можно оставить только true/false и считать так: пока не принято false. Отклонено или принято true.
-        // А можно вообще отказаться ведь если запись есть, то приглашение принято, если нет, то не принято
-        public bool? InvitationAccepted { get; set; }
-
+        public bool? InvitationAccepted { get; private set; }
 
         /// <summary>
-        /// Отправитель приглашения 
+        /// Отправитель приглашения.
         /// </summary>
-        public User.User Sender { get; } = null!;
+        public User.User Sender { get; }
 
         /// <summary>
-        /// Получатель приглашения
+        /// Получатель приглашения.
         /// </summary>
-        public User.User Receiver { get; } = null!;
+        public User.User Receiver { get; }
 
         /// <summary>
-        /// Группа в которую приглашают
+        /// Группа, в которую приглашают.
         /// </summary>
-        public Group Group { get; } = null!;
+        public Group Group { get; }
+
+        /// <summary>
+        /// Метод для принятия приглашения.
+        /// </summary>
+        public Result AcceptInvite()
+        {
+            if (InvitationAccepted != null)
+                if (InvitationAccepted == true)
+                    return Result.Failure(DomainErrors.GroupInvite.Accepted);
+                else
+                    return Result.Failure(DomainErrors.GroupInvite.Declined);
+
+            InvitationAccepted = true;
+
+
+            // TODO: Добавить логику добавления пользователя в группу.
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Метод для отклонения приглашения.
+        /// </summary>
+        public Result DeclineInvite()
+        {
+            if (InvitationAccepted != null)
+                if (InvitationAccepted == true)
+                    return Result.Failure(DomainErrors.GroupInvite.Accepted);
+                else
+                    return Result.Failure(DomainErrors.GroupInvite.Declined);
+
+            InvitationAccepted = false;
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Создает новое приглашение.
+        /// </summary>
+        public static GroupInvite Create(User.User sender, User.User receiver, Group group)
+        {
+            return new GroupInvite(sender, receiver, group);
+        }
     }
 }

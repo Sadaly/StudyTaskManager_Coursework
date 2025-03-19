@@ -27,6 +27,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 
             if (request.PhoneNumber != null)
             {
+                //Перед созднием экземпляра мы проверяем, что он не равен null
                 Result<PhoneNumber> phoneNumber = PhoneNumber.Create(request.PhoneNumber.Value);
                 if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken))
                 {

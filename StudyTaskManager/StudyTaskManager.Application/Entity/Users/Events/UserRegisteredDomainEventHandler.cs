@@ -2,6 +2,7 @@
 using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Application.Abstractions;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.Users.Events
 {
@@ -20,10 +21,18 @@ namespace StudyTaskManager.Application.Entity.Users.Events
         }
 
 
-        public Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
         {
-            //Todo
-            throw new NotImplementedException();
+            User? user = await _userRepository.GetByIdAsync(
+            notification.UserId,
+            cancellationToken);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            await _emailService.SendWelcomeEmailAsync(user, cancellationToken);
         }
     }
 }

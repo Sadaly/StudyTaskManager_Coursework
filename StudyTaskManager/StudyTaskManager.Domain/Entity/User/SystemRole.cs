@@ -3,59 +3,72 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
+    /// <summary>
+    /// Системная роль, определяющая права пользователя в системе.
+    /// </summary>
     public class SystemRole : BaseEntityWithID
     {
-        private SystemRole(Guid id, Title Name, bool Can_View_Peoples_Groups, bool Can_Change_System_Roles, bool Can_Block_Users, bool Can_Delete_Chats) : base(id)
+        /// <summary>
+        /// Приватный конструктор для создания системной роли.
+        /// </summary>
+        /// <param name="id">Уникальный идентификатор.</param>
+        /// <param name="name">Название роли.</param>
+        /// <param name="canViewPeoplesGroups">Возможность просматривать чужие группы.</param>
+        /// <param name="canChangeSystemRoles">Возможность изменять системные роли других пользователей.</param>
+        /// <param name="canBlockUsers">Возможность блокировать пользователей.</param>
+        /// <param name="canDeleteChats">Возможность удалять чаты.</param>
+        private SystemRole(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
+            : base(id)
         {
-            this.Name = Name;
-            this.Can_View_Peoples_Groups = Can_View_Peoples_Groups;
-            this.Can_Change_System_Roles = Can_Change_System_Roles;
-            this.Can_Block_Users = Can_Block_Users;
-            this.Can_Delete_Chats = Can_Delete_Chats;
+            Name = name;
+            CanViewPeoplesGroups = canViewPeoplesGroups;
+            CanChangeSystemRoles = canChangeSystemRoles;
+            CanBlockUsers = canBlockUsers;
+            CanDeleteChats = canDeleteChats;
         }
 
         /// <summary>
-        /// Название
+        /// Название роли.
         /// </summary>
         public Title Name { get; set; } = null!;
 
         /// <summary>
-        /// Возможность просматривать чужие группы
+        /// Возможность просматривать чужие группы.
         /// </summary>
-        public bool Can_View_Peoples_Groups { get; set; }
+        public bool CanViewPeoplesGroups { get; set; }
 
         /// <summary>
-        /// Возможность изменять системные роли другим
+        /// Возможность изменять системные роли других пользователей.
         /// </summary>
-        public bool Can_Change_System_Roles { get; set; }
+        public bool CanChangeSystemRoles { get; set; }
 
         /// <summary>
-        /// Возможность блокировать пользователя
+        /// Возможность блокировать пользователей.
         /// </summary>
-        public bool Can_Block_Users { get; set; }
+        public bool CanBlockUsers { get; set; }
 
         /// <summary>
-        /// Возможность удаления чата
+        /// Возможность удалять чаты.
         /// </summary>
-        public bool Can_Delete_Chats { get; set; }
+        public bool CanDeleteChats { get; set; }
 
         /// <summary>
-        /// 
+        /// Метод создания новой системной роли.
         /// </summary>
-        /// <param name="id">Уникальный Id</param>
-        /// <param name="Name">Название</param>
-        /// <param name="Can_View_Peoples_Groups">Возможность просматривать чужие группы</param>
-        /// <param name="Can_Change_System_Roles">Возможность изменять системные роли другим</param>
-        /// <param name="Can_Block_Users">Возможность блокировать пользователя</param>
-        /// <param name="Can_Delete_Chats">Возможность удаления чата</param>
-        /// <returns>Новый экземпляр класс <see cref="SystemRole"/></returns>
-        public SystemRole Create(Guid id, Title Name, bool Can_View_Peoples_Groups, bool Can_Change_System_Roles, bool Can_Block_Users, bool Can_Delete_Chats)
+        /// <param name="id">Уникальный идентификатор.</param>
+        /// <param name="name">Название роли.</param>
+        /// <param name="canViewPeoplesGroups">Возможность просматривать чужие группы.</param>
+        /// <param name="canChangeSystemRoles">Возможность изменять системные роли других пользователей.</param>
+        /// <param name="canBlockUsers">Возможность блокировать пользователей.</param>
+        /// <param name="canDeleteChats">Возможность удалять чаты.</param>
+        /// <returns>Новый экземпляр класса <see cref="SystemRole"/>.</returns>
+        public static SystemRole Create(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
         {
-            var SystemRole = new SystemRole(id, Name, Can_View_Peoples_Groups, Can_Change_System_Roles, Can_Block_Users, Can_Delete_Chats);
-            
-            //Todo создание события
+            var systemRole = new SystemRole(id, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
 
-            return SystemRole;
+            // TODO: Добавить создание доменного события о создании системной роли.
+
+            return systemRole;
         }
     }
 }

@@ -4,66 +4,93 @@ using StudyTaskManager.Domain.ValueObjects;
 namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
-    /// Роль пользователей в группе
+    /// Роль пользователя в группе.
     /// </summary>
     public class GroupRole : BaseEntityWithID
     {
-        private GroupRole(Guid id, Title RoleName, bool Can_Create_Tasks, bool Can_Manage_Roles, bool Can_Create_Task_Updates, bool Can_Change_Task_Updates, bool Can_Invite_Users, Group? Group) : base(id)
+        /// <summary>
+        /// Приватный конструктор для создания объекта <see cref="GroupRole"/>.
+        /// </summary>
+        private GroupRole(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group) : base(id)
         {
-            if (Group != null)
+            Group = group;
+            if (group != null)
             {
-                this.GroupId = Group.Id;
-                this.Group = Group;
+                GroupId = group.Id;
             }
-            
-            this.RoleName = RoleName;
-            this.Can_Create_Tasks = Can_Create_Tasks;
-            this.Can_Manage_Roles = Can_Manage_Roles;
-            this.Can_Create_Task_Updates = Can_Create_Task_Updates;
-            this.Can_Change_Task_Updates = Can_Change_Task_Updates;
-            this.Can_Invite_Users = Can_Invite_Users;
+
+            RoleName = roleName;
+            CanCreateTasks = canCreateTasks;
+            CanManageRoles = canManageRoles;
+            CanCreateTaskUpdates = canCreateTaskUpdates;
+            CanChangeTaskUpdates = canChangeTaskUpdates;
+            CanInviteUsers = canInviteUsers;
         }
 
         /// <summary>
-        /// Указывает на id группы, в которой эта роль была создана, для базовых ролей используется значение null
+        /// Уникальный идентификатор группы, если роль привязана к группе (null для базовых ролей).
         /// </summary>
         public Guid? GroupId { get; }
 
         /// <summary>
-        /// Название роли
+        /// Название роли.
         /// </summary>
-        public Title RoleName { get; set; } = null!;
+        public Title RoleName { get; set; }
 
         /// <summary>
-        /// Индикатор, указывающий на то, может ли пользователь создавать задачи
+        /// Может ли пользователь создавать задачи.
         /// </summary>
-        public bool Can_Create_Tasks { get; set; }
+        public bool CanCreateTasks { get; private set; }
 
         /// <summary>
-        /// Индикатор, указывающий на то, может ли управлять ролями (выдавать, создавать, удалять, изменять)
+        /// Может ли пользователь управлять ролями (выдавать, создавать, удалять, изменять).
         /// </summary>
-        public bool Can_Manage_Roles { get; set; }
+        public bool CanManageRoles { get; private set; }
 
         /// <summary>
-        /// Индикатор, указывающий на то, может ли пользователь создавать апдейты к задачам
+        /// Может ли пользователь создавать обновления к задачам.
         /// </summary>
-        public bool Can_Create_Task_Updates { get; set; }
+        public bool CanCreateTaskUpdates { get; private set; }
 
         /// <summary>
-        /// Индикатор, указывающий на то, может ли пользователь изменять апдейты к задачам
+        /// Может ли пользователь изменять обновления к задачам.
         /// </summary>
-        public bool Can_Change_Task_Updates { get; set; }
+        public bool CanChangeTaskUpdates { get; private set; }
 
         /// <summary>
-        /// Индикатор, указывающий на то, может ли пользователь приглашать в группу других пользователей
+        /// Может ли пользователь приглашать в группу других пользователей.
         /// </summary>
-        public bool Can_Invite_Users { get; set; }
-
-
+        public bool CanInviteUsers { get; private set; }
 
         /// <summary>
-        /// Указывает на группу, в которой эта роль была создана, для базовых ролей используется значение null
+        /// Группа, к которой привязана роль (null для базовых ролей).
         /// </summary>
         public Group? Group { get; }
+
+        /// <summary>
+        /// Метод для обновления прав роли.
+        /// </summary>
+        public void UpdatePermissions(bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers)
+        {
+            CanCreateTasks = canCreateTasks;
+            CanManageRoles = canManageRoles;
+            CanCreateTaskUpdates = canCreateTaskUpdates;
+            CanChangeTaskUpdates = canChangeTaskUpdates;
+            CanInviteUsers = canInviteUsers;
+
+            // TODO: Добавить событие изменения прав роли.
+        }
+
+        /// <summary>
+        /// Создает новую роль в группе.
+        /// </summary>
+        public static GroupRole Create(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
+        {
+            var groupRole = new GroupRole(id, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
+
+            // TODO: Добавить событие создания роли.
+
+            return groupRole;
+        }
     }
 }

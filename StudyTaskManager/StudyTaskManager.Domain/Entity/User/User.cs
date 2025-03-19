@@ -37,7 +37,13 @@ namespace StudyTaskManager.Domain.Entity.User
                 SystemRoleId = systemRole.Id;
                 SystemRole = systemRole;
             }
+
+            // Устанавливаем дату регистрации автоматически при создании пользователя
             this.RegistrationDate = DateTime.UtcNow;
+
+            // Инициализация списка личных чатов
+            _personalChat = new List<Chat.PersonalChat>();
+
             //Todo оставшаяся реализация, связанная с чатами
         }
 
@@ -57,7 +63,7 @@ namespace StudyTaskManager.Domain.Entity.User
         public Email Email { get; set; } = null!;
 
         /// <summary>
-        /// Хэшированный пароль пользователя
+        /// Хэшированный пароль пользователя. Пароль хранится в хэшированном виде для безопасности.
         /// </summary>
         public PasswordHash PasswordHash { get; set; } = null!;
 
@@ -67,10 +73,9 @@ namespace StudyTaskManager.Domain.Entity.User
         public PhoneNumber? PhoneNumber { get; set; }
 
         /// <summary>
-        /// Дата регистрации
+        /// Дата регистрации пользователя. Устанавливается автоматически при создании пользователя.
         /// </summary>
         public DateTime RegistrationDate { get; }
-
 
         /// <summary>
         /// Ссылка на системную роль (по умолчанию значение null, что означает, что у пользователя нет специфической роли, дающей или блокирущей возможности пользоваться системой)
@@ -78,9 +83,13 @@ namespace StudyTaskManager.Domain.Entity.User
         public SystemRole? SystemRole { get; set; }
 
         /// <summary>
-        /// Ссылка на личные чаты
+        /// Ссылка на личные чаты пользователя
         /// </summary>
         public IReadOnlyCollection<Chat.PersonalChat>? PersonalChat => _personalChat;
+
+        /// <summary>
+        /// Приватное поле для хранения списка личных чатов пользователя
+        /// </summary>
         private List<Chat.PersonalChat>? _personalChat;
 
         /// <summary>
@@ -94,16 +103,17 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="systemRole">Роль, можно оставить null</param>
         /// <returns>Новый экземпляр класс <see cref="User"/></returns>
         public static User Create(
-            Guid id, 
-            UserName userName, 
-            Email email, 
-            Password password, 
-            PhoneNumber? phoneNumber, 
+            Guid id,
+            UserName userName,
+            Email email,
+            Password password,
+            PhoneNumber? phoneNumber,
             SystemRole? systemRole
             )
         {
             var user = new User(id, userName, email, password, phoneNumber, systemRole);
 
+            // Генерация события регистрации пользователя
             user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id));
 
             return user;

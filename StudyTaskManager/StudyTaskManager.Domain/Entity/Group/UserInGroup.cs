@@ -1,60 +1,90 @@
 ﻿namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
-    /// Пользователь в группе
+    /// Представляет пользователя в группе с определенной ролью.
     /// </summary>
     public class UserInGroup : Common.BaseEntity
     {
-        private UserInGroup(Group Group, GroupRole Role, User.User User) : base()
+        /// <summary>
+        /// Приватный конструктор для создания объекта <see cref="UserInGroup"/>.
+        /// </summary>
+        /// <param name="group">Группа, в которую входит пользователь.</param>
+        /// <param name="role">Роль пользователя в группе.</param>
+        /// <param name="user">Пользователь, состоящий в группе.</param>
+        private UserInGroup(Group group, GroupRole role, User.User user) : base()
         {
-            this.User = User;
-            this.UserId = User.Id;
+            User = user;
+            UserId = user.Id;
 
-            this.Role = Role;
-            this.RoleId = Role.Id;
+            Role = role;
+            RoleId = role.Id;
 
-            this.Group = Group;
-            this.GroupId = Group.Id;
+            Group = group;
+            GroupId = group.Id;
 
             DateEntered = DateTime.UtcNow;
         }
 
-
         /// <summary>
-        /// Id группы
+        /// Уникальный идентификатор группы.
         /// </summary>
         public Guid GroupId { get; }
 
         /// <summary>
-        /// Id роли 
+        /// Уникальный идентификатор роли пользователя в группе.
         /// </summary>
-        public Guid RoleId { get; set; }
+        public Guid RoleId { get; private set; }
 
         /// <summary>
-        /// Id пользователя
+        /// Уникальный идентификатор пользователя.
         /// </summary>
         public Guid UserId { get; }
 
         /// <summary>
-        /// Время вступления
+        /// Дата и время вступления пользователя в группу.
         /// </summary>
         public DateTime DateEntered { get; }
 
-
+        /// <summary>
+        /// Ссылка на группу, в которой состоит пользователь.
+        /// </summary>
+        public Group Group { get; }
 
         /// <summary>
-        /// Ссылка на группа
+        /// Ссылка на роль пользователя в группе.
         /// </summary>
-        public Group Group { get; } = null!;
+        public GroupRole Role { get; private set; }
 
         /// <summary>
-        /// Ссылка на роль
+        /// Ссылка на пользователя.
         /// </summary>
-        public GroupRole Role { get; set; } = null!;
+        public User.User User { get; }
 
         /// <summary>
-        /// Ссылка на пользователя
+        /// Изменяет роль пользователя в группе.
         /// </summary>
-        public User.User User { get; } = null!;
+        /// <param name="newRole">Новая роль пользователя.</param>
+        public void ChangeRole(GroupRole newRole)
+        {
+            Role = newRole;
+            RoleId = newRole.Id;
+            // TODO: Добавить логику для записи события смены роли
+        }
+
+        /// <summary>
+        /// Создает новый объект <see cref="UserInGroup"/>.
+        /// </summary>
+        /// <param name="group">Группа, в которую входит пользователь.</param>
+        /// <param name="role">Роль пользователя в группе.</param>
+        /// <param name="user">Пользователь.</param>
+        /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
+        public static UserInGroup Create(Group group, GroupRole role, User.User user)
+        {
+            var userInGroup = new UserInGroup(group, role, user);
+
+            // TODO: Добавить создание доменного события о вступлении пользователя в группу.
+
+            return userInGroup;
+        }
     }
 }

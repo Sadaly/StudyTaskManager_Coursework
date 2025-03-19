@@ -1,57 +1,154 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Errors;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
-    /// Группа, объединяющая пользователь для выполнения задач и общения
+    /// Группа, объединяющая пользователей для выполнения задач и общения.
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        /// <summary>
-        /// Название группы (not null)
-        /// </summary>
-        public Title Name { get; set; } = null!;
+        private Group(Guid id, Title name, Content? description, GroupRole defaultRole) : base(id)
+        {
+            Name = name;
+            Description = description;
+            DefaultRole = defaultRole;
+            DefaultRoleId = defaultRole.Id;
+
+            _usersInGroup = new List<UserInGroup>();
+            _groupRoles = new List<GroupRole> { defaultRole }; // Начальная роль в группе
+            _groupInvites = new List<GroupInvite>();
+        }
 
         /// <summary>
-        /// Описание группы. Может быть пустым
+        /// Название группы (обязательно).
         /// </summary>
-        public Content? Description { get; set; }
+        public Title Name { get; private set; }
 
         /// <summary>
-        /// Id роли по умолчанию
+        /// Описание группы (может быть пустым).
         /// </summary>
-        public Guid DefaultRoleId { get; set; }
-
-
+        public Content? Description { get; private set; }
 
         /// <summary>
-        /// Роль по умолчанию. Для новых созданных групп будет установлена базовая роль
+        /// ID роли по умолчанию.
         /// </summary>
-        public GroupRole DefaultRole { get; set; } = null!;
+        public Guid DefaultRoleId { get; private set; }
 
         /// <summary>
-        /// Перечисление пользователей в группе
+        /// Роль по умолчанию для новых пользователей.
         /// </summary>
-        public IReadOnlyCollection<UserInGroup>? UsersInGroup => _usersInGroup;
-        private List<UserInGroup>? _usersInGroup;
+        public GroupRole DefaultRole { get; private set; }
 
         /// <summary>
-        /// Перечисление ролей в группе
+        /// Пользователи в группе.
         /// </summary>
-        public IReadOnlyCollection<GroupRole>? GroupRoles => _groupRoles;
-        private List<GroupRole>? _groupRoles;
+        public IReadOnlyCollection<UserInGroup> UsersInGroup => _usersInGroup;
+        private readonly List<UserInGroup> _usersInGroup;
 
         /// <summary>
-        /// Перечисление приглашений в группу
+        /// Роли в группе.
         /// </summary>
-        public IReadOnlyCollection<GroupInvite>? GroupInvites => _groupInvites;
-        private List<GroupInvite>? _groupInvites;
+        public IReadOnlyCollection<GroupRole> GroupRoles => _groupRoles;
+        private readonly List<GroupRole> _groupRoles;
 
         /// <summary>
-        /// Перечисление логов
+        /// Приглашения в группу.
         /// </summary>
-        public IReadOnlyCollection<Log.Log>? GroupLogs => _groupLogs;
-        private List<Log.Log>? _groupLogs;
+        public IReadOnlyCollection<GroupInvite> GroupInvites => _groupInvites;
+        private readonly List<GroupInvite> _groupInvites;
+
+        /// <summary>
+        /// Создает новую группу.
+        /// </summary>
+        public static Group Create(Guid id, Title name, Content? description, GroupRole defaultRole)
+        {
+            return new Group(id, name, description, defaultRole);
+        }
+
+        /// <summary>
+        /// Добавляет пользователя в группу.
+        /// </summary>
+        public Result AddUserToGroup(User.User user, GroupRole role)
+        {
+            if (_usersInGroup.Any(u => u.UserId == user.Id))
+                return Result.Failure(DomainErrors.Group.UserAlreadyInGroup);
+
+            _usersInGroup.Add(UserInGroup.Create(this, role, user));
+
+            return Result.Success();
+
+        }
+
+        /// <summary>
+        /// Удаляет пользователя из группы.
+        /// </summary>
+        public Result RemoveUserFromGroup(Guid userId)
+        {
+            var userInGroup = _usersInGroup.FirstOrDefault(u => u.UserId == userId);
+            if (userInGroup == null)
+                return Result.Failure(DomainErrors.Group.UserNotFound);
+
+            _usersInGroup.Remove(userInGroup);
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Добавляет новую роль в группу.
+        /// </summary>
+        public Result AddRole(GroupRole role)
+        {
+            if (_groupRoles.Any(r => r.Id == role.Id))
+                return Result.Failure(DomainErrors.Group.RoleAlreadyExists);
+
+            _groupRoles.Add(role);
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Удаляет роль из группы.
+        /// </summary>
+        public Result RemoveRole(GroupRole role)
+        {
+            if (role == null)
+                return Result.Failure(DomainErrors.Group.RoleNotFound);
+
+            if (role.Group == null)
+                return Result.Failure(DomainErrors.Group.CantDeleteBaseRole);
+
+            _groupRoles.Remove(role);
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Добавляет приглашение в группу.
+        /// </summary>
+        public Result AddInvite(GroupInvite invite)
+        {
+            if (_groupInvites.Any(i => i.ReceiverId == invite.ReceiverId))
+                return Result.Failure(DomainErrors.Group.InviteAlreadySent);
+
+            _groupInvites.Add(invite);
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Удаляет приглашение из группы.
+        /// </summary>
+        public Result RemoveInvite(GroupInvite invite)
+        {
+            if (!_groupInvites.Any(i => i == invite))
+                return Result.Failure(DomainErrors.Group.InviteNotFound);
+
+            _groupInvites.Remove(invite);
+
+            return Result.Success();
+        }
     }
 }

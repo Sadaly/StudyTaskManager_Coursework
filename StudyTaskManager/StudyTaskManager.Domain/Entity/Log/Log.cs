@@ -3,101 +3,112 @@
 namespace StudyTaskManager.Domain.Entity.Log
 {
     /// <summary>
-    /// Лог действий в группах
+    /// Запись лога действий в группах.
     /// </summary>
     public class Log : BaseEntityWithID
     {
-        private Log(Guid id, LogAction LogAction, string? Description, Group.Group? Group, User.User? Initiator, User.User? Subject) : base(id)
+        /// <summary>
+        /// Приватный конструктор для создания объекта <see cref="Log"/>.
+        /// </summary>
+        /// <param name="id">Уникальный идентификатор лога.</param>
+        /// <param name="logAction">Действие, которое произошло.</param>
+        /// <param name="description">Описание действия (опционально).</param>
+        /// <param name="group">Группа, в которой произошло действие (если применимо).</param>
+        /// <param name="initiator">Пользователь, инициировавший действие (если применимо).</param>
+        /// <param name="subject">Пользователь, на которого повлияло действие (если применимо).</param>
+        private Log(Guid id, LogAction logAction, string? description, Group.Group? group, User.User? initiator, User.User? subject)
+            : base(id)
         {
-            if (Group != null)
+            LogAction = logAction;
+            Description = description;
+            DateTime = DateTime.UtcNow;
+
+            if (group != null)
             {
-                this.GroupId = Group.Id;
-                this.Group = Group;
+                GroupId = group.Id;
+                Group = group;
             }
-            if (Initiator != null)
+
+            if (initiator != null)
             {
-                this.InitiatorId = Initiator.Id;
-                this.Initiator = Initiator;
+                InitiatorId = initiator.Id;
+                Initiator = initiator;
             }
-            if (Subject != null)
+
+            if (subject != null)
             {
-                this.SubjectId = Subject.Id;
-                this.Subject = Subject;
+                SubjectId = subject.Id;
+                Subject = subject;
             }
-            this.Description = Description;
-            this.LogAction = LogAction;
-            this.DateTime = DateTime.UtcNow;
         }
 
         /// <summary>
-        /// Id группы
+        /// Идентификатор группы, в которой произошло действие (если применимо).
         /// </summary>
         public Guid? GroupId { get; }
 
         /// <summary>
-        /// Id действия лога
+        /// Идентификатор действия лога.
         /// </summary>
-        public Guid LogActionId { get; }
+        public Guid LogActionId => LogAction.Id;
 
         /// <summary>
-        /// Время действия
+        /// Время фиксации действия.
         /// </summary>
         public DateTime DateTime { get; }
 
         /// <summary>
-        /// Id человека, который является причиной появления запси в лог
+        /// Идентификатор пользователя, который инициировал действие (если применимо).
         /// </summary>
         public Guid? InitiatorId { get; }
 
         /// <summary>
-        /// Id человека, который был затрон действием, если он есть
+        /// Идентификатор пользователя, на которого повлияло действие (если применимо).
         /// </summary>
         public Guid? SubjectId { get; }
 
         /// <summary>
-        /// Описание
+        /// Описание действия.
         /// </summary>
-        public string? Description { get; set; }
-
-
+        public string? Description { get; private set; }
 
         /// <summary>
-        /// Ссылка на группу
+        /// Ссылка на группу, в которой произошло действие.
         /// </summary>
         public Group.Group? Group { get; }
 
         /// <summary>
-        /// Ссылка на лог действие
+        /// Ссылка на объект действия лога.
         /// </summary>
-        public LogAction LogAction { get; } = null!;
+        public LogAction LogAction { get; }
 
         /// <summary>
-        /// Ссылка на инициатора действия
+        /// Ссылка на пользователя, инициировавшего действие.
         /// </summary>
         public User.User? Initiator { get; }
 
         /// <summary>
-        /// Ссылка на субъекта действия
+        /// Ссылка на пользователя, на которого повлияло действие.
         /// </summary>
         public User.User? Subject { get; }
 
         /// <summary>
-        /// 
+        /// Создает новый объект <see cref="Log"/>.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="LogAction"></param>
-        /// <param name="Description"></param>
-        /// <param name="Group"></param>
-        /// <param name="Initiator"></param>
-        /// <param name="Subject"></param>
-        /// <returns></returns>
-        public Log Create(Guid id, LogAction LogAction, string? Description, Group.Group? Group, User.User? Initiator, User.User? Subject)
+        /// <param name="id">Уникальный идентификатор лога.</param>
+        /// <param name="logAction">Действие, которое произошло.</param>
+        /// <param name="description">Описание действия (опционально).</param>
+        /// <param name="group">Группа, в которой произошло действие (если применимо).</param>
+        /// <param name="initiator">Пользователь, инициировавший действие (если применимо).</param>
+        /// <param name="subject">Пользователь, на которого повлияло действие (если применимо).</param>
+        /// <returns>Новый экземпляр класса <see cref="Log"/>.</returns>
+        public static Log Create(Guid id, LogAction logAction, string? description, Group.Group? group, User.User? initiator, User.User? subject)
         {
-            var Log = new Log(id, LogAction, Description, Group, Initiator, Subject);
+            var log = new Log(id, logAction, description, group, initiator, subject);
 
-            //Todo создание события
+            // TODO: Добавить создание события, связанного с логированием действия.
 
-            return Log;
+            return log;
         }
     }
 }

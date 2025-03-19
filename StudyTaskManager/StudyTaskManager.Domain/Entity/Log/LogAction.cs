@@ -3,40 +3,46 @@
 namespace StudyTaskManager.Domain.Entity.Log
 {
     /// <summary>
-    /// Действия для логов
+    /// Действие для логов, представляющее конкретное событие в системе.
     /// </summary>
     public class LogAction : BaseEntityWithID
     {
-        private LogAction(Guid id, string Name, string Description) : base(id)
+        /// <summary>
+        /// Приватный конструктор для создания объекта <see cref="LogAction"/>.
+        /// </summary>
+        /// <param name="id">Уникальный идентификатор действия.</param>
+        /// <param name="name">Название действия.</param>
+        /// <param name="description">Описание действия.</param>
+        private LogAction(Guid id, string name, string description) : base(id)
         {
-            this.Name = Name;
-            this.Description = Description;
+            Name = name;
+            Description = description;
         }
 
         /// <summary>
-        /// Название действия
+        /// Название действия.
         /// </summary>
-        public string Name { get; set; } = null!;
+        public string Name { get; private set; }
 
         /// <summary>
-        /// Описание действия
+        /// Описание действия.
         /// </summary>
-        public string Description { get; set; } = null!;
+        public string Description { get; private set; }
 
         /// <summary>
-        /// 
+        /// Метод для создания нового объекта <see cref="LogAction"/>.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="Name"></param>
-        /// <param name="Description"></param>
-        /// <returns>Новый экземпляр класс <see cref="LogAction"/></returns>
-        public LogAction Create(Guid id, string Name, string Description)
+        /// <param name="id">Уникальный идентификатор действия.</param>
+        /// <param name="name">Название действия.</param>
+        /// <param name="description">Описание действия.</param>
+        /// <returns>Новый экземпляр класса <see cref="LogAction"/>.</returns>
+        public static LogAction Create(Guid id, string name, string description)
         {
-            var LogAction = new LogAction(id, Name, Description);
+            var logAction = new LogAction(id, name, description);
 
-            //Todo создание события
+            // TODO: Добавить создание доменного события, связанного с созданием действия для логов.
 
-            return LogAction;
+            return logAction;
         }
     }
 }

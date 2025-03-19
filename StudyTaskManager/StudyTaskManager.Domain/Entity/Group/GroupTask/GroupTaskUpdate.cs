@@ -3,39 +3,66 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
 {
-    //Todo
+    /// <summary>
+    /// Обновление задачи в группе.
+    /// </summary>
     public class GroupTaskUpdate : BaseEntityWithID
     {
+        private GroupTaskUpdate(Guid id, User.User creator, GroupTask task, Content content) : base(id)
+        {
+            Creator = creator;
+            Task = task;
+            Content = content;
+
+            CreatorId = creator.Id;
+            TaskId = task.Id;
+            DateCreated = DateTime.UtcNow;
+        }
+
         /// <summary>
-        /// Id создателя апдейта
+        /// Id создателя апдейта.
         /// </summary>
         public Guid CreatorId { get; }
 
         /// <summary>
-        /// Id задачи
+        /// Id задачи.
         /// </summary>
         public Guid TaskId { get; }
 
         /// <summary>
-        /// Дата создания апдейта
+        /// Дата создания апдейта.
         /// </summary>
         public DateTime DateCreated { get; }
 
         /// <summary>
-        /// Содержание
+        /// Содержание обновления задачи.
         /// </summary>
-        public Content Content { get; } = null!;
-
-
+        public Content Content { get; private set; }
 
         /// <summary>
-        /// Ссылка на создателя апдейта
+        /// Ссылка на создателя апдейта.
         /// </summary>
-        public User.User Creator { get; } = null!;
+        public User.User Creator { get; }
 
         /// <summary>
-        /// Ссылка на задачу
+        /// Ссылка на задачу.
         /// </summary>
-        public GroupTask Task { get; } = null!;
+        public GroupTask Task { get; }
+
+        /// <summary>
+        /// Создает новое обновление задачи.
+        /// </summary>
+        public static GroupTaskUpdate Create(Guid id, User.User creator, GroupTask task, Content content)
+        {
+            return new GroupTaskUpdate(id, creator, task, content);
+        }
+
+        /// <summary>
+        /// Обновляет содержание задачи.
+        /// </summary>
+        public void UpdateContent(Content newContent)
+        {
+            Content = newContent;
+        }
     }
 }

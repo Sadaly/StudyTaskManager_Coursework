@@ -92,5 +92,55 @@ namespace StudyTaskManager.Domain.Errors
                 "Title.TooLong",
                 "Название слишком длинное");
         }
+
+        public static class GroupInvite
+        {
+            public static readonly Error Accepted = new(
+                "GroupInvite.Accepted",
+                "Приглашение уже было принято. И не может быть принято или отклонено");
+
+            public static readonly Error Declined = new(
+                "GroupInvite.Declined",
+                "Приглашение уже было отклонено. И не может быть принято или отклонено");
+        }
+
+        public static class Group
+        {
+            public static readonly Error UserAlreadyInGroup = new(
+                "Group.UserAlreadyInGroup",
+                "Пользователь уже в группе");
+
+            public static readonly Error UserNotFound = new(
+                "Group.UserNotFound",
+                "Пользователь не найден в группе");
+
+            public static readonly Error RoleAlreadyExists = new(
+                "Group.RoleAlreadyExists",
+                "Роль уже существует в группе");
+
+            public static readonly Error RoleNotFound = new(
+                "Group.RoleNotFound",
+                "Роль не найдена");
+
+            public static readonly Error CantDeleteBaseRole = new(
+                "Group.CantDeleteBaseRole",
+                "Невозможно удалить базовую роль");
+
+            public static readonly Error InviteAlreadySent = new(
+                "Group.InviteAlreadySent",
+                "Приглашение уже отправлено этому пользователю");
+
+            public static readonly Error InviteNotFound = new(
+                "Group.InviteNotFound",
+                "Приглашение не найдено");
+        }
+
+        public static class PersonalChat
+        {
+            public static readonly Error SameUser = new(
+                "PersonalChat.SameUser",
+                "Пользователь1 и Пользователь2 совпадают");
+
+        }
     }
 }
