@@ -6,14 +6,8 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
     /// <summary>
     /// Хранилище пользователей
     /// </summary>
-    public interface IUserRepository
+    public interface IUserRepository : Generic.IRepositoryWithID<User>
     {
-        /// <summary>
-        /// Добавление нового пользователя
-        /// </summary>
-        /// <param name="User">Ссылка на группу</param>
-        void Add(Entity.User.User User);
-
         /// <summary>
         /// Получить пользователя по id
         /// </summary>

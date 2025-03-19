@@ -46,7 +46,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 
             var user = User.Create(Guid.NewGuid(), request.UserName, request.Email, request.Password, request.PhoneNumber, request.SystemRoleId);
 
-            _userRepository.Add(user);
+            _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return user.Id;
