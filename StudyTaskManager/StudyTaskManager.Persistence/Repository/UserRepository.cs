@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -25,4 +26,34 @@ internal sealed class UserRepository : IUserRepository
 
     public async Task<bool> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default) =>
         !await _dbContext.Set<User>().AnyAsync(x => x.UserName == userName, cancellationToken);
+
+    Task IRepository<User>.AddAsync(User entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveAsync(User entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<User?> GetByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(User entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<User>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
