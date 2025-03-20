@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
@@ -50,24 +51,19 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Фабричный метод для создания чата
         /// </summary>
-        public Result<PersonalChat> Create(User User1, User User2)
+        public Result<PersonalChat> Create(PersonalMessage FirstMessage, User Receiver)
         {
             // Можно добавить логику проверки, что два пользователя не могут быть теми же самыми
-            if (User1.Id == User2.Id)
+            if (FirstMessage.Sender.Id == Receiver.Id)
             {
                 return Result.Failure<PersonalChat>(DomainErrors.PersonalChat.SameUser);
             }
+			var personalChat = new PersonalChat(FirstMessage.Sender, Receiver);
 
-            return new PersonalChat(User1, User2);
-        }
+            personalChat.RaiseDomainEvent(new PersonalChatCreatedDomainEvent(personalChat.Id));
 
-        /// <summary>
-        /// Метод для добавления сообщения в чат
-        /// </summary>
-        /// <param name="message">Сообщение</param>
-        public void AddMessage(PersonalMessage message)
-        {
-            _messages?.Add(message);
-        }
+			_messages?.Add(FirstMessage);
+            return personalChat;
+		}
     }
 }

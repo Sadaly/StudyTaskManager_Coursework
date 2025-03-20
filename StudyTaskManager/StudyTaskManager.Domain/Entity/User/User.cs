@@ -165,8 +165,6 @@ namespace StudyTaskManager.Domain.Entity.User
         }
 		public BlockedUserInfo BlockUser(string reason)
 		{
-			this.RaiseDomainEvent(new UserBlockedDomainEvent(this.Id));
-
 			return BlockedUserInfo.Create(reason, this);
 		}
 	}

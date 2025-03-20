@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User.Chat
@@ -65,18 +66,28 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <param name="Content">Содержимое сообщения</param>
         /// <returns>Новый экземпляр личного сообщения</returns>
         public static PersonalMessage Create(User Sender, PersonalChat PersonalChat, Content Content)
-        {
-            return new PersonalMessage(Sender, PersonalChat, Content);
-        }
+		{
+            var message = new PersonalMessage(Sender, PersonalChat, Content);
+
+			message.RaiseDomainEvent(new PersonalMessageSentDomainEvent(message.Id));
+
+            return message;
+		}
 
         /// <summary>
         /// Метод для обновления флага прочтения сообщения
         /// </summary>
         public void MarkAsRead()
         {
-            Is_Read_By_Other_User = true;
+            if (!Is_Read_By_Other_User)
+            {
+                Is_Read_By_Other_User = true;
+
+				this.RaiseDomainEvent(new PersonalMessageReadDomainEvent(this.Id));
+			}
         }
 
+        //Todo: пока можно не реализовывать, добавим позже
         /// <summary>
         /// Метод для изменения содержимого сообщения
         /// </summary>

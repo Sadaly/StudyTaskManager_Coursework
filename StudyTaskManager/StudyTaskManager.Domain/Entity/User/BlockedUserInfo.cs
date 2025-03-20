@@ -69,6 +69,8 @@ namespace StudyTaskManager.Domain.Entity.User
         {
             var blockedUserInfo = new BlockedUserInfo(reason, user);
 
+			blockedUserInfo.RaiseDomainEvent(new UserBlockedDomainEvent(user.Id));
+
 			return blockedUserInfo;
         }
     }
