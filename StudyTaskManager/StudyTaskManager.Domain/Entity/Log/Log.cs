@@ -44,54 +44,15 @@ namespace StudyTaskManager.Domain.Entity.Log
             }
         }
 
-        /// <summary>
-        /// Идентификатор группы, в которой произошло действие (если применимо).
-        /// </summary>
-        public Guid? GroupId { get; }
-
-        /// <summary>
-        /// Идентификатор действия лога.
-        /// </summary>
         public Guid LogActionId { get; }
-
-        /// <summary>
-        /// Время фиксации действия.
-        /// </summary>
         public DateTime DateTime { get; }
-
-        /// <summary>
-        /// Идентификатор пользователя, который инициировал действие (если применимо).
-        /// </summary>
-        public Guid? InitiatorId { get; }
-
-        /// <summary>
-        /// Идентификатор пользователя, на которого повлияло действие (если применимо).
-        /// </summary>
-        public Guid? SubjectId { get; }
-
-        /// <summary>
-        /// Описание действия.
-        /// </summary>
         public string? Description { get; private set; }
-
-        /// <summary>
-        /// Ссылка на группу, в которой произошло действие.
-        /// </summary>
+        public Guid? GroupId { get; }
+        public Guid? InitiatorId { get; }
+        public Guid? SubjectId { get; }
         public Group.Group? Group { get; }
-
-        /// <summary>
-        /// Ссылка на объект действия лога.
-        /// </summary>
-        public LogAction LogAction { get; }
-
-        /// <summary>
-        /// Ссылка на пользователя, инициировавшего действие.
-        /// </summary>
+        public LogAction? LogAction { get; }
         public User.User? Initiator { get; }
-
-        /// <summary>
-        /// Ссылка на пользователя, на которого повлияло действие.
-        /// </summary>
         public User.User? Subject { get; }
 
         /// <summary>

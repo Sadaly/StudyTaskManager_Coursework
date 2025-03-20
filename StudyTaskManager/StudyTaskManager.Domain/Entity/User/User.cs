@@ -1,15 +1,12 @@
 ﻿using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Domain.Entity.User.Chat;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
     /// Класс пользователя
     /// </summary>
-    // Нужно будет добавить две его реализации: обычный пользователь и заблокированный.
-    // Для создания экземпляров нужно будет использовать какой-нибудь паттерн, строитель или фабрику.
     public class User : BaseEntityWithID
     {
         /// <summary>
@@ -21,8 +18,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
-        private User(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
-            : base(id)
+        private User(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : base(id)
         {
             UserName = userName;
             Email = email;
@@ -42,64 +38,62 @@ namespace StudyTaskManager.Domain.Entity.User
             this.RegistrationDate = DateTime.UtcNow;
 
             // Инициализация списка личных чатов
-            _personalChatsAsUser1 = new List<Chat.PersonalChat>();
-            _personalChatsAsUser2 = new List<Chat.PersonalChat>();
+            _personalChatsAsUser1 = [];
+            _personalChatsAsUser2 = [];
         }
 
-        /// <summary>
-        /// Имя пользователя
-        /// </summary>
+        #region поля и свойства
+
         public UserName UserName { get; set; } = null!;
-
-        /// <summary>
-        /// Id системной роли
-        /// </summary>
-        public Guid SystemRoleId { get; set; }
-
-        /// <summary>
-        /// Почта пользователя
-        /// </summary>
         public Email Email { get; set; } = null!;
 
         /// <summary>
         /// Хэшированный пароль пользователя. Пароль хранится в хэшированном виде для безопасности.
         /// </summary>
         public PasswordHash PasswordHash { get; set; } = null!;
-
-        /// <summary>
-        /// Номер телефона пользователя
-        /// </summary>
         public PhoneNumber? PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Дата регистрации пользователя. Устанавливается автоматически при создании пользователя.
-        /// </summary>
         public DateTime RegistrationDate { get; }
-
+        public Guid SystemRoleId { get; set; }
         /// <summary>
-        /// Ссылка на системную роль (по умолчанию значение null, что означает, что у пользователя нет специфической роли, дающей или блокирущей возможности пользоваться системой)
+        /// Ссылка на системную роль (по умолчанию значение null, что означает, 
+        /// что у пользователя нет специфической роли, дающей или блокирущей 
+        /// возможности пользоваться системой)
         /// </summary>
         public SystemRole? SystemRole { get; set; }
 
+        #region PersonalChat
         /// <summary>
         /// Приватное поле для хранения списка личных чатов, где пользователь является User1
         /// </summary>
-        private List<Chat.PersonalChat>? _personalChatsAsUser1;
-
+        readonly List<Chat.PersonalChat> _personalChatsAsUser1;
         /// <summary>
         /// Приватное поле для хранения списка личных чатов, где пользователь является User2
         /// </summary>
-        private List<Chat.PersonalChat>? _personalChatsAsUser2;
-
+        readonly List<Chat.PersonalChat> _personalChatsAsUser2;
+        private IEnumerable<Chat.PersonalChat> PrivatePersonalChats
+        {
+            get
+            {
+                if (_personalChatsAsUser1 != null)
+                    foreach (Chat.PersonalChat pc in _personalChatsAsUser1)
+                        yield return pc;
+                if (_personalChatsAsUser2 != null)
+                    foreach (Chat.PersonalChat pc in _personalChatsAsUser2)
+                        yield return pc;
+            }
+        }
         /// <summary>
         /// Чаты, где пользователь является User1
         /// </summary>
-        public ICollection<PersonalChat>? PersonalChatsAsUser1 => _personalChatsAsUser1;
-
+        public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser1 => _personalChatsAsUser1;
         /// <summary>
         /// Чаты, где пользователь является User2
         /// </summary>
-        public ICollection<PersonalChat>? PersonalChatsAsUser2 => _personalChatsAsUser2;
+        public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser2 => _personalChatsAsUser2;
+        public IReadOnlyCollection<Chat.PersonalChat> PersonalChats => [.. PrivatePersonalChats]; // приводит тип к списку
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// Метод создания нового пользователя

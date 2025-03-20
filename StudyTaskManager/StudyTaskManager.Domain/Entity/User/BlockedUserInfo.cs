@@ -1,6 +1,4 @@
-﻿using StudyTaskManager.Domain.ValueObjects;
-
-namespace StudyTaskManager.Domain.Entity.User
+﻿namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
     /// Запись о том, что пользователь был заблокирован
@@ -22,30 +20,16 @@ namespace StudyTaskManager.Domain.Entity.User
             User = user;
         }
 
-        /// <summary>
-        /// Уникальный идентификатор пользователя, который был заблокирован
-        /// </summary>
+        #region свойства
+
         public Guid UserId { get; }
-
-        /// <summary>
-        /// Причина блокировки пользователя
-        /// </summary>
         public string Reason { get; } = null!;
-
-        /// <summary>
-        /// Дата и время блокировки пользователя
-        /// </summary>
         public DateTime BlockedDate { get; }
-
-        /// <summary>
-        /// Идентификатор роли пользователя до блокировки
-        /// </summary>
         public Guid PrevRoleId { get; }
+        public SystemRole? PrevRole { get; }
+        public User? User { get; } = null!;
 
-        /// <summary>
-        /// Ссылка на пользователя, который был заблокирован
-        /// </summary>
-        public User User { get; } = null!;
+        #endregion
 
         /// <summary>
         /// Метод для создания новой записи о блокировке пользователя

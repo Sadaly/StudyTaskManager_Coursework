@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Persistence.Constants
+﻿namespace StudyTaskManager.Persistence.DB
 {
     internal static class TableNames
     {
@@ -21,9 +21,26 @@
 
         internal const string PersonalChat = nameof(PersonalChat);
         internal const string PersonalMessage = nameof(PersonalMessage);
+
         internal const string BlockedUserInfo = nameof(BlockedUserInfo);
+        internal static class BlockedUserInfoTable
+        {
+            internal const string UserId = nameof(UserId);
+            internal const string PrevRoleId = nameof(PrevRoleId);
+        }
 
         internal const string SystemRole = nameof(SystemRole);
+        internal static class SystemRoleTable
+        {
+
+        }
+
         internal const string Users = nameof(Users);
+        internal static class UsersTable
+        {
+            internal const string Id = nameof(Id);
+            internal const string SystemRoleId = nameof(SystemRoleId);
+        }
+
     }
 }

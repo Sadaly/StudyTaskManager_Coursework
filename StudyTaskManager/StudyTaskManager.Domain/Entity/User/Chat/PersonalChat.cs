@@ -10,42 +10,40 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     public class PersonalChat : BaseEntityWithID
     {
         // Приватный конструктор для создания чата
-        private PersonalChat(User User1, User User2)
+        private PersonalChat(User user1, User user2)
         {
-            this.UserId1 = User1.Id;
-            this.User1 = User1;
+            UserId1 = user1.Id;
+            User1 = user1;
 
-            this.UserId2 = User2.Id;
-            this.User2 = User2;
+            UserId2 = user2.Id;
+            User2 = user2;
 
-            _messages = new List<PersonalMessage>();
+            _messages = [];
         }
 
-        /// <summary>
-        /// Id пользователя 1
-        /// </summary>
         public Guid UserId1 { get; }
-
-        /// <summary>
-        /// Id пользователя 2
-        /// </summary>
         public Guid UserId2 { get; }
-
-        /// <summary>
-        /// Пользователь 1
-        /// </summary>
+        public IEnumerable<Guid> UsersID
+        {
+            get
+            {
+                yield return UserId1;
+                yield return UserId2;
+            }
+        }
         public User User1 { get; } = null!;
-
-        /// <summary>
-        /// Пользователь 2
-        /// </summary>
         public User User2 { get; } = null!;
+        public IEnumerable<User> Users
+        {
+            get
+            {
+                yield return User1;
+                yield return User2;
+            }
+        }
 
-        /// <summary>
-        /// Перечисление сообщений из личных чатов
-        /// </summary>
+        readonly List<PersonalMessage>? _messages;
         public IReadOnlyCollection<PersonalMessage>? Messages => _messages;
-        private List<PersonalMessage>? _messages;
 
         /// <summary>
         /// Фабричный метод для создания чата

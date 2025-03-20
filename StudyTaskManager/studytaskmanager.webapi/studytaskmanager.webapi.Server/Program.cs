@@ -8,8 +8,10 @@ using Gatherly.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Persistence.Interceptors;
+using StudyTaskManager.Persistence.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -40,6 +42,11 @@ string connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
+builder.Services.AddDbContext<AppDbContext>(                                           // подключение к бд постгрес
+    options =>                                                                              //
+    {                                                                                       // Изменять нужно в файле appsettings.Development.json
+        options.UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)));    //
+    });
 builder.Services.AddDbContext<ApplicationDbContext>(
     (sp, optionsBuilder) =>
     {

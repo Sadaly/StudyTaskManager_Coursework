@@ -50,12 +50,12 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Отправитель
         /// </summary>
-        public User Sender { get; } = null!;
+        public User? Sender { get; } = null!;
 
         /// <summary>
         /// Личный чат
         /// </summary>
-        public PersonalChat PersonalChat { get; } = null!;
+        public PersonalChat? PersonalChat { get; } = null!;
 
         /// <summary>
         /// Фабричный метод для создания личного сообщения

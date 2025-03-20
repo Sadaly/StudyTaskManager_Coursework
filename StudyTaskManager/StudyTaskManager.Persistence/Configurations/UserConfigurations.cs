@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.Constants;
+using StudyTaskManager.Persistence.DB;
 
 namespace StudyTaskManager.Persistence.Configurations
 {

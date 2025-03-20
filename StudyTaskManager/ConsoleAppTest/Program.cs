@@ -1,4 +1,17 @@
-﻿namespace ConsoleAppTest
+﻿using StudyTaskManager.Application;
+using StudyTaskManager.Infrastructure;
+using StudyTaskManager.Persistence;
+using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Gatherly.Application.Behaviors;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using StudyTaskManager.Persistence.Interceptors;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using StudyTaskManager.Persistence.DB;
+
+namespace ConsoleAppTest
 {
     internal class Program
     {
@@ -8,6 +21,14 @@
 
 
 
+            var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
+
+            builder.Services.AddDbContext<AppDbContext>(                                           // подключение к бд постгрес
+                options =>                                                                              //
+                {                                                                                       // Изменять нужно в файле appsettings.Development.json
+                    options.UseNpgsql("User ID=postgres;Password=password;Host=localhost;Port=5432;Database=dbtest;");    //
+                });
 
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}");

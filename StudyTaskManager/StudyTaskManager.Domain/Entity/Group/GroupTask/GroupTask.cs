@@ -13,7 +13,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         {
             this.Group = Group;
             this.GroupId = Group.Id;
-            
+
             this.StatusId = Status.Id;
             this.Status = Status;
 
@@ -96,6 +96,10 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// </summary>
         public GroupTaskStatus Status { get; set; } = null!;
 
+        /// <summary>
+        /// Id ответственного за задачу.
+        /// </summary>
+        public Guid? ResponsibleUserId { get; set; }
         /// <summary>
         /// Ответственный за задачу.
         /// </summary>
