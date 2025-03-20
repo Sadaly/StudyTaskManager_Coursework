@@ -8,28 +8,23 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 {
-    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Guid>
+    internal sealed class CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository) : ICommandHandler<CreateUserCommand, Guid>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IUserRepository _userRepository = userRepository;
 
-        public CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+		public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            _unitOfWork = unitOfWork;
-            _userRepository = userRepository;
-        }
+            Result<Email> emailResult = Email.Create(request.Email);
+            Result<UserName> userNameResult = UserName.Create(request.UserName);
+            Result<Password> passwordResult = Password.Create(request.Password);
+            Result<PhoneNumber>? phoneNumberResult = null;
 
-        public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
-        {
-            Result<Email> emailResult = Email.Create(request.Email.Value);
-            Result<UserName> userName = UserName.Create(request.UserName.Value);
-            Result<Password> password = Password.Create(request.Password.Value);
-
-            if (request.PhoneNumber != null)
-            {
-                //Перед созданием экземпляра мы проверяем, что он не равен null
-                Result<PhoneNumber> phoneNumber = PhoneNumber.Create(request.PhoneNumber.Value);
-                if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken))
+			if (request.PhoneNumber != null && request.PhoneNumber != String.Empty)
+			{
+				//Перед созданием экземпляра мы проверяем, что он не равен null
+				phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+                if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumberResult.Value, cancellationToken))
                 {
                     return Result.Failure<Guid>(DomainErrors.User.PhoneNumberAlreadyInUse);
                 }
@@ -40,14 +35,20 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
                 return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse);
             }
 
-            if (!await _userRepository.IsUserNameUniqueAsync(userName.Value, cancellationToken))
+            if (!await _userRepository.IsUserNameUniqueAsync(userNameResult.Value, cancellationToken))
             {
                 return Result.Failure<Guid>(DomainErrors.User.UserNameAlreadyInUse);
             }
 
-            var user = User.Create(Guid.NewGuid(), request.UserName, request.Email, request.Password, request.PhoneNumber, request.SystemRoleId);
+            var user = User.Create(
+                Guid.NewGuid(), 
+                userNameResult.Value, 
+                emailResult.Value, 
+                passwordResult.Value, 
+                phoneNumberResult?.Value, 
+                request.SystemRole);
 
-            _userRepository?.AddAsync(user);
+            await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return user.Id;

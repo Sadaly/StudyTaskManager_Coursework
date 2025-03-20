@@ -89,7 +89,7 @@ namespace StudyTaskManager.Domain.Entity.Group
 			return userInGroup;
         }
 
-		public void LeaveGroup(Group group, User.User user)
+		public void LeaveGroup()
 		{
 			this.RaiseDomainEvent(new GroupUserLeftDomainEvent(this.UserId, this.GroupId));
 		}

@@ -1,7 +1,7 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Domain.Entity.Group.Task
+namespace StudyTaskManager.Domain.Entity.Group.GroupTask
 {
     /// <summary>
     /// Статус задачи в группе.
@@ -44,7 +44,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Статический метод для создания нового статуса задачи.
         /// </summary>
-        public static GroupTaskStatus Create(Guid id, Title name, Guid groupId, bool canBeUpdated, Group group)
+        public static GroupTaskStatus Create(Guid id, Title name, bool canBeUpdated, Group group)
 		{
 			//Todo добавить событие
 			return new GroupTaskStatus(id, name, canBeUpdated, group);

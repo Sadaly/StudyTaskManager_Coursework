@@ -1,5 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Domain.Entity.Group.Task;
+using StudyTaskManager.Domain.Entity.Group.GroupTask;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {

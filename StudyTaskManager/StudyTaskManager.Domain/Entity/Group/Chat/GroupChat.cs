@@ -15,8 +15,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             Name = name;
             IsPublic = isPublic;
             Group = group;
-            _groupChatMessages = new List<GroupChatMessage>();
-            _groupChatParticipants = new List<GroupChatParticipant>();
+            _groupChatMessages = [];
+            _groupChatParticipants = [];
         }
 
         /// <summary>

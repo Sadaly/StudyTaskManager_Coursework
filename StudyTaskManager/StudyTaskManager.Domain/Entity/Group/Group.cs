@@ -17,9 +17,9 @@ namespace StudyTaskManager.Domain.Entity.Group
             DefaultRole = defaultRole;
             DefaultRoleId = defaultRole.Id;
 
-            _usersInGroup = new List<UserInGroup>();
-            _groupRoles = new List<GroupRole> { defaultRole }; // Начальная роль в группе
-            _groupInvites = new List<GroupInvite>();
+            _usersInGroup = [];
+			_groupRoles = [ defaultRole ]; // Начальная роль в группе
+			_groupInvites = [];
         }
 
         /// <summary>

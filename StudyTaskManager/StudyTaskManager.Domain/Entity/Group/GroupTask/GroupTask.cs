@@ -1,7 +1,7 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Domain.Entity.Group.Task
+namespace StudyTaskManager.Domain.Entity.Group.GroupTask
 {
     /// <summary>
     /// Задача, относящаяся к группе для выполнения и выполнения задач.
