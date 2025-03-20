@@ -1,4 +1,5 @@
-﻿using StudyTaskManager.Domain.ValueObjects;
+﻿using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -13,14 +14,19 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="reason">Причина блокировки пользователя</param>
         /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
         /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
-        private BlockedUserInfo(string reason, Guid prevRoleId, User user) : base()
+        private BlockedUserInfo(string reason, User user) : base()
         {
             Reason = reason;
             BlockedDate = DateTime.UtcNow; // Дата блокировки устанавливается автоматически
-            PrevRoleId = prevRoleId;
             UserId = user.Id;
             User = user;
-        }
+
+            if (user.SystemRoleId != null)
+            {
+                PrevRole = user.SystemRole;
+                PrevRoleId = user.SystemRoleId;
+            }
+		}
 
         /// <summary>
         /// Уникальный идентификатор пользователя, который был заблокирован
@@ -40,27 +46,30 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Идентификатор роли пользователя до блокировки
         /// </summary>
-        public Guid PrevRoleId { get; }
+        public Guid? PrevRoleId { get; }
 
         /// <summary>
         /// Ссылка на пользователя, который был заблокирован
         /// </summary>
         public User User { get; } = null!;
 
-        /// <summary>
-        /// Метод для создания новой записи о блокировке пользователя
-        /// </summary>
-        /// <param name="reason">Причина блокировки пользователя</param>
-        /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
-        /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
-        /// <returns>Новый экземпляр класса <see cref="BlockedUserInfo"/></returns>
-        public static BlockedUserInfo Create(string reason, Guid prevRoleId, User user)
+		/// <summary>
+		/// Роль пользователя до блокировки
+		/// </summary>
+		public SystemRole? PrevRole { get; }
+
+		/// <summary>
+		/// Метод для создания новой записи о блокировке пользователя
+		/// </summary>
+		/// <param name="reason">Причина блокировки пользователя</param>
+		/// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
+		/// <param name="user">Ссылка на пользователя, который был заблокирован</param>
+		/// <returns>Новый экземпляр класса <see cref="BlockedUserInfo"/></returns>
+		public static BlockedUserInfo Create(string reason, User user)
         {
-            var blockedUserInfo = new BlockedUserInfo(reason, prevRoleId, user);
+            var blockedUserInfo = new BlockedUserInfo(reason, user);
 
-            // Todo: Добавить создание события, связанного с блокировкой пользователя
-
-            return blockedUserInfo;
+			return blockedUserInfo;
         }
     }
 }

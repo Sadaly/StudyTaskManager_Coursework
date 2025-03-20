@@ -18,7 +18,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
             this.PersonalChatId = PersonalChat.Id;
 
             this.Content = Content;
-            this.DateWriten = DateTime.UtcNow;
+            this.DateWritten = DateTime.UtcNow;
             this.Is_Read_By_Other_User = false; // Изначально сообщение считается не прочитанным
         }
 
@@ -40,7 +40,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Дата написания
         /// </summary>
-        public DateTime DateWriten { get; }
+        public DateTime DateWritten { get; }
 
         /// <summary>
         /// Флаг прочитано собеседником

@@ -54,7 +54,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Id системной роли
         /// </summary>
-        public Guid SystemRoleId { get; set; }
+        public Guid? SystemRoleId { get; set; }
 
         /// <summary>
         /// Почта пользователя
@@ -163,5 +163,11 @@ namespace StudyTaskManager.Domain.Entity.User
 
             return this;
         }
-    }
+		public BlockedUserInfo BlockUser(string reason)
+		{
+			this.RaiseDomainEvent(new UserBlockedDomainEvent(this.Id));
+
+			return BlockedUserInfo.Create(reason, this);
+		}
+	}
 }
