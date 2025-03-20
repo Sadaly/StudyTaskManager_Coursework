@@ -77,6 +77,7 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.UserAlreadyInGroup);
 
             _usersInGroup.Add(UserInGroup.Create(this, role, user));
+            //Todo добавить событие
 
             return Result.Success();
 
@@ -92,8 +93,9 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.UserNotFound);
 
             _usersInGroup.Remove(userInGroup);
+			//Todo добавить событие
 
-            return Result.Success();
+			return Result.Success();
         }
 
         /// <summary>
@@ -105,8 +107,9 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.RoleAlreadyExists);
 
             _groupRoles.Add(role);
+			//Todo добавить событие
 
-            return Result.Success();
+			return Result.Success();
         }
 
         /// <summary>
@@ -121,8 +124,9 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.CantDeleteBaseRole);
 
             _groupRoles.Remove(role);
+			//Todo добавить событие
 
-            return Result.Success();
+			return Result.Success();
         }
 
         /// <summary>
@@ -134,8 +138,9 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.InviteAlreadySent);
 
             _groupInvites.Add(invite);
+			//Todo добавить событие
 
-            return Result.Success();
+			return Result.Success();
         }
 
         /// <summary>
@@ -147,8 +152,9 @@ namespace StudyTaskManager.Domain.Entity.Group
                 return Result.Failure(DomainErrors.Group.InviteNotFound);
 
             _groupInvites.Remove(invite);
+			//Todo добавить событие
 
-            return Result.Success();
+			return Result.Success();
         }
     }
 }

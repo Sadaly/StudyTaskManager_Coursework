@@ -54,6 +54,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// </summary>
         public static GroupTaskUpdate Create(Guid id, User.User creator, GroupTask task, Content content)
         {
+            //Todo добавить событие
+
             return new GroupTaskUpdate(id, creator, task, content);
         }
 
@@ -61,8 +63,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// Обновляет содержание задачи.
         /// </summary>
         public void UpdateContent(Content newContent)
-        {
-            Content = newContent;
+		{
+			//Todo добавить событие
+			Content = newContent;
         }
     }
 }

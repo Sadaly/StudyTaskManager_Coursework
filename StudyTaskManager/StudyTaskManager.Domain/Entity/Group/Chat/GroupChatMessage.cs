@@ -70,8 +70,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="content">Содержание сообщения.</param>
         /// <returns>Новая сущность GroupChatMessage.</returns>
         public static GroupChatMessage Create(GroupChat GroupChat, ulong ordinal, User.User Sender, Content content)
-        {
-            return new GroupChatMessage(GroupChat, ordinal, Sender, content);
+		{
+			//Todo добавить событие
+			return new GroupChatMessage(GroupChat, ordinal, Sender, content);
         }
     }
 }

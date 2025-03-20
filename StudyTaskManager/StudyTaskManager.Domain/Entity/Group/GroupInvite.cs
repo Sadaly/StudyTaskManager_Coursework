@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System;
@@ -81,7 +82,7 @@ namespace StudyTaskManager.Domain.Entity.Group
             InvitationAccepted = true;
 
 
-            // TODO: Добавить логику добавления пользователя в группу.
+            this.RaiseDomainEvent(new GroupInviteAcceptedDomainEvent(this.GroupId, this.ReceiverId));
 
             return Result.Success();
         }
@@ -99,7 +100,9 @@ namespace StudyTaskManager.Domain.Entity.Group
 
             InvitationAccepted = false;
 
-            return Result.Success();
+			this.RaiseDomainEvent(new GroupInviteDeclinedDomainEvent(this.GroupId, this.ReceiverId));
+
+			return Result.Success();
         }
 
         /// <summary>
@@ -107,7 +110,11 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public static GroupInvite Create(User.User sender, User.User receiver, Group group)
         {
-            return new GroupInvite(sender, receiver, group);
-        }
+			var invite = new GroupInvite(sender, receiver, group);
+
+			invite.RaiseDomainEvent(new GroupInviteCreatedDomainEvent(invite.GroupId, invite.ReceiverId));
+
+			return invite;
+		}
     }
 }

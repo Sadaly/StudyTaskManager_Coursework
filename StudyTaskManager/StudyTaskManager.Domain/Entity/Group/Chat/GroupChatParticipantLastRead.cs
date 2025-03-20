@@ -58,7 +58,10 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <returns>Новая сущность GroupChatParticipantLastRead.</returns>
         public static GroupChatParticipantLastRead Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
         {
-            return new GroupChatParticipantLastRead(
+
+			//Todo добавить событие
+
+			return new GroupChatParticipantLastRead(
                 readMessage.Ordinal,
                 groupChatId,
                 readMessage,
@@ -72,8 +75,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// </summary>
         /// <param name="newReadMessage">Новое прочитанное сообщение.</param>
         public void UpdateReadMessage(GroupChatMessage newReadMessage)
-        {
-            if (newReadMessage.Ordinal != LastReadMessageId)
+		{
+			//Todo добавить событие
+			if (newReadMessage.Ordinal != LastReadMessageId)
             {
                 LastReadMessageId = newReadMessage.Ordinal;
                 ReadMessage = newReadMessage;

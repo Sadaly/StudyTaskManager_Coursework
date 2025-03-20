@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group
@@ -76,9 +77,9 @@ namespace StudyTaskManager.Domain.Entity.Group
             CanManageRoles = canManageRoles;
             CanCreateTaskUpdates = canCreateTaskUpdates;
             CanChangeTaskUpdates = canChangeTaskUpdates;
-            CanInviteUsers = canInviteUsers;
+			CanInviteUsers = canInviteUsers;
 
-            // TODO: Добавить событие изменения прав роли.
+            this.RaiseDomainEvent(new GroupRolePermisionsUpdatedDomainEvent(Id));
         }
 
         /// <summary>
@@ -88,9 +89,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         {
             var groupRole = new GroupRole(id, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
 
-            // TODO: Добавить событие создания роли.
+			groupRole.RaiseDomainEvent(new GroupRoleCreatedDomainEvent(groupRole.Id));
 
-            return groupRole;
+			return groupRole;
         }
-    }
+	}
 }

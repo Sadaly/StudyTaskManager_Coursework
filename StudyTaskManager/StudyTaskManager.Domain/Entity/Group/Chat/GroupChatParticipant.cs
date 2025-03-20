@@ -43,8 +43,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="groupChat">Групповой чат, к которому относится пользователь.</param>
         /// <returns>Новая сущность GroupChatParticipant.</returns>
         public static GroupChatParticipant Create(User.User user, GroupChat groupChat)
-        {
-            return new GroupChatParticipant(user, groupChat);
+		{
+			//Todo добавить событие
+			return new GroupChatParticipant(user, groupChat);
         }
     }
 }

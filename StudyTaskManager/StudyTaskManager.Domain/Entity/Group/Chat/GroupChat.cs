@@ -60,8 +60,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="group">Группа, к которой относится чат</param>
         /// <returns>Новый экземпляр группового чата</returns>
         public static GroupChat Create(Guid groupId, Title name, bool isPublic, Group group)
-        {
-            return new GroupChat(groupId, name, isPublic, group);
+		{
+			//Todo добавить событие
+			return new GroupChat(groupId, name, isPublic, group);
         }
 
         /// <summary>
@@ -69,8 +70,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// </summary>
         /// <param name="message">Сообщение для добавления</param>
         public void AddMessage(GroupChatMessage message)
-        {
-            _groupChatMessages?.Add(message);
+		{
+			//Todo добавить событие
+			_groupChatMessages?.Add(message);
         }
 
         /// <summary>
@@ -78,8 +80,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// </summary>
         /// <param name="participant">Участник для добавления</param>
         public void AddParticipant(GroupChatParticipant participant)
-        {
-            _groupChatParticipants?.Add(participant);
+		{
+			//Todo добавить событие
+			_groupChatParticipants?.Add(participant);
         }
     }
 }

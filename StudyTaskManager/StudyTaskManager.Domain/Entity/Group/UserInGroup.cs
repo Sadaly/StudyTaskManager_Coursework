@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Entity.Group
+﻿using StudyTaskManager.Domain.DomainEvents;
+
+namespace StudyTaskManager.Domain.Entity.Group
 {
     /// <summary>
     /// Представляет пользователя в группе с определенной ролью.
@@ -82,9 +84,23 @@
         {
             var userInGroup = new UserInGroup(group, role, user);
 
-            // TODO: Добавить создание доменного события о вступлении пользователя в группу.
+			userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
 
-            return userInGroup;
+			return userInGroup;
         }
-    }
+
+		public void LeaveGroup(Group group, User.User user)
+		{
+			this.RaiseDomainEvent(new GroupUserLeftDomainEvent(this.UserId, this.GroupId));
+		}
+
+		public void UpdateRole(GroupRole role)
+		{
+            this.Role = role;
+
+			this.RaiseDomainEvent(new GroupUserRoleUpdatedDomainEvent(this.UserId, this.GroupId));
+
+			return;
+		}
+	}
 }

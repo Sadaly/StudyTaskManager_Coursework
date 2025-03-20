@@ -114,8 +114,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <param name="Parent">Родительская задача, если она есть.</param>
         /// <returns>Новая задача.</returns>
         public static GroupTask Create(Guid Id, Group Group, DateTime Deadline, GroupTaskStatus Status, Title HeadLine, Content? Description, User.User? ResponsibleUser, GroupTask? Parent)
-        {
-            return new GroupTask(Id, Group, Deadline, Status, HeadLine, Description, ResponsibleUser, Parent);
+		{
+			//Todo добавить событие
+			return new GroupTask(Id, Group, Deadline, Status, HeadLine, Description, ResponsibleUser, Parent);
         }
     }
 }
