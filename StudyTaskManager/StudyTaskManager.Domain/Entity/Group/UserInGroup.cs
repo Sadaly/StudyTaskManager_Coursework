@@ -25,40 +25,17 @@
             DateEntered = DateTime.UtcNow;
         }
 
-        /// <summary>
-        /// Уникальный идентификатор группы.
-        /// </summary>
+        #region свойства
+
         public Guid GroupId { get; }
-
-        /// <summary>
-        /// Уникальный идентификатор роли пользователя в группе.
-        /// </summary>
         public Guid RoleId { get; private set; }
-
-        /// <summary>
-        /// Уникальный идентификатор пользователя.
-        /// </summary>
         public Guid UserId { get; }
-
-        /// <summary>
-        /// Дата и время вступления пользователя в группу.
-        /// </summary>
         public DateTime DateEntered { get; }
+        public Group? Group { get; }
+        public GroupRole? Role { get; private set; }
+        public User.User? User { get; }
 
-        /// <summary>
-        /// Ссылка на группу, в которой состоит пользователь.
-        /// </summary>
-        public Group Group { get; }
-
-        /// <summary>
-        /// Ссылка на роль пользователя в группе.
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
-        /// Ссылка на пользователя.
-        /// </summary>
-        public User.User User { get; }
+        #endregion
 
         /// <summary>
         /// Изменяет роль пользователя в группе.

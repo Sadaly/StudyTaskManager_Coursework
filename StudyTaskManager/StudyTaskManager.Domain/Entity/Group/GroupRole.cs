@@ -27,45 +27,39 @@ namespace StudyTaskManager.Domain.Entity.Group
             CanInviteUsers = canInviteUsers;
         }
 
+        #region свойства
+
         /// <summary>
         /// Уникальный идентификатор группы, если роль привязана к группе (null для базовых ролей).
         /// </summary>
         public Guid? GroupId { get; }
-
-        /// <summary>
-        /// Название роли.
-        /// </summary>
         public Title RoleName { get; set; }
-
         /// <summary>
         /// Может ли пользователь создавать задачи.
         /// </summary>
         public bool CanCreateTasks { get; private set; }
-
         /// <summary>
         /// Может ли пользователь управлять ролями (выдавать, создавать, удалять, изменять).
         /// </summary>
         public bool CanManageRoles { get; private set; }
-
         /// <summary>
         /// Может ли пользователь создавать обновления к задачам.
         /// </summary>
         public bool CanCreateTaskUpdates { get; private set; }
-
         /// <summary>
         /// Может ли пользователь изменять обновления к задачам.
         /// </summary>
         public bool CanChangeTaskUpdates { get; private set; }
-
         /// <summary>
         /// Может ли пользователь приглашать в группу других пользователей.
         /// </summary>
         public bool CanInviteUsers { get; private set; }
-
         /// <summary>
-        /// Группа, к которой привязана роль (null для базовых ролей).
+        /// Группа, к которой привязана роль.
         /// </summary>
         public Group? Group { get; }
+
+        #endregion
 
         /// <summary>
         /// Метод для обновления прав роли.

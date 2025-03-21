@@ -22,40 +22,17 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
             this.Is_Read_By_Other_User = false; // Изначально сообщение считается не прочитанным
         }
 
-        /// <summary>
-        /// Id отправителя
-        /// </summary>
+        #region свойства
+
         public Guid SenderId { get; }
-
-        /// <summary>
-        /// Id личного чата
-        /// </summary>
         public Guid PersonalChatId { get; }
-
-        /// <summary>
-        /// Сообщение
-        /// </summary>
         public Content Content { get; private set; } = null!;
-
-        /// <summary>
-        /// Дата написания
-        /// </summary>
         public DateTime DateWriten { get; }
-
-        /// <summary>
-        /// Флаг прочитано собеседником
-        /// </summary>
         public bool Is_Read_By_Other_User { get; set; }
-
-        /// <summary>
-        /// Отправитель
-        /// </summary>
         public User? Sender { get; } = null!;
-
-        /// <summary>
-        /// Личный чат
-        /// </summary>
         public PersonalChat? PersonalChat { get; } = null!;
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания личного сообщения

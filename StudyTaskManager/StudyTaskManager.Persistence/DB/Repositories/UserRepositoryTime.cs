@@ -4,11 +4,11 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.DB.Repositories
 {
-    class UserRepository : Domain.Abstractions.Repositories.IUserRepository
+    class UserRepositoryTime
     {
         private readonly AppDbContext _dbContext = null!;
 
-        public UserRepository(AppDbContext dbContext)
+        public UserRepositoryTime(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

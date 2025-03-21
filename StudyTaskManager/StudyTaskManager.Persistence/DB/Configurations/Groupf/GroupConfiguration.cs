@@ -16,6 +16,15 @@ namespace StudyTaskManager.Persistence.DB.Configurations.Groupf
                 .HasOne(g => g.DefaultRole)
                 .WithMany()
                 .HasForeignKey(g => g.DefaultRoleId);
+            builder
+                .HasMany(g => g.UsersInGroup)
+                .WithMany();
+            builder
+                .HasMany(g => g.GroupRoles)
+                .WithMany();
+            builder
+                .HasMany(g => g.GroupInvites)
+                .WithMany();
         }
     }
 }

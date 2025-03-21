@@ -10,55 +10,51 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        private Group(Guid id, Title name, Content? description, GroupRole defaultRole) : base(id)
+        private Group(Guid id, Title title, Content? description, GroupRole defaultRole) : base(id)
         {
-            Name = name;
+            Title = title;
             Description = description;
             DefaultRole = defaultRole;
             DefaultRoleId = defaultRole.Id;
 
-            _usersInGroup = new List<UserInGroup>();
-            _groupRoles = new List<GroupRole> { defaultRole }; // Начальная роль в группе
-            _groupInvites = new List<GroupInvite>();
+            _usersInGroup = [];
+            _groupRoles = [defaultRole]; // Начальная роль в группе
+            _groupInvites = [];
         }
 
-        /// <summary>
-        /// Название группы (обязательно).
-        /// </summary>
-        public Title Name { get; private set; }
+        #region свойства
 
+        public Title Title { get; private set; }
         /// <summary>
         /// Описание группы (может быть пустым).
         /// </summary>
         public Content? Description { get; private set; }
-
         /// <summary>
-        /// ID роли по умолчанию.
+        /// ID роли по умолчанию для новых пользователей.
         /// </summary>
         public Guid DefaultRoleId { get; private set; }
-
         /// <summary>
         /// Роль по умолчанию для новых пользователей.
         /// </summary>
-        public GroupRole DefaultRole { get; private set; }
+        public GroupRole? DefaultRole { get; private set; }
 
         /// <summary>
         /// Пользователи в группе.
         /// </summary>
         public IReadOnlyCollection<UserInGroup> UsersInGroup => _usersInGroup;
         private readonly List<UserInGroup> _usersInGroup;
-
         /// <summary>
         /// Роли в группе.
         /// </summary>
         public IReadOnlyCollection<GroupRole> GroupRoles => _groupRoles;
         private readonly List<GroupRole> _groupRoles;
-
         /// <summary>
         /// Приглашения в группу.
         /// </summary>
         public IReadOnlyCollection<GroupInvite> GroupInvites => _groupInvites;
         private readonly List<GroupInvite> _groupInvites;
+
+        #endregion
 
         /// <summary>
         /// Создает новую группу.

@@ -8,11 +8,11 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать статусы внутри группы.
         /// </summary>
-        Task<List<GroupTaskStatus>> GetByGroupAsync(Group group);
+        Task<List<GroupTaskStatus>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Выдать общие статусы.
         /// </summary>
-        Task<List<GroupTaskStatus>> GetByWithoutGroupAsync();
+        Task<List<GroupTaskStatus>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default);
     }
 }

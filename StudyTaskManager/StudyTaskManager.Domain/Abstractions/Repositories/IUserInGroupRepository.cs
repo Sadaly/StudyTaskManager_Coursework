@@ -9,12 +9,12 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Выдать всех пользователей в группе.
         /// </summary>
         /// <param name="group">Группа в которую должны входить пользователи.</param>
-        Task<List<UserInGroup>> GetByGroupAsync(Group group);
+        Task<List<UserInGroup>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Выдать все группы пользователя.
         /// </summary>
         /// <param name="user">Пользователь который должен находиться в группе.</param>
-        Task<List<UserInGroup>> GetByUserAsync(User user);
+        Task<List<UserInGroup>> GetByUserAsync(User user, CancellationToken cancellationToken = default);
     }
 }

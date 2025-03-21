@@ -2,7 +2,7 @@
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
-    interface ILogActionRepository : Generic.IRepositoryWithID<LogAction>
+    public interface ILogActionRepository : Generic.IRepositoryWithID<LogAction>
     {
     }
 }
