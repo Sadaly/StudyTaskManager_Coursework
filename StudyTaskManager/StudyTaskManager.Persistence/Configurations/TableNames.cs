@@ -1,4 +1,4 @@
-﻿namespace StudyTaskManager.Persistence.DB
+﻿namespace StudyTaskManager.Persistence.Configurations
 {
     internal static class TableNames
     {

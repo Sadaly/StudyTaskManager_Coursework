@@ -1,5 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.Group.Task;
-using System.Text.RegularExpressions;
+using StudyTaskManager.Domain.Entity.Group;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {

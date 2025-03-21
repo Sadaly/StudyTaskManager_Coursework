@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.DB;
 
 namespace StudyTaskManager.Persistence.Repository
 {

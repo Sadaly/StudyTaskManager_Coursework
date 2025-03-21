@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Persistence.Interceptors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using StudyTaskManager.Persistence.DB;
+using StudyTaskManager.Persistence.Repository;
+using Microsoft.Extensions.Options;
 
 namespace ConsoleAppTest
 {
@@ -29,6 +30,14 @@ namespace ConsoleAppTest
                 {                                                                                       // Изменять нужно в файле appsettings.Development.json
                     options.UseNpgsql("User ID=postgres;Password=password;Host=localhost;Port=5432;Database=dbtest;");    //
                 });
+
+            var app = builder.Build();
+
+
+            Console.WriteLine("args.Length - " + args.Length);
+            Console.WriteLine("builder.ToString() - " + builder.ToString());
+            Console.WriteLine("builder.Services.ToString() - " + builder.Services.ToString());
+            Console.WriteLine("configuration.ToString() - " + configuration.ToString());
 
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}");

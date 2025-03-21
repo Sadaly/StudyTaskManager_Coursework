@@ -1,6 +1,7 @@
-﻿using StudyTaskManager.Domain.Abstractions.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.User.Chat;
-using StudyTaskManager.Persistence.DB;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -8,9 +9,12 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public PersonalMessageRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default)
+        public async Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<PersonalMessage>()
+                .AsNoTracking()
+                .Where(pm => pm.PersonalChatId == personalChat.Id)
+                .ToListAsync(cancellationToken);
         }
     }
 }

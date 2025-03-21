@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace StudyTaskManager.Persistence.DB
+namespace StudyTaskManager.Persistence
 {
     public class AppDbContext : DbContext
     {
@@ -33,8 +33,8 @@ namespace StudyTaskManager.Persistence.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new Configurations.LogActionConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.LogConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.Logf.LogActionConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.Logf.LogConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Userf.BlockedUserInfoConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Userf.PersonalChatConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Userf.PersonalMessageConfiguration());

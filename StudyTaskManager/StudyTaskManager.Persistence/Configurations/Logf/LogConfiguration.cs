@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Log;
+using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.DB.Configurations
+namespace StudyTaskManager.Persistence.Configurations.Logf
 {
     class LogConfiguration : IEntityTypeConfiguration<Log>
     {

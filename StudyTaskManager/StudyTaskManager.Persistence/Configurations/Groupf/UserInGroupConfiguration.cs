@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.DB.Configurations.Groupf
+namespace StudyTaskManager.Persistence.Configurations.Groupf
 {
     class UserInGroupConfiguration : IEntityTypeConfiguration<UserInGroup>
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Persistence.DB;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
 {

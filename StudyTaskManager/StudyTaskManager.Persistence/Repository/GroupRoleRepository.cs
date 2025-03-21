@@ -1,6 +1,7 @@
-﻿using StudyTaskManager.Domain.Abstractions.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Persistence.DB;
+using StudyTaskManager.Domain.Entity.Group.Task;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -8,14 +9,20 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupRoleRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public Task<List<GroupRole>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
+        public async Task<List<GroupRole>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<GroupRole>()
+                .AsNoTracking()
+                .Where(gr => gr.GroupId == group.Id)
+                .ToListAsync(cancellationToken);
         }
 
-        public Task<List<GroupRole>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default)
+        public async Task<List<GroupRole>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<GroupRole>()
+                .AsNoTracking()
+                .Where(gr => gr.GroupId == null)
+                .ToListAsync(cancellationToken);
         }
     }
 }

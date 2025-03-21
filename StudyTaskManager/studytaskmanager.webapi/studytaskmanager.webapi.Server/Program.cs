@@ -8,7 +8,6 @@ using Gatherly.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Persistence.Interceptors;
-using StudyTaskManager.Persistence.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -47,14 +46,14 @@ builder.Services.AddDbContext<AppDbContext>(                                    
     {                                                                                       // Изменять нужно в файле appsettings.Development.json
         options.UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)));    //
     });
-builder.Services.AddDbContext<ApplicationDbContext>(
-    (sp, optionsBuilder) =>
-    {
-        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
+//builder.Services.AddDbContext<ApplicationDbContext>(
+//    (sp, optionsBuilder) =>
+//    {
+//        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
-        optionsBuilder.UseSqlServer(connectionString)
-            .AddInterceptors(interceptor);
-    });
+//        optionsBuilder.UseSqlServer(connectionString)
+//            .AddInterceptors(interceptor);
+//    });
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 

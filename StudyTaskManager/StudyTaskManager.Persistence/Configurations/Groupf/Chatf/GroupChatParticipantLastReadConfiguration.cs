@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Chat;
+using StudyTaskManager.Persistence.Configurations;
 using System.Numerics;
 
-namespace StudyTaskManager.Persistence.DB.Configurations.Groupf.Chatf
+namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
 {
     class GroupChatParticipantLastReadConfiguration : IEntityTypeConfiguration<GroupChatParticipantLastRead>
     {

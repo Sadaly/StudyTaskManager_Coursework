@@ -1,7 +1,7 @@
-﻿using StudyTaskManager.Domain.Abstractions.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group.Task;
-using StudyTaskManager.Persistence.DB;
-using System.Text.RegularExpressions;
+using StudyTaskManager.Domain.Entity.Group;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -9,9 +9,12 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupTaskRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public Task<List<GroupTask>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
+        public async Task<List<GroupTask>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<GroupTask>()
+                .AsNoTracking()
+                .Where(gt => gt.GroupId == group.Id)
+                .ToListAsync(cancellationToken);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Id группы, к которой относится этот статус.
         /// </summary>
-        public Guid GroupId { get; }
+        public Guid? GroupId { get; }
 
         /// <summary>
         /// Может ли статус задачи быть обновлен.

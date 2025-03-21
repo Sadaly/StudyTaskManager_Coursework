@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.DB.Configurations.Userf
+namespace StudyTaskManager.Persistence.Configurations.Userf
 {
     class SystemRoleConfiguration : IEntityTypeConfiguration<SystemRole>
     {

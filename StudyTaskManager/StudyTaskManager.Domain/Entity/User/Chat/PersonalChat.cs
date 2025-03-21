@@ -48,7 +48,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Фабричный метод для создания чата
         /// </summary>
-        public Result<PersonalChat> Create(User User1, User User2)
+        public static Result<PersonalChat> Create(User User1, User User2)
         {
             // Можно добавить логику проверки, что два пользователя не могут быть теми же самыми
             if (User1.Id == User2.Id)
