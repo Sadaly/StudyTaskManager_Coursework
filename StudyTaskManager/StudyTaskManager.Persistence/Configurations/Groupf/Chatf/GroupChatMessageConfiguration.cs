@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Chat;
-using StudyTaskManager.Persistence.Configurations;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
 {
@@ -19,8 +19,16 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
                 .HasForeignKey(gcm => gcm.SenderId);
             builder
                 .HasOne(gcm => gcm.GroupChat)
-                .WithMany()
+                .WithMany(gc => gc.GroupChatMessages)
                 .HasForeignKey(gcm => gcm.GroupChatId);
+
+            builder
+                .Property(gcm => gcm.Content)
+                .HasConversion(
+                    c => c.Value,
+                    str => Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupChatMessageTable.Context);
         }
     }
 }

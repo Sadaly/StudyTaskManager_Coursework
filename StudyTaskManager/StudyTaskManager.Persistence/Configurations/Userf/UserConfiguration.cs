@@ -10,7 +10,7 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable(TableNames.Users);
+            builder.ToTable(TableNames.User);
 
             // Приватный ключ
             builder.HasKey(user => user.Id);
@@ -18,28 +18,55 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
             builder
                 .HasOne(user => user.SystemRole)
                 .WithMany()
-                .HasForeignKey(user => user.SystemRoleId)
-                .OnDelete(DeleteBehavior.Restrict);
-            //// Указание связи с личным чатом
-            //builder
-            //    .HasMany(user => user.PersonalChatsAsUser1)
-            //    .WithOne(pc => pc.User1)
-            //    .HasForeignKey(pc => pc.UserId1);
-            //builder
-            //    .HasMany(user => user.PersonalChatsAsUser2)
-            //    .WithOne(pc => pc.User2)
-            //    .HasForeignKey(pc => pc.UserId2);
+                .HasForeignKey(user => user.SystemRoleId);
 
+            builder.Ignore(user => user.PersonalChats);
 
             builder
-                .Property(user => user.Id)
-                .ValueGeneratedOnAdd() //автогеренация 
-                .IsRequired()
-                .HasColumnName(TableNames.UsersTable.Id);
+                .Property(u => u.UserName)
+                .HasConversion(
+                    un => un.Value,
+                    str => UserName.Create(str).Value)
+                .HasMaxLength(UserName.MAX_LENGTH)
+                .HasColumnName(TableNames.UserTable.UserName);
             builder
-                .Property(user => user.SystemRoleId)
+                .Property(u => u.Email)
+                .HasConversion(
+                    e => e.Value,
+                    str => Email.Create(str).Value)
+                .HasColumnName(TableNames.UserTable.Email);
+            builder
+                .Property(u => u.PhoneNumber)
+                .HasConversion(
+                    pn =>
+                        pn == null ?
+                            null :
+                            pn.Value,
+                    str =>
+                        string.IsNullOrEmpty(str) ?
+                            null :
+                            PhoneNumber.Create(str).Value)
+                .HasMaxLength(PhoneNumber.MAX_LENGTH)
+                // проверки на мин длинну нет
                 .IsRequired(false)
-                .HasColumnName(TableNames.UsersTable.SystemRoleId);
+                .HasColumnName(TableNames.UserTable.PhoneNumber);
+            builder
+                .Property(u => u.PasswordHash)
+                .HasConversion(
+                    ph => ph.Value,
+                    str => new PasswordHash(str))
+                .HasColumnName(TableNames.UserTable.PasswordHash);
+
+
+            //builder
+            //    .Property(user => user.Id)
+            //    .ValueGeneratedOnAdd() //автогеренация 
+            //    .IsRequired()
+            //    .HasColumnName(TableNames.UsersTable.Id);
+            //builder
+            //    .Property(user => user.SystemRoleId)
+            //    .IsRequired(false)
+            //    .HasColumnName(TableNames.UsersTable.SystemRoleId);
             //builder
             //    .HasOne(u => u.SystemRoleId)    // только один юзера может быть только один
             //    .WithMany()         // у чегото может быть много юзеров

@@ -12,6 +12,8 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
         {
             builder.ToTable(TableNames.GroupChatParticipantLastRead);
 
+            builder.HasKey(gcp => new { gcp.GroupChatId, gcp.UserId, gcp.LastReadMessageId }); // Составной ключ
+
             builder
                 .HasOne(gcplr => gcplr.GroupChat)
                 .WithMany()
@@ -20,7 +22,6 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
                 .HasOne(gcplr => gcplr.User)
                 .WithMany()
                 .HasForeignKey(gcplr => gcplr.UserId);
-
             builder
                 .HasOne(gcplr => gcplr.ReadMessage)
                 .WithMany()

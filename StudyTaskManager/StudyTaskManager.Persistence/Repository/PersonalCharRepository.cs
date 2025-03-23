@@ -16,8 +16,8 @@ namespace StudyTaskManager.Persistence.Repository
             res = await _dbContext.Set<PersonalChat>()
                 .FirstOrDefaultAsync(
                     pc =>
-                        (pc.UserId1 == user1.Id && pc.UserId2 == user2.Id) ||
-                        (pc.UserId1 == user2.Id && pc.UserId2 == user1.Id)
+                        (pc.User1Id == user1.Id && pc.User2Id == user2.Id) ||
+                        (pc.User1Id == user2.Id && pc.User2Id == user1.Id)
                     ,cancellationToken
                 );
             if (res != null) return res;

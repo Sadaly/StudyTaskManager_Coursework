@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.User.Chat;
+using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Persistence.Configurations;
 
 namespace StudyTaskManager.Persistence.Configurations.Userf
@@ -22,6 +23,14 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
                 .HasOne(pm => pm.Sender)
                 .WithMany()
                 .HasForeignKey(pm => pm.SenderId);
+
+            builder
+                .Property(pm => pm.Content)
+                .HasConversion(
+                    c => c.Value,
+                    str => Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .HasColumnName(TableNames.PersonalMessageTable.Content);
         }
     }
 }

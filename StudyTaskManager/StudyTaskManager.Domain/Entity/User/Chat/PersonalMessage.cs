@@ -9,17 +9,16 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     public class PersonalMessage : BaseEntityWithID
     {
         // Приватный конструктор для создания объекта
-        private PersonalMessage(User Sender, PersonalChat PersonalChat, Content Content)
+        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId) : base(id)
         {
-            this.Sender = Sender;
-            this.SenderId = Sender.Id;
-
-            this.PersonalChat = PersonalChat;
-            this.PersonalChatId = PersonalChat.Id;
-
-            this.Content = Content;
-            this.DateWriten = DateTime.UtcNow;
-            this.Is_Read_By_Other_User = false; // Изначально сообщение считается не прочитанным
+            SenderId = senderId;
+            PersonalChatId = personalChatId;
+            DateWriten = DateTime.UtcNow;
+            Is_Read_By_Other_User = false; // Изначально сообщение считается не прочитанным
+        }
+        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId, Content content) : this(id, senderId, personalChatId)
+        {
+            Content = content;
         }
 
         #region свойства
@@ -29,21 +28,25 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         public Content Content { get; private set; } = null!;
         public DateTime DateWriten { get; }
         public bool Is_Read_By_Other_User { get; set; }
-        public User? Sender { get; } = null!;
-        public PersonalChat? PersonalChat { get; } = null!;
+        public User? Sender { get; private set; } = null!;
+        public PersonalChat? PersonalChat { get; private set; } = null!;
 
         #endregion
 
         /// <summary>
         /// Фабричный метод для создания личного сообщения
         /// </summary>
-        /// <param name="Sender">Отправитель</param>
-        /// <param name="PersonalChat">Чат</param>
-        /// <param name="Content">Содержимое сообщения</param>
+        /// <param name="sender">Отправитель</param>
+        /// <param name="personalChat">Чат</param>
+        /// <param name="content">Содержимое сообщения</param>
         /// <returns>Новый экземпляр личного сообщения</returns>
-        public static PersonalMessage Create(User Sender, PersonalChat PersonalChat, Content Content)
+        public static PersonalMessage Create(User sender, PersonalChat personalChat, Content content)
         {
-            return new PersonalMessage(Sender, PersonalChat, Content);
+            return new PersonalMessage(Guid.Empty, sender.Id, personalChat.Id, content)
+            {
+                Sender = sender,
+                PersonalChat = personalChat
+            };
         }
 
         /// <summary>

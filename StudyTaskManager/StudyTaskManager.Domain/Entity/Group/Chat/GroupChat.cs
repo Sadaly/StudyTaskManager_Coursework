@@ -8,15 +8,20 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     /// </summary>
     public class GroupChat : BaseEntityWithID
     {
+        // Приватный конструктор для EF Core
+        private GroupChat()
+        {
+            _groupChatMessages = [];
+            _groupChatParticipants = [];
+        }
         // Приватный конструктор для инициализации объекта
-        private GroupChat(Guid groupId, Title name, bool isPublic, Group group)
+        private GroupChat(Guid groupId, Title name, bool isPublic)
         {
             GroupId = groupId;
             Name = name;
             IsPublic = isPublic;
-            Group = group;
-            _groupChatMessages = new List<GroupChatMessage>();
-            _groupChatParticipants = new List<GroupChatParticipant>();
+            _groupChatMessages = [];
+            _groupChatParticipants = [];
         }
 
         /// <summary>
@@ -37,18 +42,18 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Ссылка на группу
         /// </summary>
-        public Group Group { get; }
+        public Group? Group { get; private set; }
 
         /// <summary>
         /// Перечисление сообщений в чате
         /// </summary>
-        public IReadOnlyCollection<GroupChatMessage> GroupChatMessages => _groupChatMessages;
+        public IEnumerable<GroupChatMessage> GroupChatMessages => _groupChatMessages;
         private List<GroupChatMessage> _groupChatMessages;
 
         /// <summary>
         /// Перечисление участников в чате
         /// </summary>
-        public IReadOnlyCollection<GroupChatParticipant> GroupChatParticipants => _groupChatParticipants;
+        public IEnumerable<GroupChatParticipant> GroupChatParticipants => _groupChatParticipants;
         private List<GroupChatParticipant> _groupChatParticipants;
 
         /// <summary>
@@ -59,9 +64,13 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="isPublic">Доступен ли чат всем участникам группы</param>
         /// <param name="group">Группа, к которой относится чат</param>
         /// <returns>Новый экземпляр группового чата</returns>
-        public static GroupChat Create(Guid groupId, Title name, bool isPublic, Group group)
+        public static GroupChat Create(Group group, Title name, bool isPublic)
         {
-            return new GroupChat(groupId, name, isPublic, group);
+            GroupChat gc = new(group.Id, name, isPublic)
+            {
+                Group = group
+            };
+            return gc;
         }
 
         /// <summary>

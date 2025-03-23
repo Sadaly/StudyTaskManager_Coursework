@@ -8,32 +8,20 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// </summary>
     public class GroupTask : BaseEntityWithID
     {
-        private GroupTask(Guid id, Group Group, DateTime deadline, GroupTaskStatus Status, Title headLine, Content? description, User.User? ResponsibleUser, GroupTask? Parent)
-            : base(id)
+        private GroupTask(Guid id, Guid GroupId, DateTime deadline, Guid StatusId) : base(id)
         {
-            this.Group = Group;
-            this.GroupId = Group.Id;
+            this.GroupId = GroupId;
+            this.StatusId = StatusId;
 
-            this.StatusId = Status.Id;
-            this.Status = Status;
-
+            DateCreated = DateTime.UtcNow;
+            Deadline = deadline;
+        }
+        private GroupTask(Guid id, Guid GroupId, DateTime deadline, Guid StatusId, Title headLine, Guid? ResponsibleUserId, Guid? ParentTaskId)
+            : this(id, GroupId, deadline, StatusId)
+        {
             this.HeadLine = headLine;
-            this.Description = description;
-
-            if (ResponsibleUser != null)
-            {
-                this.ResponsibleId = ResponsibleUser.Id;
-                this.ResponsibleUser = ResponsibleUser;
-            }
-
-            if (Parent != null)
-            {
-                this.Parent = Parent;
-                this.ParentId = Parent.Id;
-            }
-
-            this.DateCreated = DateTime.UtcNow;
-            this.Deadline = deadline;
+            this.ResponsibleId = ResponsibleUserId;
+            this.ParentId = ParentTaskId;
         }
 
         /// <summary>
@@ -84,24 +72,24 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Ссылка на группу, к которой относится задача.
         /// </summary>
-        public Group Group { get; } = null!;
+        public Group? Group { get; private set; } = null!;
 
         /// <summary>
         /// Ссылка на родительскую задачу, если она есть.
         /// </summary>
-        public GroupTask? Parent { get; set; }
+        public GroupTask? Parent { get; private set; }
 
         /// <summary>
         /// Ссылка на статус задачи.
         /// </summary>
-        public GroupTaskStatus Status { get; set; } = null!;
+        public GroupTaskStatus? Status { get; set; } = null!;
 
         /// <summary>
-        /// Id ответственного за задачу.
+        /// Id ответственного за задачу (может не быть).
         /// </summary>
         public Guid? ResponsibleUserId { get; set; }
         /// <summary>
-        /// Ответственный за задачу.
+        /// Ответственный за задачу (может не быть).
         /// </summary>
         public User.User? ResponsibleUser { get; set; }
 
@@ -119,7 +107,14 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <returns>Новая задача.</returns>
         public static GroupTask Create(Guid Id, Group Group, DateTime Deadline, GroupTaskStatus Status, Title HeadLine, Content? Description, User.User? ResponsibleUser, GroupTask? Parent)
         {
-            return new GroupTask(Id, Group, Deadline, Status, HeadLine, Description, ResponsibleUser, Parent);
+            return new GroupTask(Id, Group.Id, Deadline, Status.Id, HeadLine, ResponsibleUser?.Id, Parent?.Id)
+            {
+                Group = Group,
+                Status = Status,
+                Description = Description,
+                ResponsibleUser = ResponsibleUser,
+                Parent = Parent
+            };
         }
     }
 }

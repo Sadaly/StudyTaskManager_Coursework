@@ -11,9 +11,11 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf
         {
             builder.ToTable(TableNames.GroupInvite);
 
+            builder.HasKey(gi => new { gi.SenderId, gi.ReceiverId, gi.GroupId });
+
             builder
                 .HasOne(gi => gi.Group)
-                .WithMany()
+                .WithMany(g => g.GroupInvites)
                 .HasForeignKey(gi => gi.GroupId);
             builder
                 .HasOne(gi => gi.Sender)

@@ -8,15 +8,15 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// </summary>
     public class GroupTaskUpdate : BaseEntityWithID
     {
-        private GroupTaskUpdate(Guid id, User.User creator, GroupTask task, Content content) : base(id)
+        private GroupTaskUpdate(Guid id, Guid creatorId, Guid taskId) : base(id)
         {
-            Creator = creator;
-            Task = task;
-            Content = content;
-
-            CreatorId = creator.Id;
-            TaskId = task.Id;
+            CreatorId = creatorId;
+            TaskId = taskId;
             DateCreated = DateTime.UtcNow;
+        }
+        private GroupTaskUpdate(Guid id, Guid creatorId, Guid taskId, Content content) : this(id, creatorId, taskId)
+        {
+            Content = content;
         }
 
         /// <summary>
@@ -37,24 +37,28 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Содержание обновления задачи.
         /// </summary>
-        public Content Content { get; private set; }
+        public Content Content { get; private set; } = null!;
 
         /// <summary>
         /// Ссылка на создателя апдейта.
         /// </summary>
-        public User.User Creator { get; }
+        public User.User? Creator { get; private set; }
 
         /// <summary>
         /// Ссылка на задачу.
         /// </summary>
-        public GroupTask Task { get; }
+        public GroupTask? Task { get; private set; }
 
         /// <summary>
         /// Создает новое обновление задачи.
         /// </summary>
         public static GroupTaskUpdate Create(Guid id, User.User creator, GroupTask task, Content content)
         {
-            return new GroupTaskUpdate(id, creator, task, content);
+            return new GroupTaskUpdate(id, creator.Id, task.Id, content)
+            {
+                Creator = creator,
+                Task = task
+            };
         }
 
         /// <summary>

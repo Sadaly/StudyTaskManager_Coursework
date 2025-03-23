@@ -8,6 +8,11 @@ namespace StudyTaskManager.Domain.Entity.Log
     /// </summary>
     public class Log : BaseEntityWithID
     {
+        private Log(Guid id, Guid logActionId) : base(id)
+        {
+            LogActionId = logActionId;
+            DateTime = DateTime.UtcNow;
+        }
         /// <summary>
         /// Приватный конструктор для создания объекта <see cref="Log"/>.
         /// </summary>
@@ -17,13 +22,10 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <param name="group">Группа, в которой произошло действие (если применимо).</param>
         /// <param name="initiator">Пользователь, инициировавший действие (если применимо).</param>
         /// <param name="subject">Пользователь, на которого повлияло действие (если применимо).</param>
-        private Log(Guid id, LogAction logAction, string? description, Group.Group? group, User.User? initiator, User.User? subject)
-            : base(id)
+        private Log(Guid id, Guid logActionId, string? description, Group.Group? group, User.User? initiator, User.User? subject)
+            : this(id, logActionId)
         {
-            LogAction = logAction;
-            LogActionId = logAction.Id;
             Description = description;
-            DateTime = DateTime.UtcNow;
 
             if (group != null)
             {
@@ -44,16 +46,24 @@ namespace StudyTaskManager.Domain.Entity.Log
             }
         }
 
+        #region свойства
+
         public Guid LogActionId { get; }
-        public DateTime DateTime { get; }
+        public LogAction? LogAction { get; private set; }
+
         public string? Description { get; private set; }
+        public DateTime DateTime { get; }
+
         public Guid? GroupId { get; }
-        public Guid? InitiatorId { get; }
-        public Guid? SubjectId { get; }
         public Group.Group? Group { get; }
-        public LogAction? LogAction { get; }
+
+        public Guid? InitiatorId { get; }
         public User.User? Initiator { get; }
+
+        public Guid? SubjectId { get; }
         public User.User? Subject { get; }
+
+        #endregion
 
         /// <summary>
         /// Создает новый объект <see cref="Log"/>.
@@ -67,7 +77,10 @@ namespace StudyTaskManager.Domain.Entity.Log
         /// <returns>Новый экземпляр класса <see cref="Log"/>.</returns>
         public static Log Create(Guid id, LogAction logAction, string? description, Group.Group? group, User.User? initiator, User.User? subject)
         {
-            var log = new Log(id, logAction, description, group, initiator, subject);
+            var log = new Log(id, logAction.Id, description, group, initiator, subject)
+            {
+                LogAction = logAction
+            };
 
             log.RaiseDomainEvent(new LogCreatedDomainEvent(id));
 

@@ -8,6 +8,7 @@ namespace StudyTaskManager.Domain.Entity.User
     /// </summary>
     public class SystemRole : BaseEntityWithID
     {
+        private SystemRole(Guid id) : base(id) { }
         /// <summary>
         /// Приватный конструктор для создания системной роли.
         /// </summary>
@@ -18,7 +19,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="canBlockUsers">Возможность блокировать пользователей.</param>
         /// <param name="canDeleteChats">Возможность удалять чаты.</param>
         private SystemRole(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
-            : base(id)
+            : this(id)
         {
             Name = name;
             CanViewPeoplesGroups = canViewPeoplesGroups;
@@ -26,6 +27,8 @@ namespace StudyTaskManager.Domain.Entity.User
             CanBlockUsers = canBlockUsers;
             CanDeleteChats = canDeleteChats;
         }
+
+        #region свойства
 
         /// <summary>
         /// Название роли.
@@ -51,6 +54,8 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Возможность удалять чаты.
         /// </summary>
         public bool CanDeleteChats { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Метод создания новой системной роли.

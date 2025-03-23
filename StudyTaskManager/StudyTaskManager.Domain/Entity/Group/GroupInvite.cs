@@ -13,16 +13,11 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Приватный конструктор для создания объекта <see cref="GroupInvite"/>.
         /// </summary>
-        private GroupInvite(User.User sender, User.User receiver, Group group) : base()
+        private GroupInvite(Guid senderId, Guid receiverId, Guid groupId) : base()
         {
-            Sender = sender;
-            SenderId = sender.Id;
-
-            Receiver = receiver;
-            ReceiverId = receiver.Id;
-
-            Group = group;
-            GroupId = group.Id;
+            SenderId = senderId;
+            ReceiverId = receiverId;
+            GroupId = groupId;
 
             DateInvitation = DateTime.UtcNow;
         }
@@ -38,14 +33,14 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Guid ReceiverId { get; }
 
         /// <summary>
-        /// Дата отправки приглашения.
-        /// </summary>
-        public DateTime DateInvitation { get; }
-
-        /// <summary>
         /// ID группы, в которую приглашают.
         /// </summary>
         public Guid GroupId { get; }
+
+        /// <summary>
+        /// Дата отправки приглашения.
+        /// </summary>
+        public DateTime DateInvitation { get; }
 
         /// <summary>
         /// Флаг принятия приглашения (false — не принято, true — принято).
@@ -55,17 +50,17 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Отправитель приглашения.
         /// </summary>
-        public User.User Sender { get; }
+        public User.User? Sender { get; private set; }
 
         /// <summary>
         /// Получатель приглашения.
         /// </summary>
-        public User.User Receiver { get; }
+        public User.User? Receiver { get; private set; }
 
         /// <summary>
         /// Группа, в которую приглашают.
         /// </summary>
-        public Group Group { get; }
+        public Group? Group { get; private set; }
 
         /// <summary>
         /// Метод для принятия приглашения.
@@ -107,7 +102,12 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public static GroupInvite Create(User.User sender, User.User receiver, Group group)
         {
-            return new GroupInvite(sender, receiver, group);
+            return new GroupInvite(sender.Id, receiver.Id, group.Id)
+            {
+                Sender = sender,
+                Receiver = receiver,
+                Group = group
+            };
         }
     }
 }

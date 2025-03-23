@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Task;
-using StudyTaskManager.Persistence.Configurations;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Configurations.Groupf.Taskf
 {
@@ -9,18 +9,26 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Taskf
     {
         public void Configure(EntityTypeBuilder<GroupTaskUpdate> builder)
         {
-            builder.ToTable(TableNames.GroupTaskStatus);
+            builder.ToTable(TableNames.GroupTaskUpdate);
 
-            builder.HasKey(gts => gts.Id);
+            builder.HasKey(gtu => gtu.Id);
 
             builder
-                .HasOne(gts => gts.Task)
+                .HasOne(gtu => gtu.Task)
                 .WithMany()
-                .HasForeignKey(gts => gts.TaskId);
+                .HasForeignKey(gtu => gtu.TaskId);
             builder
-                .HasOne(gts => gts.Creator)
+                .HasOne(gtu => gtu.Creator)
                 .WithMany()
-                .HasForeignKey(gts => gts.CreatorId);
+                .HasForeignKey(gtu => gtu.CreatorId);
+
+            builder
+                .Property(gtu => gtu.Content)
+                .HasConversion(
+                    c => c.Value,
+                    str => Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupTaskUpdateTable.Content);
         }
     }
 }

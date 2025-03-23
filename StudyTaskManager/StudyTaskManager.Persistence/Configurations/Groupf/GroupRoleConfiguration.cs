@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Persistence.Configurations;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Configurations.Groupf
 {
@@ -16,7 +16,16 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf
             builder
                 .HasOne(gr => gr.Group)
                 .WithMany()
-                .HasForeignKey(gr => gr.GroupId);
+                .HasForeignKey(gr => gr.GroupId)
+                .IsRequired(false); // GroupId может быть null
+
+            builder
+                .Property(g => g.RoleName)
+                .HasConversion(
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupRoleTable.RoleName);
         }
     }
 }

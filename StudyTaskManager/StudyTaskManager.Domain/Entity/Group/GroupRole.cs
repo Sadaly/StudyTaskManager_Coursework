@@ -1,4 +1,5 @@
-﻿using StudyTaskManager.Domain.Common;
+﻿using Microsoft.VisualBasic;
+using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group
@@ -8,6 +9,7 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class GroupRole : BaseEntityWithID
     {
+        private GroupRole(Guid id) : base(id) { }
         /// <summary>
         /// Приватный конструктор для создания объекта <see cref="GroupRole"/>.
         /// </summary>
@@ -18,6 +20,10 @@ namespace StudyTaskManager.Domain.Entity.Group
             {
                 GroupId = group.Id;
             }
+            else
+            {                   // если у нас роль не привязана к группе,
+                Groups = [];    // то есть неоходимость в реализации списка групп,
+            }                   // для связи многие-ко-многим с таблицей групп
 
             RoleName = roleName;
             CanCreateTasks = canCreateTasks;
@@ -30,10 +36,21 @@ namespace StudyTaskManager.Domain.Entity.Group
         #region свойства
 
         /// <summary>
-        /// Уникальный идентификатор группы, если роль привязана к группе (null для базовых ролей).
+        /// Уникальный идентификатор группы, если роль привязана к группе (null для ролей общих).
         /// </summary>
         public Guid? GroupId { get; }
+        /// <summary>
+        /// Группа, к которой привязана роль (если нет группы, то роль общая).
+        /// </summary>
+        public Group? Group { get; }
+
+        /// <summary>
+        /// Список групп, в которых используется эта роль
+        /// </summary>
+        public IEnumerable<Group> Groups { get; private set; }  // Навигационное свойство для связи с Group
+
         public Title RoleName { get; set; }
+
         /// <summary>
         /// Может ли пользователь создавать задачи.
         /// </summary>
@@ -54,10 +71,6 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// Может ли пользователь приглашать в группу других пользователей.
         /// </summary>
         public bool CanInviteUsers { get; private set; }
-        /// <summary>
-        /// Группа, к которой привязана роль.
-        /// </summary>
-        public Group? Group { get; }
 
         #endregion
 

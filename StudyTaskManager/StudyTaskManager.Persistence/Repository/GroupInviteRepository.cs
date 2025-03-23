@@ -8,7 +8,7 @@ namespace StudyTaskManager.Persistence.Repository
     class GroupInviteRepository : Generic.TRepository<GroupInvite>, IGroupInviteRepository
     {
         public GroupInviteRepository(AppDbContext dbContext) : base(dbContext) { }
-
+        // TODO добавить проверку наличия пользователя в чате при попытке добавить приглашение
         public async Task<List<GroupInvite>> GetByUserAsync(Group group, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<GroupInvite>()

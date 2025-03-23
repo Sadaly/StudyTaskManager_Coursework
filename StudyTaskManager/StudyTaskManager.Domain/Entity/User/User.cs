@@ -18,7 +18,13 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
-        private User(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : base(id)
+        private User(Guid id) : base(id)
+        {
+            RegistrationDate = DateTime.UtcNow;
+            _personalChatsAsUser1 = [];
+            _personalChatsAsUser2 = [];
+        }
+        private User(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
         {
             UserName = userName;
             Email = email;
@@ -34,26 +40,21 @@ namespace StudyTaskManager.Domain.Entity.User
                 SystemRoleId = systemRole.Id;
                 SystemRole = systemRole;
             }
-
-            this.RegistrationDate = DateTime.UtcNow;
-
-            // Инициализация списка личных чатов
-            _personalChatsAsUser1 = [];
-            _personalChatsAsUser2 = [];
         }
 
         #region поля и свойства
 
         public UserName UserName { get; set; } = null!;
         public Email Email { get; set; } = null!;
+        public PhoneNumber? PhoneNumber { get; set; }
+        public DateTime RegistrationDate { get; }
 
         /// <summary>
         /// Хэшированный пароль пользователя. Пароль хранится в хэшированном виде для безопасности.
         /// </summary>
         public PasswordHash PasswordHash { get; set; } = null!;
-        public PhoneNumber? PhoneNumber { get; set; }
-        public DateTime RegistrationDate { get; }
-        public Guid SystemRoleId { get; set; }
+
+        public Guid? SystemRoleId { get; set; }
         /// <summary>
         /// Ссылка на системную роль (по умолчанию значение null, что означает, 
         /// что у пользователя нет специфической роли, дающей или блокирущей 
@@ -90,7 +91,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Чаты, где пользователь является User2
         /// </summary>
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser2 => _personalChatsAsUser2;
-        public IReadOnlyCollection<Chat.PersonalChat> PersonalChats => [.. PrivatePersonalChats]; // приводит тип к списку
+        public IReadOnlyCollection<Chat.PersonalChat> PersonalChats => [.. PrivatePersonalChats]; // [.. PrivatePersonalChats] приводит тип к списку
         #endregion
 
         #endregion
@@ -105,14 +106,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
         /// <returns>Новый экземпляр класс <see cref="User"/></returns>
-        public static User Create(
-            Guid id,
-            UserName userName,
-            Email email,
-            Password password,
-            PhoneNumber? phoneNumber,
-            SystemRole? systemRole
-            )
+        public static User Create(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
         {
             var user = new User(id, userName, email, password, phoneNumber, systemRole);
 

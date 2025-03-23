@@ -13,18 +13,20 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatMessage : BaseEntity
     {
         // Приватный конструктор для предотвращения невалидного создания объектов.
-        private GroupChatMessage(GroupChat GroupChat, ulong ordinal, User.User Sender, Content content)
+        private GroupChatMessage(Guid GroupChatId, ulong ordinal, Guid SenderId, Content content)
         {
-            this.GroupChatId = GroupChat.Id;
-            this.GroupChat = GroupChat;
-
+            this.GroupChatId = GroupChatId;
             this.Ordinal = ordinal;
-            this.SenderId = Sender.Id;
-            this.Sender = Sender;
-
+            this.SenderId = SenderId;
             this.Content = content;
             this.DateTime = DateTime.UtcNow;
         }
+
+
+        /// <summary>
+        /// Идентификатор отправителя сообщения.
+        /// </summary>
+        public Guid SenderId { get; }
 
         /// <summary>
         /// Идентификатор группового чата, в котором оставлено сообщение.
@@ -35,11 +37,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Порядковый номер сообщения в чате.
         /// </summary>
         public ulong Ordinal { get; }
-
-        /// <summary>
-        /// Идентификатор отправителя сообщения.
-        /// </summary>
-        public Guid SenderId { get; }
 
         /// <summary>
         /// Содержание сообщения.
@@ -54,12 +51,12 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Отправитель сообщения.
         /// </summary>
-        public User.User Sender { get; } = null!;
+        public User.User? Sender { get; private set; } = null!;
 
         /// <summary>
         /// Групповой чат, к которому относится сообщение.
         /// </summary>
-        public GroupChat GroupChat { get; } = null!;
+        public GroupChat? GroupChat { get; private set; } = null!;
 
         /// <summary>
         /// Фабричный метод для создания нового сообщения.
@@ -71,7 +68,12 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <returns>Новая сущность GroupChatMessage.</returns>
         public static GroupChatMessage Create(GroupChat GroupChat, ulong ordinal, User.User Sender, Content content)
         {
-            return new GroupChatMessage(GroupChat, ordinal, Sender, content);
+            GroupChatMessage gcm = new(GroupChat.Id, ordinal, Sender.Id, content)
+            {
+                Sender = Sender,
+                GroupChat = GroupChat
+            };
+            return gcm;
         }
     }
 }

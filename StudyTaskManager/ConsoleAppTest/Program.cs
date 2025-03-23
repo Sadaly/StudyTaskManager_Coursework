@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using StudyTaskManager.Persistence.Repository;
 using Microsoft.Extensions.Options;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace ConsoleAppTest
 {

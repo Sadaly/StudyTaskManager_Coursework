@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Persistence.Configurations;
 
 namespace StudyTaskManager.Persistence.Configurations.Groupf
@@ -14,18 +15,40 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf
             builder.HasKey(g => g.Id);
 
             builder
+                .HasMany(g => g.UsersInGroup)
+                .WithOne(uig => uig.Group);
+            builder
                 .HasOne(g => g.DefaultRole)
                 .WithMany()
                 .HasForeignKey(g => g.DefaultRoleId);
             builder
-                .HasMany(g => g.UsersInGroup)
-                .WithMany();
-            builder
                 .HasMany(g => g.GroupRoles)
-                .WithMany();
+                .WithMany(gr => gr.Groups);
             builder
                 .HasMany(g => g.GroupInvites)
-                .WithMany();
+                .WithOne(gi => gi.Group);
+
+            builder
+                .Property(g => g.Title)
+                .HasConversion(
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupTable.Title);
+            builder
+                .Property(g => g.Description)
+                .HasConversion(
+                    c =>
+                        c == null ?
+                            null :
+                            c.Value,
+                    str =>
+                        string.IsNullOrEmpty(str) ?
+                            null :
+                            Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .IsRequired(false)
+                .HasColumnName(TableNames.GroupTable.Description);
         }
     }
 }

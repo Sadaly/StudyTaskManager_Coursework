@@ -7,7 +7,7 @@ namespace StudyTaskManager.Domain.ValueObjects
 {
     public class PasswordHash : ValueObject
     {
-        private PasswordHash(string hashedPassword)
+        public PasswordHash(string hashedPassword)
         {
             Value = hashedPassword;
         }

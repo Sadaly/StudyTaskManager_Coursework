@@ -8,17 +8,15 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
     /// </summary>
     public class GroupTaskStatus : BaseEntityWithID
     {
-        // Приватный конструктор для создания статуса
-        private GroupTaskStatus(Guid id, Title name, bool canBeUpdated, Group? group) : base(id)
+        private GroupTaskStatus(Guid id, bool canBeUpdated, Guid? groupId) : base(id)
+        {
+            CanBeUpdated = canBeUpdated;
+            GroupId = groupId;
+        }
+        private GroupTaskStatus(Guid id, bool canBeUpdated, Guid? groupId, Title name, Content? description) : this(id, canBeUpdated, groupId)
         {
             Name = name;
-            Can_Be_Updated = canBeUpdated;
-            Group = group;
-
-            if (group != null)
-            {
-                GroupId = group.Id;
-            }
+            Description = description;
         }
 
         /// <summary>
@@ -34,19 +32,27 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Может ли статус задачи быть обновлен.
         /// </summary>
-        public bool Can_Be_Updated { get; set; }
+        public bool CanBeUpdated { get; set; }
 
         /// <summary>
         /// Ссылка на группу.
         /// </summary>
-        public Group? Group { get; }
+        public Group? Group { get; private set; }
+
+        /// <summary>
+        /// Описание статуса.
+        /// </summary>
+        public Content? Description { get; set; }
 
         /// <summary>
         /// Статический метод для создания нового статуса задачи.
         /// </summary>
-        public static GroupTaskStatus Create(Guid id, Title name, Guid groupId, bool canBeUpdated, Group group)
+        public static GroupTaskStatus Create(Guid id, Title name, bool canBeUpdated, Group? group, Content? description)
         {
-            return new GroupTaskStatus(id, name, canBeUpdated, group);
+            return new GroupTaskStatus(id, canBeUpdated, group?.Id, name, description)
+            {
+                Group = group
+            };
         }
     }
 }

@@ -10,16 +10,18 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        private Group(Guid id, Title title, Content? description, GroupRole defaultRole) : base(id)
+        private Group(Guid id, Guid defaultRoleId) : base(id)
+        {
+            DefaultRoleId = defaultRoleId;
+
+            _usersInGroup = [];
+            _groupRoles = [];
+            _groupInvites = [];
+        }
+        private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : this(id, defaultRoleId)
         {
             Title = title;
             Description = description;
-            DefaultRole = defaultRole;
-            DefaultRoleId = defaultRole.Id;
-
-            _usersInGroup = [];
-            _groupRoles = [defaultRole]; // Начальная роль в группе
-            _groupInvites = [];
         }
 
         #region свойства
@@ -41,17 +43,17 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Пользователи в группе.
         /// </summary>
-        public IReadOnlyCollection<UserInGroup> UsersInGroup => _usersInGroup;
+        public List<UserInGroup> UsersInGroup => _usersInGroup;
         private readonly List<UserInGroup> _usersInGroup;
         /// <summary>
         /// Роли в группе.
         /// </summary>
-        public IReadOnlyCollection<GroupRole> GroupRoles => _groupRoles;
+        public List<GroupRole> GroupRoles => _groupRoles;
         private readonly List<GroupRole> _groupRoles;
         /// <summary>
         /// Приглашения в группу.
         /// </summary>
-        public IReadOnlyCollection<GroupInvite> GroupInvites => _groupInvites;
+        public List<GroupInvite> GroupInvites => _groupInvites;
         private readonly List<GroupInvite> _groupInvites;
 
         #endregion
@@ -61,7 +63,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public static Group Create(Guid id, Title name, Content? description, GroupRole defaultRole)
         {
-            return new Group(id, name, description, defaultRole);
+            return new Group(id, name, description, defaultRole.Id);
         }
 
         /// <summary>

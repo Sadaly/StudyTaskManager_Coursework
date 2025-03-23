@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Persistence.Configurations;
 
 namespace StudyTaskManager.Persistence.Configurations.Userf
@@ -11,23 +12,17 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
         void IEntityTypeConfiguration<SystemRole>.Configure(EntityTypeBuilder<SystemRole> builder)
         {
             builder.ToTable(TableNames.SystemRole);
-            
+
             // Приватный ключ
             builder.HasKey(sr => sr.Id);
 
-            // Возможно это вообще не нужно
-            //// Указываем что юзер может ссылаться на роль
-            //builder
-            //    .HasMany<User>()
-            //    .WithOne()
-            //    .HasForeignKey(u => u.SystemRoleId);
-
-
             builder
-                .Property(sr => sr.Id)
-                .ValueGeneratedOnAdd() //автогеренация 
-                .IsRequired()
-                .HasColumnName(TableNames.UsersTable.Id);
+                .Property(sr => sr.Name)
+                .HasConversion(
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.SystemRoleTable.Name);
         }
     }
 }

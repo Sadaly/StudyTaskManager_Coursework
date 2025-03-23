@@ -13,7 +13,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             _dbContext = dbContext;
         }
 
-        public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);

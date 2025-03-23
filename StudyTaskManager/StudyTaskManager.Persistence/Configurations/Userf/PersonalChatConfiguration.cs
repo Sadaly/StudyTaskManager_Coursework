@@ -14,23 +14,31 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
 
             // Приватный ключ
             builder.HasKey(pc => pc.Id);
-            //// Внешние ключи на пользователей
-            //builder
-            //    .HasOne(pc => pc.User1)
-            //    .WithMany(u => u.PersonalChatsAsUser1)
-            //    .HasForeignKey(pc => pc.UserId1);
-            //builder
-            //    .HasOne(pc => pc.User2)
-            //    .WithMany(u => u.PersonalChatsAsUser2)
-            //    .HasForeignKey(pc => pc.UserId2);
-
-            // отношение многие ко многим
+            // Внешние ключи на пользователей
             builder
-                .HasMany(pc => pc.Users)
-                .WithMany(user => user.PersonalChats);
+                .HasOne(pc => pc.User1)
+                .WithMany(u => u.PersonalChatsAsUser1)
+                .HasForeignKey(pc => pc.User1Id);
+            builder
+                .HasOne(pc => pc.User2)
+                .WithMany(u => u.PersonalChatsAsUser2)
+                .HasForeignKey(pc => pc.User2Id);
+            // Настройка коллекции сообщений
+            builder
+                .HasMany(pc => pc.Messages)
+                .WithOne()
+                .HasForeignKey(pm => pm.PersonalChatId);
 
-            //// Уникальный индекс на основе двух пользователей
-            //builder.HasIndex(pc => new { pc.UserId1, pc.UserId2 }).IsUnique();
+            // Альтернативные ключи представляют свойства, которые также, как и первичный ключ, должны иметь уникальное значение.
+            builder.HasAlternateKey(pc => new { pc.User1Id, pc.User2Id });
+
+            builder.Ignore(pc => pc.Users); // Игнорируем свойство Users
+
+            //// отношение многие ко многим
+            //builder
+            //    .HasMany(pc => pc.Users)
+            //    .WithMany(user => user.PersonalChats);
+
         }
     }
 }

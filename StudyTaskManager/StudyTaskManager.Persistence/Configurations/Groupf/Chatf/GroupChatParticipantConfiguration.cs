@@ -11,9 +11,11 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
         {
             builder.ToTable(TableNames.GroupChatParticipant);
 
+            builder.HasKey(gcp => new { gcp.GroupChatId, gcp.UserId }); // Составной ключ
+
             builder
                 .HasOne(gcp => gcp.GroupChat)
-                .WithMany()
+                .WithMany(gc => gc.GroupChatParticipants)
                 .HasForeignKey(gcp => gcp.GroupChatId);
             builder
                 .HasOne(gcp => gcp.User)
