@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.Configurations.Userf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class PersonalMessageConfiguration : IEntityTypeConfiguration<PersonalMessage>
     {

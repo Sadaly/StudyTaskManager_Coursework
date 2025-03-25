@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Chat;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class GroupChatMessageConfiguration : IEntityTypeConfiguration<GroupChatMessage>
     {

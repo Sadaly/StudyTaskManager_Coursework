@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Chat;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class GroupChatConfiguration : IEntityTypeConfiguration<GroupChat>
     {

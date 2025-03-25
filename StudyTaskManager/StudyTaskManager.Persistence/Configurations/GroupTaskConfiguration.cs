@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.Configurations.Groupf.Taskf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class GroupTaskConfiguration : IEntityTypeConfiguration<GroupTask>
     {

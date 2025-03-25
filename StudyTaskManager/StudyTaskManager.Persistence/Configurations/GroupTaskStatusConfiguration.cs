@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Persistence.Configurations.Groupf.Taskf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class GroupTaskStatusConfiguration : IEntityTypeConfiguration<GroupTaskStatus>
     {

@@ -38,24 +38,24 @@ namespace StudyTaskManager.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region modelBuilder.ApplyConfiguration
-            modelBuilder.ApplyConfiguration(new Configurations.Logf.LogActionConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Logf.LogConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Userf.BlockedUserInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Userf.PersonalChatConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Userf.PersonalMessageConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Userf.SystemRoleConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Userf.UserConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Chatf.GroupChatConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Chatf.GroupChatMessageConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Chatf.GroupChatParticipantConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Chatf.GroupChatParticipantLastReadConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Taskf.GroupTaskConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Taskf.GroupTaskStatusConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.Taskf.GroupTaskUpdateConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupInviteConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupRoleConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.Groupf.UserInGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.LogActionConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.LogConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.BlockedUserInfoConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.PersonalChatConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.PersonalMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.SystemRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupChatConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupChatMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupChatParticipantConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupChatParticipantLastReadConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupTaskConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupTaskStatusConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupTaskUpdateConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupInviteConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.GroupRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.UserInGroupConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.OutboxMessageConfiguration());
             #endregion
 

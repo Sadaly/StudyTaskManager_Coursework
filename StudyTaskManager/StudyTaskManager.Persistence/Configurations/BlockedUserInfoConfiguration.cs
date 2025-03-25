@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Domain.Entity.User;
-using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.Configurations.Userf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class BlockedUserInfoConfiguration : IEntityTypeConfiguration<BlockedUserInfo>
     {

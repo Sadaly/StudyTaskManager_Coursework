@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Persistence.Configurations;
 
-namespace StudyTaskManager.Persistence.Configurations.Userf
+namespace StudyTaskManager.Persistence.Configurations
 {
     class SystemRoleConfiguration : IEntityTypeConfiguration<SystemRole>
     {
