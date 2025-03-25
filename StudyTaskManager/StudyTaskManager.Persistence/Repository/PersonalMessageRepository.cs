@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.User.Chat;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -9,11 +10,11 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public PersonalMessageRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default)
+        public async Task<Result<List<PersonalMessage>>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<PersonalMessage>()
-                .AsNoTracking()
                 .Where(pm => pm.PersonalChatId == personalChat.Id)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
     }

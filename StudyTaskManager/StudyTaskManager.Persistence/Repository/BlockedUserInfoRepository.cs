@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -8,9 +9,10 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public BlockedUserInfoRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<BlockedUserInfo?> GetByUser(User user, CancellationToken cancellationToken = default)
+        public async Task<Result<BlockedUserInfo?>> GetByUser(User user, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<BlockedUserInfo>().FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+            BlockedUserInfo? res = await _dbContext.Set<BlockedUserInfo>().FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+            return Result.Success(res);
         }
     }
 }

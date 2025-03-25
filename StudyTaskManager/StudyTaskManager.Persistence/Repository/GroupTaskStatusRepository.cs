@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.Group.Task;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -9,19 +10,26 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupTaskStatusRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<List<GroupTaskStatus>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
+        public async Task<Result<List<GroupTaskStatus>>> GetByGroupAsync(Group group, bool togetherWithTheGeneral, CancellationToken cancellationToken = default)
         {
+            if (togetherWithTheGeneral)
+            {
+                return await _dbContext.Set<GroupTaskStatus>()
+                    .Where(gts => gts.GroupId == group.Id || gts.GroupId == null)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
+            }
             return await _dbContext.Set<GroupTaskStatus>()
-                .AsNoTracking()
                 .Where(gts => gts.GroupId == group.Id)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<GroupTaskStatus>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default)
+        public async Task<Result<List<GroupTaskStatus>>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<GroupTaskStatus>()
-                .AsNoTracking()
                 .Where(gts => gts.GroupId == null)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
     }

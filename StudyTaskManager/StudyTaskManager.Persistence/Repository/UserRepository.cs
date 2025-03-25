@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Repository
@@ -9,17 +10,17 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public UserRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default)
+        public async Task<Result<bool>> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default)
         {
             return !await _dbContext.Set<User>().AnyAsync(x => x.Email == email, cancellationToken);
         }
 
-        public async Task<bool> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default)
+        public async Task<Result<bool>> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default)
         {
             return !await _dbContext.Set<User>().AnyAsync(x => x.PhoneNumber == phoneNumber, cancellationToken);
         }
 
-        public async Task<bool> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default)
+        public async Task<Result<bool>> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default)
         {
             return !await _dbContext.Set<User>().AnyAsync(x => x.UserName == userName, cancellationToken);
         }

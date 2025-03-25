@@ -10,7 +10,7 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public PersonalCharRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<PersonalChat> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default)
+        public async Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default)
         {
             PersonalChat? res = null;
             res = await _dbContext.Set<PersonalChat>()
@@ -18,7 +18,7 @@ namespace StudyTaskManager.Persistence.Repository
                     pc =>
                         (pc.User1Id == user1.Id && pc.User2Id == user2.Id) ||
                         (pc.User1Id == user2.Id && pc.User2Id == user1.Id)
-                    ,cancellationToken
+                    , cancellationToken
                 );
             if (res != null) return res;
 
@@ -26,13 +26,10 @@ namespace StudyTaskManager.Persistence.Repository
             if (resultPersonalChat.IsSuccess)
             {
                 res = resultPersonalChat.Value;
+                await AddAsync(res, cancellationToken);
+                return res;
             }
-            else
-            {
-                throw new Exception();
-            }
-            await AddAsync(res, cancellationToken);
-            return res;
+            return resultPersonalChat;
         }
     }
 }

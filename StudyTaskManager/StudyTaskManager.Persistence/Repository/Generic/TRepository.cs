@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
 {
@@ -13,32 +14,36 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             _dbContext = dbContext;
         }
 
-        public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual async Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
-        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<T>().AsNoTracking().ToListAsync<T>(cancellationToken);
+            return await _dbContext.Set<T>()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public virtual async Task RemoveAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual async Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
 
-        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
 
         public void Dispose()
         {
             _dbContext.Dispose();
         }
-
     }
 }

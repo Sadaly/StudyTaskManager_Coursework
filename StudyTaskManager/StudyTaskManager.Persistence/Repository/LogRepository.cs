@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Log;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -7,8 +8,9 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public LogRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public Task<Log> GetByIdWithLogActionAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<Result<Log>> GetByIdWithLogActionAsync(Guid id, CancellationToken cancellationToken = default)
         {
+            // TODO
             throw new NotImplementedException();
         }
     }
