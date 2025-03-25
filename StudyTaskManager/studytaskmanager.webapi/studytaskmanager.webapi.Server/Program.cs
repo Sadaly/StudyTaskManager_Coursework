@@ -41,19 +41,14 @@ string connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
-builder.Services.AddDbContext<AppDbContext>(                                           // подключение к бд постгрес
-    options =>                                                                              //
-    {                                                                                       // Изменять нужно в файле appsettings.Development.json
-        options.UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)));    //
-    });
-//builder.Services.AddDbContext<ApplicationDbContext>(
-//    (sp, optionsBuilder) =>
-//    {
-//        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
+builder.Services.AddDbContext<AppDbContext>(
+    (sp, optionsBuilder) =>
+    {
+        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
-//        optionsBuilder.UseSqlServer(connectionString)
-//            .AddInterceptors(interceptor);
-//    });
+        optionsBuilder.UseSqlServer(connectionString)
+            .AddInterceptors(interceptor);
+    });
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 

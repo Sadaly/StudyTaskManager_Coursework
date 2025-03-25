@@ -18,11 +18,14 @@ namespace StudyTaskManager.Persistence.Configurations.Userf
             builder
                 .HasOne(pc => pc.User1)
                 .WithMany(u => u.PersonalChatsAsUser1)
-                .HasForeignKey(pc => pc.User1Id);
+                .HasForeignKey(pc => pc.User1Id)
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasOne(pc => pc.User2)
                 .WithMany(u => u.PersonalChatsAsUser2)
-                .HasForeignKey(pc => pc.User2Id);
+                .HasForeignKey(pc => pc.User2Id)
+                .OnDelete(DeleteBehavior.NoAction);
+                
             // Настройка коллекции сообщений
             builder
                 .HasMany(pc => pc.Messages)

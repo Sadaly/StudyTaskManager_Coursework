@@ -20,7 +20,8 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf
             builder
                 .HasOne(g => g.DefaultRole)
                 .WithMany()
-                .HasForeignKey(g => g.DefaultRoleId);
+                .HasForeignKey(g => g.DefaultRoleId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasMany(g => g.GroupRoles)
                 .WithMany(gr => gr.Groups);

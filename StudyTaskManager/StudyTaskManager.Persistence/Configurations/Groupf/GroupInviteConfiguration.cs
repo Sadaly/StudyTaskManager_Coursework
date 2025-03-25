@@ -20,11 +20,13 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf
             builder
                 .HasOne(gi => gi.Sender)
                 .WithMany()
-                .HasForeignKey(gi => gi.SenderId);
+                .HasForeignKey(gi => gi.SenderId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasOne(gi => gi.Receiver)
                 .WithMany()
-                .HasForeignKey(gi => gi.ReceiverId);
+                .HasForeignKey(gi => gi.ReceiverId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -17,15 +17,18 @@ namespace StudyTaskManager.Persistence.Configurations.Groupf.Chatf
             builder
                 .HasOne(gcplr => gcplr.GroupChat)
                 .WithMany()
-                .HasForeignKey(gcplr => gcplr.GroupChatId);
+                .HasForeignKey(gcplr => gcplr.GroupChatId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasOne(gcplr => gcplr.User)
                 .WithMany()
-                .HasForeignKey(gcplr => gcplr.UserId);
+                .HasForeignKey(gcplr => gcplr.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasOne(gcplr => gcplr.ReadMessage)
                 .WithMany()
-                .HasForeignKey(gcplr => new { gcplr.GroupChatId, gcplr.LastReadMessageId });
+                .HasForeignKey(gcplr => new { gcplr.GroupChatId, gcplr.LastReadMessageId })
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }
