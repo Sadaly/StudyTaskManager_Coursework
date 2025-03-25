@@ -30,9 +30,14 @@ namespace StudyTaskManager.Persistence
         public DbSet<Domain.Entity.Group.Task.GroupTaskUpdate> GroupTaskUpdates { get; set; }
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext()
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region modelBuilder.ApplyConfiguration
             modelBuilder.ApplyConfiguration(new Configurations.Logf.LogActionConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Logf.LogConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Userf.BlockedUserInfoConfiguration());
@@ -51,8 +56,14 @@ namespace StudyTaskManager.Persistence
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupInviteConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupRoleConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.UserInGroupConfiguration());
+            #endregion
 
             base.OnModelCreating(modelBuilder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Username=postgres;Password=password;Host=localhost;Port=5432;Database=dbtest;");
+            //base.OnConfiguring(optionsBuilder);
         }
     }
 }

@@ -46,7 +46,7 @@ builder.Services.AddDbContext<AppDbContext>(
     {
         var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
-        optionsBuilder.UseSqlServer(connectionString)
+        optionsBuilder.UseNpgsql(connectionString)
             .AddInterceptors(interceptor);
     });
 builder.Host.UseSerilog((context, configuration) =>

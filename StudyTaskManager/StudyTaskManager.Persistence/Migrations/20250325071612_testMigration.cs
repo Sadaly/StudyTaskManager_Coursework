@@ -15,9 +15,9 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "LogAction",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,12 +28,12 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "SystemRole",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CanViewPeoplesGroups = table.Column<bool>(type: "bit", nullable: false),
-                    CanChangeSystemRoles = table.Column<bool>(type: "bit", nullable: false),
-                    CanBlockUsers = table.Column<bool>(type: "bit", nullable: false),
-                    CanDeleteChats = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CanViewPeoplesGroups = table.Column<bool>(type: "boolean", nullable: false),
+                    CanChangeSystemRoles = table.Column<bool>(type: "boolean", nullable: false),
+                    CanBlockUsers = table.Column<bool>(type: "boolean", nullable: false),
+                    CanDeleteChats = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,12 +44,12 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SystemRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    SystemRoleId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,8 +65,8 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "BlockedUserInfo",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PrevRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PrevRoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,9 +89,9 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "PersonalChat",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User1Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User2Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    User1Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    User2Id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,11 +113,11 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "PersonalMessage",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PersonalChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false),
-                    Is_Read_By_Other_User = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SenderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PersonalChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Content = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
+                    Is_Read_By_Other_User = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,10 +140,10 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "Group",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
-                    DefaultRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: true),
+                    DefaultRoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,10 +154,10 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupChat",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    IsPublic = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    IsPublic = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,10 +174,10 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupInvite",
                 columns: table => new
                 {
-                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InvitationAccepted = table.Column<bool>(type: "bit", nullable: true)
+                    SenderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReceiverId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationAccepted = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,14 +204,14 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupRole",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RoleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CanCreateTasks = table.Column<bool>(type: "bit", nullable: false),
-                    CanManageRoles = table.Column<bool>(type: "bit", nullable: false),
-                    CanCreateTaskUpdates = table.Column<bool>(type: "bit", nullable: false),
-                    CanChangeTaskUpdates = table.Column<bool>(type: "bit", nullable: false),
-                    CanInviteUsers = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RoleName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CanCreateTasks = table.Column<bool>(type: "boolean", nullable: false),
+                    CanManageRoles = table.Column<bool>(type: "boolean", nullable: false),
+                    CanCreateTaskUpdates = table.Column<bool>(type: "boolean", nullable: false),
+                    CanChangeTaskUpdates = table.Column<bool>(type: "boolean", nullable: false),
+                    CanInviteUsers = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,11 +227,11 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupTaskStatus",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CanBeUpdated = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CanBeUpdated = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -247,12 +247,12 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "Log",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LogActionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    InitiatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    LogActionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
+                    InitiatorId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SubjectId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -284,10 +284,10 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupChatMessage",
                 columns: table => new
                 {
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Ordinal = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Context = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false)
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Ordinal = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    SenderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Context = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -310,8 +310,8 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupChatParticipant",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -334,8 +334,8 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupGroupRole",
                 columns: table => new
                 {
-                    GroupRolesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    GroupRolesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,9 +358,9 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "UserInGroup",
                 columns: table => new
                 {
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -389,15 +389,15 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupTask",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    HeadLine = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
-                    ResponsibleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ResponsibleUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
+                    HeadLine = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: true),
+                    ResponsibleId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ResponsibleUserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -429,15 +429,15 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupChatParticipantLastRead",
                 columns: table => new
                 {
-                    LastReadMessageId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    LastReadMessageId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupChatParticipantLastRead", x => new { x.GroupChatId, x.UserId, x.LastReadMessageId });
                     table.ForeignKey(
-                        name: "FK_GroupChatParticipantLastRead_GroupChatMessage_GroupChatId_LastReadMessageId",
+                        name: "FK_GroupChatParticipantLastRead_GroupChatMessage_GroupChatId_L~",
                         columns: x => new { x.GroupChatId, x.LastReadMessageId },
                         principalTable: "GroupChatMessage",
                         principalColumns: new[] { "GroupChatId", "Ordinal" });
@@ -457,10 +457,10 @@ namespace StudyTaskManager.Persistence.Migrations
                 name: "GroupTaskUpdate",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TaskId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Content = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false)
                 },
                 constraints: table =>
                 {
