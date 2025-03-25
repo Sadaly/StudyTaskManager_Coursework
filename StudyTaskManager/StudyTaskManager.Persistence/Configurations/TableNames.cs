@@ -90,5 +90,7 @@ namespace StudyTaskManager.Persistence.Configurations
             internal const string PasswordHash = nameof(PasswordHash);
         }
 
+        internal const string OutboxMessages = nameof(OutboxMessages);
+
     }
 }

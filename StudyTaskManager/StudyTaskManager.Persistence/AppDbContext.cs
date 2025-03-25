@@ -56,6 +56,7 @@ namespace StudyTaskManager.Persistence
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupInviteConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.GroupRoleConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.Groupf.UserInGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.OutboxMessageConfiguration());
             #endregion
 
             base.OnModelCreating(modelBuilder);

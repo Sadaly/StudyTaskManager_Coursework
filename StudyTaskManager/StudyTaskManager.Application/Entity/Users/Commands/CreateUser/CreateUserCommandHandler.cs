@@ -21,14 +21,16 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 
         public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            Result<Email> emailResult = Email.Create(request.Email.Value);
-            Result<UserName> userName = UserName.Create(request.UserName.Value);
-            Result<Password> password = Password.Create(request.Password.Value);
+            Result<Email> emailResult = Email.Create(request.Email);
+            Result<UserName> userName = UserName.Create(request.UserName);
+            Result<Password> password = Password.Create(request.Password);
+            Result<PhoneNumber>? phoneNumber = null;
+            SystemRole? role = request.SystemRole;
 
             if (request.PhoneNumber != null)
             {
                 //Перед созднием экземпляра мы проверяем, что он не равен null
-                Result<PhoneNumber> phoneNumber = PhoneNumber.Create(request.PhoneNumber.Value);
+                phoneNumber = PhoneNumber.Create(request.PhoneNumber);
                 if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken))
                 {
                     return Result.Failure<Guid>(DomainErrors.User.PhoneNumberAlreadyInUse);
@@ -45,9 +47,9 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
                 return Result.Failure<Guid>(DomainErrors.User.UserNameAlreadyInUse);
             }
 
-            var user = User.Create(Guid.NewGuid(), request.UserName, request.Email, request.Password, request.PhoneNumber, request.SystemRoleId);
+            var user = User.Create(Guid.NewGuid(), userName.Value, emailResult.Value, password.Value, phoneNumber?.Value, role);
 
-            _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return user.Id;

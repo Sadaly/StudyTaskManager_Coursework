@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Abstractions\ApiController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
@@ -17,7 +21,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Scrutor" Version="6.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
@@ -28,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\StudyTaskManager.Application\StudyTaskManager.Application.csproj" />
+    <ProjectReference Include="..\..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
     <ProjectReference Include="..\..\StudyTaskManager.Infrastructure\StudyTaskManager.Infrastructure.csproj" />
     <ProjectReference Include="..\..\StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj" />
     <ProjectReference Include="..\studytaskmanager.webapi.client\StudyTaskManager.Presentation.esproj" />

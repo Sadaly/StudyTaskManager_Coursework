@@ -18,8 +18,4 @@
     <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entity\Users\Queries\" />
-  </ItemGroup>
-
 </Project>

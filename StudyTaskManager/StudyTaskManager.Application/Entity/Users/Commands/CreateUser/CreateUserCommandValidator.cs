@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 {
@@ -6,7 +7,20 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
     {
         public CreateUserCommandValidator() 
         {
+            RuleFor(x => x.UserName).NotEmpty()
+                .MaximumLength(UserName.MAX_LENGTH);
 
-		}
+            RuleFor(x => x.Email).NotEmpty().Must(email 
+                => email.Split('@').Length == 2);
+
+            RuleFor(x => x.Password).NotEmpty()
+                .MinimumLength(Password.MIN_LENGTH)
+                .MaximumLength(Password.MAX_LENGTH);
+
+            RuleFor(x => x.PhoneNumber).Must(phone 
+                => phone == null 
+                || (phone.Length >= PhoneNumber.MIN_LENGTH 
+                && phone.Length <= PhoneNumber.MAX_LENGTH));
+        }
 	}
 }

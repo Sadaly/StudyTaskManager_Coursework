@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StudyTaskManager.Persistence;
@@ -11,9 +12,11 @@ using StudyTaskManager.Persistence;
 namespace StudyTaskManager.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325151555_OutboxMessage")]
+    partial class OutboxMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -516,34 +519,6 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.HasIndex("SystemRoleId");
 
                     b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("StudyTaskManager.Persistence.Outbox.OutboxMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Error")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("OccurredOnUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ProcessedOnUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OutboxMessages", (string)null);
                 });
 
             modelBuilder.Entity("GroupGroupRole", b =>

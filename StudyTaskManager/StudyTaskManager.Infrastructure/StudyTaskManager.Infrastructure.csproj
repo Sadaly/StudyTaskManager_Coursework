@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Quartz" Version="3.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StudyTaskManager.Application\StudyTaskManager.Application.csproj" />
     <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
+    <ProjectReference Include="..\StudyTaskManager.Persistence\StudyTaskManager.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

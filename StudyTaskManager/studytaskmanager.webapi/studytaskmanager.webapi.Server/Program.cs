@@ -37,7 +37,7 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeli
 builder.Services.AddValidatorsFromAssembly(StudyTaskManager.Application.AssemblyReference.Assembly,
     includeInternalTypes: true);
 
-string connectionString = builder.Configuration.GetConnectionString("Database");
+string? connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
@@ -46,9 +46,11 @@ builder.Services.AddDbContext<AppDbContext>(
     {
         var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
+        if (interceptor != null)
         optionsBuilder.UseNpgsql(connectionString)
             .AddInterceptors(interceptor);
     });
+
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 

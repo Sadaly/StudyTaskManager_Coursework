@@ -75,9 +75,6 @@ namespace StudyTaskManager.Domain.Entity.Group
 
             InvitationAccepted = true;
 
-
-            // TODO: Добавить логику добавления пользователя в группу.
-
             return Result.Success();
         }
 
