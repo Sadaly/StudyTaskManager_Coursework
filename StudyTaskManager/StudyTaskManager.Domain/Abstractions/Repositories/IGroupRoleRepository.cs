@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -7,11 +8,11 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать роли группы.
         /// </summary>
-        Task<List<GroupRole>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
+        Task<Result<List<GroupRole>>> GetByGroupAsync(Group group, bool togetherWithTheGeneral, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Выдать роли общие для всех групп.
         /// </summary>
-        Task<List<GroupRole>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default);
+        Task<Result<List<GroupRole>>> GetByWithoutGroupAsync(CancellationToken cancellationToken = default);
     }
 }

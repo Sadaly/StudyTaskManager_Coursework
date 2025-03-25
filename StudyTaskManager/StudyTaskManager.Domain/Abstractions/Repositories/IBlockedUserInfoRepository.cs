@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -7,6 +8,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать информацию о блокировке для юзера, если она есть.
         /// </summary>
-        Task<BlockedUserInfo?> GetByUser(User user, CancellationToken cancellationToken = default);
+        Task<Result<BlockedUserInfo?>> GetByUser(User user, CancellationToken cancellationToken = default);
     }
 }

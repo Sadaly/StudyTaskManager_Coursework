@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.Log;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -9,6 +10,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns>экземпляр класса log вместе с не null свойством LogAction</returns>
-        Task<Log> GetByIdWithLogActionAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Result<Log>> GetByIdWithLogActionAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

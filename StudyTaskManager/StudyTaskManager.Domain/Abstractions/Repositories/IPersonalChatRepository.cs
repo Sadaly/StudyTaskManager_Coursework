@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -11,7 +12,7 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// </summary>
         /// <param name="user1">Пользователь, который должен присутствовать в чате.</param>
         /// <param name="user2">Пользователь, который должен присутствовать в чате.</param>
-        public Task<PersonalChat> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default);
+        public Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default);
 
         //public new async Task AddAsync(PersonalChat entity)
         //{

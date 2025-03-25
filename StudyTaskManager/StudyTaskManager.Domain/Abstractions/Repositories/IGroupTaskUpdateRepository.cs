@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.Group.Task;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -7,6 +8,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Возвращает список апдейтов для задачи.
         /// </summary>
-        Task<List<GroupTaskUpdate>> GetByTaskAsync(GroupTask groupTask, CancellationToken cancellationToken = default);
+        Task<Result<List<GroupTaskUpdate>>> GetByTaskAsync(GroupTask groupTask, CancellationToken cancellationToken = default);
     }
 }

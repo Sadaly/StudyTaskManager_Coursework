@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -9,12 +10,12 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Выдать всех пользователей в группе.
         /// </summary>
         /// <param name="group">Группа в которую должны входить пользователи.</param>
-        Task<List<UserInGroup>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
+        Task<Result<List<UserInGroup>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Выдать все группы пользователя.
         /// </summary>
         /// <param name="user">Пользователь который должен находиться в группе.</param>
-        Task<List<UserInGroup>> GetByUserAsync(User user, CancellationToken cancellationToken = default);
+        Task<Result<List<UserInGroup>>> GetByUserAsync(User user, CancellationToken cancellationToken = default);
     }
 }

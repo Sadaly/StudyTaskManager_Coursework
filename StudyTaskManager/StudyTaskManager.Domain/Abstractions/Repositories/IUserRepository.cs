@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
@@ -8,16 +9,8 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
     /// </summary>
     public interface IUserRepository : Generic.IRepositoryWithID<User>
     {
-        /// <summary>
-        /// Получить пользователя по id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-
-        Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default);
-        Task<bool> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default);
-        Task<bool> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default);
+        Task<Result<bool>> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default);
+        Task<Result<bool>> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default);
+        Task<Result<bool>> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -8,6 +9,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Получить все задачи группы.
         /// </summary>
-        Task<List<GroupTask>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
+        Task<Result<List<GroupTask>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
     }
 }

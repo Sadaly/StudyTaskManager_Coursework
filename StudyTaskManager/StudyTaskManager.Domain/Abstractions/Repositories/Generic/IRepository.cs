@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
+﻿using StudyTaskManager.Domain.Shared;
+
+namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
 {
     /// <summary>
     /// Базовый интерфейс репозиториев для всех сущностей
@@ -11,25 +13,25 @@
         /// Добавление нового экземпляра. При этом передаваемый экземпляр изменяет свой Id, если Id есть вообще как поле.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task AddAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновляет значения на основе переданного экземпляра.
         /// </summary>
         /// <param name="entity">Измененный экземпляр.</param>
-        Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> UpdateAsync(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Удаление экземпляра.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task RemoveAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Возвращает все объеты.
         /// </summary>
         /// <returns>Возвращает лист, предплагаю что это поменяется когда я возьмусь за реализацию.</returns>
-        Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default);
 
         ///// <summary>
         ///// Возвращает какоето кол-во элементов после того как пропустил какоето кол-во элементов

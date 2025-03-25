@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Entity.User.Chat;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories
 {
@@ -8,6 +9,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Возвращает все сообщения из этого чата.
         /// </summary>
         /// <param name="personalChat">Чат по которому ведется поиск.</param>
-        Task<List<PersonalMessage>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default);
+        Task<Result<List<PersonalMessage>>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default);
     }
 }
