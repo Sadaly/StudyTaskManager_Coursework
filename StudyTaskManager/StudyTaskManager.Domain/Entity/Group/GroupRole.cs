@@ -16,14 +16,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         private GroupRole(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group) : base(id)
         {
             Group = group;
-            if (group != null)
-            {
-                GroupId = group.Id;
-            }
-            else
-            {                   // если у нас роль не привязана к группе,
-                Groups = [];    // то есть неоходимость в реализации списка групп,
-            }                   // для связи многие-ко-многим с таблицей групп
+            GroupId = group?.Id;
 
             RoleName = roleName;
             CanCreateTasks = canCreateTasks;
@@ -43,11 +36,6 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// Группа, к которой привязана роль (если нет группы, то роль общая).
         /// </summary>
         public Group? Group { get; }
-
-        /// <summary>
-        /// Список групп, в которых используется эта роль
-        /// </summary>
-        public IEnumerable<Group> Groups { get; private set; }  // Навигационное свойство для связи с Group
 
         public Title RoleName { get; set; }
 
