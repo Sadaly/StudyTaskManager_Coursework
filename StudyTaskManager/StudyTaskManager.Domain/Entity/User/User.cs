@@ -44,9 +44,24 @@ namespace StudyTaskManager.Domain.Entity.User
 
         #region поля и свойства
 
+        /// <summary>
+        /// Имя пользователя
+        /// </summary>
         public UserName UserName { get; set; } = null!;
+
+        /// <summary>
+        /// Почта пользователя
+        /// </summary>
         public Email Email { get; set; } = null!;
+
+        /// <summary>
+        /// Номер телефона пользователя
+        /// </summary>
         public PhoneNumber? PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Дата регистрации пользователя. Устанавливается автоматически при создании пользователя.
+        /// </summary>
         public DateTime RegistrationDate { get; }
 
         /// <summary>
@@ -54,6 +69,9 @@ namespace StudyTaskManager.Domain.Entity.User
         /// </summary>
         public PasswordHash PasswordHash { get; set; } = null!;
 
+        /// <summary>
+        /// Id системной роли (может не быть)
+        /// </summary>
         public Guid? SystemRoleId { get; set; }
         /// <summary>
         /// Ссылка на системную роль (по умолчанию значение null, что означает, 
@@ -92,8 +110,8 @@ namespace StudyTaskManager.Domain.Entity.User
         /// </summary>
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser2 => _personalChatsAsUser2;
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChats => [.. PrivatePersonalChats]; // [.. PrivatePersonalChats] приводит тип к списку
-        #endregion
 
+        #endregion
         #endregion
 
         /// <summary>

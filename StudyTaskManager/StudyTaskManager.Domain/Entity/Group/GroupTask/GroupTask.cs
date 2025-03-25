@@ -24,6 +24,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
             this.ParentId = ParentTaskId;
         }
 
+        #region свойства
+
         /// <summary>
         /// Id группы, к которой относится задача.
         /// </summary>
@@ -92,6 +94,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// Ответственный за задачу (может не быть).
         /// </summary>
         public User.User? ResponsibleUser { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Метод для создания новой задачи.

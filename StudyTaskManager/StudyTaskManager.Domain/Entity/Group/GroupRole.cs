@@ -37,6 +37,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public Group? Group { get; }
 
+        /// <summary>
+        /// Название роли.
+        /// </summary>
         public Title RoleName { get; set; }
 
         /// <summary>

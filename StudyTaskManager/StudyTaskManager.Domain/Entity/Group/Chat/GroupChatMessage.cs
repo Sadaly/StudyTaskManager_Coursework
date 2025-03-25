@@ -22,6 +22,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             this.DateTime = DateTime.UtcNow;
         }
 
+        #region свойства
 
         /// <summary>
         /// Идентификатор отправителя сообщения.
@@ -57,6 +58,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Групповой чат, к которому относится сообщение.
         /// </summary>
         public GroupChat? GroupChat { get; private set; } = null!;
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового сообщения.

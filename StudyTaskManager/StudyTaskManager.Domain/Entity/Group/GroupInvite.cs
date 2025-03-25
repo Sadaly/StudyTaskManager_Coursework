@@ -22,6 +22,8 @@ namespace StudyTaskManager.Domain.Entity.Group
             DateInvitation = DateTime.UtcNow;
         }
 
+        #region свойства
+
         /// <summary>
         /// ID отправителя приглашения.
         /// </summary>
@@ -61,6 +63,8 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// Группа, в которую приглашают.
         /// </summary>
         public Group? Group { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Метод для принятия приглашения.

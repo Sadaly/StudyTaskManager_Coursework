@@ -15,6 +15,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             UserId = userId;
         }
 
+        #region свойства
+
         /// <summary>
         /// Идентификатор последнего прочитанного сообщения пользователем в чате.
         /// </summary>
@@ -44,6 +46,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Пользователь, который прочитал последнее сообщение в чате.
         /// </summary>
         public User.User? User { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового отслеживания последнего прочитанного сообщения.

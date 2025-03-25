@@ -22,13 +22,41 @@
 
         #region свойства
 
+        /// <summary>
+        /// Уникальный идентификатор группы.
+        /// </summary>
         public Guid GroupId { get; }
+
+        /// <summary>
+        /// Уникальный идентификатор роли пользователя в группе.
+        /// </summary>
         public Guid RoleId { get; private set; }
+
+        /// <summary>
+        /// Уникальный идентификатор пользователя.
+        /// </summary>
         public Guid UserId { get; }
+
+        /// <summary>
+        /// Дата и время вступления пользователя в группу.
+        /// </summary>
         public DateTime DateEntered { get; }
+
+        /// <summary>
+        /// Ссылка на группу, в которой состоит пользователь.
+        /// </summary>
         public Group? Group { get; private set; }
+
+        /// <summary>
+        /// Ссылка на роль пользователя в группе.
+        /// </summary>
         public GroupRole? Role { get; private set; }
+
+        /// <summary>
+        /// Ссылка на пользователя.
+        /// </summary>
         public User.User? User { get; private set; }
+
 
         #endregion
 

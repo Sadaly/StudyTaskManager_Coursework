@@ -19,6 +19,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
             Description = description;
         }
 
+        #region свойства
+
         /// <summary>
         /// Название статуса задачи.
         /// </summary>
@@ -43,6 +45,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// Описание статуса.
         /// </summary>
         public Content? Description { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Статический метод для создания нового статуса задачи.

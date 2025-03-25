@@ -14,6 +14,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             GroupChatId = groupChatId;
         }
 
+        #region свойства
+
         /// <summary>
         /// Id пользователя, относящийся к чату.
         /// </summary>
@@ -33,6 +35,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Чат, к которому пользователь относится.
         /// </summary>
         public GroupChat? GroupChat { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового участника чата.

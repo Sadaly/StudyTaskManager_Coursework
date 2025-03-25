@@ -19,6 +19,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
             Content = content;
         }
 
+        #region свойства
+
         /// <summary>
         /// Id создателя апдейта.
         /// </summary>
@@ -48,6 +50,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// Ссылка на задачу.
         /// </summary>
         public GroupTask? Task { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Создает новое обновление задачи.

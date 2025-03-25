@@ -24,6 +24,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             _groupChatParticipants = [];
         }
 
+        #region свойства
+
         /// <summary>
         /// Ссылка на группу по id
         /// </summary>
@@ -55,6 +57,8 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// </summary>
         public IEnumerable<GroupChatParticipant> GroupChatParticipants => _groupChatParticipants;
         private List<GroupChatParticipant> _groupChatParticipants;
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового группового чата

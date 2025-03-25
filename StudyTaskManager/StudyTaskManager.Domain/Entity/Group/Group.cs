@@ -26,15 +26,21 @@ namespace StudyTaskManager.Domain.Entity.Group
 
         #region свойства
 
+        /// <summary>
+        /// Название группы (обязательно).
+        /// </summary>
         public Title Title { get; private set; }
+
         /// <summary>
         /// Описание группы (может быть пустым).
         /// </summary>
         public Content? Description { get; private set; }
+
         /// <summary>
         /// ID роли по умолчанию для новых пользователей.
         /// </summary>
         public Guid DefaultRoleId { get; private set; }
+
         /// <summary>
         /// Роль по умолчанию для новых пользователей.
         /// </summary>
@@ -45,11 +51,13 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// </summary>
         public List<UserInGroup> UsersInGroup => _usersInGroup;
         private readonly List<UserInGroup> _usersInGroup;
+
         /// <summary>
         /// Роли в группе.
         /// </summary>
         public List<GroupRole> GroupRoles => _groupRoles;
         private readonly List<GroupRole> _groupRoles;
+
         /// <summary>
         /// Приглашения в группу.
         /// </summary>

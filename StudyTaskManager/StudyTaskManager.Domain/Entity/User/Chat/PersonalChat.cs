@@ -41,8 +41,11 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
             }
         }
 
-        readonly List<PersonalMessage>? _messages;
+        /// <summary>
+        /// Перечисление сообщений из личных чатов
+        /// </summary>
         public List<PersonalMessage>? Messages => _messages;
+        readonly List<PersonalMessage>? _messages;
 
         #endregion
 
