@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
 {
     public class UserCreateCommandValidator : AbstractValidator<UserCreateCommand>
     {

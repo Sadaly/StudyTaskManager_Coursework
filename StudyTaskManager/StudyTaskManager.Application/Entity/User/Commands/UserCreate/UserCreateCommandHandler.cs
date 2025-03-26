@@ -6,17 +6,19 @@ using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
 {
     internal sealed class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
+        private readonly ISystemRoleRepository _systemRoleRepository;
 
-        public UserCreateCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        public UserCreateCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, ISystemRoleRepository systemRoleRepository)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _systemRoleRepository = systemRoleRepository;
         }
 
         public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
@@ -25,7 +27,20 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
             Result<Username> username = Username.Create(request.Username);
             Result<Password> password = Password.Create(request.Password);
             Result<PhoneNumber>? phoneNumber = null;
-            SystemRole? role = request.SystemRole;
+            SystemRole? role = null;
+
+            if(request.SystemRoleId != null)
+            {
+                var foundRoleResult = _systemRoleRepository.GetByIdAsync(request.SystemRoleId.Value, cancellationToken).Result;
+                if (foundRoleResult.IsSuccess)
+                {
+                    role = foundRoleResult.Value;
+                }
+                else
+                {
+                    return Result.Failure<Guid>(foundRoleResult.Error);
+                }
+            }
 
             if (request.PhoneNumber != null)
             {

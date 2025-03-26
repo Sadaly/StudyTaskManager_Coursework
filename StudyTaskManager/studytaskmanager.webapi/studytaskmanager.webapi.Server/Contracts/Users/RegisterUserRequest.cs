@@ -7,6 +7,6 @@ namespace StudyTaskManager.WebAPI.Contracts.Users
         string Email,
         string Password,
         string? PhoneNumber,
-        SystemRole? SystemRole
+        Guid? SystemRole
         );
 }

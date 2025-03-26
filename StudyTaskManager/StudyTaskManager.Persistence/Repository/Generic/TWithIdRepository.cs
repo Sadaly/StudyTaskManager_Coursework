@@ -13,10 +13,10 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         {
             T? res = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-            if (res == null)
+            if (res == default)
                 return Result.Failure<T>(new Error(
-                    $"{nameof(T)}.NotFound",
-                    $"Элемент {nameof(T)} с указанным id: {id} не найден"));
+                    $"{typeof(T)}.NotFound",
+                    $"Элемент {typeof(T)} с указанным id: {id} не найден"));
 
             return Result.Success(res);
         }

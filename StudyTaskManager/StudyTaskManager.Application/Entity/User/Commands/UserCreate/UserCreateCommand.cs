@@ -1,12 +1,10 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Domain.Entity.User;
-using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 
 public sealed record UserCreateCommand(
     string Username,
     string Email,
     string Password,
     string? PhoneNumber,
-    SystemRole? SystemRole) : ICommand<Guid>;
+    Guid? SystemRoleId) : ICommand<Guid>;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
+using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Application.Entity.Users.Queries;
 using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 using StudyTaskManager.Domain.Shared;

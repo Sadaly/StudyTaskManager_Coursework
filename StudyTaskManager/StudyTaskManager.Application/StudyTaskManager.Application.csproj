@@ -104,7 +104,6 @@
     <Folder Include="Entity\User\Commands\UserUpdateSystemRole\" />
     <Folder Include="Entity\User\Commands\UserVerifyPhoneNumber\" />
     <Folder Include="Entity\User\Commands\UserVerifyEmail\" />
-    <Folder Include="Entity\User\Commands\UserChangePhoneNumber\" />
     <Folder Include="Entity\User\Commands\UserUpdatePassword\" />
     <Folder Include="Entity\User\Commands\UserDelete\" />
     <Folder Include="Entity\User\Queries\UserGetByUsername\" />
