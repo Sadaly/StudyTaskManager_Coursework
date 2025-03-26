@@ -8,13 +8,13 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatParticipant : BaseEntity
     {
         // Приватный конструктор, доступ к которому можно получить через фабричный метод.
-        private GroupChatParticipant(User.User user, GroupChat groupChat)
+        private GroupChatParticipant(Guid userId, Guid groupChatId)
         {
-            UserId = user.Id;
-            GroupChatId = groupChat.Id;
-            User = user;
-            GroupChat = groupChat;
+            UserId = userId;
+            GroupChatId = groupChatId;
         }
+
+        #region свойства
 
         /// <summary>
         /// Id пользователя, относящийся к чату.
@@ -29,12 +29,14 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Пользователь, относящийся к чату.
         /// </summary>
-        public User.User User { get; }
+        public User.User? User { get; private set; }
 
         /// <summary>
         /// Чат, к которому пользователь относится.
         /// </summary>
-        public GroupChat GroupChat { get; }
+        public GroupChat? GroupChat { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового участника чата.
@@ -43,9 +45,13 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="groupChat">Групповой чат, к которому относится пользователь.</param>
         /// <returns>Новая сущность GroupChatParticipant.</returns>
         public static GroupChatParticipant Create(User.User user, GroupChat groupChat)
-		{
-			//Todo добавить событие
-			return new GroupChatParticipant(user, groupChat);
+        {
+            GroupChatParticipant gcp = new(user.Id, groupChat.Id)
+            {
+                User = user,
+                GroupChat = groupChat
+            };
+            return gcp;
         }
     }
 }

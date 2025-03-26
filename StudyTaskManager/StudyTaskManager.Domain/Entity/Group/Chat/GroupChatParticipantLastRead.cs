@@ -8,15 +8,14 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatParticipantLastRead : BaseEntity
     {
         // Приватный конструктор, доступ к которому можно получить через фабричный метод
-        private GroupChatParticipantLastRead(ulong lastReadMessageId, Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
+        private GroupChatParticipantLastRead(ulong lastReadMessageId, Guid groupChatId, Guid userId)
         {
             LastReadMessageId = lastReadMessageId;
             GroupChatId = groupChatId;
-            UserId = user.Id;
-            ReadMessage = readMessage;
-            GroupChat = groupChat;
-            User = user;
+            UserId = userId;
         }
+
+        #region свойства
 
         /// <summary>
         /// Идентификатор последнего прочитанного сообщения пользователем в чате.
@@ -36,17 +35,19 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Последнее прочитанное сообщение пользователем в чате.
         /// </summary>
-        public GroupChatMessage ReadMessage { get; private set; }
+        public GroupChatMessage? ReadMessage { get; private set; }
 
         /// <summary>
         /// Групповой чат, к которому относится прочитанное сообщение.
         /// </summary>
-        public GroupChat GroupChat { get; }
+        public GroupChat? GroupChat { get; private set; }
 
         /// <summary>
         /// Пользователь, который прочитал последнее сообщение в чате.
         /// </summary>
-        public User.User User { get; }
+        public User.User? User { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Фабричный метод для создания нового отслеживания последнего прочитанного сообщения.
@@ -58,16 +59,17 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <returns>Новая сущность GroupChatParticipantLastRead.</returns>
         public static GroupChatParticipantLastRead Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
         {
-
-			//Todo добавить событие
-
-			return new GroupChatParticipantLastRead(
-                readMessage.Ordinal,
-                groupChatId,
-                readMessage,
-                groupChat,
-                user
-            );
+            return
+                new GroupChatParticipantLastRead(
+                    readMessage.Ordinal,
+                    groupChatId,
+                    user.Id
+                )
+                {
+                    GroupChat = groupChat,
+                    User = user,
+                    ReadMessage = readMessage
+                };
         }
 
         /// <summary>

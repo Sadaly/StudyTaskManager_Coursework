@@ -16,15 +16,16 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 		public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
-            Result<UserName> userNameResult = UserName.Create(request.UserName);
-            Result<Password> passwordResult = Password.Create(request.Password);
-            Result<PhoneNumber>? phoneNumberResult = null;
+            Result<UserName> userName = UserName.Create(request.UserName);
+            Result<Password> password = Password.Create(request.Password);
+            Result<PhoneNumber>? phoneNumber = null;
+            SystemRole? role = request.SystemRole;
 
-			if (request.PhoneNumber != null && request.PhoneNumber != String.Empty)
-			{
-				//Перед созданием экземпляра мы проверяем, что он не равен null
-				phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
-                if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumberResult.Value, cancellationToken))
+            if (request.PhoneNumber != null)
+            {
+                //Перед созднием экземпляра мы проверяем, что он не равен null
+                phoneNumber = PhoneNumber.Create(request.PhoneNumber);
+                if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken))
                 {
                     return Result.Failure<Guid>(DomainErrors.User.PhoneNumberAlreadyInUse);
                 }
@@ -40,13 +41,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
                 return Result.Failure<Guid>(DomainErrors.User.UserNameAlreadyInUse);
             }
 
-            var user = User.Create(
-                Guid.NewGuid(), 
-                userNameResult.Value, 
-                emailResult.Value, 
-                passwordResult.Value, 
-                phoneNumberResult?.Value, 
-                request.SystemRole);
+            var user = User.Create(Guid.NewGuid(), userName.Value, emailResult.Value, password.Value, phoneNumber?.Value, role);
 
             await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

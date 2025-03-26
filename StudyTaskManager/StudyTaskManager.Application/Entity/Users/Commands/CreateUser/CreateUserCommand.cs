@@ -5,8 +5,8 @@ using StudyTaskManager.Domain.ValueObjects;
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
 
 public sealed record CreateUserCommand(
-    string UserName, 
-    string Email, 
-    string Password, 
+    string UserName,
+    string Email,
+    string Password,
     string? PhoneNumber,
     SystemRole? SystemRole) : ICommand<Guid>;
