@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group
@@ -74,7 +76,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Метод для обновления прав роли.
         /// </summary>
-        public void UpdatePermissions(bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers)
+        public Result UpdatePermissions(bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers)
         {
             CanCreateTasks = canCreateTasks;
             CanManageRoles = canManageRoles;
@@ -82,19 +84,21 @@ namespace StudyTaskManager.Domain.Entity.Group
             CanChangeTaskUpdates = canChangeTaskUpdates;
             CanInviteUsers = canInviteUsers;
 
-            // TODO: Добавить событие изменения прав роли.
+            RaiseDomainEvent(new GroupRolePermisionsUpdatedDomainEvent(Id));
+
+            return Result.Success();
         }
 
         /// <summary>
         /// Создает новую роль в группе.
         /// </summary>
-        public static GroupRole Create(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
+        public static Result<GroupRole> Create(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
         {
             var groupRole = new GroupRole(id, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
 
-            // TODO: Добавить событие создания роли.
+            groupRole.RaiseDomainEvent(new GroupRoleCreatedDomainEvent(groupRole.Id));
 
-            return groupRole;
+            return Result.Success(groupRole);
         }
     }
 }

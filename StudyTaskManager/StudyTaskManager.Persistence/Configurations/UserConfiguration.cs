@@ -22,12 +22,12 @@ namespace StudyTaskManager.Persistence.Configurations
             builder.Ignore(user => user.PersonalChats);
 
             builder
-                .Property(u => u.UserName)
+                .Property(u => u.Username)
                 .HasConversion(
                     un => un.Value,
-                    str => UserName.Create(str).Value)
-                .HasMaxLength(UserName.MAX_LENGTH)
-                .HasColumnName(TableNames.UserTable.UserName);
+                    str => Username.Create(str).Value)
+                .HasMaxLength(Username.MAX_LENGTH)
+                .HasColumnName(TableNames.UserTable.Username);
             builder
                 .Property(u => u.Email)
                 .HasConversion(

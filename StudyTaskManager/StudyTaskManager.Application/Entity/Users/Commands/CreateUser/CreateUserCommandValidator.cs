@@ -7,8 +7,8 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
     {
         public CreateUserCommandValidator() 
         {
-            RuleFor(x => x.UserName).NotEmpty()
-                .MaximumLength(UserName.MAX_LENGTH);
+            RuleFor(x => x.Username).NotEmpty()
+                .MaximumLength(Username.MAX_LENGTH);
 
             RuleFor(x => x.Email).NotEmpty().Must(email 
                 => email.Split('@').Length == 2);

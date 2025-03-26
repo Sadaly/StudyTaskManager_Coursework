@@ -8,7 +8,7 @@ namespace StudyTaskManager.Domain.Exceptions
 		public UserNotFound(Guid Id) : base($"Пользователь с Id: {Id} не найден.")
 		{
 		}
-		public UserNotFound(User user) : base($"Указанный пользователь (id:{user.Id}, UserName:{user.UserName}) не найден.")
+		public UserNotFound(User user) : base($"Указанный пользователь (id:{user.Id}, Username:{user.Username}) не найден.")
 		{
 		}
 	}

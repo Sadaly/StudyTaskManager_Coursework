@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -80,7 +81,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <param name="role">Роль пользователя в группе.</param>
         /// <param name="user">Пользователь.</param>
         /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
-        public static UserInGroup Create(Group group, GroupRole role, User.User user)
+        public static Result<UserInGroup> Create(Group group, GroupRole role, User.User user)
         {
             var userInGroup = new UserInGroup(group.Id, role.Id, user.Id)
             {
@@ -91,21 +92,23 @@ namespace StudyTaskManager.Domain.Entity.Group
 
 			userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
 
-			return userInGroup;
+			return Result.Success(userInGroup);
         }
 
-		public void LeaveGroup()
+		public Result LeaveGroup()
 		{
 			this.RaiseDomainEvent(new GroupUserLeftDomainEvent(this.UserId, this.GroupId));
-		}
 
-		public void UpdateRole(GroupRole role)
+            return Result.Success();
+        }
+
+		public Result UpdateRole(GroupRole role)
 		{
             this.Role = role;
 
 			this.RaiseDomainEvent(new GroupUserRoleUpdatedDomainEvent(this.UserId, this.GroupId));
 
-			return;
-		}
+            return Result.Success();
+        }
 	}
 }

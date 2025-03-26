@@ -9,12 +9,16 @@ namespace StudyTaskManager.Persistence.Repository.Generic
     {
         public TWithIdRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<Result<T?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             T? res = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (res == null)
+                return Result.Failure<T>(new Error(
+                    $"{nameof(T)}.NotFound",
+                    $"Элемент {nameof(T)} с указанным id: {id} не найден"));
+
             return Result.Success(res);
-            // Считать ли ошибкой, если в системе по нужному id нет сущности? (код сам выполнился верно, просто не нашел)
-            // Подобное еще гдето в коде встречается 
         }
     }
 }

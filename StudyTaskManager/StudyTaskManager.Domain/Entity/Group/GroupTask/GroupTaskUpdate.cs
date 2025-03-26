@@ -1,4 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
@@ -56,21 +58,29 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Создает новое обновление задачи.
         /// </summary>
-        public static GroupTaskUpdate Create(Guid id, User.User creator, GroupTask task, Content content)
+        public static Result<GroupTaskUpdate> Create(Guid id, User.User creator, GroupTask task, Content content)
         {
-            return new GroupTaskUpdate(id, creator.Id, task.Id, content)
+            var gtu = new GroupTaskUpdate(id, creator.Id, task.Id, content)
             {
                 Creator = creator,
                 Task = task
             };
+
+            gtu.RaiseDomainEvent(new GroupTaskUpdateCreatedDomainEvent(gtu.Id));
+
+            return Result.Success(gtu);
         }
 
         /// <summary>
         /// Обновляет содержание задачи.
         /// </summary>
-        public void UpdateContent(Content newContent)
+        public Result UpdateContent(Content newContent)
         {
             Content = newContent;
+
+            RaiseDomainEvent(new GroupTaskUpdateUpdatedDomainEvent(this.Id));
+
+            return Result.Success();
         }
     }
 }

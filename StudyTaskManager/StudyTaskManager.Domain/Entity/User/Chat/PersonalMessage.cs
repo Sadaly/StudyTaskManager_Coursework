@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User.Chat
@@ -67,30 +68,42 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <param name="personalChat">Чат</param>
         /// <param name="content">Содержимое сообщения</param>
         /// <returns>Новый экземпляр личного сообщения</returns>
-        public static PersonalMessage Create(User sender, PersonalChat personalChat, Content content)
+        public static Result<PersonalMessage> Create(User sender, PersonalChat personalChat, Content content)
         {
-            return new PersonalMessage(Guid.Empty, sender.Id, personalChat.Id, content)
+            var pm = new PersonalMessage(Guid.Empty, sender.Id, personalChat.Id, content)
             {
                 Sender = sender,
                 PersonalChat = personalChat
             };
+
+            pm.RaiseDomainEvent(new DomainEvents.PersonalMessageCreatedDomainEvent(pm.Id));
+
+            return Result.Success(pm);
         }
 
         /// <summary>
         /// Метод для обновления флага прочтения сообщения
         /// </summary>
-        public void MarkAsRead()
+        public Result MarkAsRead()
         {
             Is_Read_By_Other_User = true;
+
+            RaiseDomainEvent(new DomainEvents.PersonalMessageReadDomainEvent(this.Id));
+
+            return Result.Success();
         }
 
         /// <summary>
         /// Метод для изменения содержимого сообщения
         /// </summary>
         /// <param name="newContent">Новое содержание сообщения</param>
-        public void UpdateContent(Content newContent)
+        public Result UpdateContent(Content newContent)
         {
             this.Content = newContent;
+
+            RaiseDomainEvent(new DomainEvents.PersonalMessageUpdatedDomainEvent(this.Id));
+
+            return Result.Success();
         }
     }
 }

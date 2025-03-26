@@ -79,7 +79,7 @@ namespace StudyTaskManager.Persistence.Configurations
         {
             internal const string Id = nameof(Id);
             internal const string SystemRoleId = nameof(SystemRoleId);
-            internal const string UserName = nameof(UserName);
+            internal const string Username = nameof(Username);
             internal const string Email = nameof(Email);
             internal const string PhoneNumber = nameof(PhoneNumber);
             internal const string PasswordHash = nameof(PasswordHash);

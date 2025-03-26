@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Domain.DomainEvents;
 
-public sealed record UserNameChangedDomainEvent(Guid UserId) : IDomainEvent;
+public sealed record UsernameChangedDomainEvent(Guid UserId) : IDomainEvent;

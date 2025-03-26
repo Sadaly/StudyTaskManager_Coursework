@@ -42,7 +42,8 @@ public sealed class ConvertDomainEventsToOutboxMessagesInterceptor
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All
-                    })
+                    }),
+                Error = cancellationToken.ToString()
             })
             .ToList();
 

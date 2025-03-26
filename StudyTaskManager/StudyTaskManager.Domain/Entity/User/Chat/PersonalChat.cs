@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System.Reflection.PortableExecutable;
@@ -64,16 +65,24 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
                 User1 = User1,
                 User2 = User2
             };
-            return pc;
+
+            pc.RaiseDomainEvent(new DomainEvents.PersonalChatCreatedDomainEvent(pc.Id));
+
+            return Result.Success(pc);
         }
+
 
         /// <summary>
         /// Метод для добавления сообщения в чат
         /// </summary>
         /// <param name="message">Сообщение</param>
-        public void AddMessage(PersonalMessage message)
+        public Result AddMessage(PersonalMessage message)
         {
             _messages?.Add(message);
+
+            RaiseDomainEvent(new PersonalChatMessageAddedDomainEvent(message.Id));
+
+            return Result.Success();
         }
     }
 }

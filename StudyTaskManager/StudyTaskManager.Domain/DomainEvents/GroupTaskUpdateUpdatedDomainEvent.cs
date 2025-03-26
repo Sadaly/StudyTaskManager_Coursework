@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Domain.DomainEvents;
 
-public sealed record PersonalMessageSentDomainEvent(Guid MessageId) : IDomainEvent;
+public sealed record GroupTaskUpdateUpdatedDomainEvent(Guid GroupTaskUpdId) : IDomainEvent;

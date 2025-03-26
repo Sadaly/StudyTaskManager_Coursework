@@ -1,4 +1,7 @@
-﻿using StudyTaskManager.Domain.Common;
+﻿using System;
+using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
@@ -68,31 +71,42 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="isPublic">Доступен ли чат всем участникам группы</param>
         /// <param name="group">Группа, к которой относится чат</param>
         /// <returns>Новый экземпляр группового чата</returns>
-        public static GroupChat Create(Group group, Title name, bool isPublic)
+        public static Result<GroupChat> Create(Group group, Title name, bool isPublic)
         {
             GroupChat gc = new(group.Id, name, isPublic)
             {
                 Group = group
             };
-            return gc;
+
+            gc.RaiseDomainEvent(new GroupChatCreatedDomainEvent(gc.Id));
+
+            return Result.Success(gc);
         }
 
         /// <summary>
         /// Метод для добавления сообщения в чат
         /// </summary>
         /// <param name="message">Сообщение для добавления</param>
-        public void AddMessage(GroupChatMessage message)
+        public Result AddMessage(GroupChatMessage message)
         {
             _groupChatMessages?.Add(message);
+
+            RaiseDomainEvent(new GroupChatAddedMessageDomainEvent(this.Id));
+
+            return Result.Success();
         }
 
         /// <summary>
         /// Метод для добавления участника в чат
         /// </summary>
         /// <param name="participant">Участник для добавления</param>
-        public void AddParticipant(GroupChatParticipant participant)
+        public Result AddParticipant(GroupChatParticipant participant)
         {
             _groupChatParticipants?.Add(participant);
+
+            RaiseDomainEvent(new GroupChatAddedParticipantDomainEvent(this.Id));
+
+            return Result.Success();
         }
     }
 }

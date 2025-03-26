@@ -4,11 +4,11 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
-    public class UserName : ValueObject
+    public class Username : ValueObject
     {
         public const int MAX_LENGTH = 50;
 
-        private UserName(string value)
+        private Username(string value)
         {
             Value = value;
         }
@@ -17,23 +17,23 @@ namespace StudyTaskManager.Domain.ValueObjects
 
 
         /// <summary>
-        /// Создание экземпляра <see cref="UserName"/> с проверкой входящих значений
+        /// Создание экземпляра <see cref="Username"/> с проверкой входящих значений
         /// </summary>
         /// <param name="username">Строка с именем</param>
-        /// <returns>Новый экземпляр <see cref="UserName"/></returns>
-        public static Result<UserName> Create(string username)
+        /// <returns>Новый экземпляр <see cref="Username"/></returns>
+        public static Result<Username> Create(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
-                return Result.Failure<UserName>(DomainErrors.UserName.Empty);
+                return Result.Failure<Username>(DomainErrors.Username.Empty);
             }
 
             if (username.Length > MAX_LENGTH)
             {
-                return Result.Failure<UserName>(DomainErrors.UserName.TooLong);
+                return Result.Failure<Username>(DomainErrors.Username.TooLong);
             }
 
-            return new UserName(username);
+            return new Username(username);
         }
         public override IEnumerable<object> GetAtomicValues()
         {

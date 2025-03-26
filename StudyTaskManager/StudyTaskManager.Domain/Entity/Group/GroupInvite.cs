@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System;
@@ -79,6 +80,8 @@ namespace StudyTaskManager.Domain.Entity.Group
 
             InvitationAccepted = true;
 
+            RaiseDomainEvent(new GroupInviteAcceptedDomainEvent(ReceiverId, GroupId));
+
             return Result.Success();
         }
 
@@ -95,20 +98,26 @@ namespace StudyTaskManager.Domain.Entity.Group
 
             InvitationAccepted = false;
 
+            RaiseDomainEvent(new GroupInviteDeclinedDomainEvent(ReceiverId, GroupId));
+
             return Result.Success();
         }
 
         /// <summary>
         /// Создает новое приглашение.
         /// </summary>
-        public static GroupInvite Create(User.User sender, User.User receiver, Group group)
+        public static Result<GroupInvite> Create(User.User sender, User.User receiver, Group group)
         {
-            return new GroupInvite(sender.Id, receiver.Id, group.Id)
+            var gi = new GroupInvite(sender.Id, receiver.Id, group.Id)
             {
                 Sender = sender,
                 Receiver = receiver,
                 Group = group
             };
+
+            gi.RaiseDomainEvent(new GroupInviteCreatedDomainEvent(gi.GroupId, gi.ReceiverId));
+
+            return Result.Success(gi);
         }
     }
 }

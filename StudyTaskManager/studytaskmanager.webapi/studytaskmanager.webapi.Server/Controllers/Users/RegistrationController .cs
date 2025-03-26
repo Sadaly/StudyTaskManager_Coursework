@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
+using StudyTaskManager.Application.Entity.Users.Queries;
+using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.WebAPI.Contracts.Users;
@@ -22,7 +24,7 @@ namespace StudyTaskManager.WebAPI.Controllers.Users
             )
         {
             var command = new CreateUserCommand(
-                request.UserName, 
+                request.Username, 
                 request.Email, 
                 request.Password, 
                 request.PhoneNumber, 
@@ -41,9 +43,13 @@ namespace StudyTaskManager.WebAPI.Controllers.Users
                 result.Value);
         }
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetUserById()
+        public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var query = new GetUserByIdQuery(id);
+
+            Result<UserResponse> response = await Sender.Send(query, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using StudyTaskManager.Domain.Abstractions;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Common
 {
@@ -7,6 +9,8 @@ namespace StudyTaskManager.Domain.Common
     /// </summary>
     public abstract class BaseEntity : IEntity
     {
+        public bool DeleteFlag { get; set; }
+
         private readonly List<IDomainEvent> _domainEvents = new();
 
         public IReadOnlyCollection<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
@@ -15,5 +19,14 @@ namespace StudyTaskManager.Domain.Common
 
         protected void RaiseDomainEvent(IDomainEvent domainEvent) =>
             _domainEvents.Add(domainEvent);
+
+        public virtual Result Delete()
+        {
+            DeleteFlag = true;
+
+            RaiseDomainEvent(new EntityDeletedDomainEvent(this, this.GetType().Name));
+
+            return Result.Success();
+        }
     }
 }

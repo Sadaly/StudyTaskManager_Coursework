@@ -18,4 +18,13 @@
     <ProjectReference Include="..\StudyTaskManager.Domain\StudyTaskManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entity\Users\Commands\ChangeUsername\" />
+    <Folder Include="Entity\Users\Commands\UpdateSystemRole\" />
+    <Folder Include="Entity\Users\Commands\Новая папка - Копировать %282%29\" />
+    <Folder Include="Entity\Users\Commands\ChangePhoneNumber\" />
+    <Folder Include="Entity\Users\Commands\ChangePassword\" />
+    <Folder Include="Entity\Users\Queries\GetUserByUsername\" />
+  </ItemGroup>
+
 </Project>

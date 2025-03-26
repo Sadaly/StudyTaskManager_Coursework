@@ -14,8 +14,8 @@ namespace StudyTaskManager.Domain.Errors
                 "User.PhoneNumberAlreadyInUse",
                 "Телефон уже используется");
 
-            public static readonly Error UserNameAlreadyInUse = new(
-                "User.UserNameAlreadyInUse",
+            public static readonly Error UsernameAlreadyInUse = new(
+                "User.UsernameAlreadyInUse",
                 "Имя пользовтеля уже используется");
         }
 
@@ -30,14 +30,14 @@ namespace StudyTaskManager.Domain.Errors
                 "Строка почты имеет неправильный вид");
         }
 
-        public static class UserName
+        public static class Username
         {
             public static readonly Error Empty = new(
-                "UserName.Empty",
+                "Username.Empty",
                 "Имя пользователя пусто");
 
             public static readonly Error TooLong = new(
-                "UserName.TooLong",
+                "Username.TooLong",
                 "Имя пользователя слишком длинное");
         }
 

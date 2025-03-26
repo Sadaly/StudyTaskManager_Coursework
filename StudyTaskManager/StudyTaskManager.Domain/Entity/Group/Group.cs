@@ -80,7 +80,7 @@ namespace StudyTaskManager.Domain.Entity.Group
             if (_usersInGroup.Any(u => u.UserId == user.Id))
                 return Result.Failure(DomainErrors.Group.UserAlreadyInGroup);
 
-            _usersInGroup.Add(UserInGroup.Create(this, role, user));
+            _usersInGroup.Add(UserInGroup.Create(this, role, user).Value);
 
             return Result.Success();
 

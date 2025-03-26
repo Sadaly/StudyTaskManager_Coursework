@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -13,7 +14,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Конструктор класс <see cref="User"/>
         /// </summary>
         /// <param name="id">Уникальный идентификатор</param>
-        /// <param name="userName">Имя пользователя</param>
+        /// <param name="username">Имя пользователя</param>
         /// <param name="email">Почта</param>
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
@@ -24,9 +25,9 @@ namespace StudyTaskManager.Domain.Entity.User
             _personalChatsAsUser1 = [];
             _personalChatsAsUser2 = [];
         }
-        private User(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
+        private User(Guid id, Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
         {
-            UserName = userName;
+            Username = username;
             Email = email;
             PasswordHash = PasswordHash.Create(password).Value;
 
@@ -47,12 +48,22 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        public UserName UserName { get; set; } = null!;
+        public Username Username { get; set; } = null!;
 
         /// <summary>
         /// Почта пользователя
         /// </summary>
         public Email Email { get; set; } = null!;
+
+        /// <summary>
+        /// Переменная показывает подтвержден ли пользовательский email
+        /// </summary>
+        public bool IsEmailVerifed { get; private set; }
+
+        /// <summary>
+        /// Переменная показывает подтвержден ли пользовательский номер телефона
+        /// </summary>
+        public bool IsPhoneNumberVerifed { get; private set; }
 
         /// <summary>
         /// Номер телефона пользователя
@@ -118,56 +129,74 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Метод создания нового пользователя
         /// </summary>
         /// <param name="id">Уникальный идентификатор</param>
-        /// <param name="userName">Имя пользователя</param>
+        /// <param name="username">Имя пользователя</param>
         /// <param name="email">Почта</param>
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
         /// <returns>Новый экземпляр класс <see cref="User"/></returns>
-        public static User Create(Guid id, UserName userName, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
+        public static Result<User> Create(Guid id, Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
         {
-            var user = new User(id, userName, email, password, phoneNumber, systemRole);
+            var user = new User(id, username, email, password, phoneNumber, systemRole);
 
             // Генерация события регистрации пользователя
             user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id));
 
-            return user;
+            return Result.Success(user);
         }
 
-        public User UpdateRole(SystemRole role)
+        public Result UpdateRole(SystemRole role)
         {
             this.SystemRole = role;
 
             this.RaiseDomainEvent(new UserRoleChangedDomainEvent(this.Id));
 
-            return this;
+            return Result.Success();
         }
 
-        public User ChangeName(UserName UserName)
+        public Result ChangeUsername(Username Username)
         {
-            this.UserName = UserName;
+            this.Username = Username;
 
-            this.RaiseDomainEvent(new UserNameChangedDomainEvent(this.Id));
+            this.RaiseDomainEvent(new UsernameChangedDomainEvent(this.Id));
 
-            return this;
+            return Result.Success();
         }
 
-        public User ChangePassword(Password Password)
+        public Result ChangePassword(Password Password)
         {
             this.PasswordHash = PasswordHash.Create(Password).Value;
 
             this.RaiseDomainEvent(new UserPasswordChangedDomainEvent(this.Id));
 
-            return this;
+            return Result.Success();
         }
 
-        public User ChangePhoneNumber(PhoneNumber PhoneNumber)
+        public Result ChangePhoneNumber(PhoneNumber PhoneNumber)
         {
             this.PhoneNumber = PhoneNumber;
 
             this.RaiseDomainEvent(new UserPhoneNumberChangedDomainEvent(this.Id));
 
-            return this;
+            return Result.Success();
+        }
+
+        public Result VerifyEmail()
+        {
+            IsEmailVerifed = true;
+
+            this.RaiseDomainEvent(new UserEmailVerifiedDomainEvent(this.Id));
+
+            return Result.Success();
+        }
+
+        public Result VerifyPhoneNumber()
+        {
+            IsPhoneNumberVerifed = true;
+
+            this.RaiseDomainEvent(new UserPhoneNumberlVerifiedDomainEvent(this.Id));
+
+            return Result.Success();
         }
     }
 }

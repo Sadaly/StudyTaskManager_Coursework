@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User
@@ -68,30 +69,33 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="canBlockUsers">Возможность блокировать пользователей.</param>
         /// <param name="canDeleteChats">Возможность удалять чаты.</param>
         /// <returns>Новый экземпляр класса <see cref="SystemRole"/>.</returns>
-        public static SystemRole Create(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
+        public static Result<SystemRole> Create(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
         {
             var systemRole = new SystemRole(id, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
 
 			systemRole.RaiseDomainEvent(new SystemRoleCreatedDomainEvent(systemRole.Id));
 
-			return systemRole;
+			return Result.Success(systemRole);
         }
-		public SystemRole UpdateTitle(Title Title)
+		public Result UpdateTitle(Title Title)
 		{
 			this.Name = Title;
 
 			this.RaiseDomainEvent(new SystemRoleNameUpdatedDomainEvent(this.Id));
 
-			return this;
+			return Result.Success();
 		}
 
-		public SystemRole UpdatePrivileges(Title Title)
-		{
-			this.Name = Title;
+		public Result UpdatePrivileges(bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
+        {
+            CanViewPeoplesGroups = canViewPeoplesGroups;
+            CanChangeSystemRoles = canChangeSystemRoles;
+            CanBlockUsers = canBlockUsers;
+            CanDeleteChats = canDeleteChats;
 
-			this.RaiseDomainEvent(new SystemRolePrivilegesUpdatedDomainEvent(this.Id));
+            this.RaiseDomainEvent(new SystemRolePrivilegesUpdatedDomainEvent(this.Id));
 
-			return this;
-		}
+			return Result.Success();
+        }
 	}
 }

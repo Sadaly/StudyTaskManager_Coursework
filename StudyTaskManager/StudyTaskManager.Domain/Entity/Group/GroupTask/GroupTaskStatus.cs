@@ -1,4 +1,7 @@
-﻿using StudyTaskManager.Domain.Common;
+﻿using MediatR;
+using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.Group.Task
@@ -51,12 +54,36 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Статический метод для создания нового статуса задачи.
         /// </summary>
-        public static GroupTaskStatus Create(Guid id, Title name, bool canBeUpdated, Group? group, Content? description)
+        public static Result<GroupTaskStatus> Create(Guid id, Title name, bool canBeUpdated, Group? group, Content? description)
         {
-            return new GroupTaskStatus(id, canBeUpdated, group?.Id, name, description)
+            var gts = new GroupTaskStatus(id, canBeUpdated, group?.Id, name, description)
             {
                 Group = group
             };
+
+            gts.RaiseDomainEvent(new GroupTaskStatusCreatedDomainEvent(gts.Id));
+
+            return Result.Success(gts);
+        }
+
+        public Result Update(Title? name, bool? canBeUpdated, Content? description)
+        {
+            if (name is null && canBeUpdated is null)
+                return Result.Failure(new Error(
+                    "GroupTaskStatus.NothingToUpdate",
+                    $"Никакие из полей {this.Id} не были затронуты"));
+
+            if (name is not null)
+                Name = name;
+
+            if (canBeUpdated is not null)
+                CanBeUpdated = canBeUpdated.Value;
+
+            Description = description;
+
+            RaiseDomainEvent(new GroupTaskStatusUpdatedDomainEvent(Id));
+
+            return Result.Success();
         }
     }
 }

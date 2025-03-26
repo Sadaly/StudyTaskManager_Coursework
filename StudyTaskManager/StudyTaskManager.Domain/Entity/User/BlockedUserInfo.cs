@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Entity.User
+﻿using StudyTaskManager.Domain.Shared;
+
+namespace StudyTaskManager.Domain.Entity.User
 {
     /// <summary>
     /// Запись о том, что пользователь был заблокирован
@@ -62,16 +64,16 @@
         /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
         /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
         /// <returns>Новый экземпляр класса <see cref="BlockedUserInfo"/></returns>
-        public static BlockedUserInfo Create(string reason, Guid prevRoleId, User user)
+        public static Result<BlockedUserInfo> Create(string reason, Guid prevRoleId, User user)
         {
             var blockedUserInfo = new BlockedUserInfo(user.Id, prevRoleId, reason)
             {
                 User = user
             };
 
-            // Todo: Добавить создание события, связанного с блокировкой пользователя
+            blockedUserInfo.RaiseDomainEvent(new DomainEvents.BlockedUserDomainEvent(blockedUserInfo.UserId));
 
-            return blockedUserInfo;
+            return Result.Success(blockedUserInfo);
         }
     }
 }

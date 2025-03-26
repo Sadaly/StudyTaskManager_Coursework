@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Common
 {
@@ -11,5 +13,15 @@ namespace StudyTaskManager.Domain.Common
 
         protected BaseEntityWithID() { }
         protected BaseEntityWithID(Guid id) { Id = id; }
+
+
+        public override Result Delete()
+        {
+            DeleteFlag = true;
+
+            RaiseDomainEvent(new EntityWithIdDeletedDomainEvent(this.Id, this.GetType().Name));
+
+            return Result.Success();
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
@@ -44,14 +46,17 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="user">Пользователь, относящийся к чату.</param>
         /// <param name="groupChat">Групповой чат, к которому относится пользователь.</param>
         /// <returns>Новая сущность GroupChatParticipant.</returns>
-        public static GroupChatParticipant Create(User.User user, GroupChat groupChat)
+        public static Result<GroupChatParticipant> Create(User.User user, GroupChat groupChat)
         {
             GroupChatParticipant gcp = new(user.Id, groupChat.Id)
             {
                 User = user,
                 GroupChat = groupChat
             };
-            return gcp;
+
+            gcp.RaiseDomainEvent(new GroupChatParticipantCreatedDomainEvent(groupChat.Id, user.Id));
+
+            return Result.Success(gcp);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
         public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
-            Result<UserName> userName = UserName.Create(request.UserName);
+            Result<Username> username = Username.Create(request.Username);
             Result<Password> password = Password.Create(request.Password);
             Result<PhoneNumber>? phoneNumber = null;
             SystemRole? role = request.SystemRole;
@@ -42,12 +42,12 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
                 return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse);
             }
 
-            if (!_userRepository.IsUserNameUniqueAsync(userName.Value, cancellationToken).Result.Value)
+            if (!_userRepository.IsUsernameUniqueAsync(username.Value, cancellationToken).Result.Value)
             {
-                return Result.Failure<Guid>(DomainErrors.User.UserNameAlreadyInUse);
+                return Result.Failure<Guid>(DomainErrors.User.UsernameAlreadyInUse);
             }
 
-            var user = User.Create(Guid.NewGuid(), userName.Value, emailResult.Value, password.Value, phoneNumber?.Value, role);
+            var user = User.Create(Guid.NewGuid(), username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
 
             await _userRepository.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

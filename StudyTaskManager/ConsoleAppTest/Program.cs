@@ -33,29 +33,29 @@ namespace ConsoleAppTest
             string nameUser = null!;
             using (AppDbContext db = new AppDbContext())
             {
-                Console.Write("UserName (<50): ");
+                Console.Write("Username (<50): ");
                 nameUser = Console.ReadLine() ?? "";
                 newUser = User.Create(
                     Guid.Empty,
-                    UserName.Create(nameUser).Value,
+                    Username.Create(nameUser).Value,
                     Email.Create("strEmail@mail.com").Value,
                     Password.Create("password").Value,
                     null,
-                    null);
-                Console.WriteLine($"newUser prev use rep.Add: {newUser.Id} - {newUser.UserName.Value}");
+                    null).Value;
+                Console.WriteLine($"newUser prev use rep.Add: {newUser.Id} - {newUser.Username.Value}");
                 using (UserRepository userRep = new UserRepository(db))
                 {
                     await userRep.AddAsync(newUser);
                 }
             }
-            Console.WriteLine($"newUser after: {newUser.Id} - {newUser.UserName.Value}");
+            Console.WriteLine($"newUser after: {newUser.Id} - {newUser.Username.Value}");
             using (AppDbContext db = new AppDbContext())
             {
                 var users = db.Users.ToList();
 
                 foreach (User u in users)
                 {
-                    Console.WriteLine($"\t{u.Id} \t- {u.UserName.Value}");
+                    Console.WriteLine($"\t{u.Id} \t- {u.Username.Value}");
                 }
             }
 

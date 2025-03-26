@@ -20,9 +20,9 @@ namespace StudyTaskManager.Persistence.Repository
             return !await _dbContext.Set<User>().AnyAsync(x => x.PhoneNumber == phoneNumber, cancellationToken);
         }
 
-        public async Task<Result<bool>> IsUserNameUniqueAsync(UserName userName, CancellationToken cancellationToken = default)
+        public async Task<Result<bool>> IsUsernameUniqueAsync(Username username, CancellationToken cancellationToken = default)
         {
-            return !await _dbContext.Set<User>().AnyAsync(x => x.UserName == userName, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(x => x.Username == username, cancellationToken);
         }
     }
 }

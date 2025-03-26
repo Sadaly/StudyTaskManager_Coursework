@@ -15,7 +15,7 @@ namespace StudyTaskManager.Persistence.Configurations
 
             builder
                 .HasOne(gr => gr.Group)
-                .WithMany()
+                .WithMany(g => g.GroupRoles)
                 .HasForeignKey(gr => gr.GroupId)
                 .IsRequired(false); // GroupId может быть null
 

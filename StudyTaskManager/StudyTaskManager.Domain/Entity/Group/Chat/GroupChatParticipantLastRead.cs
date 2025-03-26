@@ -1,4 +1,7 @@
-﻿using StudyTaskManager.Domain.Common;
+﻿using System;
+using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
+using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
@@ -57,32 +60,38 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="groupChat">Групповой чат, к которому относится прочитанное сообщение.</param>
         /// <param name="user">Пользователь, который прочитал сообщение.</param>
         /// <returns>Новая сущность GroupChatParticipantLastRead.</returns>
-        public static GroupChatParticipantLastRead Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
+        public static Result<GroupChatParticipantLastRead> Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
         {
-            return
-                new GroupChatParticipantLastRead(
+            var gcp = new GroupChatParticipantLastRead(
                     readMessage.Ordinal,
                     groupChatId,
-                    user.Id
-                )
+                    user.Id)
                 {
                     GroupChat = groupChat,
                     User = user,
                     ReadMessage = readMessage
                 };
+
+            gcp.RaiseDomainEvent(new GroupChatParticipantLastReadCreatedDomainEvent(gcp.GroupChatId, gcp.UserId));
+
+            return Result.Success(gcp);
         }
 
         /// <summary>
         /// Обновление последнего прочитанного сообщения, если оно отличается от текущего.
         /// </summary>
         /// <param name="newReadMessage">Новое прочитанное сообщение.</param>
-        public void UpdateReadMessage(GroupChatMessage newReadMessage)
+        public Result UpdateReadMessage(GroupChatMessage newReadMessage)
         {
             if (newReadMessage.Ordinal != LastReadMessageId)
             {
                 LastReadMessageId = newReadMessage.Ordinal;
                 ReadMessage = newReadMessage;
             }
+
+            RaiseDomainEvent(new GroupChatParticipantLastReadUpdatedDomainEvent(this.GroupChatId, this.UserId));
+
+            return Result.Success();
         }
     }
 }
