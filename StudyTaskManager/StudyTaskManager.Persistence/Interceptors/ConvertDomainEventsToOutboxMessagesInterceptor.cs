@@ -43,7 +43,8 @@ public sealed class ConvertDomainEventsToOutboxMessagesInterceptor
                     {
                         TypeNameHandling = TypeNameHandling.All
                     }),
-                Error = cancellationToken.ToString()
+                //Todo: придумать как записывать ошибки. Возможно стоит добавить событие в конструктор класса Error 
+                //Error = cancellationToken.ToString()
             })
             .ToList();
 
