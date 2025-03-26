@@ -53,11 +53,6 @@ namespace StudyTaskManager.Persistence.Configurations
         internal const string UserInGroup = nameof(UserInGroup);
         internal static class UserInGrouTable { }
 
-        internal const string Log = nameof(Log);
-        internal static class LogTable { }
-        internal const string LogAction = nameof(LogAction);
-        internal static class LogActionTable { }
-
         internal const string PersonalChat = nameof(PersonalChat);
         internal static class PersonalChatTable { }
         internal const string PersonalMessage = nameof(PersonalMessage);

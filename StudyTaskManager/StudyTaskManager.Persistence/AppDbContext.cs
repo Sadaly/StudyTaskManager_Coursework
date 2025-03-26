@@ -12,9 +12,6 @@ namespace StudyTaskManager.Persistence
         public DbSet<Domain.Entity.User.Chat.PersonalChat> PersonalChats { get; set; }
         public DbSet<Domain.Entity.User.Chat.PersonalMessage> PersonalMessages { get; set; }
 
-        public DbSet<Domain.Entity.Log.Log> Logs { get; set; }
-        public DbSet<Domain.Entity.Log.LogAction> LogActions { get; set; }
-
         public DbSet<Domain.Entity.Group.Group> Groups { get; set; }
         public DbSet<Domain.Entity.Group.GroupInvite> GroupInvites { get; set; }
         public DbSet<Domain.Entity.Group.GroupRole> GroupRoles { get; set; }
@@ -38,8 +35,6 @@ namespace StudyTaskManager.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region modelBuilder.ApplyConfiguration
-            modelBuilder.ApplyConfiguration(new Configurations.LogActionConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.LogConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.BlockedUserInfoConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PersonalChatConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PersonalMessageConfiguration());
