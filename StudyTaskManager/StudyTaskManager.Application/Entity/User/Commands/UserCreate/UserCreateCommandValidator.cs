@@ -3,9 +3,9 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 {
-    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public class UserCreateCommandValidator : AbstractValidator<UserCreateCommand>
     {
-        public CreateUserCommandValidator() 
+        public UserCreateCommandValidator() 
         {
             RuleFor(x => x.Username).NotEmpty()
                 .MaximumLength(Username.MAX_LENGTH);

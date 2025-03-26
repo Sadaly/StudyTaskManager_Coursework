@@ -75,7 +75,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Добавляет пользователя в группу.
         /// </summary>
-        public Result AddUserToGroup(User.User user, GroupRole role)
+        public Result AddUser(User.User user, GroupRole role)
         {
             if (_usersInGroup.Any(u => u.UserId == user.Id))
                 return Result.Failure(DomainErrors.Group.UserAlreadyInGroup);
@@ -89,7 +89,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Удаляет пользователя из группы.
         /// </summary>
-        public Result RemoveUserFromGroup(Guid userId)
+        public Result RemoveUser(Guid userId)
         {
             var userInGroup = _usersInGroup.FirstOrDefault(u => u.UserId == userId);
             if (userInGroup == null)

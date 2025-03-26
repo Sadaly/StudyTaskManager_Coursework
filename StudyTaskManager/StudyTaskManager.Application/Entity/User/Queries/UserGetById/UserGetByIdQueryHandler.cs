@@ -5,17 +5,17 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries
 {
-    internal sealed class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserResponse>
+    internal sealed class UserGetByIdQueryHandler : IQueryHandler<UserGetByIdQuery, UserResponse>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserByIdQueryHandler(IUserRepository userRepository)
+        public UserGetByIdQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
         public async Task<Result<UserResponse>> Handle(
-            GetUserByIdQuery request,
+            UserGetByIdQuery request,
             CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(
@@ -31,7 +31,7 @@ namespace StudyTaskManager.Application.Entity.Users.Queries
 
             var response = new UserResponse(user.Value.Id, user.Value.Email.Value);
 
-            return response;
+            return Result.Success(response);
         }
     }
 }

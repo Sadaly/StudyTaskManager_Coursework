@@ -145,11 +145,11 @@ namespace StudyTaskManager.Domain.Entity.User
             return Result.Success(user);
         }
 
-        public Result UpdateRole(SystemRole role)
+        public Result ChangeSystemRole(SystemRole role)
         {
             this.SystemRole = role;
 
-            this.RaiseDomainEvent(new UserRoleChangedDomainEvent(this.Id));
+            this.RaiseDomainEvent(new UserSystemRoleChangedDomainEvent(this.Id));
 
             return Result.Success();
         }

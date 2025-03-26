@@ -10,7 +10,7 @@ namespace StudyTaskManager.Persistence.Configurations
         {
             builder.ToTable(TableNames.GroupInvite);
 
-            builder.HasKey(gi => new { gi.SenderId, gi.ReceiverId, gi.GroupId });
+            builder.HasKey(gi => new { gi.ReceiverId, gi.GroupId });
 
             builder
                 .HasOne(gi => gi.Group)

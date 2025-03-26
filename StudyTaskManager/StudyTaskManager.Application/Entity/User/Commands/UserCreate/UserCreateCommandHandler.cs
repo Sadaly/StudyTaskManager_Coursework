@@ -8,18 +8,18 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
 {
-    internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Guid>
+    internal sealed class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        public UserCreateCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
         }
 
-        public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
         {
             Result<Email> emailResult = Email.Create(request.Email);
             Result<Username> username = Username.Create(request.Username);

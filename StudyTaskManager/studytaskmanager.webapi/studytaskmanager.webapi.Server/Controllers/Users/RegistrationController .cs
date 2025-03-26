@@ -23,7 +23,7 @@ namespace StudyTaskManager.WebAPI.Controllers.Users
             CancellationToken cancellationToken
             )
         {
-            var command = new CreateUserCommand(
+            var command = new UserCreateCommand(
                 request.Username, 
                 request.Email, 
                 request.Password, 
@@ -45,7 +45,7 @@ namespace StudyTaskManager.WebAPI.Controllers.Users
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
         {
-            var query = new GetUserByIdQuery(id);
+            var query = new UserGetByIdQuery(id);
 
             Result<UserResponse> response = await Sender.Send(query, cancellationToken);
 

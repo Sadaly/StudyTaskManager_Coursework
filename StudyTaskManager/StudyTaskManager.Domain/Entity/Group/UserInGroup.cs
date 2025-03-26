@@ -63,16 +63,6 @@ namespace StudyTaskManager.Domain.Entity.Group
 
         #endregion
 
-        /// <summary>
-        /// Изменяет роль пользователя в группе.
-        /// </summary>
-        /// <param name="newRole">Новая роль пользователя.</param>
-        public void ChangeRole(GroupRole newRole)
-        {
-            Role = newRole;
-            RoleId = newRole.Id;
-            // TODO: Добавить логику для записи события смены роли
-        }
 
         /// <summary>
         /// Создает новый объект <see cref="UserInGroup"/>.
@@ -93,13 +83,6 @@ namespace StudyTaskManager.Domain.Entity.Group
 			userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
 
 			return Result.Success(userInGroup);
-        }
-
-		public Result LeaveGroup()
-		{
-			this.RaiseDomainEvent(new GroupUserLeftDomainEvent(this.UserId, this.GroupId));
-
-            return Result.Success();
         }
 
 		public Result UpdateRole(GroupRole role)

@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 
-public sealed record GetUserByIdQuery(Guid UserId) : IQuery<UserResponse>;
+public sealed record UserGetByIdQuery(Guid UserId) : IQuery<UserResponse>;

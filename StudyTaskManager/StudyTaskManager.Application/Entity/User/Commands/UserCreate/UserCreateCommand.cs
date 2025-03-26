@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser;
 
-public sealed record CreateUserCommand(
+public sealed record UserCreateCommand(
     string Username,
     string Email,
     string Password,
