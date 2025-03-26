@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Domain.Entity.User
@@ -71,9 +72,27 @@ namespace StudyTaskManager.Domain.Entity.User
         {
             var systemRole = new SystemRole(id, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
 
-            // TODO: Добавить создание доменного события о создании системной роли.
+			// TODO: Добавить создание доменного события о создании системной роли.
+			systemRole.RaiseDomainEvent(new SystemRoleCreatedDomainEvent(systemRole.Id));
 
-            return systemRole;
+			return systemRole;
         }
-    }
+		public SystemRole UpdateTitle(Title Title)
+		{
+			this.Name = Title;
+
+			this.RaiseDomainEvent(new SystemRoleNameUpdatedDomainEvent(this.Id));
+
+			return this;
+		}
+
+		public SystemRole UpdatePrivileges(Title Title)
+		{
+			this.Name = Title;
+
+			this.RaiseDomainEvent(new SystemRolePrivilegesUpdatedDomainEvent(this.Id));
+
+			return this;
+		}
+	}
 }
