@@ -9,21 +9,27 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class GroupRole : BaseEntityWithID
     {
-        private GroupRole(Guid id) : base(id) { }
         /// <summary>
         /// Приватный конструктор для создания объекта <see cref="GroupRole"/>.
         /// </summary>
         private GroupRole(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group) : base(id)
         {
-            Group = group;
-            GroupId = group?.Id;
-
+            if (group != null)
+            {
+                Group = group;
+                GroupId = group?.Id;
+            }
             RoleName = roleName;
             CanCreateTasks = canCreateTasks;
             CanManageRoles = canManageRoles;
             CanCreateTaskUpdates = canCreateTaskUpdates;
             CanChangeTaskUpdates = canChangeTaskUpdates;
             CanInviteUsers = canInviteUsers;
+        }
+
+        public GroupRole()
+        {
+            RoleName = Title.Create("RoleName").Value;
         }
 
         #region свойства

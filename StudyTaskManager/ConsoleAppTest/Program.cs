@@ -30,11 +30,11 @@ namespace ConsoleAppTest
             //Console.WriteLine("builder.Services.ToString() - " + builder.Services.ToString());
             //Console.WriteLine("configuration.ToString() - " + configuration.ToString());
             User newUser;
-            string nameUser;
+            string nameUser = null!;
             using (AppDbContext db = new AppDbContext())
             {
                 Console.Write("UserName (<50): ");
-                nameUser = Console.ReadLine();
+                nameUser = Console.ReadLine() ?? "";
                 newUser = User.Create(
                     Guid.Empty,
                     UserName.Create(nameUser).Value,

@@ -31,25 +31,25 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.CreateUser
             {
                 //Перед созднием экземпляра мы проверяем, что он не равен null
                 phoneNumber = PhoneNumber.Create(request.PhoneNumber);
-                if (!await _userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken))
+                if (!_userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken).Result.Value)
                 {
                     return Result.Failure<Guid>(DomainErrors.User.PhoneNumberAlreadyInUse);
                 }
             }
 
-            if (!await _userRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken))
+            if (!_userRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken).Result.Value)
             {
                 return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse);
             }
 
-            if (!await _userRepository.IsUserNameUniqueAsync(userName.Value, cancellationToken))
+            if (!_userRepository.IsUserNameUniqueAsync(userName.Value, cancellationToken).Result.Value)
             {
                 return Result.Failure<Guid>(DomainErrors.User.UserNameAlreadyInUse);
             }
 
             var user = User.Create(Guid.NewGuid(), userName.Value, emailResult.Value, password.Value, phoneNumber?.Value, role);
 
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return user.Id;

@@ -10,18 +10,16 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        private Group(Guid id, Guid defaultRoleId) : base(id)
+        private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : base(id)
         {
+            Title = title;
+            Description = description;
+
             DefaultRoleId = defaultRoleId;
 
             _usersInGroup = [];
             _groupRoles = [];
             _groupInvites = [];
-        }
-        private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : this(id, defaultRoleId)
-        {
-            Title = title;
-            Description = description;
         }
 
         #region свойства

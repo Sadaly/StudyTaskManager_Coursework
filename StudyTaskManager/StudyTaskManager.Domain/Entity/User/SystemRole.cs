@@ -72,7 +72,6 @@ namespace StudyTaskManager.Domain.Entity.User
         {
             var systemRole = new SystemRole(id, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
 
-			// TODO: Добавить создание доменного события о создании системной роли.
 			systemRole.RaiseDomainEvent(new SystemRoleCreatedDomainEvent(systemRole.Id));
 
 			return systemRole;
