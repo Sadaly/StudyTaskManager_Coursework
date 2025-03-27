@@ -2,7 +2,7 @@
 using StudyTaskManager.Domain.Shared;
 using MediatR;
 
-namespace Gatherly.Application.Behaviors;
+namespace StudyTaskManager.Application.Behaviors;
 
 
 /// <summary>

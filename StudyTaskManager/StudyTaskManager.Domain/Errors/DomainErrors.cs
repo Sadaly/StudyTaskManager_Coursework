@@ -4,21 +4,6 @@ namespace StudyTaskManager.Domain.Errors
 {
     public static class DomainErrors
     {
-        public static class User
-        {
-            public static readonly Error EmailAlreadyInUse = new(
-                "User.EmailAlreadyInUse",
-                "Почта уже используется");
-
-            public static readonly Error PhoneNumberAlreadyInUse = new(
-                "User.PhoneNumberAlreadyInUse",
-                "Телефон уже используется");
-
-            public static readonly Error UsernameAlreadyInUse = new(
-                "User.UsernameAlreadyInUse",
-                "Имя пользовтеля уже используется");
-        }
-
         public static class Email
         {
             public static readonly Error Empty = new(
@@ -28,7 +13,11 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error InvalidFormat = new(
                 "Email.InvalidFormat",
                 "Строка почты имеет неправильный вид");
-        }
+
+			public static readonly Error AlreadyVerified = new(
+				"Email.AlreadyVerified",
+				"Почта уже подтверждена");
+		}
 
         public static class Username
         {
@@ -54,7 +43,15 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error TooShort = new(
                 "PhoneNumber.TooLong",
                 "Телефон слишком короткий");
-        }
+
+			public static readonly Error InvalidFormat = new(
+				"PhoneNumber.InvalidFormat",
+				"Телефон имеет неверный формат или размер");
+
+			public static readonly Error AlreadyVerified = new(
+				"PhoneNumber.AlreadyVerified",
+				"Телефон уже подтвержден");
+		}
 
         public static class Password
         {
@@ -69,6 +66,10 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error TooShort = new(
                 "Password.TooLong",
                 "Пароль слишком короткий");
+
+			public static readonly Error Match = new(
+				"Password.Match",
+					"Новый пароль совпадает с текущим");
         }
 
         public static class Content

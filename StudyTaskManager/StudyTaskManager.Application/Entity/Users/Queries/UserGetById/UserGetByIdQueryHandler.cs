@@ -18,18 +18,16 @@ namespace StudyTaskManager.Application.Entity.Users.Queries
             UserGetByIdQuery request,
             CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(
+            var userResult = await _userRepository.GetByIdAsync(
                 request.UserId,
                 cancellationToken);
 
-            if (user is null)
+            if (userResult.IsFailure)
             {
-                return Result.Failure<UserResponse>(new Error(
-                    "User.NotFound",
-                    $"Пользователь {request.UserId} не найден"));
+                return Result.Failure<UserResponse>(userResult.Error);
             }
 
-            var response = new UserResponse(user.Value.Id, user.Value.Email.Value);
+            var response = new UserResponse(userResult.Value.Id, userResult.Value.Email.Value);
 
             return Result.Success(response);
         }

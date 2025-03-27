@@ -4,7 +4,7 @@ using StudyTaskManager.Persistence;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
-using Gatherly.Application.Behaviors;
+using StudyTaskManager.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Persistence.Interceptors;

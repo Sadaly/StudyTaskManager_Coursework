@@ -1,8 +1,8 @@
 ﻿using StudyTaskManager.Application;
 using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
-using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.ValueObjects;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace ConsoleAppTest
 {

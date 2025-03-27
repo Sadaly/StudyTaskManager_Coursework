@@ -44,25 +44,25 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
 
             if (request.PhoneNumber != null)
             {
-                //Перед созднием экземпляра мы проверяем, что он не равен null
+                //Перед созданием экземпляра мы проверяем, что он не равен null
                 phoneNumber = PhoneNumber.Create(request.PhoneNumber);
                 if (!_userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken).Result.Value)
                 {
-                    return Result.Failure<Guid>(DomainErrors.User.PhoneNumberAlreadyInUse);
+                    return Result.Failure<Guid>(PersistenceErrors.User.PhoneNumberAlreadyInUse);
                 }
             }
 
             if (!_userRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken).Result.Value)
             {
-                return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse);
+                return Result.Failure<Guid>(PersistenceErrors.User.EmailAlreadyInUse);
             }
 
             if (!_userRepository.IsUsernameUniqueAsync(username.Value, cancellationToken).Result.Value)
             {
-                return Result.Failure<Guid>(DomainErrors.User.UsernameAlreadyInUse);
+                return Result.Failure<Guid>(PersistenceErrors.User.UsernameAlreadyInUse);
             }
 
-            var user = User.Create(Guid.NewGuid(), username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
+            var user = Domain.Entity.User.User.Create(Guid.NewGuid(), username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
 
             await _userRepository.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

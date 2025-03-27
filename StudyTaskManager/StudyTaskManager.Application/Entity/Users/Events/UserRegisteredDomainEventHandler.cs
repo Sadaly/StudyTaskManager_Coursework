@@ -23,7 +23,7 @@ namespace StudyTaskManager.Application.Entity.Users.Events
 
         public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
         {
-            User? user = _userRepository.GetByIdAsync(
+            var user = _userRepository.GetByIdAsync(
             notification.UserId,
             cancellationToken).Result.Value;
 

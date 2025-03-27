@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Domain.Shared;
+using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -165,7 +166,12 @@ namespace StudyTaskManager.Domain.Entity.User
 
         public Result ChangePassword(Password Password)
         {
-            this.PasswordHash = PasswordHash.Create(Password).Value;
+            var ph = PasswordHash.Create(Password).Value;
+
+            if (ph.Value == PasswordHash.Value)
+                return Result.Failure(DomainErrors.Password.Match);
+
+			this.PasswordHash = ph;
 
             this.RaiseDomainEvent(new UserPasswordChangedDomainEvent(this.Id));
 
@@ -182,8 +188,11 @@ namespace StudyTaskManager.Domain.Entity.User
         }
 
         public Result VerifyEmail()
-        {
-            IsEmailVerifed = true;
+		{
+			if (IsEmailVerifed)
+				return Result.Failure(DomainErrors.Email.AlreadyVerified);
+
+			IsEmailVerifed = true;
 
             this.RaiseDomainEvent(new UserEmailVerifiedDomainEvent(this.Id));
 
@@ -192,7 +201,10 @@ namespace StudyTaskManager.Domain.Entity.User
 
         public Result VerifyPhoneNumber()
         {
-            IsPhoneNumberVerifed = true;
+			if (IsPhoneNumberVerifed)
+				return Result.Failure(DomainErrors.PhoneNumber.AlreadyVerified);
+
+			IsPhoneNumberVerifed = true;
 
             this.RaiseDomainEvent(new UserPhoneNumberlVerifiedDomainEvent(this.Id));
 
