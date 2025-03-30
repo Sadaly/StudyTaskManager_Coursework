@@ -30,6 +30,7 @@ namespace StudyTaskManager.Persistence.Repository
 
             await _dbContext.Set<GroupInvite>().AddAsync(groupInvite, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
             return Result.Success();
         }
         public async Task<Result<List<GroupInvite>>> GetByUserAsync(Group group, CancellationToken cancellationToken = default)

@@ -15,14 +15,20 @@ namespace StudyTaskManager.Persistence.Repository
             // Проверка при добавлении на возможность апдейта у статуса задачи
             GroupTask? gt = await _dbContext.Set<GroupTask>().FirstOrDefaultAsync(gt => gt.Id == groupTaskUpdate.TaskId, cancellationToken: cancellationToken);
             if (gt == null)
-                return Result.Failure(new Error("Error.NullValue", "Задачи для которой создается апдейт не существует."));
+                return Result.Failure(new Error(
+                    $"{typeof(GroupTaskUpdate)}.NullValue", 
+                    $"Задачи для которой создается апдейт не существует."));
 
             GroupTaskStatus? gts = await _dbContext.Set<GroupTaskStatus>().FirstOrDefaultAsync(gts => gts.Id == gt.StatusId, cancellationToken: cancellationToken);
+
             if (gts != null && !gts.CanBeUpdated)
-                return Result.Failure(new Error("Error.GroupTaskStatus-CantBeUpdated", "Статус задачи не позволяет создавать новые апдейты."));
+                return Result.Failure(new Error(
+                    $"{typeof(GroupTaskUpdate)}.{typeof(GroupTaskStatus)}.CantBeUpdated", 
+                    "Статус задачи не позволяет создавать новые апдейты."));
 
             await _dbContext.Set<GroupTaskUpdate>().AddAsync(groupTaskUpdate, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
             return Result.Success();
         }
 
