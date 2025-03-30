@@ -1,9 +1,8 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.Users.Queries
+namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
 {
     internal sealed class UserGetByIdQueryHandler : IQueryHandler<UserGetByIdQuery, UserResponse>
     {

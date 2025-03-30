@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
@@ -11,7 +12,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
                 .MaximumLength(Username.MAX_LENGTH);
 
             RuleFor(x => x.Email).NotEmpty().Must(email 
-                => email.Split('@').Length == 2);
+                => email.Split('@').Length == 2).WithMessage(DomainErrors.Email.InvalidFormat);
 
             RuleFor(x => x.Password).NotEmpty()
                 .MinimumLength(Password.MIN_LENGTH)

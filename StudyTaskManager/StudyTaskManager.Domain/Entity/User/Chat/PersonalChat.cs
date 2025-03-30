@@ -58,7 +58,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
             // Можно добавить логику проверки, что два пользователя не могут быть теми же самыми
             if (User1.Id == User2.Id)
             {
-                return Result.Failure<PersonalChat>(DomainErrors.PersonalChat.SameUser);
+                return Result.Failure<PersonalChat>(PersistenceErrors.PersonalChat.SameUser);
             }
             PersonalChat pc = new(User1.Id, User2.Id)
             {

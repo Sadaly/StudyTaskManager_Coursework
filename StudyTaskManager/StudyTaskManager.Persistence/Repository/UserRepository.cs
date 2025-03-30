@@ -25,9 +25,14 @@ namespace StudyTaskManager.Persistence.Repository
             return !await _dbContext.Set<User>().AnyAsync(x => x.Username == username, cancellationToken);
         }
 
-		public async Task<Result<User>> GetByUsername(Username username, CancellationToken cancellationToken = default)
+		public async Task<Result<User>> GetByUsernameAsync(Username username, CancellationToken cancellationToken = default)
 		{
 			return await _dbContext.Set<User>().FirstOrDefaultAsync(x => x.Username == username, cancellationToken);
 		}
-	}
+
+        public async Task<Result<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+        }
+    }
 }

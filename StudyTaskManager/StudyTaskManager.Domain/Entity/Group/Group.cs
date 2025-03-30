@@ -78,7 +78,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result AddUser(User.User user, GroupRole role)
         {
             if (_usersInGroup.Any(u => u.UserId == user.Id))
-                return Result.Failure(DomainErrors.Group.UserAlreadyInGroup);
+                return Result.Failure(PersistenceErrors.Group.UserAlreadyInGroup);
 
             _usersInGroup.Add(UserInGroup.Create(this, role, user).Value);
 
@@ -93,7 +93,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         {
             var userInGroup = _usersInGroup.FirstOrDefault(u => u.UserId == userId);
             if (userInGroup == null)
-                return Result.Failure(DomainErrors.Group.UserNotFound);
+                return Result.Failure(PersistenceErrors.Group.UserNotFound);
 
             _usersInGroup.Remove(userInGroup);
 
@@ -106,7 +106,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result AddRole(GroupRole role)
         {
             if (_groupRoles.Any(r => r.Id == role.Id))
-                return Result.Failure(DomainErrors.Group.RoleAlreadyExists);
+                return Result.Failure(PersistenceErrors.Group.RoleAlreadyExists);
 
             _groupRoles.Add(role);
 
@@ -119,10 +119,10 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result RemoveRole(GroupRole role)
         {
             if (role == null)
-                return Result.Failure(DomainErrors.Group.RoleNotFound);
+                return Result.Failure(PersistenceErrors.Group.RoleNotFound);
 
             if (role.Group == null)
-                return Result.Failure(DomainErrors.Group.CantDeleteBaseRole);
+                return Result.Failure(PersistenceErrors.Group.CantDeleteBaseRole);
 
             _groupRoles.Remove(role);
 
@@ -135,7 +135,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result AddInvite(GroupInvite invite)
         {
             if (_groupInvites.Any(i => i.ReceiverId == invite.ReceiverId))
-                return Result.Failure(DomainErrors.Group.InviteAlreadySent);
+                return Result.Failure(PersistenceErrors.Group.InviteAlreadySent);
 
             _groupInvites.Add(invite);
 
@@ -148,7 +148,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result RemoveInvite(GroupInvite invite)
         {
             if (!_groupInvites.Any(i => i == invite))
-                return Result.Failure(DomainErrors.Group.InviteNotFound);
+                return Result.Failure(PersistenceErrors.Group.InviteNotFound);
 
             _groupInvites.Remove(invite);
 

@@ -1,13 +1,12 @@
-using StudyTaskManager.Application;
-using StudyTaskManager.Infrastructure;
 using StudyTaskManager.Persistence;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using StudyTaskManager.Application.Behaviors;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using StudyTaskManager.Persistence.Interceptors;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using StudyTaskManager.WebAPI.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -54,6 +53,12 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -68,6 +73,8 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

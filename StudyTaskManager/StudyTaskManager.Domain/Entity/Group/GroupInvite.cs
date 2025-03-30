@@ -74,9 +74,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         {
             if (InvitationAccepted != null)
                 if (InvitationAccepted == true)
-                    return Result.Failure(DomainErrors.GroupInvite.Accepted);
+                    return Result.Failure(PersistenceErrors.GroupInvite.Accepted);
                 else
-                    return Result.Failure(DomainErrors.GroupInvite.Declined);
+                    return Result.Failure(PersistenceErrors.GroupInvite.Declined);
 
             InvitationAccepted = true;
 
@@ -92,9 +92,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         {
             if (InvitationAccepted != null)
                 if (InvitationAccepted == true)
-                    return Result.Failure(DomainErrors.GroupInvite.Accepted);
+                    return Result.Failure(PersistenceErrors.GroupInvite.Accepted);
                 else
-                    return Result.Failure(DomainErrors.GroupInvite.Declined);
+                    return Result.Failure(PersistenceErrors.GroupInvite.Declined);
 
             InvitationAccepted = false;
 
