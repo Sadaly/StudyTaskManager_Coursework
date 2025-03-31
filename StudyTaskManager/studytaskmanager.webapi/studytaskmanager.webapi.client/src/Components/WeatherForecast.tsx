@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import '../App.css';
 
-function App() {
-    const [forecasts, setForecasts] = useState();
+interface Forecast {
+    date: string;
+    temperatureC: number;
+    temperatureF: number;
+    summary: string;
+}
+
+function WeatherForecast() {
+    const [forecasts, setForecasts] = useState<Forecast[]>();
 
     useEffect(() => {
         populateWeatherData();
@@ -10,7 +17,7 @@ function App() {
 
     const contents = forecasts === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
+        : <table className="table table-striped" aria-labelledby="tabelLabel">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -33,19 +40,17 @@ function App() {
 
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
+            <h1 id="tabelLabel">Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
         </div>
     );
-    
+
     async function populateWeatherData() {
         const response = await fetch('weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
+        const data = await response.json();
+        setForecasts(data);
     }
 }
 
-export default App;
+export default WeatherForecast;
