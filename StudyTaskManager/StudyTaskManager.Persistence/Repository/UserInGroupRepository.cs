@@ -19,6 +19,12 @@ namespace StudyTaskManager.Persistence.Repository
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<Result<UserInGroup>> GetByUserAndGroupAsync(User user, Group group, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<UserInGroup>()
+                .FirstOrDefaultAsync(uig => uig.UserId == user.Id && uig.GroupId == group.Id, cancellationToken);
+        }
+
         public async Task<Result<List<UserInGroup>>> GetByUserAsync(User user, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<UserInGroup>()

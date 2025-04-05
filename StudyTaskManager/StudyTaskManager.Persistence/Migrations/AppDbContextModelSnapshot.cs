@@ -339,6 +339,9 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("DateEntered")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("DeleteFlag")
                         .HasColumnType("boolean");
 

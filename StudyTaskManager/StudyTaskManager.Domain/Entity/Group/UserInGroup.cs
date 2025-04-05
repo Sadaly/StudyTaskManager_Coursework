@@ -14,13 +14,12 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <param name="group">Группа, в которую входит пользователь.</param>
         /// <param name="role">Роль пользователя в группе.</param>
         /// <param name="user">Пользователь, состоящий в группе.</param>
-        private UserInGroup(Guid groupId, Guid roleId, Guid userId) : base()
+        private UserInGroup(Guid groupId, Guid roleId, Guid userId, DateTime dateEntered) : base()
         {
             UserId = userId;
             RoleId = roleId;
             GroupId = groupId;
-
-            DateEntered = DateTime.UtcNow;
+            DateEntered = dateEntered;
         }
 
         #region свойства
@@ -43,7 +42,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Дата и время вступления пользователя в группу.
         /// </summary>
-        public DateTime DateEntered { get; }
+        public DateTime DateEntered { get; set; }
 
         /// <summary>
         /// Ссылка на группу, в которой состоит пользователь.
@@ -73,25 +72,25 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
         public static Result<UserInGroup> Create(Group group, GroupRole role, User.User user)
         {
-            var userInGroup = new UserInGroup(group.Id, role.Id, user.Id)
+            var userInGroup = new UserInGroup(group.Id, role.Id, user.Id, DateTime.UtcNow)
             {
                 Group = group,
                 Role = role,
                 User = user
             };
 
-			userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
+            userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
 
-			return Result.Success(userInGroup);
+            return Result.Success(userInGroup);
         }
 
-		public Result UpdateRole(GroupRole role)
-		{
+        public Result UpdateRole(GroupRole role)
+        {
             this.Role = role;
 
-			this.RaiseDomainEvent(new GroupUserRoleUpdatedDomainEvent(this.UserId, this.GroupId));
+            this.RaiseDomainEvent(new GroupUserRoleUpdatedDomainEvent(this.UserId, this.GroupId));
 
             return Result.Success();
         }
-	}
+    }
 }

@@ -29,7 +29,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
             Result<PhoneNumber>? phoneNumber = null;
             SystemRole? role = null;
 
-            if(request.SystemRoleId != null)
+            if (request.SystemRoleId != null)
             {
                 var foundRoleResult = _systemRoleRepository.GetByIdAsync(request.SystemRoleId.Value, cancellationToken).Result;
                 if (foundRoleResult.IsSuccess)

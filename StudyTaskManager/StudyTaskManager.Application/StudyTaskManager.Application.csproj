@@ -65,8 +65,6 @@
     <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
     <Folder Include="Entity\UsersInGroup\Commands\UserInGroupUpdateRole\" />
-    <Folder Include="Entity\UsersInGroup\Commands\UserInGroupCreate\" />
-    <Folder Include="Entity\UsersInGroup\Commands\UserInGroupDelete\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\UsersInGroup\Queries\UserInGroupGetByUserAndGroupIds\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteCreate\" />
