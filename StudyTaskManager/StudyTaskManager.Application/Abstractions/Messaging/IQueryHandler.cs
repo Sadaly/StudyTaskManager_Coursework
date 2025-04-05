@@ -9,8 +9,8 @@ namespace StudyTaskManager.Application.Abstractions.Messaging
     /// <typeparam name="TQuery">Запрос</typeparam>
     /// <typeparam name="TResponse">Возвращаемое значение</typeparam>
     public interface IQueryHandler<TQuery, TResponse>
-    : IRequestHandler<TQuery, Result<TResponse>>
-    where TQuery : IQuery<TResponse>
+        : IRequestHandler<TQuery, Result<TResponse>>
+            where TQuery : IQuery<TResponse>
     {
     }
 }

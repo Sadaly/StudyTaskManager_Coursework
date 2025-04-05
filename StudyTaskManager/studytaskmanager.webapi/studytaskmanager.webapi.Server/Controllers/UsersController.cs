@@ -5,6 +5,7 @@ using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Application.Entity.Users.Commands.UserLogin;
 using StudyTaskManager.Application.Entity.Users.Queries;
 using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
+using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.WebAPI.Contracts.Users;
@@ -68,6 +69,16 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new UserGetByIdQuery(id);
 
             Result<UserResponse> response = await Sender.Send(query, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+        {
+            var query = new GetAllUsersQuery();
+
+            Result<List<User>> response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
