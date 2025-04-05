@@ -488,6 +488,9 @@ namespace StudyTaskManager.Persistence.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("PhoneNumber");
 
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid?>("SystemRoleId")
                         .HasColumnType("uuid");
 

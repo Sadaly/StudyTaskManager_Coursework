@@ -3,6 +3,7 @@ using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
 using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Domain.Entity.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleAppTest
 {
@@ -11,26 +12,78 @@ namespace ConsoleAppTest
         static async Task Main(string[] args)
         {
             DateTime __timeStart = DateTime.Now; Console.WriteLine($"Тестовый проект просто для проверки реализации.\nНачало работы: {__timeStart}\n------------------------\n");
+            await Run();
+            DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
+        }
+        private static async Task Run()
+        {
+            var actions = new Dictionary<string, Func<Task>>
+            {
+                ["1"] = CreateAndAddUser,
+                ["2"] = ListAllUsers,
+                ["3"] = DeleteUser,
+            };
 
+            while (true)
+            {
+                Console.WriteLine("\nВыберите действие:");
+                Console.WriteLine("1 - Создать и добавить пользователя");
+                Console.WriteLine("2 - Вывести список всех пользователей");
+                Console.WriteLine("3 - Удалить пользователя");
+                Console.WriteLine("0 - Выход");
 
+                var choice = Console.ReadLine();
 
-            //var builder = WebApplication.CreateBuilder(args);
-            //var configuration = builder.Configuration;
+                if (choice == "0") break;
 
-            //builder.Services.AddDbContext<AppDbContext>(                                           // подключение к бд постгрес
-            //    options =>                                                                              //
-            //    {                                                                                       // Изменять нужно в файле appsettings.Development.json
-            //        options.UseNpgsql("User ID=postgres;Password=password;Host=localhost;Port=5432;Database=dbtest;");    //
-            //    });
+                if (actions.TryGetValue(choice, out var selectedAction))
+                {
+                    await selectedAction();
+                }
+                else
+                {
+                    Console.WriteLine("Неверный выбор");
+                }
+            }
+        }
 
-            //var app = builder.Build();
+        private static async Task DeleteUser()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                var users = await db.Users.ToListAsync();
 
-            //Console.WriteLine("args.Length - " + args.Length);
-            //Console.WriteLine("builder.ToString() - " + builder.ToString());
-            //Console.WriteLine("builder.Services.ToString() - " + builder.Services.ToString());
-            //Console.WriteLine("configuration.ToString() - " + configuration.ToString());
+                if (users.Count == 0)
+                {
+                    Console.WriteLine("Нет пользователей для удаления.");
+                    return;
+                }
+                Console.WriteLine("Выберите пользователя для удаления:");
+                for (int i = 0; i < users.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {users[i].Username.Value}");
+                }
+                Console.WriteLine("0. Отмена");
+                if (!int.TryParse(Console.ReadLine(), out int userChoice) || userChoice < 0 || userChoice > users.Count)
+                {
+                    Console.WriteLine("Неверный выбор.");
+                    return;
+                }
+                if (userChoice == 0) return;
+                var userToDelete = users[userChoice - 1];
+                using (UserRepository userRep = new UserRepository(db))
+                {
+                    await userRep.RemoveAsync(userToDelete);
+                    await db.SaveChangesAsync();
+                    Console.WriteLine("Пользователь успешно удален.");
+                }
+            }
+        }
+
+        private static async Task CreateAndAddUser()
+        {
             User newUser;
-            string nameUser = null!;
+            string nameUser;
             using (AppDbContext db = new AppDbContext())
             {
                 Console.Write("Username (<50): ");
@@ -42,26 +95,53 @@ namespace ConsoleAppTest
                     Password.Create("password").Value,
                     null,
                     null).Value;
-                Console.WriteLine($"newUser prev use rep.Add: {newUser.Id} - {newUser.Username.Value}");
+                Console.WriteLine($"newUser перед добавлением: {newUser.Id} - {newUser.Username.Value}");
                 using (UserRepository userRep = new UserRepository(db))
                 {
                     await userRep.AddAsync(newUser);
+                    await db.SaveChangesAsync();
                 }
             }
-            Console.WriteLine($"newUser after: {newUser.Id} - {newUser.Username.Value}");
+            Console.WriteLine($"newUser после: {newUser.Id} - {newUser.Username.Value}");
+        }
+
+        private static async Task ListAllUsers()
+        {
             using (AppDbContext db = new AppDbContext())
+            using (UserRepository userRepo = new UserRepository(db))
             {
-                var users = db.Users.ToList();
+                // Получаем всех пользователей через репозиторий
+                var usersResult = await userRepo.GetAllAsync();
 
-                foreach (User u in users)
+                if (!usersResult.IsSuccess || usersResult.Value == null || !usersResult.Value.Any())
                 {
-                    Console.WriteLine($"\t{u.Id} \t- {u.Username.Value}");
+                    Console.WriteLine("\nНет пользователей в базе данных.");
+                    return;
                 }
+
+                var users = usersResult.Value.ToList();
+
+                Console.WriteLine();
+                Console.WriteLine("┌───────────────────────────── Список пользователей ──────────────────────┐");
+                Console.WriteLine("├──────────┬──────────────────────┬───────────────────────────────────────┤");
+                Console.WriteLine("│  ID      │ Имя пользователя     │ Дата регистрации                      │");
+                Console.WriteLine("├──────────┼──────────────────────┼───────────────────────────────────────┤");
+
+                foreach (var user in users)
+                {
+                    var id = user.Id.ToString().Substring(0, 5) + "...";
+                    var username = user.Username.Value.Length > 20
+                        ? user.Username.Value.Substring(0, 17) + "..."
+                        : user.Email.Value.PadRight(20);
+                    var registrationDate = user.RegistrationDate.ToString("dd.MM.yyyy HH:mm:ss");
+
+                    Console.WriteLine($"│ {id,-7} │ {username,-20} │ {registrationDate,-35}   │");
+                }
+
+                Console.WriteLine("├──────────┴──────────────────────┴───────────────────────────────────────┤");
+                Console.WriteLine($"│ Всего пользователей: {users.Count,-50} │");
+                Console.WriteLine("└─────────────────────────────────────────────────────────────────────────┘");
             }
-
-
-
-            DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
         }
     }
 }

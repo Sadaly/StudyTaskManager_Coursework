@@ -22,15 +22,15 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="systemRole">Роль, можно оставить null</param>
         private User(Guid id) : base(id)
         {
-            RegistrationDate = DateTime.UtcNow;
             _personalChatsAsUser1 = [];
             _personalChatsAsUser2 = [];
         }
-        private User(Guid id, Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
+        private User(Guid id, Username username, Email email, Password password, DateTime registrationDate, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
         {
             Username = username;
             Email = email;
             PasswordHash = PasswordHash.Create(password).Value;
+            RegistrationDate = registrationDate;
 
             if (phoneNumber != null)
             {
@@ -74,7 +74,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Дата регистрации пользователя. Устанавливается автоматически при создании пользователя.
         /// </summary>
-        public DateTime RegistrationDate { get; }
+        public DateTime RegistrationDate { get; set; }
 
         /// <summary>
         /// Хэшированный пароль пользователя. Пароль хранится в хэшированном виде для безопасности.
@@ -138,7 +138,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <returns>Новый экземпляр класс <see cref="User"/></returns>
         public static Result<User> Create(Guid id, Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
         {
-            var user = new User(id, username, email, password, phoneNumber, systemRole);
+            var user = new User(id, username, email, password, DateTime.UtcNow, phoneNumber, systemRole);
 
             // Генерация события регистрации пользователя
             user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id));
@@ -171,7 +171,7 @@ namespace StudyTaskManager.Domain.Entity.User
             if (ph.Value == PasswordHash.Value)
                 return Result.Failure(DomainErrors.Password.Match);
 
-			this.PasswordHash = ph;
+            this.PasswordHash = ph;
 
             this.RaiseDomainEvent(new UserPasswordChangedDomainEvent(this.Id));
 
@@ -188,11 +188,11 @@ namespace StudyTaskManager.Domain.Entity.User
         }
 
         public Result VerifyEmail()
-		{
-			if (IsEmailVerifed)
-				return Result.Failure(DomainErrors.Email.AlreadyVerified);
+        {
+            if (IsEmailVerifed)
+                return Result.Failure(DomainErrors.Email.AlreadyVerified);
 
-			IsEmailVerifed = true;
+            IsEmailVerifed = true;
 
             this.RaiseDomainEvent(new UserEmailVerifiedDomainEvent(this.Id));
 
@@ -201,10 +201,10 @@ namespace StudyTaskManager.Domain.Entity.User
 
         public Result VerifyPhoneNumber()
         {
-			if (IsPhoneNumberVerifed)
-				return Result.Failure(DomainErrors.PhoneNumber.AlreadyVerified);
+            if (IsPhoneNumberVerifed)
+                return Result.Failure(DomainErrors.PhoneNumber.AlreadyVerified);
 
-			IsPhoneNumberVerifed = true;
+            IsPhoneNumberVerifed = true;
 
             this.RaiseDomainEvent(new UserPhoneNumberlVerifiedDomainEvent(this.Id));
 
