@@ -73,6 +73,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
+        [Authorize]
         [HttpGet()]
         public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
         {
