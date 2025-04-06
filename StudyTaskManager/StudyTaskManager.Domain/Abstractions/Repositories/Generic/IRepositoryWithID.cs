@@ -12,6 +12,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         /// Возвращает объект по id.
         /// </summary>
         /// <returns>Если объект не найден, то null.</returns>
-        Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Result<T?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -3,7 +3,11 @@
 namespace StudyTaskManager.Domain.Errors
 {
     public static class PersistenceErrors
-	{
+    {
+        public static readonly Error UnknowError = new(
+            "UnknowError",
+            "Неизвестная ошибка");
+
         public static class User
         {
             public static readonly Error EmailAlreadyInUse = new(
@@ -21,7 +25,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error IncorrectUsernameOrPassword = new(
                 "User.IncorrectUsernameOrPassword",
                 "Неправильное имя пользователя или пароль");
+
+            public static readonly Error NotFound = new(
+                "User.NotFound",
+                "Пользователь не найден");
         }
+
         public static class GroupInvite
         {
             public static readonly Error Accepted = new(
@@ -62,6 +71,10 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error InviteNotFound = new(
                 "Group.InviteNotFound",
                 "Приглашение не найдено");
+
+            public static readonly Error NotFound = new(
+                "Group.NotFound",
+                "Запись о группе не найдена");
         }
 
         public static class PersonalChat
@@ -69,6 +82,14 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error SameUser = new(
                 "PersonalChat.SameUser",
                 "Пользователь1 и Пользователь2 совпадают");
+        }
+
+        public static class UserInGroup
+        {
+            public static readonly Error NotFound = new(
+                "UserInGroup.NotFound",
+                "Запись о присутствии пользователя в группе не найдена");
+
         }
     }
 }
