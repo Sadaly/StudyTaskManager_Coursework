@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -23,8 +24,13 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCre
             Result<Title> name = Title.Create(request.Name);
             if (name.IsFailure) return Result.Failure<Guid>(name.Error);
 
+            Result<SystemRole?> systemRoleInDB;
+            systemRoleInDB = await _systemRoleRepository.GetByTitleAsync(name.Value, cancellationToken);
+            if (systemRoleInDB.IsFailure) return Result.Failure<Guid>(systemRoleInDB.Error);
+            if (systemRoleInDB.Value != null) return Result.Failure<Guid>(PersistenceErrors.SystemRole.TitleAlreadyInUse);
+
             Result<SystemRole> systemRole = SystemRole.Create(
-                Guid.NewGuid(),
+                Guid.NewGuid(),     // TODO нужно избавиться от присваения id не через СУБД/репозитории
                 name.Value,
                 request.CanViewPeoplesGroups,
                 request.CanChangeSystemRoles,

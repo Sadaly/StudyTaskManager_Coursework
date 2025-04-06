@@ -1,7 +1,7 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupDelete
@@ -23,16 +23,20 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupD
 
         public async Task<Result> Handle(UserInGroupDeleteCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-            if (user.IsFailure) return Result.Failure<UserInGroup>(user.Error);
+            Result<Domain.Entity.User.User?> user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user.IsFailure) return user;
+            if (user.Value == null) return Result.Failure(PersistenceErrors.User.NotFound);
 
-            var group = await _groupRepository.GetByIdAsync(request.GroupId, cancellationToken);
-            if (group.IsFailure) return Result.Failure<UserInGroup>(group.Error);
+            Result<Domain.Entity.Group.Group?> group = await _groupRepository.GetByIdAsync(request.GroupId, cancellationToken);
+            if (group.IsFailure) return group;
+            if (group.Value == null) return Result.Failure(PersistenceErrors.Group.NotFound);
 
-            Result<UserInGroup> uig = await _userInGroupRepository.GetByUserAndGroupAsync(user.Value, group.Value, cancellationToken);
+            Result<Domain.Entity.Group.UserInGroup?> uig = await _userInGroupRepository.GetByUserAndGroupAsync(user.Value, group.Value, cancellationToken);
             if (uig.IsFailure) return uig;
+            if (uig.Value == null) return Result.Failure(PersistenceErrors.UserInGroup.NotFound);
 
-            uig.Value.Delete();
+            Result delete = uig.Value.Delete();
+            if (delete.IsFailure) return delete;
 
             Result update = await _userInGroupRepository.UpdateAsync(uig.Value, cancellationToken);
             if (update.IsFailure) return update;

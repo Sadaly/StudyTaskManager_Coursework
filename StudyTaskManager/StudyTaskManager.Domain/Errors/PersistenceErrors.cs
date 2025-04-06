@@ -89,7 +89,23 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotFound = new(
                 "UserInGroup.NotFound",
                 "Запись о присутствии пользователя в группе не найдена");
+        }
 
+        public static class GroupRole
+        {
+            public static readonly Error NotFound = new(
+                "GroupRole.NotFound",
+                "Запись о роли в группе не найдена");
+        }
+
+        public static class SystemRole
+        {
+            public static readonly Error NotFound = new(
+                "SystemRole.NotFound",
+                "Запись о роли в системе не найдена");
+            public static readonly Error TitleAlreadyInUse = new(
+                "SystemRole.AlreadyExist",
+                "Запись о роли в системе с таким названием уже существует");
         }
     }
 }
