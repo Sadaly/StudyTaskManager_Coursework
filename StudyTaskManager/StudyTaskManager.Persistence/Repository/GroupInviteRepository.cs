@@ -14,7 +14,7 @@ namespace StudyTaskManager.Persistence.Repository
         {
             // Проверка наличия пользователя в чате при попытке добавить приглашение
             UserInGroup? uig = await _dbContext.Set<UserInGroup>()
-                .FirstOrDefaultAsync(uig => uig.GroupId == groupInvite.GroupId && uig.UserId == groupInvite.ReceiverId, cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(uig => uig.GroupId == groupInvite.GroupId && uig.UserId == groupInvite.ReceiverId, cancellationToken);
 
             if (uig != null)
                 return Result.Failure(new Error(

@@ -13,17 +13,17 @@ namespace StudyTaskManager.Persistence.Repository
         public override async Task<Result> AddAsync(GroupTaskUpdate groupTaskUpdate, CancellationToken cancellationToken = default)
         {
             // Проверка при добавлении на возможность апдейта у статуса задачи
-            GroupTask? gt = await _dbContext.Set<GroupTask>().FirstOrDefaultAsync(gt => gt.Id == groupTaskUpdate.TaskId, cancellationToken: cancellationToken);
+            GroupTask? gt = await _dbContext.Set<GroupTask>().FirstOrDefaultAsync(gt => gt.Id == groupTaskUpdate.TaskId, cancellationToken);
             if (gt == null)
                 return Result.Failure(new Error(
-                    $"{typeof(GroupTaskUpdate)}.NullValue", 
+                    $"{typeof(GroupTaskUpdate)}.NullValue",
                     $"Задачи для которой создается апдейт не существует."));
 
-            GroupTaskStatus? gts = await _dbContext.Set<GroupTaskStatus>().FirstOrDefaultAsync(gts => gts.Id == gt.StatusId, cancellationToken: cancellationToken);
+            GroupTaskStatus? gts = await _dbContext.Set<GroupTaskStatus>().FirstOrDefaultAsync(gts => gts.Id == gt.StatusId, cancellationToken);
 
             if (gts != null && !gts.CanBeUpdated)
                 return Result.Failure(new Error(
-                    $"{typeof(GroupTaskUpdate)}.{typeof(GroupTaskStatus)}.CantBeUpdated", 
+                    $"{typeof(GroupTaskUpdate)}.{typeof(GroupTaskStatus)}.CantBeUpdated",
                     "Статус задачи не позволяет создавать новые апдейты."));
 
             await _dbContext.Set<GroupTaskUpdate>().AddAsync(groupTaskUpdate, cancellationToken);

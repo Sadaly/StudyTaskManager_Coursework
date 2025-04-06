@@ -11,17 +11,14 @@ namespace StudyTaskManager.Persistence.Repository
 
         public override async Task<Result> AddAsync(GroupChatParticipant entity, CancellationToken cancellationToken = default)
         {
-            GroupChat? gc = await _dbContext.Set<GroupChat>().
-                FirstOrDefaultAsync(
-                x => x.Id == entity.GroupChatId
-                , cancellationToken);
+            GroupChat? gc = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(x => x.Id == entity.GroupChatId, cancellationToken);
 
             if (gc == null) return Result.Failure(new(
-                $"{nameof(GroupChatParticipant)}.{nameof(GroupChat)}NullValue", 
+                $"{nameof(GroupChatParticipant)}.{nameof(GroupChat)}NullValue",
                 "Групповой чат не существует."));
 
             if (gc.IsPublic) return Result.Failure(new(
-                $"{nameof(GroupChatParticipant)}.AttemptToAddToPublicChat", 
+                $"{nameof(GroupChatParticipant)}.AttemptToAddToPublicChat",
                 "Попытка добавления в публичный чат"));
 
             await _dbContext.Set<GroupChatParticipant>().AddAsync(entity, cancellationToken);

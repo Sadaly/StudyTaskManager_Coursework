@@ -11,13 +11,10 @@ namespace StudyTaskManager.Persistence.Repository
         public override async Task<Result> AddAsync(GroupChatMessage entity, CancellationToken cancellationToken = default)
         {
             // проверка на существование чата
-            GroupChat? gc = await _dbContext.Set<GroupChat>().
-                FirstOrDefaultAsync(
-                    x => x.Id == entity.GroupChatId
-                    , cancellationToken);
+            GroupChat? gc = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(x => x.Id == entity.GroupChatId, cancellationToken);
 
             if (gc == null) return Result.Failure(new(
-                $"{nameof(GroupChatMessage)}.{nameof(GroupChat)}NullValue", 
+                $"{nameof(GroupChatMessage)}.{nameof(GroupChat)}NullValue",
                 "Групповой чат не существует."));
 
             // проверка на причастность к чату
@@ -25,14 +22,10 @@ namespace StudyTaskManager.Persistence.Repository
             {
                 GroupChatParticipant? gcp =
                     await _dbContext.Set<GroupChatParticipant>().
-                    FirstOrDefaultAsync(
-                        x =>
-                            x.GroupChatId == entity.GroupChatId &&
-                            x.UserId == entity.SenderId
-                        , cancellationToken);
+                    FirstOrDefaultAsync(x => x.GroupChatId == entity.GroupChatId && x.UserId == entity.SenderId, cancellationToken);
 
                 if (gcp == null) return Result.Failure(new Error(
-                    $"{nameof(GroupChatMessage)}.GroupChatParticipantNullValue", 
+                    $"{nameof(GroupChatMessage)}.GroupChatParticipantNullValue",
                     "Пользователь не принадлежит чату."));
             }
             await _dbContext.Set<GroupChatMessage>().AddAsync(entity, cancellationToken);
