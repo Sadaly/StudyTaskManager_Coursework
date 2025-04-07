@@ -11,18 +11,12 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupC
     internal class UserInGroupCreateWithRoleHandler : ICommandHandler<UserInGroupCreateWithRoleCommand, UserInGroup>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
-        private readonly IGroupRepository _groupRepository;
-        private readonly IGroupRoleRepository _groupRoleRepository;
         private readonly IUserInGroupRepository _userInGroupRepository;
 
-        public UserInGroupCreateWithRoleHandler(IUnitOfWork unitOfWork, IUserInGroupRepository userInGroupRepository, IGroupRepository groupRepository, IUserRepository userRepository, IGroupRoleRepository groupRoleRepository)
+        public UserInGroupCreateWithRoleHandler(IUnitOfWork unitOfWork, IUserInGroupRepository userInGroupRepository)
         {
             _unitOfWork = unitOfWork;
             _userInGroupRepository = userInGroupRepository;
-            _groupRepository = groupRepository;
-            _userRepository = userRepository;
-            _groupRoleRepository = groupRoleRepository;
         }
 
         public async Task<Result<UserInGroup>> Handle(UserInGroupCreateWithRoleCommand request, CancellationToken cancellationToken)
