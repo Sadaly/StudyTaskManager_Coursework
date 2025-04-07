@@ -14,30 +14,29 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <param name="group">Группа, в которую входит пользователь.</param>
         /// <param name="role">Роль пользователя в группе.</param>
         /// <param name="user">Пользователь, состоящий в группе.</param>
-        private UserInGroup(Guid groupId, Guid roleId, Guid userId, DateTime dateEntered) : base()
+        private UserInGroup(Guid groupId, Guid userId, Guid roleId, DateTime dateEntered) : base()
         {
+            GroupId = groupId;
             UserId = userId;
             RoleId = roleId;
-            GroupId = groupId;
             DateEntered = dateEntered;
         }
 
         #region свойства
-
         /// <summary>
         /// Уникальный идентификатор группы.
         /// </summary>
         public Guid GroupId { get; }
 
         /// <summary>
-        /// Уникальный идентификатор роли пользователя в группе.
-        /// </summary>
-        public Guid RoleId { get; private set; }
-
-        /// <summary>
         /// Уникальный идентификатор пользователя.
         /// </summary>
         public Guid UserId { get; }
+
+        /// <summary>
+        /// Уникальный идентификатор роли пользователя в группе.
+        /// </summary>
+        public Guid RoleId { get; private set; }
 
         /// <summary>
         /// Дата и время вступления пользователя в группу.
@@ -58,21 +57,19 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// Ссылка на пользователя.
         /// </summary>
         public User.User? User { get; private set; }
-
-
         #endregion
 
-
+        #region Create
         /// <summary>
         /// Создает новый объект <see cref="UserInGroup"/>.
         /// </summary>
         /// <param name="group">Группа, в которую входит пользователь.</param>
-        /// <param name="role">Роль пользователя в группе.</param>
         /// <param name="user">Пользователь.</param>
+        /// <param name="role">Роль пользователя в группе.</param>
         /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
-        public static Result<UserInGroup> Create(Group group, GroupRole role, User.User user)
+        public static Result<UserInGroup> Create(Group group, User.User user, GroupRole role)
         {
-            var userInGroup = new UserInGroup(group.Id, role.Id, user.Id, DateTime.UtcNow)
+            var userInGroup = new UserInGroup(group.Id, user.Id, role.Id, DateTime.UtcNow)
             {
                 Group = group,
                 Role = role,
@@ -83,6 +80,42 @@ namespace StudyTaskManager.Domain.Entity.Group
 
             return Result.Success(userInGroup);
         }
+
+        /// <summary>
+        /// Создает новый объект <see cref="UserInGroup"/> с ролью в группе по умолчанию.
+        /// </summary>
+        /// <param name="group">Группа, в которую входит пользователь.</param>
+        /// <param name="user">Пользователь.</param>
+        /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
+        public static Result<UserInGroup> Create(Group group, User.User user)
+        {
+            GroupRole? role = group.DefaultRole;
+            if (role != null) return Create(group, user, role);
+
+            Guid roleId = group.DefaultRoleId
+            var userInGroup = new UserInGroup(group.Id, user.Id, roleId, DateTime.UtcNow)
+            {
+                Group = group,
+                User = user
+            };
+
+            userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
+
+            return Result.Success(userInGroup);
+        }
+
+        /// <summary>
+        /// Создает новый объект <see cref="UserInGroup"/> на основе Id.
+        /// </summary>
+        public static Result<UserInGroup> Create(Guid groupId, Guid userId, Guid roleId)
+        {
+            var userInGroup = new UserInGroup(groupId, userId, roleId, DateTime.UtcNow);
+
+            userInGroup.RaiseDomainEvent(new GroupUserJoinedDomainEvent(userInGroup.UserId, userInGroup.GroupId));
+
+            return Result.Success(userInGroup);
+        }
+        #endregion
 
         public Result UpdateRole(GroupRole role)
         {
