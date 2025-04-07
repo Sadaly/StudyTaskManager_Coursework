@@ -9,5 +9,10 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Выдать информацию о блокировке для юзера, если она есть.
         /// </summary>
         Task<Result<BlockedUserInfo?>> GetByUser(User user, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Выдать информацию о блокировке по id польозвателя, если она есть.
+        /// </summary>
+        Task<Result<BlockedUserInfo?>> GetByUser(Guid userId, CancellationToken cancellationToken = default);
     }
 }

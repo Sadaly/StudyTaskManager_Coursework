@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.Group.Task;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
@@ -32,6 +33,19 @@ namespace StudyTaskManager.Persistence.Repository
                     .Where(gts => gts.GroupId == group.Id || gts.GroupId == null)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
+        }
+
+        public override async Task<Result> AddAsync(GroupTaskStatus groupTaskStatus, CancellationToken cancellationToken = default)
+        {
+            if (groupTaskStatus.GroupId != null)
+            {
+                Group? group = await _dbContext.Set<Group>().FirstOrDefaultAsync(g => g.Id == groupTaskStatus.GroupId, cancellationToken);
+                if (group == null) return Result.Failure(PersistenceErrors.Group.NotFound);
+            }
+
+            await _dbContext.Set<GroupTaskStatus>().AddAsync(groupTaskStatus, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
     }
 }

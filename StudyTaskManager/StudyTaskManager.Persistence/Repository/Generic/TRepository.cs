@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
 {
-    public class TRepository<T> : IRepository<T> where T : BaseEntity
+    public abstract class TRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly AppDbContext _dbContext = null!;
 
@@ -14,12 +14,8 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             _dbContext = dbContext;
         }
 
-        public virtual async Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
+        public abstract Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default);
+
         public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<T>()
@@ -29,6 +25,8 @@ namespace StudyTaskManager.Persistence.Repository.Generic
 
         public virtual async Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
         {
+            entity.Delete();
+            await UpdateAsync(entity, cancellationToken);
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();

@@ -11,6 +11,11 @@ namespace StudyTaskManager.Domain.Entity.User
     /// </summary>
     public class User : BaseEntityWithID
     {
+        private User(Guid id) : base(id)
+        {
+            _personalChatsAsUser1 = [];
+            _personalChatsAsUser2 = [];
+        }
         /// <summary>
         /// Конструктор класс <see cref="User"/>
         /// </summary>
@@ -20,11 +25,6 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="password">Пароль</param>
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
-        private User(Guid id) : base(id)
-        {
-            _personalChatsAsUser1 = [];
-            _personalChatsAsUser2 = [];
-        }
         private User(Guid id, Username username, Email email, Password password, DateTime registrationDate, PhoneNumber? phoneNumber, SystemRole? systemRole) : this(id)
         {
             Username = username;

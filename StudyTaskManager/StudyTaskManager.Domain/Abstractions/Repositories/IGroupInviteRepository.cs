@@ -21,6 +21,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать список приглашений в группе.
         /// </summary>
-        Task<Result<List<GroupInvite>>> GetByUserAsync(Group group, CancellationToken cancellationToken = default);
+        Task<Result<List<GroupInvite>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
     }
 }

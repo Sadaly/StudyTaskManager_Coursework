@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.Group.Chat;
+using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
@@ -9,19 +12,16 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupChatParticipantRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(GroupChatParticipant entity, CancellationToken cancellationToken = default)
+        public override async Task<Result> AddAsync(GroupChatParticipant groupChatParticipant, CancellationToken cancellationToken = default)
         {
-            GroupChat? gc = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(x => x.Id == entity.GroupChatId, cancellationToken);
+            User? user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Id == groupChatParticipant.UserId, cancellationToken);
+            if (user == null) return Result.Failure(PersistenceErrors.User.NotFound);
 
-            if (gc == null) return Result.Failure(new(
-                $"{nameof(GroupChatParticipant)}.{nameof(GroupChat)}NullValue",
-                "Групповой чат не существует."));
+            GroupChat? groupChat = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(gc => gc.Id == groupChatParticipant.GroupChatId, cancellationToken);
+            if (groupChat == null) return Result.Failure(PersistenceErrors.GroupChat.NotFound);
+            if (groupChat.IsPublic) return Result.Failure(PersistenceErrors.GroupChatParticipant.AddingToAPublicChat);
 
-            if (gc.IsPublic) return Result.Failure(new(
-                $"{nameof(GroupChatParticipant)}.AttemptToAddToPublicChat",
-                "Попытка добавления в публичный чат"));
-
-            await _dbContext.Set<GroupChatParticipant>().AddAsync(entity, cancellationToken);
+            await _dbContext.Set<GroupChatParticipant>().AddAsync(groupChatParticipant, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

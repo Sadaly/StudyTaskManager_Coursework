@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group.Chat;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
@@ -8,27 +9,25 @@ namespace StudyTaskManager.Persistence.Repository
     class GroupChatMessageRepository : Generic.TRepository<GroupChatMessage>, IGroupChatMessageRepository
     {
         public GroupChatMessageRepository(AppDbContext dbContext) : base(dbContext) { }
-        public override async Task<Result> AddAsync(GroupChatMessage entity, CancellationToken cancellationToken = default)
+
+        public override async Task<Result> AddAsync(GroupChatMessage groupChatMessage, CancellationToken cancellationToken = default)
         {
-            // проверка на существование чата
-            GroupChat? gc = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(x => x.Id == entity.GroupChatId, cancellationToken);
+            GroupChat? groupChat = await _dbContext.Set<GroupChat>().FirstOrDefaultAsync(gc => gc.Id == groupChatMessage.GroupChatId, cancellationToken);
+            if (groupChat == null) return Result.Failure(PersistenceErrors.GroupChat.NotFound);
 
-            if (gc == null) return Result.Failure(new(
-                $"{nameof(GroupChatMessage)}.{nameof(GroupChat)}NullValue",
-                "Групповой чат не существует."));
-
-            // проверка на причастность к чату
-            if (!gc.IsPublic)
+            if (!groupChat.IsPublic)
             {
-                GroupChatParticipant? gcp =
+                GroupChatParticipant? groupChatParticipant =
                     await _dbContext.Set<GroupChatParticipant>().
-                    FirstOrDefaultAsync(x => x.GroupChatId == entity.GroupChatId && x.UserId == entity.SenderId, cancellationToken);
-
-                if (gcp == null) return Result.Failure(new Error(
-                    $"{nameof(GroupChatMessage)}.GroupChatParticipantNullValue",
-                    "Пользователь не принадлежит чату."));
+                    FirstOrDefaultAsync(
+                        gcp =>
+                            gcp.GroupChatId == groupChatMessage.GroupChatId &&
+                            gcp.UserId == groupChatMessage.SenderId
+                        , cancellationToken);
+                if (groupChatParticipant == null) return Result.Failure(PersistenceErrors.GroupChatParticipant.UserDoesNotBelongToTheGroupChat);
             }
-            await _dbContext.Set<GroupChatMessage>().AddAsync(entity, cancellationToken);
+
+            await _dbContext.Set<GroupChatMessage>().AddAsync(groupChatMessage, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
