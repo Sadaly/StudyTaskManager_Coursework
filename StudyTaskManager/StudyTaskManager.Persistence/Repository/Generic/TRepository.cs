@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Shared;
@@ -7,11 +8,13 @@ namespace StudyTaskManager.Persistence.Repository.Generic
 {
     public abstract class TRepository<T> : IRepository<T> where T : BaseEntity
     {
-        protected readonly AppDbContext _dbContext = null!;
+        protected readonly AppDbContext _dbContext;
+        protected readonly DbSet<T> _dbSet;
 
         public TRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbSet = dbContext.Set<T>();
         }
 
         /// <summary>
@@ -23,9 +26,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
 
         public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<T>()
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
+            return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public virtual async Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
@@ -36,7 +37,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         }
         protected async Task<Result> RemoveWithoutVerificationAsync(T entity, CancellationToken cancellationToken)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }

@@ -16,7 +16,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         public async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorMissingId());
-            T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            T? entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             return Result.Success(entity);
         }
@@ -24,7 +24,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         public async Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default)
         {
             if (entityId == Guid.Empty) return Result.Failure<T>(GetErrorMissingId());
-            T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
+            T? entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
             if (entity == null) return Result.Failure(GetErrorNotFound());
 
             return await RemoveWithoutVerificationAsync(entity, cancellationToken);
