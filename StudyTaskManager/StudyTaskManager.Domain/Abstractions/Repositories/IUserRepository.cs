@@ -12,8 +12,8 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         Task<Result<bool>> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default);
         Task<Result<bool>> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default);
         Task<Result<bool>> IsUsernameUniqueAsync(Username username, CancellationToken cancellationToken = default);
-        Task<Result<User?>> GetByUsernameAsync(Username username, CancellationToken cancellationToken = default);
-        Task<Result<User?>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default);
+        Task<Result<User>> GetByUsernameAsync(Username username, CancellationToken cancellationToken = default);
+        Task<Result<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default);
 
     }
 }

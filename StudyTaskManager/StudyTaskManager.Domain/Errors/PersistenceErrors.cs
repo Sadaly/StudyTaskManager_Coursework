@@ -9,24 +9,53 @@ namespace StudyTaskManager.Domain.Errors
             "UnknowError",
             "Неизвестная ошибка");
 
+        public static class BlockedUserInfo
+        {
+            public static readonly Error AlreadyExist = new(
+                "BlockedUserInfo.AlreadyExist",
+                "Запись о блокировку уже существует");
+            public static readonly Error NotFound = new(
+                "BlockedUserInfo.NotFound",
+                "Информация о заблокированном пользователе не найдена");
+        }
+
         public static class GroupChatMessage
         {
             public static readonly Error NotFound = new(
                 "GroupChatMessage.NotFound",
                 "Сообщение в групповом чате не найдено");
+            public static readonly Error IdEmpty = new(
+                "GroupChatMessage.IdEmpty",
+                "Сообщение в групповом чате не имеет уникальный идентификатор");
+            public static readonly Error AlreadyExist = new(
+                "GroupChatMessage.AlreadyExist",
+                "Сообщение в групповом чате уже существует");
+        }
+
+        public static class GroupChatParticipantLastRead
+        {
+            public static readonly Error NotFound = new(
+                "GroupChatParticipantLastRead.NotFound",
+                "Запись о последнем прочитанном сообщении пользователя в групповом чате не найдена");
+            public static readonly Error AlreadyExist = new(
+                "GroupChatParticipantLastRead.AlreadyExist",
+                "Запись о прочитанном сообщении в групповом чате уже существует");
         }
 
         public static class GroupChatParticipant
         {
             public static readonly Error NotFound = new(
                 "GroupChatParticipant.NotFound",
-                "Пользователь не найден");
+                "Запись о нахождении пользователя в групповом чате не найдена");
             public static readonly Error UserDoesNotBelongToTheGroupChat = new(
                 "GroupChatParticipant.UserDoesNotBelongToTheGroupChat",
                 "Пользователь не принадлежит групповому чату");
             public static readonly Error AddingToAPublicChat = new(
                 "GroupChatParticipant.AddingToAPublicChat",
                 "Попытка добавления к публичному чату");
+            public static readonly Error AlreadyExist = new(
+                "GroupChatParticipant.AlreadyExist",
+                "Пользователь уже в групповом чате");
         }
 
         public static class GroupChat
@@ -37,6 +66,9 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotUniqueName = new(
                 "GroupChat.NotUniqueName",
                 "Название группового чата не уникально");
+            public static readonly Error IdEmpty = new(
+                "GroupChat.IdEmpty",
+                "Групповой чат не имеет Id");
         }
 
         public static class GroupInvite
@@ -74,13 +106,13 @@ namespace StudyTaskManager.Domain.Errors
                 "GroupTaskStatus.CantBeUpdated",
                 "Статус задачи не позволяет создавать новые апдейты");
         }
-        
+
         public static class GroupTask
         {
             public static readonly Error NotFound = new(
                 "GroupTask.NotFound",
                 "Задача не найдена");
-            public static readonly Error СannotParentForItself = new (
+            public static readonly Error СannotParentForItself = new(
                 "GroupTask.СannotParentForItself",
                 "Задача не может быть родительской для себя");
         }
@@ -115,7 +147,7 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error SameUser = new(
                 "PersonalChat.SameUser",
                 "Пользователь1 и Пользователь2 совпадают");
-            public static readonly Error AlreadyExists= new (
+            public static readonly Error AlreadyExists = new(
                 "PersonalChat.AlreadyExists",
                 "Персональный чат уже существует");
             public static readonly Error NotFound = new(

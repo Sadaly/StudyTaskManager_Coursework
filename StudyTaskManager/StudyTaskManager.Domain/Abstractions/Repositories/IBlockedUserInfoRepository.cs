@@ -6,13 +6,13 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
     public interface IBlockedUserInfoRepository : Generic.IRepository<BlockedUserInfo>
     {
         /// <summary>
-        /// Выдать информацию о блокировке для юзера, если она есть.
+        /// Выдать информацию о блокировке для юзера, если она есть, иначе ошибку.
         /// </summary>
-        Task<Result<BlockedUserInfo?>> GetByUser(User user, CancellationToken cancellationToken = default);
+        Task<Result<BlockedUserInfo>> GetByUser(User user, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Выдать информацию о блокировке по id польозвателя, если она есть.
+        /// Выдать информацию о блокировке по id польозвателя, если она есть, иначе ошибку.
         /// </summary>
-        Task<Result<BlockedUserInfo?>> GetByUser(Guid userId, CancellationToken cancellationToken = default);
+        Task<Result<BlockedUserInfo>> GetByUser(Guid userId, CancellationToken cancellationToken = default);
     }
 }

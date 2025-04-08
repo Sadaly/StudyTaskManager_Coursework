@@ -11,24 +11,67 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupChatParticipantLastReadRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(GroupChatParticipantLastRead groupChatParticipantLastRead, CancellationToken cancellationToken = default)
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupChatParticipantLastRead entity, CancellationToken cancellationToken)
         {
-            User? user = await _dbContext.Set<User>()
-                .FirstOrDefaultAsync(u => u.Id == groupChatParticipantLastRead.UserId, cancellationToken);
-            if (user == null) return Result.Failure(PersistenceErrors.User.NotFound);
+            Result<User> user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
 
-            GroupChat? groupChat = await _dbContext.Set<GroupChat>()
-                .FirstOrDefaultAsync(gc => gc.Id == groupChatParticipantLastRead.GroupChatId, cancellationToken);
-            if (groupChat == null) return Result.Failure(PersistenceErrors.GroupChat.NotFound);
+            Result<GroupChat> groupChat = await GetFromDBAsync<GroupChat>(entity.GroupChatId, PersistenceErrors.GroupChat.IdEmpty, PersistenceErrors.GroupChat.NotFound, cancellationToken);
+            if (groupChat.IsFailure) { return groupChat; }
 
-            GroupChatMessage? groupChatMessage = await _dbContext.Set<GroupChatMessage>()
-                .FirstOrDefaultAsync(gcm => gcm.Ordinal == groupChatParticipantLastRead.LastReadMessageId, cancellationToken);
-            if (groupChatMessage == null) return Result.Failure(PersistenceErrors.GroupChatMessage.NotFound);
+            Result<GroupChatMessage> groupChatMessage = await GetFromDBAsync<GroupChatMessage>(gcm => gcm.Ordinal == entity.LastReadMessageId, PersistenceErrors.GroupChatMessage.NotFound, cancellationToken);
+            if (groupChatMessage.IsFailure) { return groupChatMessage; }
 
-            // TODO проверка наличия в чате пользователя
+            Error notFound = PersistenceErrors.GroupChatMessage.NotFound;
+            Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
+                gcplr =>
+                    gcplr.LastReadMessageId == entity.LastReadMessageId &&
+                    gcplr.GroupChatId == entity.GroupChatId &&
+                    gcplr.UserId == entity.UserId
+                , notFound
+                , cancellationToken);
+            if (groupChatParticipantLastRead.IsFailure)
+            {
+                if (groupChatParticipantLastRead.Error == notFound) { return Result.Success(); }
+                return groupChatParticipantLastRead;
+            }
+            return Result.Failure(PersistenceErrors.GroupChatParticipantLastRead.AlreadyExist);
+        }
 
-            await _dbContext.Set<GroupChatParticipantLastRead>().AddAsync(groupChatParticipantLastRead, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+        protected override async Task<Result> VerificationBeforeUpdateAsync(GroupChatParticipantLastRead entity, CancellationToken cancellationToken)
+        {
+            Result<User> user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
+
+            Result<GroupChat> groupChat = await GetFromDBAsync<GroupChat>(entity.GroupChatId, PersistenceErrors.GroupChat.IdEmpty, PersistenceErrors.GroupChat.NotFound, cancellationToken);
+            if (groupChat.IsFailure) { return groupChat; }
+
+            Result<GroupChatMessage> groupChatMessage = await GetFromDBAsync<GroupChatMessage>(gcm => gcm.Ordinal == entity.LastReadMessageId, PersistenceErrors.GroupChatMessage.NotFound, cancellationToken);
+            if (groupChatMessage.IsFailure) { return groupChatMessage; }
+
+            Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
+                gcplr =>
+                    gcplr.LastReadMessageId == entity.LastReadMessageId &&
+                    gcplr.GroupChatId == entity.GroupChatId &&
+                    gcplr.UserId == entity.UserId
+                , PersistenceErrors.GroupChatMessage.NotFound
+                , cancellationToken);
+            if (groupChatParticipantLastRead.IsFailure) { return groupChatParticipantLastRead; }
+
+            return Result.Success();
+        }
+
+        protected override async Task<Result> VerificationBeforeRemoveAsync(GroupChatParticipantLastRead entity, CancellationToken cancellationToken)
+        {
+            Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
+                gcplr =>
+                    gcplr.LastReadMessageId == entity.LastReadMessageId &&
+                    gcplr.GroupChatId == entity.GroupChatId &&
+                    gcplr.UserId == entity.UserId
+                , PersistenceErrors.GroupChatMessage.NotFound
+                , cancellationToken);
+            if (groupChatParticipantLastRead.IsFailure) { return groupChatParticipantLastRead; }
+
             return Result.Success();
         }
     }

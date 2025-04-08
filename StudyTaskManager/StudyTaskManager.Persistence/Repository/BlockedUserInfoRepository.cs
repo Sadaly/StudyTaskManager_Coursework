@@ -10,25 +10,48 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public BlockedUserInfoRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<Result<BlockedUserInfo?>> GetByUser(User user, CancellationToken cancellationToken = default)
+        public async Task<Result<BlockedUserInfo>> GetByUser(User user, CancellationToken cancellationToken = default)
         {
             return await GetByUser(user.Id, cancellationToken);
         }
 
-        public async Task<Result<BlockedUserInfo?>> GetByUser(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<Result<BlockedUserInfo>> GetByUser(Guid userId, CancellationToken cancellationToken = default)
         {
-            if (userId == Guid.Empty) return Result.Failure<BlockedUserInfo?>(PersistenceErrors.User.IdEmpty);
-            BlockedUserInfo? res = await _dbContext.Set<BlockedUserInfo>().FirstOrDefaultAsync(x => x.UserId == userId, cancellationToken);
-            return Result.Success(res);
+            Result<User> user = await GetFromDBAsync<User>(userId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return Result.Failure<BlockedUserInfo>(user.Error); }
+
+            return await GetFromDBAsync(bui => bui.UserId == userId, PersistenceErrors.BlockedUserInfo.NotFound, cancellationToken);
         }
 
-        public override async Task<Result> AddAsync(BlockedUserInfo blockedUserInfo, CancellationToken cancellationToken = default)
+        protected override async Task<Result> VerificationBeforeAddingAsync(BlockedUserInfo entity, CancellationToken cancellationToken)
         {
-            User? user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Id == blockedUserInfo.UserId, cancellationToken);
-            if (user == null) return Result.Failure(PersistenceErrors.User.NotFound);
+            Result<User> user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
 
-            await _dbContext.Set<BlockedUserInfo>().AddAsync(blockedUserInfo, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            Error notFoundBlockedUserInfo = PersistenceErrors.BlockedUserInfo.NotFound;
+            Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, notFoundBlockedUserInfo, cancellationToken);
+            if (blockedUserInfo.IsFailure)
+            {
+                if (blockedUserInfo.Error == notFoundBlockedUserInfo) { return Result.Success(); }
+                return blockedUserInfo;
+            }
+            return Result.Failure(PersistenceErrors.BlockedUserInfo.AlreadyExist);
+        }
+
+        protected override async Task<Result> VerificationBeforeUpdateAsync(BlockedUserInfo entity, CancellationToken cancellationToken)
+        {
+            Result<User> user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
+
+            Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, PersistenceErrors.BlockedUserInfo.NotFound, cancellationToken);
+            if (blockedUserInfo.IsFailure) { return blockedUserInfo; }
+            return Result.Success();
+        }
+
+        protected override async Task<Result> VerificationBeforeRemoveAsync(BlockedUserInfo entity, CancellationToken cancellationToken)
+        {
+            Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, PersistenceErrors.BlockedUserInfo.NotFound, cancellationToken);
+            if (blockedUserInfo.IsFailure) { return blockedUserInfo; }
             return Result.Success();
         }
     }
