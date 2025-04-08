@@ -27,11 +27,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
             if (entity == null) return Result.Failure(GetErrorNotFound());
 
-            entity.Delete();                                        // Код аналогичен из родительского класса
-            await UpdateAsync(entity, cancellationToken);           // 
-            //_dbContext.Set<T>().Remove(entity);                     // 
-            await _dbContext.SaveChangesAsync(cancellationToken);   // 
-            return Result.Success();                                // 
+            return await RemoveWithoutVerificationAsync(entity, cancellationToken);
         }
     }
 }

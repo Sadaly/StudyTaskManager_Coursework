@@ -32,10 +32,11 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         {
             Result<T> entityInDatabase = GetFromDatabase(entity);
             if (entityInDatabase.IsFailure) return entityInDatabase;
-
-            entity.Delete();
-            await UpdateAsync(entity, cancellationToken);
-            //_dbContext.Set<T>().Remove(entity);
+            return await RemoveWithoutVerificationAsync(entity, cancellationToken);
+        }
+        protected async Task<Result> RemoveWithoutVerificationAsync(T entity, CancellationToken cancellationToken)
+        {
+            _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
