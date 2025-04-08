@@ -92,7 +92,7 @@ namespace StudyTaskManager.Domain.Entity.Group
             GroupRole? role = group.DefaultRole;
             if (role != null) return Create(group, user, role);
 
-            Guid roleId = group.DefaultRoleId
+            Guid roleId = group.DefaultRoleId;
             var userInGroup = new UserInGroup(group.Id, user.Id, roleId, DateTime.UtcNow)
             {
                 Group = group,

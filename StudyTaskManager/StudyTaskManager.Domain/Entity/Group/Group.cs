@@ -67,9 +67,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Создает новую группу.
         /// </summary>
-        public static Group Create(Guid id, Title name, Content? description, GroupRole defaultRole)
+        public static Group Create(Title name, Content? description, GroupRole defaultRole)
         {
-            return new Group(id, name, description, defaultRole.Id);
+            return new Group(Guid.Empty, name, description, defaultRole.Id);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace StudyTaskManager.Domain.Entity.Group
             if (_usersInGroup.Any(u => u.UserId == user.Id))
                 return Result.Failure(PersistenceErrors.Group.UserAlreadyInGroup);
 
-            _usersInGroup.Add(UserInGroup.Create(this, role, user).Value);
+            _usersInGroup.Add(UserInGroup.Create(this, user, role).Value);
 
             return Result.Success();
 
@@ -119,7 +119,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         public Result RemoveRole(GroupRole role)
         {
             if (role == null)
-                return Result.Failure(PersistenceErrors.Group.RoleNotFound);
+                return Result.Failure(PersistenceErrors.GroupRole.NotFound);
 
             if (role.Group == null)
                 return Result.Failure(PersistenceErrors.Group.CantDeleteBaseRole);

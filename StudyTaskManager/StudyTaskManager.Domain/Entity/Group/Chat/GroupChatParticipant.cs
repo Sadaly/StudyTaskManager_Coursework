@@ -10,7 +10,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatParticipant : BaseEntity
     {
         // Приватный конструктор, доступ к которому можно получить через фабричный метод.
-        private GroupChatParticipant(Guid userId, Guid groupChatId)
+        private GroupChatParticipant(Guid userId, Guid groupChatId) : base()
         {
             UserId = userId;
             GroupChatId = groupChatId;

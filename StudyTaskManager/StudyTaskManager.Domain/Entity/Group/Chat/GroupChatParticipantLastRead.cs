@@ -11,7 +11,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatParticipantLastRead : BaseEntity
     {
         // Приватный конструктор, доступ к которому можно получить через фабричный метод
-        private GroupChatParticipantLastRead(ulong lastReadMessageId, Guid groupChatId, Guid userId)
+        private GroupChatParticipantLastRead(ulong lastReadMessageId, Guid groupChatId, Guid userId) : base()
         {
             LastReadMessageId = lastReadMessageId;
             GroupChatId = groupChatId;

@@ -136,9 +136,9 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="phoneNumber">Номер телефона, можно оставить null</param>
         /// <param name="systemRole">Роль, можно оставить null</param>
         /// <returns>Новый экземпляр класс <see cref="User"/></returns>
-        public static Result<User> Create(Guid id, Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
+        public static Result<User> Create(Username username, Email email, Password password, PhoneNumber? phoneNumber, SystemRole? systemRole)
         {
-            var user = new User(id, username, email, password, DateTime.UtcNow, phoneNumber, systemRole);
+            var user = new User(Guid.Empty, username, email, password, DateTime.UtcNow, phoneNumber, systemRole);
 
             // Генерация события регистрации пользователя
             user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id));

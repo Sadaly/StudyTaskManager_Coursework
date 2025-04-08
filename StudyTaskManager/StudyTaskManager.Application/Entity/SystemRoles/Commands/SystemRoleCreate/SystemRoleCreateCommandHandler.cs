@@ -30,7 +30,6 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCre
             if (systemRoleInDB.Value != null) return Result.Failure<Guid>(PersistenceErrors.SystemRole.TitleAlreadyInUse);
 
             Result<SystemRole> systemRole = SystemRole.Create(
-                Guid.NewGuid(),     // TODO нужно избавиться от присваения id не через СУБД/репозитории
                 name.Value,
                 request.CanViewPeoplesGroups,
                 request.CanChangeSystemRoles,

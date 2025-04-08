@@ -149,26 +149,26 @@ namespace StudyTaskManager.Domain.Errors
                 "User.EmailAlreadyInUse",
                 "Почта уже используется");
             public static readonly Error PhoneNumberAlreadyInUse = new(
-    "User.PhoneNumberAlreadyInUse",
-    "Телефон уже используется");
+                "User.PhoneNumberAlreadyInUse",
+                "Телефон уже используется");
             public static readonly Error UsernameAlreadyInUse = new(
-    "User.UsernameAlreadyInUse",
-    "Имя пользователя уже используется");
+                "User.UsernameAlreadyInUse",
+                "Имя пользователя уже используется");
             public static readonly Error IncorrectUsernameOrPassword = new(
-    "User.IncorrectUsernameOrPassword",
-    "Неправильное имя пользователя или пароль");
+    "           User.IncorrectUsernameOrPassword",
+                "Неправильное имя пользователя или пароль");
             public static readonly Error NotFound = new(
-    "User.NotFound",
-    "Пользователь не найден");
+                "User.NotFound",
+                "Пользователь не найден");
             public static readonly Error IdEmpty = new(
-    "User.IdEmpty",
-    "Пользователь не имеет Id");
+                "User.IdEmpty",
+                "Пользователь не имеет Id");
             public static readonly Error NotUniqueUsername = new(
                 "User.NotUniqueUsername",
-                "Username польозвателя не уникален");
+                "Username пользователя не уникален");
             public static readonly Error NotUniqueEmail = new(
                 "User.NotUniqueEmail",
-                "Email польозвателя не уникален");
+                "Email пользователя не уникален");
         }
     }
 }

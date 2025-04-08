@@ -58,9 +58,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Создает новое обновление задачи.
         /// </summary>
-        public static Result<GroupTaskUpdate> Create(Guid id, User.User creator, GroupTask task, Content content)
+        public static Result<GroupTaskUpdate> Create(User.User creator, GroupTask task, Content content)
         {
-            var gtu = new GroupTaskUpdate(id, creator.Id, task.Id, content)
+            var gtu = new GroupTaskUpdate(Guid.Empty, creator.Id, task.Id, content)
             {
                 Creator = creator,
                 Task = task

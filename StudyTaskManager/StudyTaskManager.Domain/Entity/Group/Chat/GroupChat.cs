@@ -18,7 +18,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             _groupChatParticipants = [];
         }
         // Приватный конструктор для инициализации объекта
-        private GroupChat(Guid groupId, Title name, bool isPublic)
+        private GroupChat(Guid id, Guid groupId, Title name, bool isPublic):base(id)
         {
             GroupId = groupId;
             Name = name;
@@ -73,7 +73,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <returns>Новый экземпляр группового чата</returns>
         public static Result<GroupChat> Create(Group group, Title name, bool isPublic)
         {
-            GroupChat gc = new(group.Id, name, isPublic)
+            GroupChat gc = new(Guid.Empty, group.Id, name, isPublic)
             {
                 Group = group
             };
