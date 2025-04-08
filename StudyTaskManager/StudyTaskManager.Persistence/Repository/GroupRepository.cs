@@ -10,17 +10,29 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(Group group, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            // проверка на уникальность названия группы наврятли пригодится
-            // bool notUniqueTitle = await _dbContext.Set<Group>().AnyAsync(g => g.Title.Value == group.Title.Value, cancellationToken);
+            return PersistenceErrors.Group.IdEmpty;
+        }
 
-            GroupRole? groupRole = await _dbContext.Set<GroupRole>().FirstOrDefaultAsync(gr => gr.Id == group.DefaultRoleId, cancellationToken);
-            if (groupRole == null) return Result.Failure(PersistenceErrors.GroupRole.NotFound);
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.Group.NotFound;
+        }
 
-            await _dbContext.Set<Group>().AddAsync(group, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
+        protected override async Task<Result> VerificationBeforeAddingAsync(Group entity, CancellationToken cancellationToken)
+        {
+            Result<object> obj;
+            obj = await GetFromDBAsync<GroupRole>(entity.DefaultRoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
+            if (obj.IsFailure) { return obj; }
+
+            obj = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (obj.IsFailure)
+            {
+                if (obj.Error == GetErrorNotFound()) return Result.Success();
+                return obj;
+            }
+            return Result.Failure(PersistenceErrors.Group.AlreadyExists);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using StudyTaskManager.Domain.Shared;
-using System.Threading.Tasks;
 
 namespace StudyTaskManager.Domain.Errors
 {
@@ -69,6 +68,9 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error IdEmpty = new(
                 "GroupChat.IdEmpty",
                 "Групповой чат не имеет Id");
+            public static readonly Error AlreadyExist = new(
+                "GroupChat.AlreadyExist",
+                "Этот чат в группе уже существует");
         }
 
         public static class GroupInvite
@@ -85,6 +87,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error UserAlreadyHasAnInvitationToThisGroup = new(
                 "GroupInvite.UserAlreadyHasAnInvitationToThisGroup",
                 "Пользователь уже имеет приглашение в эту группу");
+            public static readonly Error NotFound = new(
+                "GroupInvite.NotFound",
+                "Запись о приглашении в группу не найдена");
+            public static readonly Error AlreadyExist = new(
+                "GroupInvite.AlreadyExist",
+                "Запись о приглашении уже существует");
         }
 
         public static class GroupRole
@@ -95,6 +103,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotUniqueName = new(
                 "GroupRole.NotUniqueName",
                 "Название групповой роли не уникально");
+            public static readonly Error IdEmpty = new(
+                "GroupRole.IdEmpty",
+                "Групповая роль не имеет Id");
+            public static readonly Error AlreadyExist = new(
+                "GroupRole.AlreadyExist",
+                "Запись о роли в группе уже существует");
         }
 
         public static class GroupTaskStatus
@@ -105,6 +119,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error CantBeUpdated = new(
                 "GroupTaskStatus.CantBeUpdated",
                 "Статус задачи не позволяет создавать новые апдейты");
+            public static readonly Error IdEmpty = new(
+                "GroupTaskStatus.IdEmpty",
+                "Групповой статус задачи не имеет Id");
+            public static readonly Error AlreadyExists = new(
+                "GroupTaskStatus.AlreadyExists",
+                "Статус задачи уже существует");
         }
 
         public static class GroupTask
@@ -115,6 +135,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error СannotParentForItself = new(
                 "GroupTask.СannotParentForItself",
                 "Задача не может быть родительской для себя");
+            public static readonly Error IdEmpty = new(
+                "GroupTask.IdEmpty",
+                "Задача не имеет Id");
+            public static readonly Error AlreadyExist = new(
+                "GroupTask.AlreadyExist",
+                "Эта задача уже существует");
         }
 
         public static class Group
@@ -140,6 +166,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotFound = new(
                 "Group.NotFound",
                 "Запись о группе не найдена");
+            public static readonly Error IdEmpty = new(
+                "Group.IdEmpty",
+                "Группа не имеет Id");
+            public static readonly Error AlreadyExists = new(
+                "Group.AlreadyExists",
+                "Группа уже существует");
         }
 
         public static class PersonalChat

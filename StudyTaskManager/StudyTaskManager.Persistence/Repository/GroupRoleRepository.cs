@@ -50,5 +50,37 @@ namespace StudyTaskManager.Persistence.Repository
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
+
+        protected override Error GetErrorIdEmpty()
+        {
+            return PersistenceErrors.GroupRole.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupRole.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupRole entity, CancellationToken cancellationToken)
+        {
+            bool notUniqueName = await _dbContext.Set<GroupRole>().AnyAsync(gr => gr.RoleName.Value == entity.RoleName.Value, cancellationToken);
+            if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName); }
+
+            Result<object> obj;
+
+            if (entity.GroupId != null)
+            {
+                obj = await GetFromDBAsync<Group>((Guid)entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+                if (obj.IsFailure) { return obj; }
+            }
+
+            obj = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (obj.IsFailure)
+            {
+                if (obj.Error == GetErrorNotFound()) return Result.Success();
+                return obj;
+            }
+            return Result.Failure(PersistenceErrors.GroupRole.AlreadyExist);
+        }
     }
 }

@@ -47,5 +47,25 @@ namespace StudyTaskManager.Persistence.Repository
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
+
+        protected override Error GetErrorIdEmpty()
+        {
+            return PersistenceErrors.GroupTaskStatus.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupTaskStatus.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupTaskStatus entity, CancellationToken cancellationToken)
+        {
+            // TODO
+
+            //bool notUniqueName = await _dbContext.Set<GroupRole>().AnyAsync(gr => gr.RoleName.Value == groupRole.RoleName.Value, cancellationToken);
+            //if (notUniqueName) return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName);
+
+            throw new NotImplementedException();
+        }
     }
 }
