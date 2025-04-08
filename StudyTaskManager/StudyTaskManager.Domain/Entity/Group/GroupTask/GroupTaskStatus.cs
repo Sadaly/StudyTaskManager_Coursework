@@ -54,9 +54,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Статический метод для создания нового статуса задачи.
         /// </summary>
-        public static Result<GroupTaskStatus> Create(Guid id, Title name, bool canBeUpdated, Group? group, Content? description)
+        public static Result<GroupTaskStatus> Create(Title name, bool canBeUpdated, Group? group, Content? description)
         {
-            var gts = new GroupTaskStatus(id, canBeUpdated, group?.Id, name, description)
+            var gts = new GroupTaskStatus(Guid.Empty, canBeUpdated, group?.Id, name, description)
             {
                 Group = group
             };

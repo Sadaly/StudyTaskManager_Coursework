@@ -90,7 +90,6 @@ namespace ConsoleAppTest
                 Console.Write("Username (<50): ");
                 nameUser = Console.ReadLine() ?? "";
                 newUser = User.Create(
-                    Guid.Empty,
                     Username.Create(nameUser).Value,
                     Email.Create("strEmail@mail.com").Value,
                     Password.Create("password").Value,

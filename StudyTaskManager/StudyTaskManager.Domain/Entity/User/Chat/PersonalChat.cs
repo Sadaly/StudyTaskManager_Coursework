@@ -12,7 +12,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     public class PersonalChat : BaseEntityWithID
     {
         // Приватный конструктор для создания чата
-        private PersonalChat(Guid user1Id, Guid user2Id)
+        private PersonalChat(Guid id, Guid user1Id, Guid user2Id) : base(id)
         {
             User1Id = user1Id;
             User2Id = user2Id;
@@ -60,7 +60,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
             {
                 return Result.Failure<PersonalChat>(PersistenceErrors.PersonalChat.SameUser);
             }
-            PersonalChat pc = new(User1.Id, User2.Id)
+            PersonalChat pc = new(Guid.Empty, User1.Id, User2.Id)
             {
                 User1 = User1,
                 User2 = User2

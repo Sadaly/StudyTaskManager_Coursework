@@ -62,7 +62,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
                 return Result.Failure<Guid>(PersistenceErrors.User.UsernameAlreadyInUse);
             }
 
-            var user = Domain.Entity.User.User.Create(Guid.NewGuid(), username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
+            var user = Domain.Entity.User.User.Create(username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
 
             await _userRepository.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

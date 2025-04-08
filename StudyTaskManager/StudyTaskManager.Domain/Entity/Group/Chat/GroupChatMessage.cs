@@ -14,7 +14,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     public class GroupChatMessage : BaseEntity
     {
         // Приватный конструктор для предотвращения невалидного создания объектов.
-        private GroupChatMessage(Guid GroupChatId, ulong ordinal, Guid SenderId, Content content)
+        private GroupChatMessage(Guid GroupChatId, ulong ordinal, Guid SenderId, Content content) : base()
         {
             this.GroupChatId = GroupChatId;
             this.Ordinal = ordinal;

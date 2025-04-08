@@ -92,9 +92,9 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Создает новую роль в группе.
         /// </summary>
-        public static Result<GroupRole> Create(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
+        public static Result<GroupRole> Create(Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
         {
-            var groupRole = new GroupRole(id, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
+            var groupRole = new GroupRole(Guid.Empty, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
 
             groupRole.RaiseDomainEvent(new GroupRoleCreatedDomainEvent(groupRole.Id));
 

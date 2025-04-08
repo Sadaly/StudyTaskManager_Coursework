@@ -111,9 +111,9 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <param name="ResponsibleUser">Ответственный за задачу.</param>
         /// <param name="Parent">Родительская задача, если она есть.</param>
         /// <returns>Новая задача.</returns>
-        public static Result<GroupTask> Create(Guid Id, Group Group, DateTime Deadline, GroupTaskStatus Status, Title HeadLine, Content? Description, User.User? ResponsibleUser, GroupTask? Parent)
+        public static Result<GroupTask> Create(Group Group, DateTime Deadline, GroupTaskStatus Status, Title HeadLine, Content? Description, User.User? ResponsibleUser, GroupTask? Parent)
         {
-            var gt = new GroupTask(Id, Group.Id, Deadline, Status.Id, HeadLine, ResponsibleUser?.Id, Parent?.Id)
+            var gt = new GroupTask(Guid.Empty, Group.Id, Deadline, Status.Id, HeadLine, ResponsibleUser?.Id, Parent?.Id)
             {
                 Group = Group,
                 Status = Status,

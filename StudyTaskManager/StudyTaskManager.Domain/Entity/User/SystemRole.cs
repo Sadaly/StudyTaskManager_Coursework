@@ -69,9 +69,9 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="canBlockUsers">Возможность блокировать пользователей.</param>
         /// <param name="canDeleteChats">Возможность удалять чаты.</param>
         /// <returns>Новый экземпляр класса <see cref="SystemRole"/>.</returns>
-        public static Result<SystemRole> Create(Guid id, Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
+        public static Result<SystemRole> Create(Title name, bool canViewPeoplesGroups, bool canChangeSystemRoles, bool canBlockUsers, bool canDeleteChats)
         {
-            var systemRole = new SystemRole(id, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
+            var systemRole = new SystemRole(Guid.Empty, name, canViewPeoplesGroups, canChangeSystemRoles, canBlockUsers, canDeleteChats);
 
 			systemRole.RaiseDomainEvent(new SystemRoleCreatedDomainEvent(systemRole.Id));
 

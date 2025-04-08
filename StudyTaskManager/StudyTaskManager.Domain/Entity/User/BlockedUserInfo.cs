@@ -15,7 +15,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="reason">Причина блокировки пользователя</param>
         /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
         /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
-        private BlockedUserInfo(Guid userId, Guid prevRoleId, string reason)
+        private BlockedUserInfo(Guid userId, Guid prevRoleId, string reason) : base()
         {
             UserId = userId;
             PrevRoleId = prevRoleId;
