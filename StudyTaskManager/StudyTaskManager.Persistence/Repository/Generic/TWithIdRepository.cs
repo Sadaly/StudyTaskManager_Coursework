@@ -9,14 +9,22 @@ namespace StudyTaskManager.Persistence.Repository.Generic
     {
         public TWithIdRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<Result<T?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        protected abstract Error GetErrorNotFound();
+
+        public async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             T? res = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-            //if (res == null)
-            //    return Result.Failure<T?>(new Error(
-            //        $"{typeof(T)}.NotFound",
-            //        $"Элемент {typeof(T)} с указанным id: {id} не найден"));
+            if (res == null)
+                return Result.Failure<T>(GetErrorNotFound());
             return Result.Success(res);
+        }
+
+        public async Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default)
+        {
+            T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == entityId);
+            if (entity == null) return Result.Failure(GetErrorNotFound());
+
+            return await RemoveAsync(entity, cancellationToken);
         }
     }
 }

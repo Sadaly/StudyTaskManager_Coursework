@@ -33,6 +33,10 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
 
             if (userResult.IsFailure)
             {
+                return Result.Failure<string>(userResult.Error);
+            }
+            if (userResult.Value == null)
+            {
                 return Result.Failure<string>(PersistenceErrors.User.IncorrectUsernameOrPassword);
             }
 

@@ -33,7 +33,7 @@ namespace StudyTaskManager.Domain.Errors
         {
             public static readonly Error NotFound = new(
                 "GroupChat.NotFound",
-                "Пользователь не найден");
+                "Группа не найдена");
             public static readonly Error NotUniqueName = new(
                 "GroupChat.NotUniqueName",
                 "Название группового чата не уникально");

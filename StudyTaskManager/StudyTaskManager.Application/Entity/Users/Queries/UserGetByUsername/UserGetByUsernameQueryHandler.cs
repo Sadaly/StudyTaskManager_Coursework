@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -31,8 +32,12 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.UserGetByUsername
             {
                 return Result.Failure<UserResponse>(userResult.Error);
             }
+            if (userResult.Value == null)
+            {
+                return Result.Failure<UserResponse>(PersistenceErrors.User.NotFound);
+            }
 
-			var response = new UserResponse(userResult.Value.Id, userResult.Value.Email.Value);
+            var response = new UserResponse(userResult.Value.Id, userResult.Value.Email.Value);
 
             return Result.Success(response);
         }
