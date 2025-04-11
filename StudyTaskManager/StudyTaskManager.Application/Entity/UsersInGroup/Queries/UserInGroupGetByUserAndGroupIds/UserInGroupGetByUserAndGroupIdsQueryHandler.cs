@@ -18,8 +18,7 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGe
         public async Task<Result<UserInGroupResponse>> Handle(UserInGroupGetByUserAndGroupIdsQuery request, CancellationToken cancellationToken)
         {
             var userInGroup = await _userInGroupRepository.GetByUserAndGroupAsync(request.UserId, request.GroupId, cancellationToken);
-            if (userInGroup.IsFailure) return Result.Failure<UserInGroupResponse>(userInGroup.Error);
-            if (userInGroup.Value == null) return Result.Failure<UserInGroupResponse>(PersistenceErrors.UserInGroup.NotFound);
+            if (userInGroup.IsFailure) return Result.Failure<UserInGroupResponse>(userInGroup);
 
             return Result.Success(new UserInGroupResponse(userInGroup.Value));
         }
