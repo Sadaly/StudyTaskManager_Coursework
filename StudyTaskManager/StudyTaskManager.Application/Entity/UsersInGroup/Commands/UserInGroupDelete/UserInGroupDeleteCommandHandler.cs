@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
@@ -19,15 +20,11 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupD
 
         public async Task<Result> Handle(UserInGroupDeleteCommand request, CancellationToken cancellationToken)
         {
-            Result<Domain.Entity.Group.UserInGroup?> uig = await _userInGroupRepository.GetByUserAndGroupAsync(request.UserId, request.GroupId, cancellationToken);
-            if (uig.IsFailure) return uig;
-            if (uig.Value == null) return Result.Failure(PersistenceErrors.UserInGroup.NotFound);
+            Result<UserInGroup> userInGroup = await _userInGroupRepository.GetByUserAndGroupAsync(request.UserId, request.GroupId, cancellationToken);
+            if (userInGroup.IsFailure) return userInGroup;
 
-            Result delete = uig.Value.Delete();
+            Result delete = await _userInGroupRepository.RemoveAsync(userInGroup.Value, cancellationToken);
             if (delete.IsFailure) return delete;
-
-            Result update = await _userInGroupRepository.UpdateAsync(uig.Value, cancellationToken);
-            if (update.IsFailure) return update;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -92,7 +92,6 @@
     <Folder Include="Entity\BlockedUserInfos\Queries\BlockedUserInfoGetByUserId\" />
     <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdatePrivileges\" />
     <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdateTitle\" />
-    <Folder Include="Entity\SystemRoles\Commands\SystemRoleDelete\" />
     <Folder Include="Entity\SystemRoles\Events\" />
     <Folder Include="Entity\SystemRoles\Queries\SystemRoleGetById\" />
   </ItemGroup>

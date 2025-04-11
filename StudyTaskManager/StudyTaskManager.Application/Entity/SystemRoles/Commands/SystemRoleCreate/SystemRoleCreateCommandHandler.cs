@@ -24,7 +24,7 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCre
             Result<Title> name = Title.Create(request.Name);
             if (name.IsFailure) return Result.Failure<Guid>(name.Error);
 
-            Result<SystemRole?> systemRoleInDB;
+            Result<SystemRole> systemRoleInDB;
             systemRoleInDB = await _systemRoleRepository.GetByTitleAsync(name.Value, cancellationToken);
             if (systemRoleInDB.IsFailure) return Result.Failure<Guid>(systemRoleInDB.Error);
             if (systemRoleInDB.Value != null) return Result.Failure<Guid>(PersistenceErrors.SystemRole.TitleAlreadyInUse);
@@ -42,7 +42,7 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCre
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success<Guid>(systemRole.Value.Id);
+            return Result.Success(systemRole.Value.Id);
         }
     }
 }
