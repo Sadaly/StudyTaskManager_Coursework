@@ -63,14 +63,14 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         public static Result<GroupChatParticipantLastRead> Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
         {
             var gcp = new GroupChatParticipantLastRead(
-                    readMessage.Ordinal,
-                    groupChatId,
-                    user.Id)
-                {
-                    GroupChat = groupChat,
-                    User = user,
-                    ReadMessage = readMessage
-                };
+                readMessage.Ordinal,
+                groupChatId,
+                user.Id)
+            {
+                GroupChat = groupChat,
+                User = user,
+                ReadMessage = readMessage
+            };
 
             gcp.RaiseDomainEvent(new GroupChatParticipantLastReadCreatedDomainEvent(gcp.GroupChatId, gcp.UserId));
 
