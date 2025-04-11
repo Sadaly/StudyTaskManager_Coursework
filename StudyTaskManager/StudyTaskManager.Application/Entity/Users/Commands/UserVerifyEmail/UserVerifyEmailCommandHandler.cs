@@ -5,33 +5,31 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyEmail
 {
-	internal sealed class UserVerifyEmailCommandHandler : ICommandHandler<UserVerifyEmailCommand, Guid>
-	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly IUserRepository _userRepository;
+    internal sealed class UserVerifyEmailCommandHandler : ICommandHandler<UserVerifyEmailCommand>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
-		public UserVerifyEmailCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
-		{
-			_unitOfWork = unitOfWork;
-			_userRepository = userRepository;
-		}
+        public UserVerifyEmailCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+        }
 
-		public async Task<Result<Guid>> Handle(UserVerifyEmailCommand request, CancellationToken cancellationToken)
-		{
-			var foundUserResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-			if (foundUserResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundUserResult.Error);
-			}
+        public async Task<Result> Handle(UserVerifyEmailCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
-			var user = foundUserResult.Value;
+            var verify = user.Value.VerifyEmail();
+            if (verify.IsFailure) return verify;
 
-			user.VerifyEmail();
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return update;
 
-			await _userRepository.UpdateAsync(user, cancellationToken);
-			await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-			return user.Id;
-		}
-	}
+            return Result.Success();
+        }
+    }
 }
