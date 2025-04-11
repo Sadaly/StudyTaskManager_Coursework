@@ -26,13 +26,6 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDel
             Result delete = await _systemRoleRepository.RemoveAsync(systemRole.Value, cancellationToken);
             if (delete.IsFailure) return delete;
 
-            //var sr = await _systemRoleRepository.GetByIdAsync(request.SystemRoleId, cancellationToken);
-            //if (sr.IsFailure) return sr;
-            //if (sr.Value == null) return Result.Failure(PersistenceErrors.SystemRole.NotFound);
-
-            //var delete = await _systemRoleRepository.RemoveAsync(sr.Value, cancellationToken);
-            //if (delete.IsFailure) return delete;
-
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
