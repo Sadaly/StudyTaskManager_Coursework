@@ -33,7 +33,9 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangePhoneNumb
 
             user.Value.ChangePhoneNumber(phoneNumber.Value);
 
-            await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return Result.Failure(update);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

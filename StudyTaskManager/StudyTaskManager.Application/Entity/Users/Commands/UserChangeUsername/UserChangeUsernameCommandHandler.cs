@@ -33,7 +33,9 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangeUsername
 
             user.Value.ChangeUsername(username.Value);
 
-            await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return update;
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

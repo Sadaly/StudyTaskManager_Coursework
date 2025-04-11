@@ -51,7 +51,9 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
             var user = Domain.Entity.User.User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
             if (user.IsFailure) return Result.Failure<Guid>(user);
 
-            await _userRepository.AddAsync(user.Value, cancellationToken);
+            var add = await _userRepository.AddAsync(user.Value, cancellationToken);
+            if (add.IsFailure) return Result.Failure<Guid>(add);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return user.Value.Id;
