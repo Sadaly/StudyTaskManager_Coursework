@@ -13,48 +13,73 @@ namespace StudyTaskManager.Persistence.Repository
 
         public async Task<Result<bool>> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default)
         {
-            return !await _dbContext.Set<User>().AnyAsync(x => x.Email == email, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(u => u.Email == email, cancellationToken);
         }
 
         public async Task<Result<bool>> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default)
         {
-            return !await _dbContext.Set<User>().AnyAsync(x => x.PhoneNumber == phoneNumber, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
         }
 
         public async Task<Result<bool>> IsUsernameUniqueAsync(Username username, CancellationToken cancellationToken = default)
         {
-            return !await _dbContext.Set<User>().AnyAsync(x => x.Username == username, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username, cancellationToken);
         }
 
-        public async Task<Result<User?>> GetByUsernameAsync(Username username, CancellationToken cancellationToken = default)
+        public async Task<Result<User>> GetByUsernameAsync(Username username, CancellationToken cancellationToken = default)
         {
-            User? user = await _dbContext.Set<User>().FirstOrDefaultAsync(x => x.Username == username, cancellationToken);
-            return Result.Success(user);
+            return await GetFromDBAsync(u => u.Username == username, PersistenceErrors.User.NotFound, cancellationToken);
         }
 
-        public async Task<Result<User?>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
+        public async Task<Result<User>> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
         {
-            User? user = await _dbContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
-            return Result.Success(user);
+            return await GetFromDBAsync(u => u.Email == email, PersistenceErrors.User.NotFound, cancellationToken);
         }
 
-        public override async Task<Result> AddAsync(User user, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            bool notUniqueUsername = await _dbContext.Set<User>().AnyAsync(u => u.Username.Value == user.Username.Value, cancellationToken);
-            if (notUniqueUsername) return Result.Failure(PersistenceErrors.User.NotUniqueUsername);
+            return PersistenceErrors.User.IdEmpty;
+        }
 
-            bool notUniqueEmail = await _dbContext.Set<User>().AnyAsync(u => u.Email.Value == user.Email.Value, cancellationToken);
-            if (notUniqueEmail) return Result.Failure(PersistenceErrors.User.NotUniqueEmail);
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.User.NotFound;
+        }
 
-            if (user.SystemRoleId != null)
+        protected override async Task<Result> VerificationBeforeAddingAsync(User entity, CancellationToken cancellationToken)
+        {
+            Result<bool> unique;
+
+            unique = await IsEmailUniqueAsync(entity.Email, cancellationToken);
+            if (unique.IsFailure) { return unique; }
+            if (!unique.Value) { return Result.Failure(PersistenceErrors.User.NotUniqueEmail); }
+
+            unique = await IsUsernameUniqueAsync(entity.Username, cancellationToken);
+            if (unique.IsFailure) { return unique; }
+            if (!unique.Value) { return Result.Failure(PersistenceErrors.User.NotUniqueUsername); }
+
+            if (entity.PhoneNumber != null)
             {
-                SystemRole? systemRole = await _dbContext.Set<SystemRole>().FirstOrDefaultAsync(sr => sr.Id == user.SystemRoleId, cancellationToken);
-                if (systemRole == null) return Result.Failure(PersistenceErrors.SystemRole.NotFound);
+                unique = await IsPhoneNumberUniqueAsync(entity.PhoneNumber, cancellationToken);
+                if (unique.IsFailure) { return unique; }
+                if (!unique.Value) { return Result.Failure(PersistenceErrors.User.NotUniquePhoneNumber); }
             }
 
-            await _dbContext.Set<User>().AddAsync(user, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
+            Result<object> obj;
+
+            if (entity.SystemRoleId != null)
+            {
+                obj = await GetFromDBAsync<SystemRole>(
+                    (Guid)entity.SystemRoleId,
+                    PersistenceErrors.SystemRole.IdEmpty,
+                    PersistenceErrors.SystemRole.NotFound,
+                    cancellationToken);
+                if (obj.IsFailure) { return obj; }
+            }
+
+            obj = GetFromDBAsync(entity.Id, cancellationToken);
+            if (obj.IsFailure) { return Result.Success(); }
+            return Result.Failure(PersistenceErrors.User.AlreadyExists);
         }
     }
 }

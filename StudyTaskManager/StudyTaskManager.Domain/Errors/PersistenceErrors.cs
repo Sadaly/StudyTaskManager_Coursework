@@ -231,6 +231,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotUniqueName = new(
                 "SystemRole.NotUniqueName",
                 "Название системной роли не уникально");
+            public static readonly Error IdEmpty = new(
+                "SystemRole.IdEmpty",
+                "Системная роль не имеет Id");
+            public static readonly Error AlreadyExists = new(
+                "SystemRole.AlreadyExists",
+                "Системная роль уже существует");
         }
 
         public static class UserInGroup
@@ -238,6 +244,9 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotFound = new(
                 "UserInGroup.NotFound",
                 "Запись о присутствии пользователя в группе не найдена");
+            public static readonly Error AlreadyExists = new(
+                "UserInGroup.AlreadyExists",
+                "Пользователь уже уастник группы");
         }
 
         public static class User
@@ -266,6 +275,12 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotUniqueEmail = new(
                 "User.NotUniqueEmail",
                 "Email пользователя не уникален");
+            public static readonly Error NotUniquePhoneNumber = new(
+                "User.NotUniquePhoneNumber",
+                "Телефонный номер пользователя не уникален");
+            public static readonly Error AlreadyExists = new(
+                "User.AlreadyExists",
+                "Пользователь уже существует");
         }
     }
 }
