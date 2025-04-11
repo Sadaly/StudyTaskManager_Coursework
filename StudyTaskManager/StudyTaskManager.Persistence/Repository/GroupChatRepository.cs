@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.Group.Chat;
 using StudyTaskManager.Domain.Errors;

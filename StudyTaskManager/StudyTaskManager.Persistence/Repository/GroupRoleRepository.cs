@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 

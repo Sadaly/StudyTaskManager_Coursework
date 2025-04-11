@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
+﻿using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
-using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System.Linq.Expressions;
 
