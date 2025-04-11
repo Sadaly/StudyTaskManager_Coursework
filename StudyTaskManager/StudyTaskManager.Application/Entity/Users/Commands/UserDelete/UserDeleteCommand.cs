@@ -3,4 +3,4 @@
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 
 public sealed record UserDeleteCommand(
-    Guid UserId) : ICommand<Guid>;
+    Guid UserId) : ICommand;
