@@ -64,7 +64,6 @@
     <Folder Include="Entity\GroupTasks\Events\" />
     <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
-    <Folder Include="Entity\UsersInGroup\Commands\UserInGroupUpdateRole\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteCreate\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDelete\" />
@@ -90,7 +89,6 @@
     <Folder Include="Entity\BlockedUserInfos\Commands\BlockedUserInfoDelete\" />
     <Folder Include="Entity\BlockedUserInfos\Events\" />
     <Folder Include="Entity\BlockedUserInfos\Queries\BlockedUserInfoGetByUserId\" />
-    <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdatePrivileges\" />
     <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdateTitle\" />
     <Folder Include="Entity\SystemRoles\Events\" />
     <Folder Include="Entity\SystemRoles\Queries\SystemRoleGetById\" />
