@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
-using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -23,51 +22,39 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
 
         public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
         {
-            Result<Email> emailResult = Email.Create(request.Email);
-            Result<Username> username = Username.Create(request.Username);
-            Result<Password> password = Password.Create(request.Password);
-            Result<PhoneNumber>? phoneNumber = null;
+            var email = Email.Create(request.Email);
+            if (email.IsFailure) return Result.Failure<Guid>(email);
+
+            var username = Username.Create(request.Username);
+            if (username.IsFailure) return Result.Failure<Guid>(username);
+
+            var password = Password.Create(request.Password);
+            if (password.IsFailure) return Result.Failure<Guid>(password);
+
+            PhoneNumber? phoneNumber = null;
             SystemRole? role = null;
+
+            if (request.PhoneNumber != null)
+            {
+                var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+                if (phoneNumberResult.IsFailure) return Result.Failure<Guid>(phoneNumberResult);
+                phoneNumber = phoneNumberResult.Value;
+            }
 
             if (request.SystemRoleId != null)
             {
                 var foundRoleResult = _systemRoleRepository.GetByIdAsync(request.SystemRoleId.Value, cancellationToken).Result;
-                if (foundRoleResult.IsSuccess)
-                {
-                    role = foundRoleResult.Value;
-                }
-                else
-                {
-                    return Result.Failure<Guid>(foundRoleResult.Error);
-                }
+                if (foundRoleResult.IsFailure) return Result.Failure<Guid>(foundRoleResult);
+                role = foundRoleResult.Value;
             }
 
-            if (request.PhoneNumber != null)
-            {
-                //Перед созданием экземпляра мы проверяем, что он не равен null
-                phoneNumber = PhoneNumber.Create(request.PhoneNumber);
-                if (!_userRepository.IsPhoneNumberUniqueAsync(phoneNumber.Value, cancellationToken).Result.Value)
-                {
-                    return Result.Failure<Guid>(PersistenceErrors.User.PhoneNumberAlreadyInUse);
-                }
-            }
+            var user = Domain.Entity.User.User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
+            if (user.IsFailure) return Result.Failure<Guid>(user);
 
-            if (!_userRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken).Result.Value)
-            {
-                return Result.Failure<Guid>(PersistenceErrors.User.EmailAlreadyInUse);
-            }
-
-            if (!_userRepository.IsUsernameUniqueAsync(username.Value, cancellationToken).Result.Value)
-            {
-                return Result.Failure<Guid>(PersistenceErrors.User.UsernameAlreadyInUse);
-            }
-
-            var user = Domain.Entity.User.User.Create(username.Value, emailResult.Value, password.Value, phoneNumber?.Value, role).Value;
-
-            await _userRepository.AddAsync(user, cancellationToken);
+            await _userRepository.AddAsync(user.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return user.Id;
+            return user.Value.Id;
         }
     }
 }

@@ -76,6 +76,14 @@
         public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
 
         /// <summary>
+        /// Создает неудачный результат с указанной ошибкой (для обобщенного результата).
+        /// </summary>
+        /// <typeparam name="TValue">Тип значения.</typeparam>
+        /// <param name="result">Результат</param>
+        /// <returns>Неудачный результат с ошибкой.</returns>
+        public static Result<TValue> Failure<TValue>(Result result) => Failure<TValue>(result.Error);
+
+        /// <summary>
         /// Создает результат на основе переданного значения.
         /// Если значение null, возвращает неудачный результат с ошибкой Error.NullValue.
         /// </summary>
