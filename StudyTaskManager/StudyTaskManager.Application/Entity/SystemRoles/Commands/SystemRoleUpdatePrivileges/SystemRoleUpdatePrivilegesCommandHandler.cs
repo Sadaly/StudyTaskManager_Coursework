@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges
 {
-    internal class SystemRoleUpdatePrivilegesCommandHandler : ICommandHandler<SystemRoleUpdatePrivilegesCommand>
+    internal sealed class SystemRoleUpdatePrivilegesCommandHandler : ICommandHandler<SystemRoleUpdatePrivilegesCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleRepository _systemRoleRepository;

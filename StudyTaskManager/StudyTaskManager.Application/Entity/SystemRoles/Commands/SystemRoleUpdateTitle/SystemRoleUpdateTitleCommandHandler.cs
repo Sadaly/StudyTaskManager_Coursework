@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle
 {
-    class SystemRoleUpdateTitleCommandHandler : ICommandHandler<SystemRoleUpdateTitleCommand>
+    internal sealed class SystemRoleUpdateTitleCommandHandler : ICommandHandler<SystemRoleUpdateTitleCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleRepository _systemRoleRepository;

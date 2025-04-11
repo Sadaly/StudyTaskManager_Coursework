@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete
 {
-    internal class SystemRoleDeleteCommandHandler : ICommandHandler<SystemRoleDeleteCommand>
+    internal sealed class SystemRoleDeleteCommandHandler : ICommandHandler<SystemRoleDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleRepository _systemRoleRepository;

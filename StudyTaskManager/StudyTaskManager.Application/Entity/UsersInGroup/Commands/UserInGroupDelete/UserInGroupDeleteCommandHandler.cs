@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupDelete
 {
-    internal class UserInGroupDeleteCommandHandler : ICommandHandler<UserInGroupDeleteCommand>
+    internal sealed class UserInGroupDeleteCommandHandler : ICommandHandler<UserInGroupDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInGroupRepository _userInGroupRepository;
