@@ -28,13 +28,11 @@ namespace StudyTaskManager.Persistence.Repository
             Result<User> user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
             if (user.IsFailure) { return user; }
 
-            Error notFoundBlockedUserInfo = PersistenceErrors.BlockedUserInfo.NotFound;
-            Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, notFoundBlockedUserInfo, cancellationToken);
-            if (blockedUserInfo.IsFailure)
-            {
-                if (blockedUserInfo.Error == notFoundBlockedUserInfo) { return Result.Success(); }
-                return blockedUserInfo;
-            }
+            Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(
+                bui => bui.UserId == entity.UserId,
+                PersistenceErrors.BlockedUserInfo.NotFound,
+                cancellationToken);
+            if (blockedUserInfo.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.BlockedUserInfo.AlreadyExist);
         }
 

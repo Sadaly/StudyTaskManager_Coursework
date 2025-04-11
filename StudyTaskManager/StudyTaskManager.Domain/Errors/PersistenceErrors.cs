@@ -125,6 +125,23 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error AlreadyExists = new(
                 "GroupTaskStatus.AlreadyExists",
                 "Статус задачи уже существует");
+            public static readonly Error NotUniqueName = new(
+                "GroupTaskStatus.NotUniqueName",
+                "Название статуса задачи не уникально");
+        }
+
+        public static class GroupTaskUpdate
+        {
+            public static readonly Error NotFound = new(
+                "GroupTaskUpdate.NotFound",
+                "Апдейт задачи не найден");
+            public static readonly Error IdEmpty = new(
+                "GroupTaskUpdate.IdEmpty",
+                "Апдейт задачи не имеет Id");
+            public static readonly Error AlreadyExists = new(
+                "GroupTaskUpdate.AlreadyExists",
+                "Апдейт задачи уже существует");
+
         }
 
         public static class GroupTask
@@ -185,6 +202,22 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error NotFound = new(
                 "PersonalChat.NotFound",
                 "Запись о персональном чате не найдена");
+            public static readonly Error IdEmpty = new(
+                "PersonalChat.IdEmpty",
+                "Персональный чат не имеет Id");
+        }
+
+        public static class PersonalMessage
+        {
+            public static readonly Error AlreadyExists = new(
+                "PersonalMessage.AlreadyExists",
+                "Персональныое сообщение уже существует");
+            public static readonly Error NotFound = new(
+                "PersonalMessage.NotFound",
+                "Запись о персональном сообщении не найдена");
+            public static readonly Error IdEmpty = new(
+                "PersonalMessage.IdEmpty",
+                "Персональное сообщение не имеет Id");
         }
 
         public static class SystemRole

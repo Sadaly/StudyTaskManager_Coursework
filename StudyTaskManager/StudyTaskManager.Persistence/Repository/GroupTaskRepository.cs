@@ -44,11 +44,7 @@ namespace StudyTaskManager.Persistence.Repository
             // TODO добавить проверку, чтобы ответственный за задачу был обязан присутствовать в группе
 
             obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure)
-            {
-                if (obj.Error == GetErrorNotFound()) { return Result.Success(); }
-                return obj;
-            }
+            if (obj.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists);
         }
     }

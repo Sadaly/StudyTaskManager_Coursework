@@ -22,19 +22,14 @@ namespace StudyTaskManager.Persistence.Repository
             Result<GroupChatMessage> groupChatMessage = await GetFromDBAsync<GroupChatMessage>(gcm => gcm.Ordinal == entity.LastReadMessageId, PersistenceErrors.GroupChatMessage.NotFound, cancellationToken);
             if (groupChatMessage.IsFailure) { return groupChatMessage; }
 
-            Error notFound = PersistenceErrors.GroupChatMessage.NotFound;
             Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
                 gcplr =>
                     gcplr.LastReadMessageId == entity.LastReadMessageId &&
                     gcplr.GroupChatId == entity.GroupChatId &&
                     gcplr.UserId == entity.UserId
-                , notFound
+                , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (groupChatParticipantLastRead.IsFailure)
-            {
-                if (groupChatParticipantLastRead.Error == notFound) { return Result.Success(); }
-                return groupChatParticipantLastRead;
-            }
+            if (groupChatParticipantLastRead.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.GroupChatParticipantLastRead.AlreadyExist);
         }
 

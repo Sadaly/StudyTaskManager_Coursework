@@ -46,7 +46,12 @@ namespace StudyTaskManager.Persistence.Repository
             if (obj.IsFailure) { return obj; }
 
             Error notFound = PersistenceErrors.UserInGroup.NotFound;
-            obj = await GetFromDBAsync<UserInGroup>(uig => uig.UserId == entity.ReceiverId && uig.GroupId == entity.GroupId, notFound, cancellationToken);
+            obj = await GetFromDBAsync<UserInGroup>(
+                uig =>
+                    uig.UserId == entity.ReceiverId &&
+                    uig.GroupId == entity.GroupId
+                , notFound
+                , cancellationToken);
             if (obj.IsFailure)
             {
                 if (obj.Error != notFound) { return obj; }
@@ -75,7 +80,7 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupInvite entity, CancellationToken cancellationToken)
         {
-            Result<Object> obj;
+            Result<object> obj;
             obj = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
             if (obj.IsFailure) { return obj; }
             obj = await GetFromDBAsync<User>(entity.ReceiverId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);

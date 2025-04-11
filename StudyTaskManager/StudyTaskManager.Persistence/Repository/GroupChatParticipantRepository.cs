@@ -20,17 +20,14 @@ namespace StudyTaskManager.Persistence.Repository
             Result<GroupChat> groupChat = await GetFromDBAsync<GroupChat>(entity.GroupChatId, PersistenceErrors.GroupChat.IdEmpty, PersistenceErrors.GroupChat.NotFound, cancellationToken);
             if (groupChat.IsFailure) { return Result.Failure(groupChat.Error); }
             if (groupChat.Value.IsPublic) { return Result.Failure(PersistenceErrors.GroupChatParticipant.AddingToAPublicChat); }
-
-            Error notFound = PersistenceErrors.GroupChatParticipant.NotFound;
+                     
             Result<GroupChatParticipant> groupChatParticipant = await GetFromDBAsync(
-                gcp => gcp.UserId == entity.UserId && gcp.GroupChatId == entity.GroupChatId
-                , notFound
+                gcp => 
+                    gcp.UserId == entity.UserId && 
+                    gcp.GroupChatId == entity.GroupChatId
+                , PersistenceErrors.GroupChatParticipant.NotFound
                 , cancellationToken);
-            if (groupChatParticipant.IsFailure)
-            {
-                if (groupChatParticipant.Error == notFound) { return Result.Success(); }
-                return groupChatParticipant;
-            }
+            if (groupChatParticipant.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.GroupChatParticipant.AlreadyExist);
         }
 

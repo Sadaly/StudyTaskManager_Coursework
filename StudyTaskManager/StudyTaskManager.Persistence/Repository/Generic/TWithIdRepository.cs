@@ -29,6 +29,15 @@ namespace StudyTaskManager.Persistence.Repository.Generic
                 GetErrorIdEmpty(),
                 GetErrorNotFound(),
                 cancellationToken);
+        /// <summary>
+        /// Получение сущности типа репозитория по предикату с учетом ошибки
+        /// </summary>
+        /// <param name="NotFound">Ошибка, в случае в базе данных не будет найдена сущность</param>
+        /// <returns></returns>
+        protected async Task<Result<T>> GetFromDBAsync(
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken
+            ) => await GetFromDBAsync<T>(predicate, GetErrorNotFound(), cancellationToken);
         #endregion
 
         public TWithIdRepository(AppDbContext dbContext) : base(dbContext) { }

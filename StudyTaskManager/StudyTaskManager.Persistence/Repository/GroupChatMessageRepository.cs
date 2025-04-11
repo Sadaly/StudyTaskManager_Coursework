@@ -30,18 +30,13 @@ namespace StudyTaskManager.Persistence.Repository
                 if (groupChatParticipant.IsFailure) { return Result.Failure(groupChatParticipant.Error); }
             }
 
-            Error notFound = PersistenceErrors.GroupChatMessage.NotFound;
             Result<GroupChatMessage> res = await GetFromDBAsync(
                 gcm =>
                     gcm.SenderId == entity.SenderId &&
                     gcm.GroupChatId == entity.GroupChatId
-                , notFound
+                , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (res.IsFailure)
-            {
-                if (res.Error == notFound) return Result.Success();
-                return res;
-            }
+            if (res.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.GroupChatMessage.AlreadyExist);
         }
 

@@ -12,25 +12,37 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public PersonalMessageRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(PersonalMessage personalMessage, CancellationToken cancellationToken = default)
-        {
-            User? sender = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Id == personalMessage.SenderId, cancellationToken);
-            if (sender == null) return Result.Failure(PersistenceErrors.User.NotFound);
-
-            PersonalChat? personalChat = await _dbContext.Set<PersonalChat>().FirstOrDefaultAsync(pc => pc.Id == personalMessage.PersonalChatId);
-            if (personalChat == null) return Result.Failure(PersistenceErrors.PersonalChat.NotFound);
-
-            await _dbContext.Set<PersonalMessage>().AddAsync(personalMessage, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
-
         public async Task<Result<List<PersonalMessage>>> GetMessageByChatAsync(PersonalChat personalChat, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<PersonalMessage>()
                 .Where(pm => pm.PersonalChatId == personalChat.Id)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+
+        protected override Error GetErrorIdEmpty()
+        {
+            return PersistenceErrors.PersonalMessage.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.PersonalMessage.IdEmpty;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(PersonalMessage entity, CancellationToken cancellationToken)
+        {
+            Result<object> obj;
+
+            obj = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (obj.IsFailure) { return obj; }
+
+            obj = await GetFromDBAsync<PersonalChat>(entity.PersonalChatId, PersistenceErrors.PersonalChat.IdEmpty, PersistenceErrors.PersonalChat.NotFound, cancellationToken);
+            if (obj.IsFailure) { return obj; }
+
+            obj = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (obj.IsFailure) { return Result.Success(); }
+            return Result.Failure(PersistenceErrors.PersonalMessage.AlreadyExists);
         }
     }
 }

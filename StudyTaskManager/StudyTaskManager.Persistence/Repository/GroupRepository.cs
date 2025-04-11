@@ -27,11 +27,7 @@ namespace StudyTaskManager.Persistence.Repository
             if (obj.IsFailure) { return obj; }
 
             obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure)
-            {
-                if (obj.Error == GetErrorNotFound()) return Result.Success();
-                return obj;
-            }
+            if (obj.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.Group.AlreadyExists);
         }
     }

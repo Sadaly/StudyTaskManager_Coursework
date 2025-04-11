@@ -31,11 +31,7 @@ namespace StudyTaskManager.Persistence.Repository
             if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupChat.NotUniqueName); }
 
             Result<GroupChat> groupChat = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (groupChat.IsFailure)
-            {
-                if (groupChat.Error == GetErrorNotFound()) { return Result.Success(); }
-                return groupChat;
-            }
+            if (groupChat.IsFailure) { return Result.Success(); }
             return Result.Failure(PersistenceErrors.GroupChat.AlreadyExist);
         }
     }
