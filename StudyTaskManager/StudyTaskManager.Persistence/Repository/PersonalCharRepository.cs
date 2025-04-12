@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class PersonalCharRepository : Generic.TWithIdRepository<PersonalChat>, IPersonalChatRepository
+    public class PersonalCharRepository : Generic.TWithIdRepository<PersonalChat>, IPersonalChatRepository
     {
         public PersonalCharRepository(AppDbContext dbContext) : base(dbContext) { }
 

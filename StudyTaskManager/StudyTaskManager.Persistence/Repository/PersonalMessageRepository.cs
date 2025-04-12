@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class PersonalMessageRepository : Generic.TWithIdRepository<PersonalMessage>, IPresonalMessageRepository
+    public class PersonalMessageRepository : Generic.TWithIdRepository<PersonalMessage>, IPresonalMessageRepository
     {
         public PersonalMessageRepository(AppDbContext dbContext) : base(dbContext) { }
 

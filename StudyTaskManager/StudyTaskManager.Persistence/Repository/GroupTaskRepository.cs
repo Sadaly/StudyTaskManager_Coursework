@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupTaskRepository : Generic.TWithIdRepository<GroupTask>, IGroupTaskRepository
+    public class GroupTaskRepository : Generic.TWithIdRepository<GroupTask>, IGroupTaskRepository
     {
         public GroupTaskRepository(AppDbContext dbContext) : base(dbContext) { }
 

@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupInviteRepository : Generic.TRepository<GroupInvite>, IGroupInviteRepository
+    public class GroupInviteRepository : Generic.TRepository<GroupInvite>, IGroupInviteRepository
     {
         public GroupInviteRepository(AppDbContext dbContext) : base(dbContext) { }
 

@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class BlockedUserInfoRepository : Generic.TRepository<BlockedUserInfo>, IBlockedUserInfoRepository
+    public class BlockedUserInfoRepository : Generic.TRepository<BlockedUserInfo>, IBlockedUserInfoRepository
     {
         public BlockedUserInfoRepository(AppDbContext dbContext) : base(dbContext) { }
 

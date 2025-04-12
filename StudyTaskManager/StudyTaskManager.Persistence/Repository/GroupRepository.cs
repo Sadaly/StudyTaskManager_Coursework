@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupRepository : Generic.TWithIdRepository<Group>, IGroupRepository
+    public class GroupRepository : Generic.TWithIdRepository<Group>, IGroupRepository
     {
         public GroupRepository(AppDbContext dbContext) : base(dbContext) { }
 

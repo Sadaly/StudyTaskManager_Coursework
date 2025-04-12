@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupChatParticipantLastReadRepository : Generic.TRepository<GroupChatParticipantLastRead>, IGroupChatParticipantLastReadRepository
+    public class GroupChatParticipantLastReadRepository : Generic.TRepository<GroupChatParticipantLastRead>, IGroupChatParticipantLastReadRepository
     {
         public GroupChatParticipantLastReadRepository(AppDbContext dbContext) : base(dbContext) { }
 

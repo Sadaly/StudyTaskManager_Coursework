@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class SystemRoleRepository : Generic.TWithIdRepository<SystemRole>, ISystemRoleRepository
+    public class SystemRoleRepository : Generic.TWithIdRepository<SystemRole>, ISystemRoleRepository
     {
         public SystemRoleRepository(AppDbContext dbContext) : base(dbContext) { }
 
