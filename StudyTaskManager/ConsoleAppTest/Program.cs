@@ -12,8 +12,11 @@ namespace ConsoleAppTest
         static async Task Main(string[] args)
         {
             DateTime __timeStart = DateTime.Now; Console.WriteLine($"Тестовый проект просто для проверки реализации.\nНачало работы: {__timeStart}\n------------------------\n");
-            await ListAllUsers();
+
+            await PrintListAll.Users();
+
             //await Run();
+
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
         }
         private static async Task Run()
@@ -21,7 +24,7 @@ namespace ConsoleAppTest
             var actions = new Dictionary<string, Func<Task>>
             {
                 ["1"] = CreateAndAddUser,
-                ["2"] = ListAllUsers,
+                ["2"] = PrintListAll.Users,
                 ["3"] = DeleteUser,
             };
 
@@ -103,43 +106,6 @@ namespace ConsoleAppTest
                 }
             }
             Console.WriteLine($"newUser после: {newUser.Id} - {newUser.Username.Value}");
-        }
-
-        private static async Task ListAllUsers()
-        {
-            using (AppDbContext db = new AppDbContext())
-            using (UserRepository userRepo = new UserRepository(db))
-            {
-                // Получаем всех пользователей через репозиторий
-                var usersResult = await userRepo.GetAllAsync();
-
-                if (!usersResult.IsSuccess || usersResult.Value == null || !usersResult.Value.Any())
-                {
-                    Console.WriteLine("\nНет пользователей в базе данных.");
-                    return;
-                }
-
-                var users = usersResult.Value.ToList();
-
-                Console.WriteLine();
-                Console.WriteLine("┌───────────────────────────── Список пользователей ──────────────────────┐");
-                Console.WriteLine("├──────────┬──────────────────────┬───────────────────────────────────────┤");
-                Console.WriteLine("│  ID      │ Email                │ Дата регистрации                      │");
-                Console.WriteLine("├──────────┼──────────────────────┼───────────────────────────────────────┤");
-
-                foreach (var user in users)
-                {
-                    var id = user.Id.ToString().Substring(0, 5) + "...";
-                    var username = user.Email.Value;
-                    var registrationDate = user.RegistrationDate.ToString("dd.MM.yyyy HH:mm:ss");
-
-                    Console.WriteLine($"│ {id,-7} │ {username,-20} │ {registrationDate,-35}   │");
-                }
-
-                Console.WriteLine("├──────────┴──────────────────────┴───────────────────────────────────────┤");
-                Console.WriteLine($"│ Всего пользователей: {users.Count,-50} │");
-                Console.WriteLine("└─────────────────────────────────────────────────────────────────────────┘");
-            }
         }
     }
 }
