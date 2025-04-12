@@ -16,9 +16,7 @@ namespace StudyTaskManager.WebAPI.Controllers
     [Route("api/[controller]")]
     public sealed class UsersController : ApiController
     {
-        public UsersController(ISender sender) : base(sender)
-        {
-        }
+        public UsersController(ISender sender) : base(sender) { }
 
         [HttpPost]
         [Route("Registration")]
