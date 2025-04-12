@@ -46,20 +46,18 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupRole entity, CancellationToken cancellationToken)
         {
-            bool notUniqueName = await _dbContext.Set<GroupRole>().AnyAsync(gr => gr.RoleName.Value == entity.RoleName.Value, cancellationToken);
+            bool notUniqueName = await _dbSet.AnyAsync(gr => gr.RoleName.Value == entity.RoleName.Value, cancellationToken);
             if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName); }
-
-            Result<object> obj;
 
             if (entity.GroupId != null)
             {
-                obj = await GetFromDBAsync<Group>((Guid)entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-                if (obj.IsFailure) { return obj; }
+                var group = await GetFromDBAsync<Group>(entity.GroupId.Value, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+                if (group.IsFailure) { return group; }
             }
 
-            obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupRole.AlreadyExist);
+            var groupRole = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupRole.IsSuccess) { return Result.Failure(PersistenceErrors.GroupRole.AlreadyExist); }
+            return Result.Success();
         }
     }
 }

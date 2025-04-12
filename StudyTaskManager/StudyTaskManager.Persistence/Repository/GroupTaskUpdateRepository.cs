@@ -46,8 +46,8 @@ namespace StudyTaskManager.Persistence.Repository
             if (!groupTaskStatus.Value.CanBeUpdated) { return Result.Failure(PersistenceErrors.GroupTaskStatus.CantBeUpdated); }
 
             Result<GroupTaskUpdate> groupTaskUpdate = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (groupTaskUpdate.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupTaskUpdate.AlreadyExists);
+            if (groupTaskUpdate.IsSuccess) { return Result.Failure(PersistenceErrors.GroupTaskUpdate.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

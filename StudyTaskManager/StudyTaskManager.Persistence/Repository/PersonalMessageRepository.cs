@@ -31,17 +31,15 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(PersonalMessage entity, CancellationToken cancellationToken)
         {
-            Result<object> obj;
+            var user = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
 
-            obj = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var personalChat = await GetFromDBAsync<PersonalChat>(entity.PersonalChatId, PersistenceErrors.PersonalChat.IdEmpty, PersistenceErrors.PersonalChat.NotFound, cancellationToken);
+            if (personalChat.IsFailure) { return personalChat; }
 
-            obj = await GetFromDBAsync<PersonalChat>(entity.PersonalChatId, PersistenceErrors.PersonalChat.IdEmpty, PersistenceErrors.PersonalChat.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-
-            obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.PersonalMessage.AlreadyExists);
+            var personalMessage = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (personalMessage.IsSuccess) { return Result.Failure(PersistenceErrors.PersonalMessage.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

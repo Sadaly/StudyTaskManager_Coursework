@@ -21,13 +21,12 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(Group entity, CancellationToken cancellationToken)
         {
-            Result<object> obj;
-            obj = await GetFromDBAsync<GroupRole>(entity.DefaultRoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var groupRole = await GetFromDBAsync<GroupRole>(entity.DefaultRoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
+            if (groupRole.IsFailure) { return groupRole; }
 
-            obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.Group.AlreadyExists);
+            var group = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (group.IsSuccess) { return Result.Failure(PersistenceErrors.Group.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

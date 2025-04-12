@@ -37,56 +37,42 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupInvite entity, CancellationToken cancellationToken)
         {
-            Result<Object> obj;
-            obj = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-            obj = await GetFromDBAsync<User>(entity.ReceiverId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-            obj = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var sender = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (sender.IsFailure) { return sender; }
+            var receiver = await GetFromDBAsync<User>(entity.ReceiverId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (receiver.IsFailure) { return receiver; }
+            var group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
 
             Error notFound = PersistenceErrors.UserInGroup.NotFound;
-            obj = await GetFromDBAsync<UserInGroup>(
+            var userInGroup = await GetFromDBAsync<UserInGroup>(
                 uig =>
                     uig.UserId == entity.ReceiverId &&
                     uig.GroupId == entity.GroupId
                 , notFound
                 , cancellationToken);
-            if (obj.IsFailure)
-            {
-                if (obj.Error != notFound) { return obj; }
-                // выход из условия минуя else
-            }
-            else
-            {
-                return Result.Failure(PersistenceErrors.GroupInvite.UserIsAlreadyInTheGroup);
-            }
+            if (userInGroup.IsSuccess) { return Result.Failure(PersistenceErrors.GroupInvite.UserIsAlreadyInTheGroup); }
+            if (userInGroup.Error != notFound) { return userInGroup; }
 
-            notFound = PersistenceErrors.GroupInvite.NotFound;
-            obj = await GetFromDBAsync(
+            var groupInvite = await GetFromDBAsync(
                 gi =>
                     gi.SenderId == entity.SenderId &&       // Возможно стоит переделать
                     gi.ReceiverId == entity.ReceiverId &&   // чтобы проверка была только на 
                     gi.GroupId == entity.GroupId            // получателя и группу, без отправителя
-                , notFound
+                , PersistenceErrors.GroupInvite.NotFound
                 , cancellationToken);
-            if (obj.IsFailure)
-            {
-                if (obj.Error == notFound) { return Result.Success(); }
-                return obj;
-            }
-            return Result.Failure(PersistenceErrors.GroupInvite.AlreadyExist);
+            if (groupInvite.IsSuccess) { return Result.Failure(PersistenceErrors.GroupInvite.AlreadyExist); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupInvite entity, CancellationToken cancellationToken)
         {
-            Result<object> obj;
-            obj = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-            obj = await GetFromDBAsync<User>(entity.ReceiverId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-            obj = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var sender = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (sender.IsFailure) { return sender; }
+            var receiver = await GetFromDBAsync<User>(entity.ReceiverId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (receiver.IsFailure) { return receiver; }
+            var group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
 
             //Error notFound = PersistenceErrors.UserInGroup.NotFound;
             //obj = await GetFromDBAsync<UserInGroup>(uig => uig.UserId == entity.ReceiverId && uig.GroupId == entity.GroupId, notFound, cancellationToken);
@@ -99,28 +85,26 @@ namespace StudyTaskManager.Persistence.Repository
             //    return Result.Failure(PersistenceErrors.GroupInvite.UserIsAlreadyInTheGroup);
             //}
 
-            obj = await GetFromDBAsync(
+            var groupInvite = await GetFromDBAsync(
                 gi =>
                     gi.SenderId == entity.SenderId &&
                     gi.ReceiverId == entity.ReceiverId &&
                     gi.GroupId == entity.GroupId
                 , PersistenceErrors.GroupInvite.NotFound
                 , cancellationToken);
-            return obj;
+            return groupInvite;
         }
 
         protected override async Task<Result> VerificationBeforeRemoveAsync(GroupInvite entity, CancellationToken cancellationToken)
         {
-            Result<Object> obj = await GetFromDBAsync(
+            var groupInvite = await GetFromDBAsync(
                 gi =>
                     gi.SenderId == entity.SenderId &&
                     gi.ReceiverId == entity.ReceiverId &&
                     gi.GroupId == entity.GroupId
                 , PersistenceErrors.GroupInvite.NotFound
                 , cancellationToken);
-            return obj;
-
-            // TODO стоит при удалении UserInGroup удалять так же и приглашение(GroupInvite)
+            return groupInvite;
         }
     }
 }

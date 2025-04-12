@@ -33,19 +33,17 @@ namespace StudyTaskManager.Persistence.Repository
         {
             if (entity.ParentId == entity.Id) return Result.Failure(PersistenceErrors.GroupTask.СannotParentForItself);
 
-            Result<object> obj;
+            var group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
 
-            obj = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-
-            obj = await GetFromDBAsync<GroupTaskStatus>(entity.StatusId, PersistenceErrors.GroupTaskStatus.IdEmpty, PersistenceErrors.GroupTaskStatus.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var groupTaskStatus = await GetFromDBAsync<GroupTaskStatus>(entity.StatusId, PersistenceErrors.GroupTaskStatus.IdEmpty, PersistenceErrors.GroupTaskStatus.NotFound, cancellationToken);
+            if (groupTaskStatus.IsFailure) { return groupTaskStatus; }
 
             // TODO добавить проверку, чтобы ответственный за задачу был обязан присутствовать в группе
 
-            obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists);
+            var groupTask = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupTask.IsSuccess) { return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

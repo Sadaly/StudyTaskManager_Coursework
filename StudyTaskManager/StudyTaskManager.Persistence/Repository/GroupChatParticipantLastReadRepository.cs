@@ -28,8 +28,8 @@ namespace StudyTaskManager.Persistence.Repository
                     gcplr.UserId == entity.UserId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (groupChatParticipantLastRead.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupChatParticipantLastRead.AlreadyExist);
+            if (groupChatParticipantLastRead.IsSuccess) { return Result.Failure(PersistenceErrors.GroupChatParticipantLastRead.AlreadyExist); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupChatParticipantLastRead entity, CancellationToken cancellationToken)
@@ -50,9 +50,7 @@ namespace StudyTaskManager.Persistence.Repository
                     gcplr.UserId == entity.UserId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (groupChatParticipantLastRead.IsFailure) { return groupChatParticipantLastRead; }
-
-            return Result.Success();
+            return groupChatParticipantLastRead;
         }
 
         protected override async Task<Result> VerificationBeforeRemoveAsync(GroupChatParticipantLastRead entity, CancellationToken cancellationToken)
@@ -64,9 +62,7 @@ namespace StudyTaskManager.Persistence.Repository
                     gcplr.UserId == entity.UserId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (groupChatParticipantLastRead.IsFailure) { return groupChatParticipantLastRead; }
-
-            return Result.Success();
+            return groupChatParticipantLastRead;
         }
     }
 }

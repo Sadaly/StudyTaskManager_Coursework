@@ -32,8 +32,8 @@ namespace StudyTaskManager.Persistence.Repository
             if (notUniqueTitle) { return Result.Failure(PersistenceErrors.SystemRole.NotUniqueName); }
 
             Result<SystemRole> systemRole = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (systemRole.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.SystemRole.AlreadyExists);
+            if (systemRole.IsSuccess) { return Result.Failure(PersistenceErrors.SystemRole.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

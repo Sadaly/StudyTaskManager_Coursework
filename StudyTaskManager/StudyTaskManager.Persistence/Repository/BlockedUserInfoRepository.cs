@@ -31,8 +31,8 @@ namespace StudyTaskManager.Persistence.Repository
                 bui => bui.UserId == entity.UserId,
                 PersistenceErrors.BlockedUserInfo.NotFound,
                 cancellationToken);
-            if (blockedUserInfo.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.BlockedUserInfo.AlreadyExist);
+            if (blockedUserInfo.IsSuccess) { return Result.Failure(PersistenceErrors.BlockedUserInfo.AlreadyExist); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(BlockedUserInfo entity, CancellationToken cancellationToken)
@@ -41,15 +41,13 @@ namespace StudyTaskManager.Persistence.Repository
             if (user.IsFailure) { return user; }
 
             Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, PersistenceErrors.BlockedUserInfo.NotFound, cancellationToken);
-            if (blockedUserInfo.IsFailure) { return blockedUserInfo; }
-            return Result.Success();
+            return blockedUserInfo;
         }
 
         protected override async Task<Result> VerificationBeforeRemoveAsync(BlockedUserInfo entity, CancellationToken cancellationToken)
         {
             Result<BlockedUserInfo> blockedUserInfo = await GetFromDBAsync(bui => bui.UserId == entity.UserId, PersistenceErrors.BlockedUserInfo.NotFound, cancellationToken);
-            if (blockedUserInfo.IsFailure) { return blockedUserInfo; }
-            return Result.Success();
+            return blockedUserInfo;
         }
     }
 }

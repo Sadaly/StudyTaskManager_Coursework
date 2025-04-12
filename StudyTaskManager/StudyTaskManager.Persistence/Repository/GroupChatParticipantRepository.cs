@@ -18,15 +18,15 @@ namespace StudyTaskManager.Persistence.Repository
             Result<GroupChat> groupChat = await GetFromDBAsync<GroupChat>(entity.GroupChatId, PersistenceErrors.GroupChat.IdEmpty, PersistenceErrors.GroupChat.NotFound, cancellationToken);
             if (groupChat.IsFailure) { return Result.Failure(groupChat.Error); }
             if (groupChat.Value.IsPublic) { return Result.Failure(PersistenceErrors.GroupChatParticipant.AddingToAPublicChat); }
-                     
+
             Result<GroupChatParticipant> groupChatParticipant = await GetFromDBAsync(
-                gcp => 
-                    gcp.UserId == entity.UserId && 
+                gcp =>
+                    gcp.UserId == entity.UserId &&
                     gcp.GroupChatId == entity.GroupChatId
                 , PersistenceErrors.GroupChatParticipant.NotFound
                 , cancellationToken);
-            if (groupChatParticipant.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupChatParticipant.AlreadyExist);
+            if (groupChatParticipant.IsSuccess) { return Result.Failure(PersistenceErrors.GroupChatParticipant.AlreadyExist); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupChatParticipant entity, CancellationToken cancellationToken)

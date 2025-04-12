@@ -26,13 +26,12 @@ namespace StudyTaskManager.Persistence.Repository
 
         public async Task<Result<UserInGroup>> GetByUserAndGroupAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default)
         {
-            Result<object> obj;
+            var user = await GetFromDBAsync<User>(userId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) return Result.Failure<UserInGroup>(user.Error);
 
-            obj = await GetFromDBAsync<User>(userId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) return Result.Failure<UserInGroup>(obj.Error);
+            var group = await GetFromDBAsync<Group>(groupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) return Result.Failure<UserInGroup>(user.Error);
 
-            obj = await GetFromDBAsync<Group>(groupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-            if (obj.IsFailure) return Result.Failure<UserInGroup>(obj.Error);
             return await GetFromDBAsync(
                 uig =>
                     uig.UserId == userId &&
@@ -51,52 +50,48 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(UserInGroup entity, CancellationToken cancellationToken)
         {
-            Result obj;
+            var user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+            if (user.IsFailure) { return user; }
 
-            obj = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
 
-            obj = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
+            var groupRole = await GetFromDBAsync<GroupRole>(entity.RoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
+            if (groupRole.IsFailure) { return groupRole; }
 
-            obj = await GetFromDBAsync<GroupRole>(entity.RoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
-            if (obj.IsFailure) { return obj; }
-
-            obj = await GetFromDBAsync(
+            var userInGroup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
                     uig.GroupId == entity.GroupId &&
                     uig.RoleId == entity.RoleId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
-            if (obj.IsFailure) { return obj; }
-            return Result.Failure(PersistenceErrors.UserInGroup.AlreadyExists);
+            if (userInGroup.IsSuccess) { return Result.Failure(PersistenceErrors.UserInGroup.AlreadyExists); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(UserInGroup entity, CancellationToken cancellationToken)
         {
-            Result obj;
-            obj = await GetFromDBAsync(
+            var userInGroup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
                     uig.GroupId == entity.GroupId &&
                     uig.RoleId == entity.RoleId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
-            return obj;
+            return userInGroup;
         }
 
         protected override async Task<Result> VerificationBeforeRemoveAsync(UserInGroup entity, CancellationToken cancellationToken)
         {
-            Result obj;
-            obj = await GetFromDBAsync(
+            var userInGrup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
                     uig.GroupId == entity.GroupId &&
                     uig.RoleId == entity.RoleId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
-            return obj;
+            return userInGrup;
         }
     }
 }

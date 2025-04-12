@@ -35,8 +35,8 @@ namespace StudyTaskManager.Persistence.Repository
                     gcm.GroupChatId == entity.GroupChatId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
-            if (res.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.GroupChatMessage.AlreadyExist);
+            if (res.IsSuccess) { return Result.Failure(PersistenceErrors.GroupChatMessage.AlreadyExist); }
+            return Result.Success();
         }
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupChatMessage entity, CancellationToken cancellationToken)

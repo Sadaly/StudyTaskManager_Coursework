@@ -19,11 +19,8 @@ namespace StudyTaskManager.Persistence.Repository
                     (pc.User1Id == user1.Id && pc.User2Id == user2.Id) ||
                     (pc.User1Id == user2.Id && pc.User2Id == user1.Id)
                 , cancellationToken);
-            if (personalChat.IsFailure)
-            {
-                if (personalChat.Error != GetErrorNotFound()) { return personalChat; }
-            }
-            else { return personalChat; }
+            if (personalChat.IsSuccess) { return personalChat; }
+            if (personalChat.Error != GetErrorNotFound()) { return personalChat; }
 
             personalChat = PersonalChat.Create(user1, user2);
             if (personalChat.IsSuccess)
@@ -47,29 +44,23 @@ namespace StudyTaskManager.Persistence.Repository
         {
             if (entity.User1Id == entity.User2Id) return Result.Failure(PersistenceErrors.PersonalChat.SameUser);
 
-            Result<object> obj;
-
             Error idEmpty = PersistenceErrors.User.IdEmpty;
             Error notFound = PersistenceErrors.User.NotFound;
-            obj = await GetFromDBAsync<User>(entity.User1Id, idEmpty, notFound, cancellationToken);
-            if (obj.IsFailure) return obj;
-            obj = await GetFromDBAsync<User>(entity.User2Id, idEmpty, notFound, cancellationToken);
-            if (obj.IsFailure) return obj;
+            var user1 = await GetFromDBAsync<User>(entity.User1Id, idEmpty, notFound, cancellationToken);
+            if (user1.IsFailure) return user1;
+            var user2 = await GetFromDBAsync<User>(entity.User2Id, idEmpty, notFound, cancellationToken);
+            if (user2.IsFailure) return user2;
 
-            obj = await GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure)
-            {
-                if (obj.Error != GetErrorNotFound()) { return obj; }
-            }
-            else { return Result.Failure(PersistenceErrors.PersonalChat.AlreadyExists); }
+            var personalChat = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (personalChat.IsSuccess) return Result.Failure(PersistenceErrors.PersonalChat.AlreadyExists);
 
-            obj = await GetFromDBAsync(
+            personalChat = await GetFromDBAsync(
                 pc =>
                     (pc.User1Id == entity.User1Id && pc.User2Id == entity.User2Id) ||
                     (pc.User1Id == entity.User2Id && pc.User2Id == entity.User1Id)
                 , cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.PersonalChat.AlreadyExists);
+            if (personalChat.IsSuccess) return Result.Failure(PersistenceErrors.PersonalChat.AlreadyExists);
+            return Result.Success();
         }
     }
 }

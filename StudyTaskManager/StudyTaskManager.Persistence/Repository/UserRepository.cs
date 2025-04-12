@@ -65,21 +65,19 @@ namespace StudyTaskManager.Persistence.Repository
                 if (!unique.Value) { return Result.Failure(PersistenceErrors.User.NotUniquePhoneNumber); }
             }
 
-            Result<object> obj;
-
             if (entity.SystemRoleId != null)
             {
-                obj = await GetFromDBAsync<SystemRole>(
-                    (Guid)entity.SystemRoleId,
+                var systemRole = await GetFromDBAsync<SystemRole>(
+                    entity.SystemRoleId.Value,
                     PersistenceErrors.SystemRole.IdEmpty,
                     PersistenceErrors.SystemRole.NotFound,
                     cancellationToken);
-                if (obj.IsFailure) { return obj; }
+                if (systemRole.IsFailure) { return systemRole; }
             }
 
-            obj = GetFromDBAsync(entity.Id, cancellationToken);
-            if (obj.IsFailure) { return Result.Success(); }
-            return Result.Failure(PersistenceErrors.User.AlreadyExists);
+            var user = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (user.IsSuccess) { return Result.Failure(PersistenceErrors.User.AlreadyExists); }
+            return Result.Success();
         }
     }
 }
