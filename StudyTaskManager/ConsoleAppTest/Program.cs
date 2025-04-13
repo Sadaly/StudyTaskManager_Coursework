@@ -13,99 +13,120 @@ namespace ConsoleAppTest
         {
             DateTime __timeStart = DateTime.Now; Console.WriteLine($"Тестовый проект просто для проверки реализации.\nНачало работы: {__timeStart}\n------------------------\n");
 
-            await PrintListAll.Users();
+            using (AppDbContext db = new())
+            {
+                await PrintListAll.Users(db);
+                await PrintListAll.SystemRoles(db);
 
-            await Run();
+                await Run(db);
+            }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
         }
-        private static async Task Run()
+        private static async Task Run(AppDbContext db)
         {
-            var actions = new Dictionary<string, Func<Task>>
-            {
-                ["1"] = CreateAndAddUser,
-                ["2"] = PrintListAll.Users,
-                ["3"] = DeleteUser,
-            };
-
-            while (true)
+            (Func<AppDbContext, Task> Function, string Description)[] menuItems =
+            [
+                (CreateAndAddUser, "Создать и добавить пользователя"),
+                (PrintListAll.Users, "Вывести список всех пользователей"),
+                (DeleteUser, "Удалить пользователя"),
+                (PrintListAll.SystemRoles, "Вывести список всех системных ролей"),
+            ];
+            void Print()
             {
                 Console.WriteLine("\nВыберите действие:");
-                Console.WriteLine("1 - Создать и добавить пользователя");
-                Console.WriteLine("2 - Вывести список всех пользователей");
-                Console.WriteLine("3 - Удалить пользователя");
-                Console.WriteLine("0 - Выход");
-
-                var choice = Console.ReadLine();
-
-                if (choice == "0") break;
-
-                if (actions.TryGetValue(choice, out var selectedAction))
+                for (int i = 0; i < menuItems.Length; i++)
                 {
-                    await selectedAction();
+                    Console.WriteLine($"    {i} - {menuItems[i].Description}");
                 }
-                else
+                Console.WriteLine("    Esc - Выход");
+            }
+            Print();
+            while (true)
+            {
+                Console.Write("Введите клавишу: ");
+                var choice = Console.ReadKey();
+                Console.WriteLine();
+                Console.WriteLine();
+
+                if (choice.Key == ConsoleKey.Escape) break;
+
+                if (char.IsDigit(choice.KeyChar))
                 {
-                    Console.WriteLine("Неверный выбор");
+                    int selectedIndex = choice.KeyChar - '0';
+                    if (selectedIndex >= 0 && selectedIndex < menuItems.Length)
+                    {
+                        await menuItems[selectedIndex].Function(db);
+
+                        Print();
+                        continue;
+                    }
                 }
+                Console.WriteLine("Неверный выбор.");
             }
         }
 
-        private static async Task DeleteUser()
+        private static async Task DeleteUser(AppDbContext db)
         {
-            using (AppDbContext db = new AppDbContext())
-            {
-                var users = await db.Users.ToListAsync();
+            var users = await db.Users.ToListAsync();
 
-                if (users.Count == 0)
-                {
-                    Console.WriteLine("Нет пользователей для удаления.");
-                    return;
-                }
-                Console.WriteLine("Выберите пользователя для удаления:");
-                for (int i = 0; i < users.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {users[i].Username.Value}");
-                }
-                Console.WriteLine("0. Отмена");
-                if (!int.TryParse(Console.ReadLine(), out int userChoice) || userChoice < 0 || userChoice > users.Count)
-                {
-                    Console.WriteLine("Неверный выбор.");
-                    return;
-                }
-                if (userChoice == 0) return;
-                var userToDelete = users[userChoice - 1];
-                using (UserRepository userRep = new UserRepository(db))
-                {
-                    await userRep.RemoveAsync(userToDelete);
-                    await db.SaveChangesAsync();
-                    Console.WriteLine("Пользователь успешно удален.");
-                }
+            if (users.Count == 0)
+            {
+                Console.WriteLine("Нет пользователей для удаления.");
+                return;
+            }
+            Console.WriteLine("Выберите пользователя для удаления:");
+            for (int i = 0; i < users.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {users[i].Username.Value}");
+            }
+            Console.WriteLine("0. Отмена");
+            if (!int.TryParse(Console.ReadLine(), out int userChoice) || userChoice < 0 || userChoice > users.Count)
+            {
+                Console.WriteLine("Неверный выбор.");
+                return;
+            }
+            if (userChoice == 0) return;
+            var userToDelete = users[userChoice - 1];
+            using (UserRepository userRep = new UserRepository(db))
+            {
+                await userRep.RemoveAsync(userToDelete);
+                await db.SaveChangesAsync();
+                Console.WriteLine("Пользователь успешно удален.");
             }
         }
 
-        private static async Task CreateAndAddUser()
+        private static async Task CreateAndAddUser(AppDbContext db)
         {
-            User newUser;
-            string nameUser;
-            using (AppDbContext db = new AppDbContext())
-            {
-                Console.Write("Username (<50): ");
-                nameUser = Console.ReadLine() ?? "";
-                newUser = User.Create(
-                    Username.Create(nameUser).Value,
-                    Email.Create("strEmail@mail.com").Value,
-                    Password.Create("password").Value,
-                    null,
-                    null).Value;
-                Console.WriteLine($"newUser перед добавлением: {newUser.Id} - {newUser.Username.Value}");
-                using (UserRepository userRep = new UserRepository(db))
-                {
-                    await userRep.AddAsync(newUser);
-                    await db.SaveChangesAsync();
-                }
-            }
-            Console.WriteLine($"newUser после: {newUser.Id} - {newUser.Username.Value}");
+            Console.Write("Username (<50): ");
+            string userNameString = Console.ReadLine() ?? "";
+
+            var userName = Username.Create(userNameString);
+            if (userName.IsFailure) Console.WriteLine(userName.Error.ToString(true));
+
+            var email = Email.Create($"strEmail_{DateTime.Now:mm:ss}@mail.com");
+            if (email.IsFailure) Console.WriteLine(email.Error.ToString(true));
+
+            var password = Password.Create("password");
+            if (password.IsFailure) Console.WriteLine(password.Error.ToString(true));
+
+            var newUser = User.Create(
+                userName.Value,
+                email.Value,
+                password.Value,
+                null,
+                null);
+            if (newUser.IsFailure) Console.WriteLine(newUser.Error.ToString(true));
+
+            Console.WriteLine($"newUser.id перед добавлением: ");
+            Console.WriteLine($"        {newUser.Value.Id} - {newUser.Value.Username.Value}");
+
+            using UserRepository userRep = new UserRepository(db);
+
+            var add = await userRep.AddAsync(newUser.Value);
+            if (add.IsFailure) Console.WriteLine(add.Error.ToString(true));
+
+            Console.WriteLine($"после:  {newUser.Value.Id} - {newUser.Value.Username.Value}");
         }
     }
 }

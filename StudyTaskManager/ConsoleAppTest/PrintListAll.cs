@@ -1,17 +1,23 @@
 ﻿using StudyTaskManager.Persistence.Repository;
 using StudyTaskManager.Persistence;
+using StudyTaskManager.Domain.Abstractions.Repositories;
 
 namespace ConsoleAppTest
 {
     public static class PrintListAll
     {
-        public static async Task Users()
+        public static async Task Users(AppDbContext db)
         {
-            using var db = new AppDbContext();
+            string FormatWithVerificationStatus(string? value, bool isVerified)
+            {
+                if (value == null)
+                    return "null";
+
+                return $"{value} ({(isVerified ? "+" : "-")})";
+            }
             using var userRepository = new UserRepository(db);
             var users = await userRepository.GetAllAsync();
-            if (users.IsFailure)
-                throw new Exception(users.Error.Code + " - " + users.Error.Message);
+            if (users.IsFailure) throw new Exception(users.Error.Code + " - " + users.Error.Message);
 
             var tableData = users.Value.Select(user => new string[]
             {
@@ -25,24 +31,46 @@ namespace ConsoleAppTest
 
             TablePrinter.PrintTable(
                 tableTitle: "Список пользователей",
-                columnNames: new[] {
+                columnNames: [
                     "ID",
                     "Имя",
                     "Email",
                     "Телефон",
                     "ID системной роли",
                     "Дата регистрации"
-                },
+                ],
                 rows: tableData
             );
         }
 
-        private static string FormatWithVerificationStatus(string? value, bool isVerified)
+        public static async Task SystemRoles(AppDbContext db)
         {
-            if (value == null)
-                return "null";
+            using var systemRoleRepository = new SystemRoleRepository(db);
+            var systemRoles = await systemRoleRepository.GetAllAsync();
+            if (systemRoles.IsFailure) throw new Exception(systemRoles.Error.Code + " - " + systemRoles.Error.Message);
 
-            return $"{value} ({(isVerified ? "+" : "-")})";
+            var tableData = systemRoles.Value.Select(role => new string[]
+            {
+                role.Id.ToString(),
+                role.Name?.Value ?? "null",
+                role.CanViewPeoplesGroups ? "+" : "-",
+                role.CanChangeSystemRoles ? "+" : "-",
+                role.CanBlockUsers ? "+" : "-",
+                role.CanDeleteChats ? "+" : "-"
+            }).ToList();
+
+            TablePrinter.PrintTable(
+                tableTitle: "Список системных ролей",
+                columnNames: [
+                    "ID",
+                    "Название",
+                    "Просмотр чужих групп",
+                    "Изменение ролей",
+                    "Блокировка пользователей",
+                    "Удаление чатов"
+                ],
+                rows: tableData
+            );
         }
     }
 }

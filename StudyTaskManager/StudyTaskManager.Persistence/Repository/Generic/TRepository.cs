@@ -144,6 +144,6 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public void Dispose() { _dbContext.Dispose(); }
+        public void Dispose() { /*_dbContext.Dispose();*/}
     }
 }
