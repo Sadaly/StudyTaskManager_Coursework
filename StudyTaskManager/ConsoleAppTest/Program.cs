@@ -4,6 +4,7 @@ using StudyTaskManager.Persistence.Repository;
 using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Domain.Entity.User;
 using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions.Repositories;
 
 namespace ConsoleAppTest
 {

@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserDelete
 {
-    internal sealed class UserDeleteCommandHandler : ICommandHandler<UserDeleteCommand>
+    public sealed class UserDeleteCommandHandler : ICommandHandler<UserDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;

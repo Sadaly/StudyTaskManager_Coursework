@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
 {
-    internal sealed class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, Guid>
+    public sealed class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
