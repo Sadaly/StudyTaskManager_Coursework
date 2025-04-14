@@ -19,7 +19,7 @@ namespace ConsoleAppTest
                 await PrintListAll.Users(db);
                 await PrintListAll.SystemRoles(db);
 
-                await Run(db);
+                //await Run(db);
             }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");

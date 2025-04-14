@@ -28,7 +28,7 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(SystemRole entity, CancellationToken cancellationToken)
         {
-            bool notUniqueTitle = await _dbContext.Set<SystemRole>().AnyAsync(sr => sr.Name.Value == entity.Name.Value, cancellationToken);
+            bool notUniqueTitle = await _dbContext.Set<SystemRole>().AnyAsync(sr => sr.Name == entity.Name, cancellationToken);
             if (notUniqueTitle) { return Result.Failure(PersistenceErrors.SystemRole.NotUniqueName); }
 
             Result<SystemRole> systemRole = await GetFromDBAsync(entity.Id, cancellationToken);

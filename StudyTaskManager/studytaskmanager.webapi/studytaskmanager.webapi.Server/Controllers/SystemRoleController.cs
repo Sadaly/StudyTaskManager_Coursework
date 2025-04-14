@@ -34,18 +34,18 @@ namespace StudyTaskManager.WebAPI.Controllers
                 request.CanBlockUsers,
                 request.CanDeleteChats);
 
-            Result response = await Sender.Send(command, cancellationToken);
+            Result<Guid> response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
 
         //[Authorize]
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{systemRoleId:guid}")]
         public async Task<IActionResult> Delete(
-            Guid id,
+            Guid systemRoleId,
             CancellationToken cancellationToken)
         {
-            var command = new SystemRoleDeleteCommand(id);
+            var command = new SystemRoleDeleteCommand(systemRoleId);
 
             Result response = await Sender.Send(command, cancellationToken);
 
@@ -54,10 +54,10 @@ namespace StudyTaskManager.WebAPI.Controllers
 
 
         //[Authorize]
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
+        [HttpGet("{systemRoleId:guid}")]
+        public async Task<IActionResult> GetUserById(Guid systemRoleId, CancellationToken cancellationToken)
         {
-            var query = new SystemRoleGetByIdQuery(id);
+            var query = new SystemRoleGetByIdQuery(systemRoleId);
 
             Result<SystemRole> response = await Sender.Send(query, cancellationToken);
 
@@ -65,7 +65,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut("privileges/{systemRoleId:guid}")]
+        [HttpPut("{systemRoleId:guid}/privileges")]
         public async Task<IActionResult> UpdatePrivileges(
             Guid systemRoleId,
             [FromBody] SystemRoleUpdatePrivilegesCommand request,
@@ -84,7 +84,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut("title/{systemRoleId:guid}")]
+        [HttpPut("{systemRoleId:guid}/title")]
         public async Task<IActionResult> UpdateTitle(
             Guid systemRoleId,
             [FromBody] SystemRoleUpdateTitleCommand request,

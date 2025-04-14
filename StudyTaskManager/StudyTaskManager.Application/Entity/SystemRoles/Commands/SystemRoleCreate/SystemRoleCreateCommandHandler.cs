@@ -26,8 +26,7 @@ namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCre
 
             Result<SystemRole> systemRoleInDB;
             systemRoleInDB = await _systemRoleRepository.GetByTitleAsync(name.Value, cancellationToken);
-            if (systemRoleInDB.IsFailure) return Result.Failure<Guid>(systemRoleInDB.Error);
-            if (systemRoleInDB.Value != null) return Result.Failure<Guid>(PersistenceErrors.SystemRole.TitleAlreadyInUse);
+            if (systemRoleInDB.IsSuccess) return Result.Failure<Guid>(PersistenceErrors.SystemRole.TitleAlreadyInUse);
 
             Result<SystemRole> systemRole = SystemRole.Create(
                 name.Value,

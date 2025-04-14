@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
@@ -34,15 +35,7 @@ namespace StudyTaskManager.WebAPI.Controllers
 
             Result<Guid> result = await Sender.Send(command, cancellationToken);
 
-            if (result.IsFailure)
-            {
-                return HandleFailure(result);
-            }
-
-            return CreatedAtAction(
-                nameof(GetUserById),
-                new { id = result.Value },
-                result.Value);
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
         [HttpPost]
