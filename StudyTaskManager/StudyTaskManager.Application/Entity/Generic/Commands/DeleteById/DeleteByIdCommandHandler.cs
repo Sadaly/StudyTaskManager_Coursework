@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Generic.Commands.DeleteById
 {
-    class DeleteByIdCommandHandler<TEntity> : ICommandHandler<DeleteByIdCommand> where TEntity : BaseEntityWithID
+    class DeleteByIdCommandHandler<TEntity> : ICommandHandler<DeleteByIdCommand<TEntity>> where TEntity : BaseEntityWithID
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryWithID<TEntity> _repository;
@@ -18,7 +18,7 @@ namespace StudyTaskManager.Application.Entity.Generic.Commands.DeleteById
             _repository = repository;
         }
 
-        public async Task<Result> Handle(DeleteByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeleteByIdCommand<TEntity> request, CancellationToken cancellationToken)
         {
             Result<TEntity> entity = await _repository.GetByIdAsync(request.IdEntity, cancellationToken);
             if (entity.IsFailure) return entity;
