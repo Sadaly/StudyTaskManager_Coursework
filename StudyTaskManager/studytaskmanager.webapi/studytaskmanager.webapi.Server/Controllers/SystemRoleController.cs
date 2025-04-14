@@ -64,11 +64,17 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
+        public sealed record SystemRoleUpdatePrivilegesCommandRequest(
+            bool CanViewPeoplesGroups,
+            bool CanChangeSystemRoles,
+            bool CanBlockUsers,
+            bool CanDeleteChats);
+
         //[Authorize]
         [HttpPut("{systemRoleId:guid}/privileges")]
         public async Task<IActionResult> UpdatePrivileges(
             Guid systemRoleId,
-            [FromBody] SystemRoleUpdatePrivilegesCommand request,
+            [FromBody] SystemRoleUpdatePrivilegesCommandRequest request,
             CancellationToken cancellationToken)
         {
             var command = new SystemRoleUpdatePrivilegesCommand(
@@ -87,12 +93,12 @@ namespace StudyTaskManager.WebAPI.Controllers
         [HttpPut("{systemRoleId:guid}/title")]
         public async Task<IActionResult> UpdateTitle(
             Guid systemRoleId,
-            [FromBody] SystemRoleUpdateTitleCommand request,
+            string NewTitle,
             CancellationToken cancellationToken)
         {
             var command = new SystemRoleUpdateTitleCommand(
                 systemRoleId,
-                request.NewTitle);
+                NewTitle);
 
             Result response = await Sender.Send(command, cancellationToken);
 
