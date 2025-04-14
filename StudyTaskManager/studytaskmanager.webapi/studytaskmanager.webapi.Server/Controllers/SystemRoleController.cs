@@ -11,6 +11,8 @@ using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Threading;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
+using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges;
+using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
@@ -62,6 +64,39 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
+        //[Authorize]
+        [HttpPut("privileges/{systemRoleId:guid}")]
+        public async Task<IActionResult> UpdatePrivileges(
+            Guid systemRoleId,
+            [FromBody] SystemRoleUpdatePrivilegesCommand request,
+            CancellationToken cancellationToken)
+        {
+            var command = new SystemRoleUpdatePrivilegesCommand(
+                systemRoleId,
+                request.CanViewPeoplesGroups,
+                request.CanChangeSystemRoles,
+                request.CanBlockUsers,
+                request.CanDeleteChats);
 
+            Result response = await Sender.Send(command, cancellationToken);
+
+            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+        }
+
+        //[Authorize]
+        [HttpPut("title/{systemRoleId:guid}")]
+        public async Task<IActionResult> UpdateTitle(
+            Guid systemRoleId,
+            [FromBody] SystemRoleUpdateTitleCommand request,
+            CancellationToken cancellationToken)
+        {
+            var command = new SystemRoleUpdateTitleCommand(
+                systemRoleId,
+                request.NewTitle);
+
+            Result response = await Sender.Send(command, cancellationToken);
+
+            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+        }
     }
 }
