@@ -1,6 +1,6 @@
-﻿using StudyTaskManager.Application.Abstractions.Messaging;
+﻿//using StudyTaskManager.Application.Abstractions.Messaging;
 
-namespace StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
+//namespace StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 
-public sealed record UserDeleteCommand(
-    Guid UserId) : ICommand;
+//public sealed record UserDeleteCommand(
+//    Guid UserId) : ICommand;

@@ -1,10 +1,11 @@
-﻿using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
-using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
+﻿using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
+using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace NUnitTestProject.Unit.Commands.User
 {
@@ -61,11 +62,11 @@ namespace NUnitTestProject.Unit.Commands.User
         [Test, Order(2)]
         public void DeleteUser()
         {
-            var userDeleteCommand = new UserDeleteCommand(NewUserId);
+            var userDeleteCommand = new DeleteByIdCommand<StudyTaskManager.Domain.Entity.User.User>(NewUserId);
 
             IUserRepository userRepository = new UserRepository(appDbContext);
 
-            var handler = new UserDeleteCommandHandler(unitOfWork, userRepository);
+            var handler = new DeleteByIdCommandHandler<StudyTaskManager.Domain.Entity.User.User>(unitOfWork, userRepository);
 
             var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
 

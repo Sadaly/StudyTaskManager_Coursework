@@ -246,8 +246,11 @@ namespace StudyTaskManager.Domain.Errors
                 "Запись о присутствии пользователя в группе не найдена");
             public static readonly Error AlreadyExists = new(
                 "UserInGroup.AlreadyExists",
-                "Пользователь уже уастник группы");
-        }
+                "Пользователь уже участник группы");
+			public static readonly Error SignedDeletedRole = new(
+				"UserInGroup.SignedDeletedRole",
+				"Невозможно присвоить пользователю удаленную роль");
+		}
 
         public static class User
         {

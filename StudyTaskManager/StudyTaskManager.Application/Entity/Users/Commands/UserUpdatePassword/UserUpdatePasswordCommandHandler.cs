@@ -21,16 +21,16 @@ namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdatePassword
         public async Task<Result> Handle(UserUpdatePasswordCommand request, CancellationToken cancellationToken)
         {
             var password = Password.Create(request.NewPassword);
-            if (password.IsFailure) return Result.Failure(password);
+            if (password.IsFailure) return Result.Failure(password.Error);
 
             var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-            if (user.IsFailure) return Result.Failure(user);
+            if (user.IsFailure) return Result.Failure(user.Error);
 
             var changePasswordResult = user.Value.ChangePassword(password.Value);
-            if (changePasswordResult.IsFailure) return Result.Failure<Guid>(changePasswordResult);
+            if (changePasswordResult.IsFailure) return Result.Failure<Guid>(changePasswordResult.Error);
 
             var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
-            if (update.IsFailure) return Result.Failure(update);
+            if (update.IsFailure) return Result.Failure(update.Error);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
