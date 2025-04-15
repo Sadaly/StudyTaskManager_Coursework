@@ -21,16 +21,16 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
         public async Task<Result<string>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
         {
             var email = Email.Create(request.Email);
-            if (email.IsFailure) return Result.Failure<string>(email);
+            if (email.IsFailure) return Result.Failure<string>(email.Error);
 
             var password = Password.Create(request.Password);
-            if (password.IsFailure) return Result.Failure<string>(password);
+            if (password.IsFailure) return Result.Failure<string>(password.Error);
 
             var passwordHash = PasswordHash.Create(password.Value);
-            if (passwordHash.IsFailure) return Result.Failure<string>(passwordHash);
+            if (passwordHash.IsFailure) return Result.Failure<string>(passwordHash.Error);
 
             var user = await _userRepository.GetByEmailAsync(email.Value, cancellationToken);
-            if (user.IsFailure) return Result.Failure<string>(email);
+            if (user.IsFailure) return Result.Failure<string>(email.Error);
 
             if (user.Value.PasswordHash.Value != passwordHash.Value.Value)
             {

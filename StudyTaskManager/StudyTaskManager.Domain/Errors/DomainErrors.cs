@@ -4,6 +4,12 @@ namespace StudyTaskManager.Domain.Errors
 {
     public static class DomainErrors
     {
+        public static class Entity
+        {
+			public static readonly Error IsToDelete = new(
+				"Entity.IsToDelete",
+				"Невозможно получить удаленную сущность");
+		}
         public static class Email
         {
             public static readonly Error Empty = new(

@@ -1,10 +1,12 @@
-﻿using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
-using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
+﻿using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
+using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
+using StudyTaskManager.Domain.Entity.User;
+using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 
 namespace NUnitTestProject.Unit.Commands.User
 {

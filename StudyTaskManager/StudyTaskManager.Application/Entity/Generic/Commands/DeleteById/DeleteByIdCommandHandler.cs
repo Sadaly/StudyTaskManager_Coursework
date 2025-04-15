@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Generic.Commands.DeleteById
 {
-    class DeleteByIdCommandHandler<TEntity> : ICommandHandler<DeleteByIdCommand<TEntity>> where TEntity : BaseEntityWithID
+    public class DeleteByIdCommandHandler<TEntity> : ICommandHandler<DeleteByIdCommand<TEntity>> where TEntity : BaseEntityWithID
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryWithID<TEntity> _repository;

@@ -8,7 +8,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangePhoneNumber
 {
-    internal sealed class UserChangePhoneNumberCommandHandler : ICommandHandler<UserChangePhoneNumberCommand>
+	internal sealed class UserChangePhoneNumberCommandHandler : ICommandHandler<UserChangePhoneNumberCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
@@ -34,7 +34,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangePhoneNumb
             user.Value.ChangePhoneNumber(phoneNumber.Value);
 
             var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
-            if (update.IsFailure) return Result.Failure(update);
+            if (update.IsFailure) return Result.Failure(update.Error);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

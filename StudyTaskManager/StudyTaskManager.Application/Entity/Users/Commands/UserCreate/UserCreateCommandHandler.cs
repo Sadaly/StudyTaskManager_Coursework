@@ -23,13 +23,13 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
         public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
         {
             var email = Email.Create(request.Email);
-            if (email.IsFailure) return Result.Failure<Guid>(email);
+            if (email.IsFailure) return Result.Failure<Guid>(email.Error);
 
             var username = Username.Create(request.Username);
-            if (username.IsFailure) return Result.Failure<Guid>(username);
+            if (username.IsFailure) return Result.Failure<Guid>(username.Error);
 
             var password = Password.Create(request.Password);
-            if (password.IsFailure) return Result.Failure<Guid>(password);
+            if (password.IsFailure) return Result.Failure<Guid>(password.Error);
 
             PhoneNumber? phoneNumber = null;
             SystemRole? role = null;
@@ -37,22 +37,22 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
             if (request.PhoneNumber != null)
             {
                 var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
-                if (phoneNumberResult.IsFailure) return Result.Failure<Guid>(phoneNumberResult);
+                if (phoneNumberResult.IsFailure) return Result.Failure<Guid>(phoneNumberResult.Error);
                 phoneNumber = phoneNumberResult.Value;
             }
 
             if (request.SystemRoleId != null)
             {
                 var foundRoleResult = _systemRoleRepository.GetByIdAsync(request.SystemRoleId.Value, cancellationToken).Result;
-                if (foundRoleResult.IsFailure) return Result.Failure<Guid>(foundRoleResult);
+                if (foundRoleResult.IsFailure) return Result.Failure<Guid>(foundRoleResult.Error);
                 role = foundRoleResult.Value;
             }
 
             var user = Domain.Entity.User.User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
-            if (user.IsFailure) return Result.Failure<Guid>(user);
+            if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
             var add = await _userRepository.AddAsync(user.Value, cancellationToken);
-            if (add.IsFailure) return Result.Failure<Guid>(add);
+            if (add.IsFailure) return Result.Failure<Guid>(add.Error);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

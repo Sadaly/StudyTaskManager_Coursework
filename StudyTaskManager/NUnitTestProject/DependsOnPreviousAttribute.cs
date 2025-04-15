@@ -31,14 +31,16 @@ public class DependsOnPreviousAttribute : Attribute, ITestAction
         TestResults[test.FullName] = TestContext.CurrentContext.Result.Outcome;
     }
 
-    private string GetPreviousTestName(ITest test)
+    private string? GetPreviousTestName(ITest test)
     {
         // Получаем Order текущего теста
         var currentOrder = GetTestOrder(test);
         if (currentOrder == -1) return null;
 
-        // Получаем все тесты из фикстуры
-        var fixtureTests = GetTestsFromFixture(test.Parent);
+        if (test.Parent == null) return null;
+
+		// Получаем все тесты из фикстуры
+		var fixtureTests = GetTestsFromFixture(test.Parent);
 
         // Ищем тест с Order = currentOrder - 1
         foreach (var fixtureTest in fixtureTests)
@@ -84,7 +86,7 @@ public class DependsOnPreviousAttribute : Attribute, ITestAction
         return orderAttr?.Order ?? -1;
     }
 
-    private System.Reflection.MethodInfo GetTestMethodInfo(ITest test)
+    private System.Reflection.MethodInfo? GetTestMethodInfo(ITest test)
     {
         // Получаем MethodInfo из ITest
         if (test.Method == null) return null;

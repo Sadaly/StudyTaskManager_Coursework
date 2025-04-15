@@ -42,10 +42,7 @@
     <Folder Include="Entity\GroupChatParticipants\Commands\GroupChatParticipantDelete\" />
     <Folder Include="Entity\GroupChatParticipants\Events\" />
     <Folder Include="Entity\GroupChatParticipants\Queries\GroupChatParticipantGetByUserAndGroupChatIds\" />
-    <Folder Include="Entity\GroupChatMessages\Commands\GroupChatMessageDelete\" />
-    <Folder Include="Entity\GroupChatMessages\Commands\GroupChatMessageUpdate\" />
     <Folder Include="Entity\GroupChatMessages\Events\" />
-    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetByGroupChatIdOrdinal\" />
     <Folder Include="Entity\GroupChats\Commands\GroupChatCreate\" />
     <Folder Include="Entity\GroupChats\Commands\GroupChatDelete\" />
     <Folder Include="Entity\GroupChats\Commands\GroupChatAddParticipant\" />

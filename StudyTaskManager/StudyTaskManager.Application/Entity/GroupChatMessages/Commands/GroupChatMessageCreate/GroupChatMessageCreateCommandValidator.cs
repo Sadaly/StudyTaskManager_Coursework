@@ -1,6 +1,14 @@
-﻿namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate
+﻿using FluentValidation;
+using StudyTaskManager.Domain.ValueObjects;
+
+namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate
 {
-    internal class GroupChatMessageCreateCommandValidator
-    {
-    }
+    public class GroupChatMessageCreateCommandValidator : AbstractValidator<GroupChatMessageCreateCommand>
+	{
+		public GroupChatMessageCreateCommandValidator()
+		{
+			RuleFor(x => x.Content).NotEmpty()
+				.MaximumLength(Content.MAX_LENGTH);
+		}
+	}
 }
