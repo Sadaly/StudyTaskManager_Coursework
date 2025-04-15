@@ -31,7 +31,6 @@
     <Folder Include="Entity\Groups\Commands\GroupAddInvite\" />
     <Folder Include="Entity\Groups\Commands\GroupRemoveUser\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
-    <Folder Include="Entity\PersonalChats\Commands\PersonalChatDelete\" />
     <Folder Include="Entity\PersonalChats\Events\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadCreate\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadDelete\" />

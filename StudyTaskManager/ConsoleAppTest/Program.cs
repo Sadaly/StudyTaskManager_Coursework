@@ -18,6 +18,8 @@ namespace ConsoleAppTest
             {
                 await PrintListAll.Users(db);
                 await PrintListAll.SystemRoles(db);
+                await PrintListAll.PersonalChats(db);
+                await PrintListAll.PersonatMessages(db);
 
                 //await Run(db);
             }
