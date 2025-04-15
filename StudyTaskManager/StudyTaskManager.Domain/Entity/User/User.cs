@@ -91,6 +91,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// что у пользователя нет специфической роли, дающей или блокирущей 
         /// возможности пользоваться системой)
         /// </summary>
+        [JsonIgnore]
         public SystemRole? SystemRole { get; set; }
 
         #region PersonalChat

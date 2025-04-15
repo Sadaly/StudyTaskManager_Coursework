@@ -18,6 +18,7 @@ namespace StudyTaskManager.Persistence.Repository
                     pc =>
                         pc.User1Id == user.Id ||
                         pc.User2Id == user.Id)
+                .Include(pc => pc.Messages) // подгрузка сообщений, думаю стоит переделать, чтобы возвращать определенное кол-во последних сообщений из чата
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
