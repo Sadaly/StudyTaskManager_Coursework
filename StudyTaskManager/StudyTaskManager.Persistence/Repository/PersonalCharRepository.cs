@@ -1,4 +1,5 @@
-﻿using StudyTaskManager.Domain.Abstractions.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Errors;
@@ -9,6 +10,17 @@ namespace StudyTaskManager.Persistence.Repository
     public class PersonalCharRepository : Generic.TWithIdRepository<PersonalChat>, IPersonalChatRepository
     {
         public PersonalCharRepository(AppDbContext dbContext) : base(dbContext) { }
+
+        public async Task<Result<List<PersonalChat>>> GetChatByUserAsync(User user, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(
+                    pc =>
+                        pc.User1Id == user.Id ||
+                        pc.User2Id == user.Id)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+        }
 
         public async Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default)
         {
