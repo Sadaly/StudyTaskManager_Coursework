@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Shared;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -48,6 +49,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Ссылка на пользователя, который был заблокирован
         /// </summary>
+        [JsonIgnore]
         public User? User { get; private set; } = null!;
 
         /// <summary>

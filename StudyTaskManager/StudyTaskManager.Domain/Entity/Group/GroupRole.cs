@@ -3,6 +3,7 @@ using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -43,6 +44,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Группа, к которой привязана роль (если нет группы, то роль общая).
         /// </summary>
+        [JsonIgnore]
         public Group? Group { get; }
 
         /// <summary>

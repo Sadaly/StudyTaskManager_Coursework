@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -42,6 +43,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Роль по умолчанию для новых пользователей.
         /// </summary>
+        [JsonIgnore]
         public GroupRole? DefaultRole { get; private set; }
 
         /// <summary>
