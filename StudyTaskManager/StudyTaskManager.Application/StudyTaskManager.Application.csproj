@@ -23,7 +23,6 @@
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDeclineInvite\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteAcceptInvite\" />
     <Folder Include="Entity\GroupRoles\Commands\GroupRoleUpdatePermissions\" />
-    <Folder Include="Entity\GroupTaskUpdates\Commands\GroupTaskUpdateUpdate\" />
     <Folder Include="Entity\Groups\Commands\GroupAddUser\" />
     <Folder Include="Entity\Groups\Commands\GroupAddRole\" />
     <Folder Include="Entity\Groups\Commands\GroupRemoveRole\" />
@@ -61,8 +60,6 @@
     <Folder Include="Entity\Groups\Commands\GroupDelete\" />
     <Folder Include="Entity\Groups\Events\" />
     <Folder Include="Entity\Groups\Queries\GroupGetById\" />
-    <Folder Include="Entity\GroupTaskUpdates\Commands\GroupTaskUpdateCreate\" />
-    <Folder Include="Entity\GroupTaskUpdates\Commands\GroupTaskUpdateDelete\" />
     <Folder Include="Entity\GroupTaskUpdates\Events\" />
     <Folder Include="Entity\GroupTaskUpdates\Queries\GroupTaskUpdateGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusCreate\" />
