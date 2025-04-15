@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageUpdate
 {
-	internal class GroupChatMessageUpdateCommandValidator
+	public class GroupChatMessageUpdateCommandValidator : AbstractValidator<GroupChatMessageUpdateCommand>
 	{
+		public GroupChatMessageUpdateCommandValidator()
+		{
+			RuleFor(x => x.Content).NotEmpty()
+				.MaximumLength(Content.MAX_LENGTH);
+		}
 	}
 }

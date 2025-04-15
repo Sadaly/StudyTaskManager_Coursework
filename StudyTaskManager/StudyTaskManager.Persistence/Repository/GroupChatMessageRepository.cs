@@ -3,6 +3,7 @@ using StudyTaskManager.Domain.Entity.Group.Chat;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.Threading;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -41,15 +42,12 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeUpdateAsync(GroupChatMessage entity, CancellationToken cancellationToken)
         {
-            Result<User> sender = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
-            if (sender.IsFailure) { return sender; }
-
             Result<GroupChat> groupChat = await GetFromDBAsync<GroupChat>(entity.GroupChatId, PersistenceErrors.GroupChat.IdEmpty, PersistenceErrors.GroupChat.NotFound, cancellationToken);
             if (groupChat.IsFailure) { return groupChat; }
 
             Result<GroupChatMessage> res = await GetFromDBAsync(
                 gcm =>
-                    gcm.SenderId == entity.SenderId &&
+					gcm.Ordinal == entity.Ordinal &&
                     gcm.GroupChatId == entity.GroupChatId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
@@ -65,6 +63,16 @@ namespace StudyTaskManager.Persistence.Repository
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
             return res;
-        }
+		}
+        
+        public async Task<Result<GroupChatMessage>> GetMessageAsync(Guid groupChatId, ulong ordinal, CancellationToken cancellationToken)
+        {
+            return await GetFromDBAsync(
+				gcm =>
+					gcm.Ordinal == ordinal &&
+					gcm.GroupChatId == groupChatId
+				, PersistenceErrors.GroupChatMessage.NotFound
+				, cancellationToken);
+		}
     }
 }
