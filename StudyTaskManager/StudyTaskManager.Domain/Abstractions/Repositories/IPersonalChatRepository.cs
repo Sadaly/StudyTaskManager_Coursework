@@ -14,9 +14,9 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <param name="user2">Пользователь, который должен присутствовать в чате.</param>
         public Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default);
 
-        //public new async Task AddAsync(PersonalChat entity)
-        //{
-        //    await GetChatByUsersAsync(entity.User1, entity.User2);
-        //}
+        /// <summary>
+        /// Возвращает список чатов (уже созданных), в котором присутствует пользователь
+        /// </summary>
+        public Task<Result<List<PersonalChat>>> GetChatByUserAsync(User user, CancellationToken cancellationToken = default);
     }
 }
