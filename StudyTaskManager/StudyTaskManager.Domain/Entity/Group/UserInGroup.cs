@@ -69,6 +69,8 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <returns>Новый экземпляр <see cref="UserInGroup"/>.</returns>
         public static Result<UserInGroup> Create(Group group, User.User user, GroupRole role)
         {
+            if (role.DeleteFlag)
+                return Result.Failure<UserInGroup>()
             var userInGroup = new UserInGroup(group.Id, user.Id, role.Id, DateTime.UtcNow)
             {
                 Group = group,

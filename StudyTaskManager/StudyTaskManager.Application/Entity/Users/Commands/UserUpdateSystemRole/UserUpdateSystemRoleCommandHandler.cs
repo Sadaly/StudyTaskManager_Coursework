@@ -21,16 +21,10 @@ namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdateSystemRole
 		public async Task<Result<Guid>> Handle(UserUpdateSystemRoleCommand request, CancellationToken cancellationToken)
 		{
 			var foundUserResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-			if (foundUserResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundUserResult.Error);
-			}
+			if (foundUserResult.IsFailure) return Result.Failure<Guid>(foundUserResult.Error);
 
 			var foundSystemRoleResult = await _systemRoleRepository.GetByIdAsync(request.SystemRoleId, cancellationToken);
-			if (foundSystemRoleResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundSystemRoleResult.Error);
-			}
+			if (foundSystemRoleResult.IsFailure) return Result.Failure<Guid>(foundSystemRoleResult.Error);
 
 			var user = foundUserResult.Value;
 			var systemRole = foundSystemRoleResult.Value;
