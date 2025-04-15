@@ -3,5 +3,5 @@
 namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyPhoneNumber;
 
 public sealed record UserVerifyPhoneNumberCommand(
-	Guid UserId) : ICommand<Guid>;
+	Guid UserId) : ICommand;
 

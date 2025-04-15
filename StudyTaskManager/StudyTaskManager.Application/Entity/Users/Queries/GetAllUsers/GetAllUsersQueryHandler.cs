@@ -14,16 +14,11 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<Domain.Entity.User.User>>> Handle(
-            GetAllUsersQuery request,
-            CancellationToken cancellationToken)
+        public async Task<Result<List<Domain.Entity.User.User>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             var usersResult = await _userRepository.GetAllAsync(cancellationToken);
 
-            if (usersResult.IsFailure)
-            {
-                return Result.Failure<List<Domain.Entity.User.User>>(usersResult.Error);
-            }
+            if (usersResult.IsFailure) return Result.Failure<List<Domain.Entity.User.User>>(usersResult.Error);
 
             return usersResult;
         }

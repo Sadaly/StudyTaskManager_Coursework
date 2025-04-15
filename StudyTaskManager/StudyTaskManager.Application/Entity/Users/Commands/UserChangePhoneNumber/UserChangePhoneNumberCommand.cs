@@ -4,4 +4,4 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangePhoneNumb
 
 public sealed record UserChangePhoneNumberCommand(
     Guid UserId,
-    string NewPhoneNumber) : ICommand<Guid>;
+    string NewPhoneNumber) : ICommand;

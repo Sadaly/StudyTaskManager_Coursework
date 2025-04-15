@@ -1,4 +1,6 @@
-﻿namespace StudyTaskManager.Domain.Shared
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace StudyTaskManager.Domain.Shared
 {
     /// <summary>
     /// Класс для представления ошибок в приложении.
@@ -104,5 +106,12 @@
         /// </summary>
         /// <returns>Код ошибки.</returns>
         public override string ToString() => Code;
+        /// <summary>
+        /// Возвращает строковое представление ошибки.
+        /// </summary>
+        public string ToString(bool withMessage)
+        {
+            return Code + (withMessage ? " - " + Message : "");
+        }
     }
 }

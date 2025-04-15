@@ -9,7 +9,7 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Возвращает системную роль по названию.
         /// </summary>
-        /// <returns>Если объект не найден, то null.</returns>
-        Task<Result<SystemRole?>> GetByTitleAsync(Title title, CancellationToken cancellationToken = default);
+        /// <returns>Если объект не найден, то ошибка.</returns>
+        Task<Result<SystemRole>> GetByTitleAsync(Title title, CancellationToken cancellationToken = default);
     }
 }

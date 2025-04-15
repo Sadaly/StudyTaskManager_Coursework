@@ -1,25 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudyTaskManager.Domain.Abstractions.Repositories;
+﻿using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupRepository : Generic.TWithIdRepository<Group>, IGroupRepository
+    public class GroupRepository : Generic.TWithIdRepository<Group>, IGroupRepository
     {
         public GroupRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(Group group, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            // проверка на уникальность названия группы наврятли пригодится
-            // bool notUniqueTitle = await _dbContext.Set<Group>().AnyAsync(g => g.Title.Value == group.Title.Value, cancellationToken);
+            return PersistenceErrors.Group.IdEmpty;
+        }
 
-            GroupRole? groupRole = await _dbContext.Set<GroupRole>().FirstOrDefaultAsync(gr => gr.Id == group.DefaultRoleId, cancellationToken);
-            if (groupRole == null) return Result.Failure(PersistenceErrors.GroupRole.NotFound);
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.Group.NotFound;
+        }
 
-            await _dbContext.Set<Group>().AddAsync(group, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+        protected override async Task<Result> VerificationBeforeAddingAsync(Group entity, CancellationToken cancellationToken)
+        {
+            var groupRole = await GetFromDBAsync<GroupRole>(entity.DefaultRoleId, PersistenceErrors.GroupRole.IdEmpty, PersistenceErrors.GroupRole.NotFound, cancellationToken);
+            if (groupRole.IsFailure) { return groupRole; }
+
+            var group = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (group.IsSuccess) { return Result.Failure(PersistenceErrors.Group.AlreadyExists); }
             return Result.Success();
         }
     }

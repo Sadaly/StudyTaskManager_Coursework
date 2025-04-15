@@ -21,11 +21,11 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <summary>
         /// Выдать пользователя в группе.
         /// </summary>
-        Task<Result<UserInGroup?>> GetByUserAndGroupAsync(User user, Group group, CancellationToken cancellationToken = default);
+        Task<Result<UserInGroup>> GetByUserAndGroupAsync(User user, Group group, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Выдать пользователя в группе.
         /// </summary>
-        Task<Result<UserInGroup?>> GetByUserAndGroupAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default);
+        Task<Result<UserInGroup>> GetByUserAndGroupAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default);
     }
 }

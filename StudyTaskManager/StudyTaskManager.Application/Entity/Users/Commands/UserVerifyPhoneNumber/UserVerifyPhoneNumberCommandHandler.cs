@@ -5,33 +5,31 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyPhoneNumber
 {
-	internal sealed record UserVerifyPhoneNumberCommandHandler : ICommandHandler<UserVerifyPhoneNumberCommand, Guid>
-	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly IUserRepository _userRepository;
+    internal sealed record UserVerifyPhoneNumberCommandHandler : ICommandHandler<UserVerifyPhoneNumberCommand>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
-		public UserVerifyPhoneNumberCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
-		{
-			_unitOfWork = unitOfWork;
-			_userRepository = userRepository;
-		}
+        public UserVerifyPhoneNumberCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+        }
 
-		public async Task<Result<Guid>> Handle(UserVerifyPhoneNumberCommand request, CancellationToken cancellationToken)
-		{
-			var foundUserResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-			if (foundUserResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundUserResult.Error);
-			}
+        public async Task<Result> Handle(UserVerifyPhoneNumberCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user.IsFailure) return user;
 
-			var user = foundUserResult.Value;
+            var verify = user.Value.VerifyPhoneNumber();
+            if (verify.IsFailure) return verify;
 
-			user.VerifyPhoneNumber();
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return update;
 
-			await _userRepository.UpdateAsync(user, cancellationToken);
-			await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-			return user.Id;
-		}
-	}
+            return Result.Success();
+        }
+    }
 }

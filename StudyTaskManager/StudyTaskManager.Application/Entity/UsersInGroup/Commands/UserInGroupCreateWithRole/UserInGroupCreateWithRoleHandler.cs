@@ -8,7 +8,7 @@ using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupCreate
 {
-    internal class UserInGroupCreateWithRoleHandler : ICommandHandler<UserInGroupCreateWithRoleCommand, UserInGroup>
+    internal sealed class UserInGroupCreateWithRoleHandler : ICommandHandler<UserInGroupCreateWithRoleCommand, UserInGroup>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInGroupRepository _userInGroupRepository;

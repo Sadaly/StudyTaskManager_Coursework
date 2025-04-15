@@ -30,17 +30,9 @@
     <Folder Include="Entity\Groups\Commands\GroupRemoveInvite\" />
     <Folder Include="Entity\Groups\Commands\GroupAddInvite\" />
     <Folder Include="Entity\Groups\Commands\GroupRemoveUser\" />
-    <Folder Include="Entity\PersonalChats\Commands\PersonalChatAddMessage\" />
-    <Folder Include="Entity\PersonalMessages\Commands\PersonalMessageUpdateContent\" />
-    <Folder Include="Entity\PersonalMessages\Commands\PersonalMessageMarkAsRead\" />
-    <Folder Include="Entity\PersonalMessages\Commands\PersonalMessageCreate\" />
-    <Folder Include="Entity\PersonalMessages\Commands\PersonalMessageDelete\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
-    <Folder Include="Entity\PersonalMessages\Queries\PersonalMessageGetById\" />
-    <Folder Include="Entity\PersonalChats\Commands\PersonalChatCreate\" />
     <Folder Include="Entity\PersonalChats\Commands\PersonalChatDelete\" />
     <Folder Include="Entity\PersonalChats\Events\" />
-    <Folder Include="Entity\PersonalChats\Queries\PersonalChatGetById\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadCreate\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadDelete\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadUpdate\" />
@@ -64,7 +56,6 @@
     <Folder Include="Entity\GroupTasks\Events\" />
     <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
-    <Folder Include="Entity\UsersInGroup\Commands\UserInGroupUpdateRole\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteCreate\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDelete\" />
@@ -90,11 +81,7 @@
     <Folder Include="Entity\BlockedUserInfos\Commands\BlockedUserInfoDelete\" />
     <Folder Include="Entity\BlockedUserInfos\Events\" />
     <Folder Include="Entity\BlockedUserInfos\Queries\BlockedUserInfoGetByUserId\" />
-    <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdatePrivileges\" />
-    <Folder Include="Entity\SystemRoles\Commands\SystemRoleUpdateTitle\" />
-    <Folder Include="Entity\SystemRoles\Commands\SystemRoleDelete\" />
     <Folder Include="Entity\SystemRoles\Events\" />
-    <Folder Include="Entity\SystemRoles\Queries\SystemRoleGetById\" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupTaskStatusRepository : Generic.TWithIdRepository<GroupTaskStatus>, IGroupTaskStatusRepository
+    public class GroupTaskStatusRepository : Generic.TWithIdRepository<GroupTaskStatus>, IGroupTaskStatusRepository
     {
         public GroupTaskStatusRepository(AppDbContext dbContext) : base(dbContext) { }
 
@@ -35,16 +35,29 @@ namespace StudyTaskManager.Persistence.Repository
                     .ToListAsync(cancellationToken);
         }
 
-        public override async Task<Result> AddAsync(GroupTaskStatus groupTaskStatus, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            if (groupTaskStatus.GroupId != null)
+            return PersistenceErrors.GroupTaskStatus.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupTaskStatus.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupTaskStatus entity, CancellationToken cancellationToken)
+        {
+            bool notUniqueName = await _dbContext.Set<GroupTaskStatus>().AnyAsync(gts => gts.Name.Value == entity.Name.Value, cancellationToken);
+            if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupTaskStatus.NotUniqueName); }
+
+            if (entity.GroupId != null)
             {
-                Group? group = await _dbContext.Set<Group>().FirstOrDefaultAsync(g => g.Id == groupTaskStatus.GroupId, cancellationToken);
-                if (group == null) return Result.Failure(PersistenceErrors.Group.NotFound);
+                var group = await GetFromDBAsync<Group>(entity.GroupId.Value, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+                if (group.IsFailure) { return group; }
             }
 
-            await _dbContext.Set<GroupTaskStatus>().AddAsync(groupTaskStatus, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var groupTaskStatus = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupTaskStatus.IsSuccess) { return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists); }
             return Result.Success();
         }
     }

@@ -3,4 +3,4 @@
 namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyEmail;
 
 public sealed record UserVerifyEmailCommand(
-	Guid UserId) : ICommand<Guid>;
+	Guid UserId) : ICommand;

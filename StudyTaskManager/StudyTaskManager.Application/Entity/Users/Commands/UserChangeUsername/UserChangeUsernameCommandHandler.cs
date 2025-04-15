@@ -8,7 +8,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangeUsername
 {
-    internal sealed class UserChangeUsernameCommandHandler : ICommandHandler<UserChangeUsernameCommand, Guid>
+    internal sealed class UserChangeUsernameCommandHandler : ICommandHandler<UserChangeUsernameCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
@@ -19,28 +19,26 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangeUsername
             _userRepository = userRepository;
         }
 
-        public async Task<Result<Guid>> Handle(UserChangeUsernameCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UserChangeUsernameCommand request, CancellationToken cancellationToken)
         {
-            Result<Username> usernameResult = Username.Create(request.NewUsername);
+            var username = Username.Create(request.NewUsername);
+            if (username.IsFailure) return username;
 
-			if (!(await _userRepository.IsUsernameUniqueAsync(usernameResult.Value, cancellationToken)).Value)
-			{
-				return Result.Failure<Guid>(PersistenceErrors.User.UsernameAlreadyInUse);
-			}
+            var isUsernameUniqueAsync = await _userRepository.IsUsernameUniqueAsync(username.Value, cancellationToken);
+            if (isUsernameUniqueAsync.IsFailure) return isUsernameUniqueAsync;
+            if (!isUsernameUniqueAsync.Value) return Result.Failure(PersistenceErrors.User.NotUniqueUsername);
 
-			var foundUserResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-			if (foundUserResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundUserResult.Error);
-			}
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user.IsFailure) return user;
 
-            var user = foundUserResult.Value;
-            user.ChangeUsername(usernameResult.Value);
+            user.Value.ChangeUsername(username.Value);
 
-			await _userRepository.UpdateAsync(user, cancellationToken);
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return update;
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return user.Id;
+            return Result.Success();
         }
     }
 }

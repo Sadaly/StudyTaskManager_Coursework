@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupRoleRepository : Generic.TWithIdRepository<GroupRole>, IGroupRoleRepository
+    public class GroupRoleRepository : Generic.TWithIdRepository<GroupRole>, IGroupRoleRepository
     {
         public GroupRoleRepository(AppDbContext dbContext) : base(dbContext) { }
 
@@ -35,19 +34,29 @@ namespace StudyTaskManager.Persistence.Repository
                     .ToListAsync(cancellationToken);
         }
 
-        public override async Task<Result> AddAsync(GroupRole groupRole, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            if (groupRole.GroupId != null)
+            return PersistenceErrors.GroupRole.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupRole.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupRole entity, CancellationToken cancellationToken)
+        {
+            bool notUniqueName = await _dbSet.AnyAsync(gr => gr.RoleName.Value == entity.RoleName.Value, cancellationToken);
+            if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName); }
+
+            if (entity.GroupId != null)
             {
-                Group? group = await _dbContext.Set<Group>().FirstOrDefaultAsync(g => g.Id == groupRole.GroupId, cancellationToken);
-                if (group == null) return Result.Failure(PersistenceErrors.Group.NotFound);
+                var group = await GetFromDBAsync<Group>(entity.GroupId.Value, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+                if (group.IsFailure) { return group; }
             }
 
-            bool notUniqueName = await _dbContext.Set<GroupRole>().AnyAsync(gr => gr.RoleName.Value == groupRole.RoleName.Value, cancellationToken);
-            if (notUniqueName) return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName);
-
-            await _dbContext.Set<GroupRole>().AddAsync(groupRole, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var groupRole = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupRole.IsSuccess) { return Result.Failure(PersistenceErrors.GroupRole.AlreadyExist); }
             return Result.Success();
         }
     }

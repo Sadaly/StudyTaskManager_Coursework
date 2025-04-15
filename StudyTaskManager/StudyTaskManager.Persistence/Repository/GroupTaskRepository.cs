@@ -7,26 +7,9 @@ using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupTaskRepository : Generic.TWithIdRepository<GroupTask>, IGroupTaskRepository
+    public class GroupTaskRepository : Generic.TWithIdRepository<GroupTask>, IGroupTaskRepository
     {
         public GroupTaskRepository(AppDbContext dbContext) : base(dbContext) { }
-
-        public override async Task<Result> AddAsync(GroupTask groupTask, CancellationToken cancellationToken = default)
-        {
-            if (groupTask.ParentId == groupTask.Id) return Result.Failure(PersistenceErrors.GroupTask.СannotParentForItself);
-
-            Group? group = await _dbContext.Set<Group>().FirstOrDefaultAsync(g => g.Id == groupTask.GroupId, cancellationToken);
-            if (group == null) return Result.Failure(PersistenceErrors.Group.NotFound);
-
-            GroupTaskStatus? groupTaskStatus = await _dbContext.Set<GroupTaskStatus>().FirstOrDefaultAsync(gts => gts.Id == groupTask.StatusId, cancellationToken);
-            if (groupTaskStatus == null) return Result.Failure(PersistenceErrors.GroupTaskStatus.NotFound);
-
-            // TODO добавить проверку, чтобы ответственный за задачу был обязан присутствовать в группе
-
-            await _dbContext.Set<GroupTask>().AddAsync(groupTask, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
 
         public async Task<Result<List<GroupTask>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
         {
@@ -34,6 +17,33 @@ namespace StudyTaskManager.Persistence.Repository
                 .Where(gt => gt.GroupId == group.Id)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+
+        protected override Error GetErrorIdEmpty()
+        {
+            return PersistenceErrors.GroupTask.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupTask.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupTask entity, CancellationToken cancellationToken)
+        {
+            if (entity.ParentId == entity.Id) return Result.Failure(PersistenceErrors.GroupTask.СannotParentForItself);
+
+            var group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
+
+            var groupTaskStatus = await GetFromDBAsync<GroupTaskStatus>(entity.StatusId, PersistenceErrors.GroupTaskStatus.IdEmpty, PersistenceErrors.GroupTaskStatus.NotFound, cancellationToken);
+            if (groupTaskStatus.IsFailure) { return groupTaskStatus; }
+
+            // TODO добавить проверку, чтобы ответственный за задачу был обязан присутствовать в группе
+
+            var groupTask = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupTask.IsSuccess) { return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

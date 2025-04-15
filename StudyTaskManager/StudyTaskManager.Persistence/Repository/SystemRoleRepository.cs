@@ -7,24 +7,33 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class SystemRoleRepository : Generic.TWithIdRepository<SystemRole>, ISystemRoleRepository
+    public class SystemRoleRepository : Generic.TWithIdRepository<SystemRole>, ISystemRoleRepository
     {
         public SystemRoleRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(SystemRole systemRole, CancellationToken cancellationToken = default)
+        public async Task<Result<SystemRole>> GetByTitleAsync(Title title, CancellationToken cancellationToken = default)
         {
-            bool notUniqueTitle = await _dbContext.Set<SystemRole>().AnyAsync(sr => sr.Name.Value == systemRole.Name.Value, cancellationToken);
-            if (notUniqueTitle) return Result.Failure(PersistenceErrors.SystemRole.NotUniqueName);
-
-            await _dbContext.Set<SystemRole>().AddAsync(systemRole, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
+            return await GetFromDBAsync(sr => sr.Name == title, cancellationToken);
         }
 
-        public async Task<Result<SystemRole?>> GetByTitleAsync(Title title, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            SystemRole? systemRole = await _dbContext.Set<SystemRole>().FirstOrDefaultAsync(sr => sr.Name == title, cancellationToken);
-            return Result.Success(systemRole);
+            return PersistenceErrors.SystemRole.IdEmpty;
+        }
+
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.SystemRole.NotFound;
+        }
+
+        protected override async Task<Result> VerificationBeforeAddingAsync(SystemRole entity, CancellationToken cancellationToken)
+        {
+            bool notUniqueTitle = await _dbContext.Set<SystemRole>().AnyAsync(sr => sr.Name == entity.Name, cancellationToken);
+            if (notUniqueTitle) { return Result.Failure(PersistenceErrors.SystemRole.NotUniqueName); }
+
+            Result<SystemRole> systemRole = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (systemRole.IsSuccess) { return Result.Failure(PersistenceErrors.SystemRole.AlreadyExists); }
+            return Result.Success();
         }
     }
 }

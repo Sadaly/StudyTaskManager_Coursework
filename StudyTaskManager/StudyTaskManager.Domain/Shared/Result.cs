@@ -66,6 +66,12 @@
         /// <param name="error">Ошибка.</param>
         /// <returns>Неудачный результат.</returns>
         public static Result Failure(Error error) => new(false, error);
+        /// <summary>
+        /// Создает неудачный результат на основе переданного результата.
+        /// </summary>
+        /// <param name="result">результат.</param>
+        /// <returns>Неудачный результат.</returns>
+        public static Result Failure(Result result) => Failure(result.Error);
 
         /// <summary>
         /// Создает неудачный результат с указанной ошибкой (для обобщенного результата).
@@ -74,6 +80,14 @@
         /// <param name="error">Ошибка.</param>
         /// <returns>Неудачный результат с ошибкой.</returns>
         public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
+
+        /// <summary>
+        /// Создает неудачный результат на основе переданного результата (для обобщенного результата).
+        /// </summary>
+        /// <typeparam name="TValue">Тип значения.</typeparam>
+        /// <param name="result">Результат</param>
+        /// <returns>Неудачный результат с ошибкой.</returns>
+        public static Result<TValue> Failure<TValue>(Result result) => Failure<TValue>(result.Error);
 
         /// <summary>
         /// Создает результат на основе переданного значения.

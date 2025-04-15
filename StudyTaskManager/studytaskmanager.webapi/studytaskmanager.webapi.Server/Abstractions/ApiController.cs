@@ -9,8 +9,11 @@ namespace StudyTaskManager.WebAPI.Abstractions;
 public abstract class ApiController : ControllerBase
 {
     protected readonly ISender Sender;
-    
-    protected ApiController(ISender sender) => Sender = sender;
+
+    protected ApiController(ISender sender)
+    {
+        Sender = sender;
+    }
 
     protected IActionResult HandleFailure(Result result) =>
         result switch

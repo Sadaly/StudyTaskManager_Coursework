@@ -2,46 +2,148 @@
 using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Shared;
+using System.Linq.Expressions;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
 {
     public abstract class TRepository<T> : IRepository<T> where T : BaseEntity
     {
-        protected readonly AppDbContext _dbContext = null!;
+        #region GetFromDBAsync
+        #region TBaseEntityWithID
+        /// <summary>
+        /// Получение сущности по Id (только для BaseEntityWithID)
+        /// </summary>
+        private async Task<TBaseEntityWithID?> GetFromDBAsync<TBaseEntityWithID>(
+            Guid id,
+            CancellationToken cancellationToken
+            ) where TBaseEntityWithID : BaseEntityWithID =>
+                await _dbContext
+                    .Set<TBaseEntityWithID>()
+                    .FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+        /// <summary>
+        /// Получение результата поиска по Id с учетом ошибки (только для BaseEntityWithID)
+        /// </summary>
+        protected async Task<Result<TBaseEntityWithID>> GetFromDBAsync<TBaseEntityWithID>(
+            Guid id,
+            Error IdEmpty,
+            Error NotFound,
+            CancellationToken cancellationToken
+            ) where TBaseEntityWithID : BaseEntityWithID
+        {
+            if (id == Guid.Empty) return Result.Failure<TBaseEntityWithID>(IdEmpty);
+
+            TBaseEntityWithID? entity = await GetFromDBAsync<TBaseEntityWithID>(id, cancellationToken);
+            if (entity == null) return Result.Failure<TBaseEntityWithID>(NotFound);
+
+            return Result.Success(entity);
+        }
+        #endregion
+        #region TBaseEntity
+        /// <summary>
+        /// Получение сущности любого типа по предикату
+        /// </summary>
+        private async Task<TBaseEntity?> GetFromDBAsync<TBaseEntity>(
+            Expression<Func<TBaseEntity, bool>> predicate,
+            CancellationToken cancellationToken
+            ) where TBaseEntity : BaseEntity =>
+                await _dbContext
+                    .Set<TBaseEntity>()
+                    .FirstOrDefaultAsync(predicate, cancellationToken);
+        /// <summary>
+        /// Получение сущности любого типа по предикату с учетом ошибки
+        /// </summary>
+        /// <param name="NotFound">Ошибка, в случае в базе данных не будет найдена сущность</param>
+        /// <returns></returns>
+        protected async Task<Result<TBaseEntity>> GetFromDBAsync<TBaseEntity>(
+            Expression<Func<TBaseEntity, bool>> predicate,
+            Error NotFound,
+            CancellationToken cancellationToken
+            ) where TBaseEntity : BaseEntity
+        {
+            TBaseEntity? entity = await GetFromDBAsync(predicate, cancellationToken);
+            if (entity == null) return Result.Failure<TBaseEntity>(NotFound);
+
+            return Result.Success(entity);
+        }
+        #endregion
+        #region сущности типа репозитория
+        /// <summary>
+        /// Получение сущности типа репозитория по предикату
+        /// </summary>
+        private async Task<T?> GetFromDBAsync(
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken
+            ) => await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+        /// <summary>
+        /// Получение сущности типа репозитория по предикату с учетом ошибки
+        /// </summary>
+        protected async Task<Result<T>> GetFromDBAsync(
+            Expression<Func<T, bool>> predicate,
+            Error NotFound,
+            CancellationToken cancellationToken
+            )
+        {
+            T? entity = await GetFromDBAsync(predicate, cancellationToken);
+            if (entity == null) return Result.Failure<T>(NotFound);
+
+            return Result.Success(entity);
+        }
+        #endregion
+        #endregion
+
+        protected readonly AppDbContext _dbContext;
+        protected readonly DbSet<T> _dbSet;
 
         public TRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbSet = dbContext.Set<T>();
         }
 
-        public abstract Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default);
+        protected abstract Task<Result> VerificationBeforeAddingAsync(T entity, CancellationToken cancellationToken);
+        protected abstract Task<Result> VerificationBeforeUpdateAsync(T entity, CancellationToken cancellationToken);
+        protected abstract Task<Result> VerificationBeforeRemoveAsync(T entity, CancellationToken cancellationToken);
 
-        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<T>()
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
-        }
+            Result result = await VerificationBeforeAddingAsync(entity, cancellationToken);
+            if (result.IsFailure) return result;
 
-        public virtual async Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            entity.Delete();
-            await UpdateAsync(entity, cancellationToken);
-            _dbContext.Set<T>().Remove(entity);
+            await _dbSet.AddAsync(entity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
 
         public async Task<Result> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
+            Result result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
+            if (result.IsFailure) return result;
+
             _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
+        }
+
+        public virtual async Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            Result result = await VerificationBeforeRemoveAsync(entity, cancellationToken);
+            if (result.IsFailure) return result;
+
+            return await RemoveWithoutVerificationAsync(entity, cancellationToken);
+        }
+        protected async Task<Result> RemoveWithoutVerificationAsync(T entity, CancellationToken cancellationToken)
+        {
+            _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
 
-        public void Dispose()
+        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            _dbContext.Dispose();
+            return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
+
+        public void Dispose() { /*_dbContext.Dispose();*/}
     }
 }

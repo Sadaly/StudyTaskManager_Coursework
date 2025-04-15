@@ -7,39 +7,34 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdatePassword
 {
-	internal sealed class UserUpdatePasswordCommandHandler : ICommandHandler<UserUpdatePasswordCommand, Guid>
-	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly IUserRepository _userRepository;
+    internal sealed class UserUpdatePasswordCommandHandler : ICommandHandler<UserUpdatePasswordCommand>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
-		public UserUpdatePasswordCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
-		{
-			_unitOfWork = unitOfWork;
-			_userRepository = userRepository;
-		}
+        public UserUpdatePasswordCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+        }
 
-		public async Task<Result<Guid>> Handle(UserUpdatePasswordCommand request, CancellationToken cancellationToken)
-		{
-			Result<Password> usernameResult = Password.Create(request.NewPassword);
+        public async Task<Result> Handle(UserUpdatePasswordCommand request, CancellationToken cancellationToken)
+        {
+            var password = Password.Create(request.NewPassword);
+            if (password.IsFailure) return Result.Failure(password);
 
-			var foundUserResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-			if (foundUserResult.IsFailure)
-			{
-				return Result.Failure<Guid>(foundUserResult.Error);
-			}
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user.IsFailure) return Result.Failure(user);
 
-			var user = foundUserResult.Value;
-			var changePasswordResult = user.ChangePassword(usernameResult.Value);
+            var changePasswordResult = user.Value.ChangePassword(password.Value);
+            if (changePasswordResult.IsFailure) return Result.Failure<Guid>(changePasswordResult);
 
-			if (changePasswordResult.IsFailure)
-			{
-				return Result.Failure<Guid>(changePasswordResult.Error);
-			}
+            var update = await _userRepository.UpdateAsync(user.Value, cancellationToken);
+            if (update.IsFailure) return Result.Failure(update);
 
-			await _userRepository.UpdateAsync(user, cancellationToken);
-			await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-			return user.Id;
-		}
-	}
+            return Result.Success();
+        }
+    }
 }

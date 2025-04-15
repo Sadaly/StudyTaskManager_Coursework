@@ -7,21 +7,30 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Persistence.Repository
 {
-    class GroupChatRepository : Generic.TWithIdRepository<GroupChat>, IGroupChatRepository
+    public class GroupChatRepository : Generic.TWithIdRepository<GroupChat>, IGroupChatRepository
     {
         public GroupChatRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public override async Task<Result> AddAsync(GroupChat groupChat, CancellationToken cancellationToken = default)
+        protected override Error GetErrorIdEmpty()
         {
-            Group? group = await _dbContext.Set<Group>().FirstOrDefaultAsync(g => g.Id == groupChat.GroupId, cancellationToken);
-            if (group == null) return Result.Failure(PersistenceErrors.Group.NotFound);
+            return PersistenceErrors.GroupChat.IdEmpty;
+        }
 
-            bool notUniqueName = await _dbContext.Set<GroupChat>().AnyAsync(gc => gc.Name.Value == groupChat.Name.Value, cancellationToken);
-            if (notUniqueName) return Result.Failure(PersistenceErrors.GroupChat.NotUniqueName);
+        protected override Error GetErrorNotFound()
+        {
+            return PersistenceErrors.GroupChat.NotFound;
+        }
 
-            await _dbContext.Set<GroupChat>().AddAsync(groupChat, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+        protected override async Task<Result> VerificationBeforeAddingAsync(GroupChat entity, CancellationToken cancellationToken)
+        {
+            Result<Group> group = await GetFromDBAsync<Group>(entity.GroupId, PersistenceErrors.Group.IdEmpty, PersistenceErrors.Group.NotFound, cancellationToken);
+            if (group.IsFailure) { return group; }
 
+            bool notUniqueName = await _dbContext.Set<GroupChat>().AnyAsync(gc => gc.Name.Value == entity.Name.Value, cancellationToken);
+            if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupChat.NotUniqueName); }
+
+            Result<GroupChat> groupChat = await GetFromDBAsync(entity.Id, cancellationToken);
+            if (groupChat.IsSuccess) { return Result.Failure(PersistenceErrors.GroupChat.AlreadyExist); }
             return Result.Success();
         }
     }

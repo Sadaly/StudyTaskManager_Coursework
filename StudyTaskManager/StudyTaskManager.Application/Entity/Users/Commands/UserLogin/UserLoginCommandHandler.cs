@@ -18,34 +18,28 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
             _jwtProvider = jwtProvider;
         }
 
-        public async Task<Result<string>> Handle(
-            UserLoginCommand request,
-            CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
         {
-            var emailResult = Email.Create(request.Email);
+            var email = Email.Create(request.Email);
+            if (email.IsFailure) return Result.Failure<string>(email);
+
             var password = Password.Create(request.Password);
+            if (password.IsFailure) return Result.Failure<string>(password);
 
-            var phResult = PasswordHash.Create(password.Value);
+            var passwordHash = PasswordHash.Create(password.Value);
+            if (passwordHash.IsFailure) return Result.Failure<string>(passwordHash);
 
-            var userResult = await _userRepository.GetByEmailAsync(
-                emailResult.Value,
-                cancellationToken);
+            var user = await _userRepository.GetByEmailAsync(email.Value, cancellationToken);
+            if (user.IsFailure) return Result.Failure<string>(email);
 
-            if (userResult.IsFailure)
+            if (user.Value.PasswordHash.Value != passwordHash.Value.Value)
             {
                 return Result.Failure<string>(PersistenceErrors.User.IncorrectUsernameOrPassword);
             }
 
-            var user = userResult.Value;
+            string token = _jwtProvider.Generate(user.Value);
 
-            if (user.PasswordHash.Value != phResult.Value.Value)
-            {
-                return Result.Failure<string>(PersistenceErrors.User.IncorrectUsernameOrPassword);
-            }
-
-            string token = _jwtProvider.Generate(user);
-
-            return token;
+            return Result.Success(token);
         }
     }
 }
