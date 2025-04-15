@@ -72,5 +72,57 @@ namespace ConsoleAppTest
                 rows: tableData
             );
         }
+
+        public static async Task PersonalChats(AppDbContext db)
+        {
+            using var systemRoleRepository = new PersonalCharRepository(db);
+            var list = await systemRoleRepository.GetAllAsync();
+            if (list.IsFailure) throw new Exception(list.Error.Code + " - " + list.Error.Message);
+
+            var tableData = list.Value.Select(entity => new string[]
+            {
+                entity.Id.ToString(),
+                entity.User1Id.ToString(),
+                entity.User2Id.ToString(),
+            }).ToList();
+
+            TablePrinter.PrintTable(
+                tableTitle: "Список PersonalChats",
+                columnNames: [
+                    "ID",
+                    "User1Id",
+                    "User2Id"
+                ],
+                rows: tableData
+            );
+        }
+
+        public static async Task PersonatMessages(AppDbContext db)
+        {
+            using var repository = new PersonalMessageRepository(db);
+            var list = await repository.GetAllAsync();
+            if (list.IsFailure) throw new Exception(list.Error.Code + " - " + list.Error.Message);
+
+            var tableData = list.Value.Select(entity => new string[]
+            {
+                entity.Id.ToString(),
+                entity.PersonalChatId.ToString(),
+                entity.SenderId.ToString(),
+                entity.Content.Value,
+                entity.DateWriten.ToString("dd.MM.yyyy HH:mm:ss")
+            }).ToList();
+
+            TablePrinter.PrintTable(
+                tableTitle: "Список PersonatMessages",
+                columnNames: [
+                    "ID",
+                    "PersonalChatId",
+                    "SenderId",
+                    "Content",
+                    "DateWriten",
+                ],
+                rows: tableData
+            );
+        }
     }
 }
