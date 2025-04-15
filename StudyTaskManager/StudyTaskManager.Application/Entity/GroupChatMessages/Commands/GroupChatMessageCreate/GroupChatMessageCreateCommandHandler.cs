@@ -8,7 +8,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate
 {
-    internal class GroupChatMessageCreateCommandHandler : ICommandHandler<GroupChatMessageCreateCommand, (Guid, ulong)>
+    public class GroupChatMessageCreateCommandHandler : ICommandHandler<GroupChatMessageCreateCommand, (Guid, ulong)>
     {
         private readonly IUserRepository _userRepository;
         private readonly IGroupChatRepository _groupChatRepository;
@@ -55,7 +55,9 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			if (gcmResult.IsFailure) return Result.Failure<(Guid, ulong)>(gcmResult.Error);
 
 
-			await _groupChatMessageRepository.AddAsync(gcmResult.Value);
+			var add = await _groupChatMessageRepository.AddAsync(gcmResult.Value);
+			if (add.IsFailure) return Result.Failure<(Guid, ulong)>(add.Error);
+
 			await _unitOfWork.SaveChangesAsync();
 
 			return Result.Success((groupChatId, ordinal));

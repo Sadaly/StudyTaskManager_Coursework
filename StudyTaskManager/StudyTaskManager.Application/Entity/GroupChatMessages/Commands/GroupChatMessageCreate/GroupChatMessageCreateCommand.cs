@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate;
 
-internal sealed record GroupChatMessageCreateCommand(Guid GroupChatId, ulong Ordinal, Guid SenderId, string Content) : ICommand<(Guid, ulong)>;
+public sealed record GroupChatMessageCreateCommand(Guid GroupChatId, ulong Ordinal, Guid SenderId, string Content) : ICommand<(Guid, ulong)>;
