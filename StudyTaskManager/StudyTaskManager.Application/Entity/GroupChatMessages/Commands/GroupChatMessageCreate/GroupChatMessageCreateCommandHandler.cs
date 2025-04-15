@@ -39,7 +39,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			//Возвращаем ошибку если элемент не найден
 			if (userResult.IsFailure) return Result.Failure<(Guid, ulong)>(userResult.Error);
 
-			var groupChatResult = await _groupChatRepository.GetByIdAsync(senderId, cancellationToken);
+			var groupChatResult = await _groupChatRepository.GetByIdAsync(groupChatId, cancellationToken);
 
             //Возвращаем ошибку если элемент не найден
 			if (groupChatResult.IsFailure) return Result.Failure<(Guid, ulong)>(groupChatResult.Error);
