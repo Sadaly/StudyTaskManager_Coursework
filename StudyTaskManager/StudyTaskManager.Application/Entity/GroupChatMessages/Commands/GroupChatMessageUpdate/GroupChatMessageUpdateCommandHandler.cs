@@ -16,15 +16,11 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 {
 	public class GroupChatMessageUpdateCommandHandler : ICommandHandler<GroupChatMessageUpdateCommand, (Guid, ulong)>
 	{
-		private readonly IUserRepository _userRepository;
-		private readonly IGroupChatRepository _groupChatRepository;
 		private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public GroupChatMessageUpdateCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IGroupChatRepository groupChatRepository, IGroupChatMessageRepository groupChatMessageRepository)
+		public GroupChatMessageUpdateCommandHandler(IUnitOfWork unitOfWork, IGroupChatMessageRepository groupChatMessageRepository)
 		{
-			_userRepository = userRepository;
-			_groupChatRepository = groupChatRepository;
 			_unitOfWork = unitOfWork;
 			_groupChatMessageRepository = groupChatMessageRepository;
 		}
@@ -38,13 +34,6 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 
 			//Возвращаем ошибку если элемент не создан
 			if (contentResult.IsFailure) return Result.Failure<(Guid, ulong)>(contentResult.Error);
-
-			var groupChatResult = await _groupChatRepository.GetByIdAsync(groupChatId, cancellationToken);
-
-			//Возвращаем ошибку если элемент не найден
-			if (groupChatResult.IsFailure) return Result.Failure<(Guid, ulong)>(groupChatResult.Error);
-
-
 
 			var gcmResult = _groupChatMessageRepository.GetMessageAsync(groupChatId, ordinal, cancellationToken).Result;
 
