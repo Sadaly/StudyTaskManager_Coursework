@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.Group.Chat;
 
-namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetByGroupChatIdOrdinal
-{
-	internal class GroupChatMessageGetByGroupChatIdOrdinalQuery
-	{
-	}
-}
+namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetByGroupChatIdOrdinal;
+public sealed record GroupChatMessageGetByGroupChatIdOrdinalQuery(Guid GroupChatId, ulong Ordinal) : IQuery<GroupChatMessage>;
