@@ -222,6 +222,9 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error IdEmpty = new(
                 "PersonalMessage.IdEmpty",
                 "Персональное сообщение не имеет Id");
+            public static readonly Error IncorrectUser = new(
+                "PersonalMessage.IncorrectUser",
+                "Персональное сообщение имеет некорректного создатель");
         }
 
         public static class SystemRole

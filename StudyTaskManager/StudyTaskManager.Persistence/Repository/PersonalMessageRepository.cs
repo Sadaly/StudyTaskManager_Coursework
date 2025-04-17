@@ -37,6 +37,10 @@ namespace StudyTaskManager.Persistence.Repository
             var personalChat = await GetFromDBAsync<PersonalChat>(entity.PersonalChatId, PersistenceErrors.PersonalChat.IdEmpty, PersistenceErrors.PersonalChat.NotFound, cancellationToken);
             if (personalChat.IsFailure) { return personalChat; }
 
+            if (personalChat.Value.User1Id != user.Value.Id &&
+                personalChat.Value.User2Id != user.Value.Id)
+            { return Result.Failure(PersistenceErrors.PersonalMessage.IncorrectUser); }
+
             var personalMessage = await GetFromDBAsync(entity.Id, cancellationToken);
             if (personalMessage.IsSuccess) { return Result.Failure(PersistenceErrors.PersonalMessage.AlreadyExists); }
             return Result.Success();
