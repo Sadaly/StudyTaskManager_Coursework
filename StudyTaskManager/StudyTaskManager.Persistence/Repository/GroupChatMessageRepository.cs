@@ -3,7 +3,6 @@ using StudyTaskManager.Domain.Entity.Group.Chat;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
-using System.Threading;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -47,7 +46,7 @@ namespace StudyTaskManager.Persistence.Repository
 
             Result<GroupChatMessage> res = await GetFromDBAsync(
                 gcm =>
-					gcm.Ordinal == entity.Ordinal &&
+                    gcm.Ordinal == entity.Ordinal &&
                     gcm.GroupChatId == entity.GroupChatId
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
@@ -63,32 +62,45 @@ namespace StudyTaskManager.Persistence.Repository
                 , PersistenceErrors.GroupChatMessage.NotFound
                 , cancellationToken);
             return res;
-		}
-        
+        }
+
         public async Task<Result<GroupChatMessage>> GetMessageAsync(Guid groupChatId, ulong ordinal, CancellationToken cancellationToken)
         {
             return await GetFromDBAsync(
-				gcm =>
-					gcm.Ordinal == ordinal &&
-					gcm.GroupChatId == groupChatId
-				, PersistenceErrors.GroupChatMessage.NotFound
-				, cancellationToken);
-		}
+                gcm =>
+                    gcm.Ordinal == ordinal &&
+                    gcm.GroupChatId == groupChatId
+                , PersistenceErrors.GroupChatMessage.NotFound
+                , cancellationToken);
+        }
 
-		public Task<Result<List<GroupChatMessage>>> GetMessagesByGroupChatIdAsync(Guid groupChatId, CancellationToken cancellationToken)
-		{
-            return GetAllAsync(
+        public async Task<Result<List<GroupChatMessage>>> GetMessagesByGroupChatIdAsync(Guid groupChatId, CancellationToken cancellationToken)
+        {
+            var groupChat = await GetFromDBAsync<GroupChat>(
+                groupChatId,
+                PersistenceErrors.GroupChat.IdEmpty,
+                PersistenceErrors.GroupChat.NotFound,
+                cancellationToken);
+            if (groupChat.IsFailure) return Result.Failure<List<GroupChatMessage>>(groupChat);
+
+            return await GetAllAsync(
                 x =>
                     x.GroupChatId == groupChatId,
-				cancellationToken);
-		}
+                cancellationToken);
+        }
 
-		public Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(Guid SenderId, CancellationToken cancellationToken)
-		{
-			return GetAllAsync(
-				x =>
-					x.SenderId == SenderId,
-				cancellationToken);
-		}
-	}
+        public async Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(Guid SenderId, CancellationToken cancellationToken)
+        {
+            var sender = await GetFromDBAsync<GroupChat>(SenderId,
+                PersistenceErrors.User.IdEmpty,
+                PersistenceErrors.User.NotFound,
+                cancellationToken);
+            if (sender.IsFailure) return Result.Failure<List<GroupChatMessage>>(sender);
+
+            return await GetAllAsync(
+                x =>
+                    x.SenderId == SenderId,
+                cancellationToken);
+        }
+    }
 }
