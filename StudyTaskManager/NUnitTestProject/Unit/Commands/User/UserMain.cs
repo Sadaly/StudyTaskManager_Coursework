@@ -67,7 +67,7 @@ namespace NUnitTestProject.Unit.Commands.User
 
             IUserRepository userRepository = new UserRepository(appDbContext);
 
-            var handler = new UserDeleteCommandHandler(unitOfWork, userRepository);
+            var handler = new DeleteByIdCommandHandler<StudyTaskManager.Domain.Entity.User.User>(unitOfWork, userRepository);
 
             var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
 

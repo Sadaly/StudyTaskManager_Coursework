@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetBySenderId\" />
+    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetByGroupChatId\" />
     <Folder Include="Entity\GroupChats\Commands\GroupChatAddMessage\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDeclineInvite\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteAcceptInvite\" />
