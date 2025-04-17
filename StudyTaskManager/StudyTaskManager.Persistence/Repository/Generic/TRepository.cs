@@ -150,10 +150,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            var result = await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
-            if(result.Count == 0) return Result.Failure<List<T>>(PersistenceErrors.PredicateEmptyList);
-            return result;
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken); ;
         }
-		public void Dispose() { /*_dbContext.Dispose();*/}
     }
 }
