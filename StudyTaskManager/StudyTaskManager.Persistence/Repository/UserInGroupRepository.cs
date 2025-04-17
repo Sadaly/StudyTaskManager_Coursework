@@ -62,8 +62,7 @@ namespace StudyTaskManager.Persistence.Repository
             var userInGroup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
-                    uig.GroupId == entity.GroupId &&
-                    uig.RoleId == entity.RoleId
+                    uig.GroupId == entity.GroupId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
             if (userInGroup.IsSuccess) { return Result.Failure(PersistenceErrors.UserInGroup.AlreadyExists); }
@@ -75,8 +74,7 @@ namespace StudyTaskManager.Persistence.Repository
             var userInGroup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
-                    uig.GroupId == entity.GroupId &&
-                    uig.RoleId == entity.RoleId
+                    uig.GroupId == entity.GroupId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
             return userInGroup;
@@ -87,8 +85,7 @@ namespace StudyTaskManager.Persistence.Repository
             var userInGrup = await GetFromDBAsync(
                 uig =>
                     uig.UserId == entity.UserId &&
-                    uig.GroupId == entity.GroupId &&
-                    uig.RoleId == entity.RoleId
+                    uig.GroupId == entity.GroupId
                 , PersistenceErrors.UserInGroup.NotFound
                 , cancellationToken);
             return userInGrup;

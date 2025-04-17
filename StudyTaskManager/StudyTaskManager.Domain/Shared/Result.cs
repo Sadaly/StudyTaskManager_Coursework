@@ -71,7 +71,11 @@
         /// </summary>
         /// <param name="result">результат.</param>
         /// <returns>Неудачный результат.</returns>
-        public static Result Failure(Result result) => Failure(result.Error);
+        public static Result Failure(Result result)
+        {
+            if (result.IsSuccess) throw new Exception("Big error! попытка присвоить неудачному результату значение из удачного результата");
+            return Failure(result.Error);
+        }
 
         /// <summary>
         /// Создает неудачный результат с указанной ошибкой (для обобщенного результата).

@@ -69,9 +69,10 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Создает новую группу.
         /// </summary>
-        public static Group Create(Title name, Content? description, GroupRole defaultRole)
+        public static Result<Group> Create(Title name, Content? description, GroupRole defaultRole)
         {
-            return new Group(Guid.Empty, name, description, defaultRole.Id);
+            var group = new Group(Guid.Empty, name, description, defaultRole.Id);
+            return Result.Success(group);
         }
 
         /// <summary>

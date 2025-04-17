@@ -27,8 +27,6 @@
     <Folder Include="Entity\Groups\Commands\GroupAddUser\" />
     <Folder Include="Entity\Groups\Commands\GroupAddRole\" />
     <Folder Include="Entity\Groups\Commands\GroupRemoveRole\" />
-    <Folder Include="Entity\Groups\Commands\GroupRemoveInvite\" />
-    <Folder Include="Entity\Groups\Commands\GroupAddInvite\" />
     <Folder Include="Entity\Groups\Commands\GroupRemoveUser\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
@@ -57,8 +55,6 @@
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDelete\" />
     <Folder Include="Entity\GroupInvites\Events\" />
     <Folder Include="Entity\GroupInvites\Queries\GroupInviteGetByGroupAndUserIds\" />
-    <Folder Include="Entity\Groups\Commands\GroupCreate\" />
-    <Folder Include="Entity\Groups\Commands\GroupDelete\" />
     <Folder Include="Entity\Groups\Events\" />
     <Folder Include="Entity\Groups\Queries\GroupGetById\" />
     <Folder Include="Entity\GroupTaskUpdates\Events\" />

@@ -5,8 +5,16 @@ namespace StudyTaskManager.Domain.Errors
 {
     public static class CommandErrors
     {
-        public static readonly Error RoleBelongsToAnotherGroup= new Error(
+        public static readonly Error RoleBelongsToAnotherGroup = new(
             "CommandErrors.RoleBelongsToAnotherGroup",
             "Попытка присвоит роль из одной группы участнику из другой");
+
+        public static readonly Error DeleteSharedRole = new(
+            "CommandErrors.DeleteSharedRole",
+            "Попытка удаления общей роли");
+
+        public static readonly Error DeleteFromAnotherGroup = new(
+            "CommandErrors.DeleteFromAnotherGroup",
+            "Попытка удаления из другой группы");
     }
 }

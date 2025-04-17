@@ -1,5 +1,4 @@
-﻿
-using StudyTaskManager.Application.Abstractions.Messaging;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Shared;

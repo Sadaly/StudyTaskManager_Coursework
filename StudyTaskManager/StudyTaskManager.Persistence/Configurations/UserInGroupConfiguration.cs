@@ -10,7 +10,7 @@ namespace StudyTaskManager.Persistence.Configurations
         {
             builder.ToTable(TableNames.UserInGroup);
 
-            builder.HasKey(uig => new { uig.UserId, uig.GroupId, uig.RoleId });
+            builder.HasKey(uig => new { uig.UserId, uig.GroupId});
 
             builder
                 .HasOne(uig => uig.User)

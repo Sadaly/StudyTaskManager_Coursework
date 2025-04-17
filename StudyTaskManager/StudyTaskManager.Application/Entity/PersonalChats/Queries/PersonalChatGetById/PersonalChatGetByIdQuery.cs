@@ -1,5 +1,4 @@
-﻿
-using StudyTaskManager.Application.Abstractions.Messaging;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Entity.User.Chat;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
