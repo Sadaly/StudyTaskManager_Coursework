@@ -74,5 +74,21 @@ namespace StudyTaskManager.Persistence.Repository
 				, PersistenceErrors.GroupChatMessage.NotFound
 				, cancellationToken);
 		}
-    }
+
+		public Task<Result<List<GroupChatMessage>>> GetMessagesByGroupChatIdAsync(Guid groupChatId, CancellationToken cancellationToken)
+		{
+            return GetAllAsync(
+                x =>
+                    x.GroupChatId == groupChatId,
+				cancellationToken);
+		}
+
+		public Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(Guid SenderId, CancellationToken cancellationToken)
+		{
+			return GetAllAsync(
+				x =>
+					x.SenderId == SenderId,
+				cancellationToken);
+		}
+	}
 }

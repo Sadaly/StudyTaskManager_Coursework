@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories.Generic;
 using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
@@ -144,6 +146,14 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public void Dispose() { /*_dbContext.Dispose();*/}
+        public async Task<Result<List<T>>> GetAllAsync(
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+            if(result.Count == 0) return Result.Failure<List<T>>(PersistenceErrors.PredicateEmptyList);
+            return result;
+        }
+		public void Dispose() { /*_dbContext.Dispose();*/}
     }
 }

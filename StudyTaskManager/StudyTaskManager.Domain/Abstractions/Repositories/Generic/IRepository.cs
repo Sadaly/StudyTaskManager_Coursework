@@ -1,4 +1,5 @@
 ﻿using StudyTaskManager.Domain.Shared;
+using System.Linq.Expressions;
 
 namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
 {
@@ -28,17 +29,23 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Возвращает все объеты.
+        /// Возвращает все объекты.
         /// </summary>
-        /// <returns>Возвращает лист, предплагаю что это поменяется когда я возьмусь за реализацию.</returns>
+        /// <returns>Возвращает лист, предполагаю что это поменяется когда я возьмусь за реализацию.</returns>
         Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        ///// <summary>
-        ///// Возвращает какоето кол-во элементов после того как пропустил какоето кол-во элементов
-        ///// </summary>
-        ///// <param name="skip">количество пропущенных элементов</param>
-        ///// <param name="take">количество элементов, которые он возьмет и вернет</param>
-        //// что-то типо пагинации, полезность под вопросом, если нужно сделаю
-        //public Task<List<T>> Get(int skip, int take, CancellationToken cancellationToken = default);
-    }
+		/// <summary>
+		/// Возвращает все объекты, которые соответствуют предикату.
+		/// </summary>
+		/// <returns>Возвращает лист, все объекты которого соответствуют предикату.</returns>
+		Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+		///// <summary>
+		///// Возвращает какое-то кол-во элементов после того как пропустил какое-то кол-во элементов
+		///// </summary>
+		///// <param name="skip">количество пропущенных элементов</param>
+		///// <param name="take">количество элементов, которые он возьмет и вернет</param>
+		//// что-то типо пагинации, полезность под вопросом, если нужно сделаю
+		//public Task<List<T>> Get(int skip, int take, CancellationToken cancellationToken = default);
+	}
 }

@@ -8,7 +8,11 @@ namespace StudyTaskManager.Domain.Errors
             "UnknowError",
             "Неизвестная ошибка");
 
-        public static class BlockedUserInfo
+		public static readonly Error PredicateEmptyList = new(
+			"PredicateEmptyList",
+			"Не найдено не одной записи соответствующей заданному предикату");
+
+		public static class BlockedUserInfo
         {
             public static readonly Error AlreadyExist = new(
                 "BlockedUserInfo.AlreadyExist",
