@@ -11,14 +11,14 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
     public class PersonalMessage : BaseEntityWithID
     {
         // Приватный конструктор для создания объекта
-        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId) : base(id)
+        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId, DateTime dateWriten) : base(id)
         {
             SenderId = senderId;
             PersonalChatId = personalChatId;
-            DateWriten = DateTime.UtcNow;
             Is_Read_By_Other_User = false; // Изначально сообщение считается не прочитанным
+            DateWriten = dateWriten;
         }
-        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId, Content content) : this(id, senderId, personalChatId)
+        private PersonalMessage(Guid id, Guid senderId, Guid personalChatId, DateTime dateWriten, Content content) : this(id, senderId, personalChatId, dateWriten)
         {
             Content = content;
         }
@@ -43,12 +43,12 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Дата написания
         /// </summary>
-        public DateTime DateWriten { get; }
+        public DateTime DateWriten { get; private set; }
 
         /// <summary>
         /// Флаг прочитано собеседником
         /// </summary>
-        public bool Is_Read_By_Other_User { get; set; }
+        public bool Is_Read_By_Other_User { get; private set; }
 
         /// <summary>
         /// Отправитель
@@ -73,7 +73,7 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <returns>Новый экземпляр личного сообщения</returns>
         public static Result<PersonalMessage> Create(User sender, PersonalChat personalChat, Content content)
         {
-            var pm = new PersonalMessage(Guid.Empty, sender.Id, personalChat.Id, content)
+            var pm = new PersonalMessage(Guid.Empty, sender.Id, personalChat.Id, DateTime.UtcNow, content)
             {
                 Sender = sender,
                 PersonalChat = personalChat
