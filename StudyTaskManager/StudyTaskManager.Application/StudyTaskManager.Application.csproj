@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entity\Groups\Commands\GroupAddUser\**" />
+    <EmbeddedResource Remove="Entity\Groups\Commands\GroupAddUser\**" />
+    <None Remove="Entity\Groups\Commands\GroupAddUser\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
@@ -24,10 +30,6 @@
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteDeclineInvite\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteAcceptInvite\" />
     <Folder Include="Entity\GroupRoles\Commands\GroupRoleUpdatePermissions\" />
-    <Folder Include="Entity\Groups\Commands\GroupAddUser\" />
-    <Folder Include="Entity\Groups\Commands\GroupAddRole\" />
-    <Folder Include="Entity\Groups\Commands\GroupRemoveRole\" />
-    <Folder Include="Entity\Groups\Commands\GroupRemoveUser\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadCreate\" />
