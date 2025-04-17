@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.User.Chat
 {
@@ -52,11 +53,13 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
         /// <summary>
         /// Отправитель
         /// </summary>
+        [JsonIgnore]
         public User? Sender { get; private set; } = null!;
 
         /// <summary>
         /// Личный чат
         /// </summary>
+        [JsonIgnore]
         public PersonalChat? PersonalChat { get; private set; } = null!;
 
         #endregion

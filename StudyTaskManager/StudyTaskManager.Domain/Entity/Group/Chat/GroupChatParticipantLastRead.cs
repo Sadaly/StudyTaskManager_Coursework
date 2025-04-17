@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Shared;
@@ -38,16 +39,19 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Последнее прочитанное сообщение пользователем в чате.
         /// </summary>
+        [JsonIgnore]
         public GroupChatMessage? ReadMessage { get; private set; }
 
         /// <summary>
         /// Групповой чат, к которому относится прочитанное сообщение.
         /// </summary>
+        [JsonIgnore]
         public GroupChat? GroupChat { get; private set; }
 
         /// <summary>
         /// Пользователь, который прочитал последнее сообщение в чате.
         /// </summary>
+        [JsonIgnore]
         public User.User? User { get; private set; }
 
         #endregion

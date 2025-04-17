@@ -3,6 +3,7 @@ using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System.Reflection.PortableExecutable;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.User.Chat
 {
@@ -21,7 +22,9 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
 
         #region свойства
 
+        [JsonIgnore]
         public Guid User1Id { get; }
+        [JsonIgnore]
         public Guid User2Id { get; }
         public IEnumerable<Guid> UsersID
         {
@@ -31,8 +34,11 @@ namespace StudyTaskManager.Domain.Entity.User.Chat
                 yield return User2Id;
             }
         }
+        [JsonIgnore]
         public User? User1 { get; private set; } = null!;
+        [JsonIgnore]
         public User? User2 { get; private set; } = null!;
+        [JsonIgnore]
         public IEnumerable<User> Users
         {
             get

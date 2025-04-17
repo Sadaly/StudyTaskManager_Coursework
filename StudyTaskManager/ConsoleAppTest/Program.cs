@@ -17,7 +17,7 @@ namespace ConsoleAppTest
             using (AppDbContext db = new())
             {
                 await PrintListAll.Users(db);
-                await PrintListAll.SystemRoles(db);
+                //await PrintListAll.SystemRoles(db);
                 await PrintListAll.PersonalChats(db);
                 await PrintListAll.PersonatMessages(db);
 
@@ -25,6 +25,16 @@ namespace ConsoleAppTest
             }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
+
+            //Console.ReadLine();
+            //Console.Clear();
+            //await Main(args);
+
+            Console.CursorVisible = false;
+            await Task.Delay(500);
+            if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.C) Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            await Main(args);
         }
         private static async Task Run(AppDbContext db)
         {

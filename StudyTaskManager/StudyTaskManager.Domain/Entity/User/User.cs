@@ -3,6 +3,7 @@ using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.ValueObjects;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.Errors;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.User
 {
@@ -90,17 +91,18 @@ namespace StudyTaskManager.Domain.Entity.User
         /// что у пользователя нет специфической роли, дающей или блокирущей 
         /// возможности пользоваться системой)
         /// </summary>
+        [JsonIgnore]
         public SystemRole? SystemRole { get; set; }
 
         #region PersonalChat
         /// <summary>
         /// Приватное поле для хранения списка личных чатов, где пользователь является User1
         /// </summary>
-        readonly List<Chat.PersonalChat> _personalChatsAsUser1;
+        private readonly List<Chat.PersonalChat> _personalChatsAsUser1;
         /// <summary>
         /// Приватное поле для хранения списка личных чатов, где пользователь является User2
         /// </summary>
-        readonly List<Chat.PersonalChat> _personalChatsAsUser2;
+        private readonly List<Chat.PersonalChat> _personalChatsAsUser2;
         private IEnumerable<Chat.PersonalChat> PrivatePersonalChats
         {
             get
@@ -116,10 +118,12 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Чаты, где пользователь является User1
         /// </summary>
+        [JsonIgnore]
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser1 => _personalChatsAsUser1;
         /// <summary>
         /// Чаты, где пользователь является User2
         /// </summary>
+        [JsonIgnore]
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChatsAsUser2 => _personalChatsAsUser2;
         public IReadOnlyCollection<Chat.PersonalChat> PersonalChats => [.. PrivatePersonalChats]; // [.. PrivatePersonalChats] приводит тип к списку
 

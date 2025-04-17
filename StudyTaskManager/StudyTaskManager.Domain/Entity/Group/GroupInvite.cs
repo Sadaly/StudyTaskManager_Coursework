@@ -3,6 +3,7 @@ using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -53,16 +54,19 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Отправитель приглашения.
         /// </summary>
+        [JsonIgnore]
         public User.User? Sender { get; private set; }
 
         /// <summary>
         /// Получатель приглашения.
         /// </summary>
+        [JsonIgnore]
         public User.User? Receiver { get; private set; }
 
         /// <summary>
         /// Группа, в которую приглашают.
         /// </summary>
+        [JsonIgnore]
         public Group? Group { get; private set; }
 
         #endregion

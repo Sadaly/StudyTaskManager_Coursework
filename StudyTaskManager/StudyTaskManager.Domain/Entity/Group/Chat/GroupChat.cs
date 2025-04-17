@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Shared;
@@ -47,6 +48,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Ссылка на группу
         /// </summary>
+        [JsonIgnore]
         public Group? Group { get; private set; }
 
         /// <summary>

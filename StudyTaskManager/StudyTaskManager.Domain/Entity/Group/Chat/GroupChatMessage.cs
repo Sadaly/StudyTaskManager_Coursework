@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.Group.Chat
 {
@@ -53,11 +54,13 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <summary>
         /// Отправитель сообщения.
         /// </summary>
+        [JsonIgnore]
         public User.User? Sender { get; private set; } = null!;
 
         /// <summary>
         /// Групповой чат, к которому относится сообщение.
         /// </summary>
+        [JsonIgnore]
         public GroupChat? GroupChat { get; private set; } = null!;
 
         #endregion
@@ -82,7 +85,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
 
             return Result.Success(gcm);
         }
-        
+
         /// <summary>
         /// Метод для изменения содержимого сообщения
         /// </summary>

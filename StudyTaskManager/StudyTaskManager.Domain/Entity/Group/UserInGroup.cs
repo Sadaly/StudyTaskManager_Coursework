@@ -1,6 +1,7 @@
 ﻿using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.Text.Json.Serialization;
 
 namespace StudyTaskManager.Domain.Entity.Group
 {
@@ -47,16 +48,19 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Ссылка на группу, в которой состоит пользователь.
         /// </summary>
+        [JsonIgnore]
         public Group? Group { get; private set; }
 
         /// <summary>
         /// Ссылка на роль пользователя в группе.
         /// </summary>
+        [JsonIgnore]
         public GroupRole? Role { get; private set; }
 
         /// <summary>
         /// Ссылка на пользователя.
         /// </summary>
+        [JsonIgnore]
         public User.User? User { get; private set; }
         #endregion
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
+using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser;
 using StudyTaskManager.Domain.Entity.User.Chat;
@@ -42,7 +43,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpGet("User={userId:guid}")]
+        [HttpGet("Chats/{userId:guid}")]
         public async Task<IActionResult> GetUserByUser(
             Guid userId,
             CancellationToken cancellationToken)
@@ -72,7 +73,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid personalChatId,
             CancellationToken cancellationToken)
         {
-            var command = new DeleteByIdCommand<PersonalChat>(personalChatId);
+            var command = new PersonalChatDeleteCommand(personalChatId);
 
             Result response = await Sender.Send(command, cancellationToken);
 

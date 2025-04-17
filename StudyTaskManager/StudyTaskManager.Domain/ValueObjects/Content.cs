@@ -17,21 +17,21 @@ namespace StudyTaskManager.Domain.ValueObjects
         /// <summary>
         /// Создание экземпляра <see cref="Content"/> с проверкой входящих значений
         /// </summary>
-        /// <param name="password">Строка с текстом</param>
+        /// <param name="stringText">Строка с текстом</param>
         /// <returns>Новый экземпляр <see cref="Content"/></returns>
-        public static Result<Content> Create(string password)
+        public static Result<Content> Create(string stringText)
         {
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(stringText))
             {
                 return Result.Failure<Content>(DomainErrors.Content.Empty);
             }
 
-            if (password.Length > MAX_LENGTH)
+            if (stringText.Length > MAX_LENGTH)
             {
                 return Result.Failure<Content>(DomainErrors.Content.TooLong);
             }
 
-            return new Content(password);
+            return new Content(stringText);
         }
 
         public override IEnumerable<object> GetAtomicValues()
