@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete
 {
-    class SystemRoleDeleteCommandHandler : ICommandHandler<SystemRoleDeleteCommand>
+    public class SystemRoleDeleteCommandHandler : ICommandHandler<SystemRoleDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleRepository _systemRoleRepository;
