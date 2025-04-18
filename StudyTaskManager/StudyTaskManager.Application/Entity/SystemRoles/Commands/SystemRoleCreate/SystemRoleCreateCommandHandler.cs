@@ -8,7 +8,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate
 {
-    internal sealed class SystemRoleCreateCommandHandler : ICommandHandler<SystemRoleCreateCommand, Guid>
+    public sealed class SystemRoleCreateCommandHandler : ICommandHandler<SystemRoleCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleRepository _systemRoleRepository;
