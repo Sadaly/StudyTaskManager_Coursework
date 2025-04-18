@@ -69,7 +69,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var query = new GetAllUsersQuery();
 
-            Result<List<User>> response = await Sender.Send(query, cancellationToken);
+            Result<UserListResponse> response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }

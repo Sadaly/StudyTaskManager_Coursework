@@ -1,3 +1,6 @@
-﻿namespace StudyTaskManager.Application.Entity.Users.Queries;
+﻿using StudyTaskManager.Domain.Entity.User;
 
-public sealed record class UserResponse(Guid Id, string Email);
+namespace StudyTaskManager.Application.Entity.Users.Queries;
+
+public sealed record class UserResponse(User User);
+public sealed record class UserListResponse(List<User> Users);

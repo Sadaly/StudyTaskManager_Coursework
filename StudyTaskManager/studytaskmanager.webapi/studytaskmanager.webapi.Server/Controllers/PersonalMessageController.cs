@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage;
-using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
-using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageCreate;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageDelete;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageMarkAsRead;
@@ -51,7 +48,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var command = new PersonalMessageDeleteCommand(personalMessageId);
 
-            var response = await Sender.Send(command, cancellationToken);
+            Result response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }

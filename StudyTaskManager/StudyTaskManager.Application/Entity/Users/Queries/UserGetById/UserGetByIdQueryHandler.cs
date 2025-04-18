@@ -18,7 +18,7 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
             var userResult = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (userResult.IsFailure) return Result.Failure<UserResponse>(userResult.Error);
 
-            var response = new UserResponse(userResult.Value.Id, userResult.Value.Email.Value);
+            var response = new UserResponse(userResult.Value);
 
             return Result.Success(response);
         }

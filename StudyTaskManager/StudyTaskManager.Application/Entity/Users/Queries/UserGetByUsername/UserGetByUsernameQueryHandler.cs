@@ -22,7 +22,7 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.UserGetByUsername
             var userResult = await _userRepository.GetByUsernameAsync(usernameResult.Value, cancellationToken);
             if (userResult.IsFailure) return Result.Failure<UserResponse>(userResult.Error);
 
-            var response = new UserResponse(userResult.Value.Id, userResult.Value.Email.Value);
+            var response = new UserResponse(userResult.Value);
 
             return Result.Success(response);
         }

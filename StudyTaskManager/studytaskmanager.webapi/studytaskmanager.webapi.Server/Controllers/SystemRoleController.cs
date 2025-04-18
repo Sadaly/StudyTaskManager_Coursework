@@ -6,10 +6,10 @@ using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.Application.Entity.SystemRoles.Queries.SystemRoleGetById;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate;
-using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle;
 using StudyTaskManager.Application.Entity.SystemRoles.Queries;
+using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
