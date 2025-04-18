@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
-using System.Runtime.CompilerServices;
 
 namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupDelete
 {

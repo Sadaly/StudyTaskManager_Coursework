@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 
-namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUserInfoGetByUserId
-{
-    internal class BlockedUserInfoGetByUserIdQuery
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUserInfoGetByUserId;
+public sealed record BlockedUserInfoGetByUserIdQuery(Guid UserId) : IQuery<BlockedUserInfoResponse>;

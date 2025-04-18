@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Commands.BlockedUserInfoCreate
 {
-    internal class BlockedUserInfoCreateCommandValidator
+    public class BlockedUserInfoCreateCommandValidator : AbstractValidator<BlockedUserInfoCreateCommand>
     {
+        public BlockedUserInfoCreateCommandValidator()
+        {
+            RuleFor(x => x.UserId).NotEmpty();
+            RuleFor(x => x.Reason).NotEmpty();
+        }
     }
 }

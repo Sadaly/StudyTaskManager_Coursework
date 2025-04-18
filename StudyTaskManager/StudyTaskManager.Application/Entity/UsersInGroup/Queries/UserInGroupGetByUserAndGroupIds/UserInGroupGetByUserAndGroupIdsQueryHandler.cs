@@ -1,8 +1,6 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
-using StudyTaskManager.Domain.Entity.User;
-using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGetByUserAndGroupIds
 {

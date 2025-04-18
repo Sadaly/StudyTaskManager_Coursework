@@ -1,5 +1,6 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 
-public sealed record GetAllUsersQuery() : IQuery<List<Domain.Entity.User.User>>;
+public sealed record GetAllUsersQuery() : IQuery<List<User>>;

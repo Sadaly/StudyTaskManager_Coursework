@@ -101,12 +101,12 @@ namespace ConsoleAppTest
             }
             if (userChoice == 0) return;
             var userToDelete = users[userChoice - 1];
-            using (UserRepository userRep = new UserRepository(db))
-            {
+            UserRepository userRep = new UserRepository(db);
+            
                 await userRep.RemoveAsync(userToDelete);
                 await db.SaveChangesAsync();
                 Console.WriteLine("Пользователь успешно удален.");
-            }
+            
         }
 
         private static async Task CreateAndAddUser(AppDbContext db)
@@ -134,7 +134,7 @@ namespace ConsoleAppTest
             Console.WriteLine($"newUser.id перед добавлением: ");
             Console.WriteLine($"        {newUser.Value.Id} - {newUser.Value.Username.Value}");
 
-            using UserRepository userRep = new UserRepository(db);
+            UserRepository userRep = new UserRepository(db);
 
             var add = await userRep.AddAsync(newUser.Value);
             if (add.IsFailure) Console.WriteLine(add.Error.ToString(true));

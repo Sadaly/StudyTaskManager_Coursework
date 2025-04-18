@@ -28,7 +28,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserChangePhoneNumb
             if (isPhoneNumberUnique.IsFailure) return Result.Failure<Guid>(isPhoneNumberUnique.Error);
             if (!isPhoneNumberUnique.Value) return Result.Failure<Guid>(PersistenceErrors.User.PhoneNumberAlreadyInUse);
 
-            Result<Domain.Entity.User.User> user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            Result<User> user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
             user.Value.ChangePhoneNumber(phoneNumber.Value);

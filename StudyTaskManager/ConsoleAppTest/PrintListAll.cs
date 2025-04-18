@@ -15,7 +15,7 @@ namespace ConsoleAppTest
 
                 return $"{value} ({(isVerified ? "+" : "-")})";
             }
-            using var userRepository = new UserRepository(db);
+            var userRepository = new UserRepository(db);
             var users = await userRepository.GetAllAsync();
             if (users.IsFailure) throw new Exception(users.Error.Code + " - " + users.Error.Message);
 
@@ -45,7 +45,7 @@ namespace ConsoleAppTest
 
         public static async Task SystemRoles(AppDbContext db)
         {
-            using var systemRoleRepository = new SystemRoleRepository(db);
+            var systemRoleRepository = new SystemRoleRepository(db);
             var systemRoles = await systemRoleRepository.GetAllAsync();
             if (systemRoles.IsFailure) throw new Exception(systemRoles.Error.Code + " - " + systemRoles.Error.Message);
 
@@ -75,7 +75,7 @@ namespace ConsoleAppTest
 
         public static async Task PersonalChats(AppDbContext db)
         {
-            using var systemRoleRepository = new PersonalCharRepository(db);
+            var systemRoleRepository = new PersonalCharRepository(db);
             var list = await systemRoleRepository.GetAllAsync();
             if (list.IsFailure) throw new Exception(list.Error.Code + " - " + list.Error.Message);
 
@@ -99,7 +99,7 @@ namespace ConsoleAppTest
 
         public static async Task PersonatMessages(AppDbContext db)
         {
-            using var repository = new PersonalMessageRepository(db);
+            var repository = new PersonalMessageRepository(db);
             var list = await repository.GetAllAsync();
             if (list.IsFailure) throw new Exception(list.Error.Code + " - " + list.Error.Message);
 

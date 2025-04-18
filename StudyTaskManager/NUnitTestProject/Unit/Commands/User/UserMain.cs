@@ -8,7 +8,7 @@ using StudyTaskManager.Persistence.Repository;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 
-namespace NUnitTestProject.Unit.Commands.User
+namespace NUnitTestProject.Unit.Commands.Users
 {
     class UserMain
     {
@@ -67,7 +67,7 @@ namespace NUnitTestProject.Unit.Commands.User
 
             IUserRepository userRepository = new UserRepository(appDbContext);
 
-            var handler = new DeleteByIdCommandHandler<StudyTaskManager.Domain.Entity.User.User>(unitOfWork, userRepository);
+            var handler = new DeleteByIdCommandHandler<User>(unitOfWork, userRepository);
 
             var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
 

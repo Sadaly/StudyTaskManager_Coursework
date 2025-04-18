@@ -3,8 +3,6 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.Entity.Group;
-using MediatR;
-using StudyTaskManager.Domain.Errors;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupCreate
 {

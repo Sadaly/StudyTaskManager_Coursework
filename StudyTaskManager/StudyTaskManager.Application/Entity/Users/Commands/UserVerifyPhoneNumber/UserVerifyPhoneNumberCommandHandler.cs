@@ -3,7 +3,7 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyPhoneNumber
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserVerifyPhoneNumber
 {
     internal sealed record UserVerifyPhoneNumberCommandHandler : ICommandHandler<UserVerifyPhoneNumberCommand>
     {

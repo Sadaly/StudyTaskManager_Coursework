@@ -3,5 +3,5 @@ using StudyTaskManager.Domain.Entity.User.Chat;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser;
 
-public sealed record PersonalChatGetByUserQuery(
+public sealed record PersonalChatsGetByUserQuery(
     Guid UserId) : ICommand<List<PersonalChat>>;

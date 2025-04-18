@@ -1,5 +1,5 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdatePassword;
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserUpdatePassword;
 
 public sealed record UserUpdatePasswordCommand(
 	Guid UserId,

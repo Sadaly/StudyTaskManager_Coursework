@@ -2,6 +2,7 @@
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group.Task;
+using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -36,7 +37,7 @@ namespace StudyTaskManager.Application.Entity.GroupTasks.Commands.GroupTaskCreat
             if (status.IsFailure) return Result.Failure<Guid>(status);
 
             Content? description = null;
-            Domain.Entity.User.User? responsibleUser = null;
+            User? responsibleUser = null;
             GroupTask? parentTask = null;
 
             if (request.Description is not null)

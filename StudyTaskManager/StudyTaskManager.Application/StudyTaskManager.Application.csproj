@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetAll\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Events\" />
@@ -39,13 +40,10 @@
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Events\" />
     <Folder Include="Entity\Groups\Events\" />
-    <Folder Include="Entity\Groups\Queries\GroupGetById\" />
     <Folder Include="Entity\GroupTaskUpdates\Events\" />
-    <Folder Include="Entity\GroupTaskUpdates\Queries\GroupTaskUpdateGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusCreate\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusDelete\" />
     <Folder Include="Entity\GroupTaskStatuses\Events\" />
-    <Folder Include="Entity\GroupTaskStatuses\Queries\GroupTaskStatusGetById\" />
     <Folder Include="Entity\GroupRoles\Events\" />
     <Folder Include="Entity\BlockedUserInfos\Events\" />
     <Folder Include="Entity\SystemRoles\Events\" />

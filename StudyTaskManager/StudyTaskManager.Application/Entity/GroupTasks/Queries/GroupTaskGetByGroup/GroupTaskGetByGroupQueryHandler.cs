@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Shared;
-using System.Runtime.CompilerServices;
 
 namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetByGroup
 {

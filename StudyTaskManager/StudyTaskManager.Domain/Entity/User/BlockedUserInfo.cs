@@ -16,7 +16,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="reason">Причина блокировки пользователя</param>
         /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
         /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
-        private BlockedUserInfo(Guid userId, Guid prevRoleId, string reason) : base()
+        private BlockedUserInfo(Guid userId, Guid? prevRoleId, string reason) : base()
         {
             UserId = userId;
             PrevRoleId = prevRoleId;
@@ -44,7 +44,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Идентификатор роли пользователя до блокировки
         /// </summary>
-        public Guid PrevRoleId { get; }
+        public Guid? PrevRoleId { get; }
 
         /// <summary>
         /// Ссылка на пользователя, который был заблокирован
@@ -66,9 +66,9 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <param name="prevRoleId">Идентификатор роли пользователя до блокировки</param>
         /// <param name="user">Ссылка на пользователя, который был заблокирован</param>
         /// <returns>Новый экземпляр класса <see cref="BlockedUserInfo"/></returns>
-        public static Result<BlockedUserInfo> Create(string reason, Guid prevRoleId, User user)
+        public static Result<BlockedUserInfo> Create(string reason, User user)
         {
-            var blockedUserInfo = new BlockedUserInfo(user.Id, prevRoleId, reason)
+            var blockedUserInfo = new BlockedUserInfo(user.Id, user.SystemRoleId, reason)
             {
                 User = user
             };

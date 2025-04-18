@@ -3,7 +3,7 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.User.Commands.UserVerifyEmail
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserVerifyEmail
 {
     internal sealed class UserVerifyEmailCommandHandler : ICommandHandler<UserVerifyEmailCommand>
     {

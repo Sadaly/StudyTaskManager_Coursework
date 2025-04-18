@@ -2,7 +2,6 @@
 using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Application.Abstractions;
-using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.Users.Events
 {

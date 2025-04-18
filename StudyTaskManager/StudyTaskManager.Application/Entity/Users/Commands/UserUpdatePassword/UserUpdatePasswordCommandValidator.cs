@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdatePassword
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserUpdatePassword
 {
 	public class UserUpdatePasswordCommandValidator : AbstractValidator<UserUpdatePasswordCommand>
 	{

@@ -3,7 +3,6 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
-using System.Runtime.CompilerServices;
 
 namespace StudyTaskManager.Application.Entity.GroupTaskStatuses.Commands.GroupTaskStatusUpdate
 {

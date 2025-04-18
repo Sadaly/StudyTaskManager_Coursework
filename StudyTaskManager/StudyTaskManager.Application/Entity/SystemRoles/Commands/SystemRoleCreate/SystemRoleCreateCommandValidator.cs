@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate

@@ -10,6 +10,7 @@ using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle;
 using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
+using StudyTaskManager.Application.Entity.SystemRoles.Queries;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
@@ -56,7 +57,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var query = new SystemRoleGetByIdQuery(systemRoleId);
 
-            Result<SystemRole> response = await Sender.Send(query, cancellationToken);
+            Result<SystemRoleResponse> response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }

@@ -48,7 +48,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
                 role = foundRoleResult.Value;
             }
 
-            var user = Domain.Entity.User.User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
+            var user = User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
             if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
             var add = await _userRepository.AddAsync(user.Value, cancellationToken);

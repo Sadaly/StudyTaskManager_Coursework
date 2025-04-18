@@ -1,11 +1,10 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Abstractions;
-using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
-namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdatePassword
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserUpdatePassword
 {
     internal sealed class UserUpdatePasswordCommandHandler : ICommandHandler<UserUpdatePasswordCommand>
     {

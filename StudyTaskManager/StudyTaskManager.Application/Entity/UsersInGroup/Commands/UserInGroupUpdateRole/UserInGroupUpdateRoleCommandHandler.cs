@@ -2,7 +2,6 @@
 using StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupUpdateRole;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 

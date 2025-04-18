@@ -1,16 +1,9 @@
 ﻿using MediatR;
 using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StudyTaskManager.Domain.ValueObjects;
-using StudyTaskManager.Domain.Entity.Group.Chat;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageUpdate
 {

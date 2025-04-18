@@ -3,7 +3,6 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Shared;
-using System.Net.Mail;
 
 namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupSendInvite
 {

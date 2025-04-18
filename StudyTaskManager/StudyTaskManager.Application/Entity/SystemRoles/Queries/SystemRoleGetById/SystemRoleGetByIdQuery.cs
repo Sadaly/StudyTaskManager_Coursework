@@ -4,4 +4,4 @@ using StudyTaskManager.Domain.Entity.User;
 namespace StudyTaskManager.Application.Entity.SystemRoles.Queries.SystemRoleGetById;
 
 public sealed record SystemRoleGetByIdQuery(
-    Guid SystemRoleId) : IQuery<SystemRole>;
+    Guid SystemRoleId) : IQuery<SystemRoleResponse>;

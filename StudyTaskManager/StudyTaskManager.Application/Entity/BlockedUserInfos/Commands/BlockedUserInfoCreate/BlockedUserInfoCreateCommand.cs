@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 
-namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Commands.BlockedUserInfoCreate
-{
-    internal class BlockedUserInfoCreateCommand
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Commands.BlockedUserInfoCreate;
+public sealed record BlockedUserInfoCreateCommand(Guid UserId, string Reason) : ICommand<Guid>;

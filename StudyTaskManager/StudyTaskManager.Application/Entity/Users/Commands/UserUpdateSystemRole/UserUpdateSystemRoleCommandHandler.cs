@@ -3,7 +3,7 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.User.Commands.UserUpdateSystemRole
+namespace StudyTaskManager.Application.Entity.Users.Commands.UserUpdateSystemRole
 {
     internal sealed class UserUpdateSystemRoleCommandHandler : ICommandHandler<UserUpdateSystemRoleCommand>
     {
