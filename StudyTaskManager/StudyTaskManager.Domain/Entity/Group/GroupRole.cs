@@ -15,14 +15,14 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Приватный конструктор для создания объекта <see cref="GroupRole"/>.
         /// </summary>
-        private GroupRole(Guid id, Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group) : base(id)
+        private GroupRole(Guid id, Title title, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group) : base(id)
         {
             if (group != null)
             {
                 Group = group;
                 GroupId = group?.Id;
             }
-            RoleName = roleName;
+            Title = title;
             CanCreateTasks = canCreateTasks;
             CanManageRoles = canManageRoles;
             CanCreateTaskUpdates = canCreateTaskUpdates;
@@ -32,7 +32,7 @@ namespace StudyTaskManager.Domain.Entity.Group
 
         public GroupRole()
         {
-            RoleName = Title.Create("RoleName").Value;
+            Title = Title.Create("RoleName").Value;
         }
 
         #region свойства
@@ -50,7 +50,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Название роли.
         /// </summary>
-        public Title RoleName { get; set; }
+        public Title Title { get; set; }
 
         /// <summary>
         /// Может ли пользователь создавать задачи.
@@ -92,11 +92,23 @@ namespace StudyTaskManager.Domain.Entity.Group
         }
 
         /// <summary>
+        /// Метод для обновления прав роли.
+        /// </summary>
+        public Result UpdateTitle(Title title)
+        {
+            this.Title = title;
+
+            RaiseDomainEvent(new GroupRoleTitleUpdatedDomainEvent(Id));
+
+            return Result.Success();
+        }
+
+        /// <summary>
         /// Создает новую роль в группе.
         /// </summary>
-        public static Result<GroupRole> Create(Title roleName, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
+        public static Result<GroupRole> Create(Title title, bool canCreateTasks, bool canManageRoles, bool canCreateTaskUpdates, bool canChangeTaskUpdates, bool canInviteUsers, Group? group)
         {
-            var groupRole = new GroupRole(Guid.Empty, roleName, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
+            var groupRole = new GroupRole(Guid.Empty, title, canCreateTasks, canManageRoles, canCreateTaskUpdates, canChangeTaskUpdates, canInviteUsers, group);
 
             groupRole.RaiseDomainEvent(new GroupRoleCreatedDomainEvent(groupRole.Id));
 

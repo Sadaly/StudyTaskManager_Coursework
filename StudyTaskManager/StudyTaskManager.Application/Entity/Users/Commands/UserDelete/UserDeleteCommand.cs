@@ -1,7 +1,5 @@
-﻿using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
-using StudyTaskManager.Domain.Entity.User;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 
 namespace StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 
-public sealed record UserDeleteCommand(
-    Guid UserId) : DeleteByIdCommand<User>(UserId);
+public sealed record UserDeleteCommand(Guid Id) : ICommand;
