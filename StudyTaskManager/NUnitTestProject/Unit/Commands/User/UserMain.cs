@@ -1,5 +1,4 @@
-﻿using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
-using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
+﻿using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
@@ -22,7 +21,7 @@ namespace NUnitTestProject.Unit.Commands.Users
 
         readonly IUnitOfWork unitOfWork = new UnitOfWorkStub();
         AppDbContext appDbContext;
-        Guid NewUserId;
+        Guid NewUserId = Guid.Empty;
 
         [SetUp]
         public void Setup()
@@ -39,8 +38,8 @@ namespace NUnitTestProject.Unit.Commands.Users
         public void CreateUser()
         {
             var userCreateCommand = new UserCreateCommand(
-                "UserNameTestUniqueName8908201",
-                "email8908201@mail",
+                "testUser",
+                "test@mail",
                 "password",
                 null,
                 null);
@@ -63,11 +62,12 @@ namespace NUnitTestProject.Unit.Commands.Users
         [Test, Order(2)]
         public void DeleteUser()
         {
+            if (NewUserId == Guid.Empty) throw new Exception("NewUserId == Guid.Empty");
             var userDeleteCommand = new UserDeleteCommand(NewUserId);
 
             IUserRepository userRepository = new UserRepository(appDbContext);
 
-            var handler = new DeleteByIdCommandHandler<User>(unitOfWork, userRepository);
+            var handler = new UserDeleteCommandHandler(unitOfWork, userRepository);
 
             var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
 

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;

@@ -9,7 +9,6 @@ using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle;
-using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
 using StudyTaskManager.Application.Entity.SystemRoles.Queries;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -43,7 +42,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid systemRoleId,
             CancellationToken cancellationToken)
         {
-            var command = new DeleteByIdCommand<SystemRole>(systemRoleId);
+            var command = new SystemRoleDeleteCommand(systemRoleId);
 
             Result response = await Sender.Send(command, cancellationToken);
 
