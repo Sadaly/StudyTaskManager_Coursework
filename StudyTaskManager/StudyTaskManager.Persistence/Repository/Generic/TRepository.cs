@@ -153,21 +153,18 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken); ;
         }
 
-        public async Task<Result<List<T>>> TakeAsync(
-            Expression<Func<T, bool>> predicate,
-            int startIndex,
-            int count,
-            CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> TakeAsync(int startIndex, int count, Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
-        }
+            if (count < 1) return Result.Failure<List<T>>(new Error(
+                nameof(TakeAsync) + "." + nameof(count),
+                "Значение параметра не может быть меньше нуля."));
+            if (startIndex < 1) return Result.Failure<List<T>>(new Error(
+                nameof(TakeAsync) + "." + nameof(startIndex),
+                "Значение параметра не может быть меньше нуля."));
 
-        public async Task<Result<List<T>>> TakeAsync(
-            int startIndex,
-            int count,
-            CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken);
+            if (predicate == null) return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken);
+
+            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
         }
     }
 }
