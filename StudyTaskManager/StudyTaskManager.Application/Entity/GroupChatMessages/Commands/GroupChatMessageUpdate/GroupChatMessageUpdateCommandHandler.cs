@@ -28,7 +28,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			//Возвращаем ошибку если элемент не создан
 			if (contentResult.IsFailure) return Result.Failure<(Guid, ulong)>(contentResult.Error);
 
-			var gcmResult = _groupChatMessageRepository.GetMessageAsync(groupChatId, ordinal, cancellationToken).Result;
+			var gcmResult = await _groupChatMessageRepository.GetMessageAsync(groupChatId, ordinal, cancellationToken);
 
 			//Возвращаем ошибку если элемент не найден
 			if (gcmResult.IsFailure) return Result.Failure<(Guid, ulong)>(gcmResult.Error);
@@ -37,7 +37,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			var update = await _groupChatMessageRepository.UpdateAsync(gcmResult.Value);
 			if (update.IsFailure) return Result.Failure<(Guid, ulong)>(update.Error);
 
-			await _unitOfWork.SaveChangesAsync();
+			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 			return Result.Success((groupChatId, ordinal));
 		}

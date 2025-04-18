@@ -58,7 +58,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			var add = await _groupChatMessageRepository.AddAsync(gcmResult.Value);
 			if (add.IsFailure) return Result.Failure<(Guid, ulong)>(add.Error);
 
-			await _unitOfWork.SaveChangesAsync();
+			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 			return Result.Success((groupChatId, ordinal));
         }

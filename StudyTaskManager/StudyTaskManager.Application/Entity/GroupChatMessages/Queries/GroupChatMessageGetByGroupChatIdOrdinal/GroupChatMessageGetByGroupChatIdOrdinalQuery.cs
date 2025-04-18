@@ -2,4 +2,4 @@
 using StudyTaskManager.Domain.Entity.Group.Chat;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetByGroupChatIdOrdinal;
-public sealed record GroupChatMessageGetByGroupChatIdOrdinalQuery(Guid GroupChatId, ulong Ordinal) : IQuery<GroupChatMessage>;
+public sealed record GroupChatMessageGetByGroupChatIdOrdinalQuery(Guid GroupChatId, ulong Ordinal) : IQuery<GroupChatMessageResponse>;

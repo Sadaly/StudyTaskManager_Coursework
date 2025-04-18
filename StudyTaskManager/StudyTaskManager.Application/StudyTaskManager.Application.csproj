@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Entity\GroupRoles\Commands\GroupRoleUpdateTitle\" />
-    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetAll\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Events\" />
