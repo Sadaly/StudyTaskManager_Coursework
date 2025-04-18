@@ -46,8 +46,9 @@ namespace NUnitTestProject.Unit.Commands.SystemRole
         [Test, Order(1)]
         public void Create()
         {
+            string name = "_testUniqueName";
             var command = new SystemRoleCreateCommand(
-                "_testUniqueName",
+                name,
                 false,
                 false,
                 false,
@@ -61,6 +62,15 @@ namespace NUnitTestProject.Unit.Commands.SystemRole
             Assert.That(result.Value, Is.Not.EqualTo(Guid.Empty));
 
             NewId = result.Value;
+
+            var role = repository.GetByIdAsync(NewId, CancellationToken.None).GetAwaiter().GetResult();
+            Assert.That(role.Error, Is.EqualTo(Error.None));
+
+            Assert.That(role.Value.Name.Value, Is.EqualTo(name));
+            Assert.That(role.Value.CanViewPeoplesGroups, Is.False);
+            Assert.That(role.Value.CanChangeSystemRoles, Is.False);
+            Assert.That(role.Value.CanBlockUsers, Is.False);
+            Assert.That(role.Value.CanDeleteChats, Is.False);
         }
 
         [Test, Order(2)]
@@ -81,6 +91,11 @@ namespace NUnitTestProject.Unit.Commands.SystemRole
 
             var role = repository.GetByIdAsync(NewId, CancellationToken.None).GetAwaiter().GetResult();
             Assert.That(role.Error, Is.EqualTo(Error.None));
+
+            Assert.That(role.Value.CanViewPeoplesGroups, Is.True);
+            Assert.That(role.Value.CanChangeSystemRoles, Is.True);
+            Assert.That(role.Value.CanBlockUsers, Is.True);
+            Assert.That(role.Value.CanDeleteChats, Is.True);
         }
 
         [Test, Order(3)]
@@ -88,7 +103,8 @@ namespace NUnitTestProject.Unit.Commands.SystemRole
         {
             if (NewId == Guid.Empty) throw new Exception("NewId == Guid.Empty");
 
-            var command = new SystemRoleUpdateTitleCommand(NewId, "_testNewTitleUnique");
+            string newName = "_testNewTitleUnique";
+            var command = new SystemRoleUpdateTitleCommand(NewId, newName);
 
             var handler = new SystemRoleUpdateTitleCommandHandler(unitOfWorkStub, repository);
 
@@ -97,6 +113,8 @@ namespace NUnitTestProject.Unit.Commands.SystemRole
 
             var role = repository.GetByIdAsync(NewId, CancellationToken.None).GetAwaiter().GetResult();
             Assert.That(role.Error, Is.EqualTo(Error.None));
+
+            Assert.That(role.Value.Name.Value, Is.EqualTo(newName));
         }
 
         [Test, Order(4)]
