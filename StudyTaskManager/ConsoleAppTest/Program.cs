@@ -45,7 +45,7 @@ namespace ConsoleAppTest
             {
                 foreach (User u in users.Value)
                 {
-                    Console.WriteLine("* " + users.Value[0].Id);
+                    Console.WriteLine("* " + u.Id);
                 }
             }
         }

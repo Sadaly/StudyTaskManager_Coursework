@@ -157,8 +157,8 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         {
             if (count < 1) return Result.Failure<List<T>>(new Error(
                 nameof(TakeAsync) + "." + nameof(count),
-                "Значение параметра не может быть меньше нуля."));
-            if (startIndex < 1) return Result.Failure<List<T>>(new Error(
+                "Значение параметра не может быть меньше единицы."));
+            if (startIndex < 0) return Result.Failure<List<T>>(new Error(
                 nameof(TakeAsync) + "." + nameof(startIndex),
                 "Значение параметра не может быть меньше нуля."));
 
