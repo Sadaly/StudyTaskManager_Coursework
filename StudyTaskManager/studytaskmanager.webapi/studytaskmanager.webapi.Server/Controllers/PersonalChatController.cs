@@ -1,13 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser;
-using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 

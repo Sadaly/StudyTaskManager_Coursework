@@ -8,4 +8,4 @@ public sealed record GroupRoleUpdatePermissionsCommand(
     bool CanManageRoles,
     bool CanCreateTaskUpdates,
     bool CanChangeTaskUpdates,
-    bool CanInviteUsers) : ICommand;}
+    bool CanInviteUsers) : ICommand;

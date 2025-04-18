@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
 {
-    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, List<User>>
+    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, UserListResponse>
     {
         private readonly IUserRepository _userRepository;
 
@@ -14,13 +14,13 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<User>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserListResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             var usersResult = await _userRepository.GetAllAsync(cancellationToken);
 
-            if (usersResult.IsFailure) return Result.Failure<List<User>>(usersResult.Error);
+            if (usersResult.IsFailure) return Result.Failure<UserListResponse>(usersResult.Error);
 
-            return usersResult;
+            return new UserListResponse(usersResult.Value);
         }
     }
 }
