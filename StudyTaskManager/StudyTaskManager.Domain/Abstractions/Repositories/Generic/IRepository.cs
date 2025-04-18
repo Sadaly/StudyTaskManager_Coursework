@@ -40,6 +40,34 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         /// <returns>Возвращает лист, все объекты которого соответствуют предикату.</returns>
         Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Метод возвращающий часть данных из БД по указанному предикату (сначала выполняется условие, а затем берутся элементы)
+        /// </summary>
+        /// <param name="predicate">Условия для списка</param>
+        /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0</param>
+        /// <param name="count">Количество взятых значений</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Возвращает часть списка удовлетворяющий условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей</returns>
+        public Task<Result<List<T>>> TakeAsync(
+            Expression<Func<T, bool>> predicate,
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Метод возвращающий часть данных из БД
+        /// </summary>
+        /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0</param>
+        /// <param name="count">Количество взятых значений</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Возвращает часть списка. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей</returns>
+        public Task<Result<List<T>>> TakeAsync(
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken = default);
+
+
+
         ///// <summary>
         ///// Возвращает какое-то кол-во элементов после того как пропустил какое-то кол-во элементов
         ///// </summary>

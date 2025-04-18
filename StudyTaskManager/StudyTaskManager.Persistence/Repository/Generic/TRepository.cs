@@ -152,5 +152,22 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         {
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken); ;
         }
+
+        public async Task<Result<List<T>>> TakeAsync(
+            Expression<Func<T, bool>> predicate,
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken); ;
+        }
+
+        public async Task<Result<List<T>>> TakeAsync(
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken); ;
+        }
     }
 }
