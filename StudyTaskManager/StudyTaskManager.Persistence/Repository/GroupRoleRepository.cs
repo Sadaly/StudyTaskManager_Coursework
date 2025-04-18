@@ -46,7 +46,7 @@ namespace StudyTaskManager.Persistence.Repository
 
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupRole entity, CancellationToken cancellationToken)
         {
-            bool notUniqueName = await _dbSet.AnyAsync(gr => gr.RoleName.Value == entity.RoleName.Value, cancellationToken);
+            bool notUniqueName = await _dbSet.AnyAsync(gr => gr.Title.Value == entity.Title.Value, cancellationToken);
             if (notUniqueName) { return Result.Failure(PersistenceErrors.GroupRole.NotUniqueName); }
 
             if (entity.GroupId != null)

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using StudyTaskManager.Application.Abstractions.Messaging;
 
-namespace StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleDelete
-{
-    internal class GroupRoleDeleteCommand
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleDelete;
+
+public sealed record GroupRoleDeleteCommand(Guid Id) : ICommand;

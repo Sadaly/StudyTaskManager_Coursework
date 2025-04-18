@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleCreate
 {
-    internal class GroupRoleCreateCommandValidator
+    public class GroupRoleCreateCommandValidator
     {
     }
 }

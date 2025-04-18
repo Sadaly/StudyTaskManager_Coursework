@@ -20,7 +20,7 @@ namespace StudyTaskManager.Persistence.Configurations
                 .IsRequired(false); // GroupId может быть null
 
             builder
-                .Property(g => g.RoleName)
+                .Property(g => g.Title)
                 .HasConversion(
                     t => t.Value,
                     str => Title.Create(str).Value)
