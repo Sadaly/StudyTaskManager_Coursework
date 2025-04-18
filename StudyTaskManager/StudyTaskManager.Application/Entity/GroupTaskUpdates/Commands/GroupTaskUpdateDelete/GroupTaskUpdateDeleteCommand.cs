@@ -1,6 +1,6 @@
-﻿using StudyTaskManager.Application.Entity.Generic.Commands.DeleteById;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Entity.Group.Task;
 
 namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Commands.GroupTaskUpdateDelete;
 
-public sealed record GroupTaskUpdateDeleteCommand(Guid GroupTaskUpdateId) : DeleteByIdCommand<GroupTaskUpdate>(GroupTaskUpdateId);
+public sealed record GroupTaskUpdateDeleteCommand(Guid Id) : ICommand;

@@ -48,9 +48,7 @@
     <Folder Include="Entity\GroupChats\Events\" />
     <Folder Include="Entity\GroupChats\Queries\GroupChatGetById\" />
     <Folder Include="Entity\GroupTasks\Commands\GroupTaskCreate\" />
-    <Folder Include="Entity\GroupTasks\Commands\GroupTaskDelete\" />
     <Folder Include="Entity\GroupTasks\Events\" />
-    <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Commands\GroupInviteCreate\" />
