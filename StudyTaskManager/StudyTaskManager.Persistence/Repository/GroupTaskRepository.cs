@@ -4,6 +4,7 @@ using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.Errors;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Persistence.Repository
 {
@@ -39,7 +40,24 @@ namespace StudyTaskManager.Persistence.Repository
             var groupTaskStatus = await GetFromDBAsync<GroupTaskStatus>(entity.StatusId, PersistenceErrors.GroupTaskStatus.IdEmpty, PersistenceErrors.GroupTaskStatus.NotFound, cancellationToken);
             if (groupTaskStatus.IsFailure) { return groupTaskStatus; }
 
-            // TODO добавить проверку, чтобы ответственный за задачу был обязан присутствовать в группе
+            // проверка, чтобы ответственный за задачу был обязан присутствовать в группе
+            if (entity.ResponsibleUserId is not null)
+            {
+                var user = await GetFromDBAsync<User>(entity.ResponsibleUserId.Value, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
+                if (user.IsFailure) { return user; }
+
+                var userInGrup = await GetFromDBAsync<UserInGroup>(
+                    uig =>
+                        uig.GroupId == group.Value.Id &&
+                        uig.UserId == user.Value.Id,
+                    PersistenceErrors.UserInGroup.NotFound,
+                    cancellationToken);
+                if (userInGrup.IsFailure)
+                {
+                    if (userInGrup.Error == PersistenceErrors.UserInGroup.NotFound) { return Result.Failure(PersistenceErrors.GroupTask.UserIsNotInTheGroup); }
+                    return userInGrup;
+                }
+            }
 
             var groupTask = await GetFromDBAsync(entity.Id, cancellationToken);
             if (groupTask.IsSuccess) { return Result.Failure(PersistenceErrors.GroupTaskStatus.AlreadyExists); }

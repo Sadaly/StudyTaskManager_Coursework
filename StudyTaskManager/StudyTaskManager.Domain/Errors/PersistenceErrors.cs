@@ -158,6 +158,9 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error AlreadyExist = new(
                 "GroupTask.AlreadyExist",
                 "Эта задача уже существует");
+            public static readonly Error UserIsNotInTheGroup = new(
+                "GroupTask.UserIsNotInTheGroup ",
+                "пользователя нет в группе");
         }
 
         public static class Group

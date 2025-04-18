@@ -26,20 +26,19 @@ namespace StudyTaskManager.Persistence.Repository
         public async Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default)
         {
             Result<PersonalChat> personalChat;
-
             personalChat = await GetFromDBAsync(
                 pc =>
                     (pc.User1Id == user1.Id && pc.User2Id == user2.Id) ||
                     (pc.User1Id == user2.Id && pc.User2Id == user1.Id)
                 , cancellationToken);
-            if (personalChat.IsSuccess) { return personalChat; }
-            if (personalChat.Error != GetErrorNotFound()) { return personalChat; }
+            //if (personalChat.IsSuccess) { return personalChat; }
+            //if (personalChat.Error != GetErrorNotFound()) { return personalChat; }
 
-            personalChat = PersonalChat.Create(user1, user2);
-            if (personalChat.IsSuccess)
-            {
-                await AddAsync(personalChat.Value, cancellationToken);
-            }
+            //personalChat = PersonalChat.Create(user1, user2);
+            //if (personalChat.IsSuccess)
+            //{
+            //    await AddAsync(personalChat.Value, cancellationToken);
+            //}
             return personalChat;
         }
 
