@@ -25,38 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\GroupChatMessages\Queries\GroupChatMessageGetBySenderId\" />
-    <Folder Include="Entity\GroupChats\Commands\GroupChatAddMessage\" />
-    <Folder Include="Entity\GroupInvites\Commands\GroupInviteDeclineInvite\" />
-    <Folder Include="Entity\GroupInvites\Commands\GroupInviteAcceptInvite\" />
-    <Folder Include="Entity\GroupRoles\Commands\GroupRoleUpdatePermissions\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
-    <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadCreate\" />
-    <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadDelete\" />
-    <Folder Include="Entity\GroupChatParticipantLastReads\Commands\GroupChatParticipantLastReadUpdate\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Events\" />
-    <Folder Include="Entity\GroupChatParticipantLastReads\Queries\GroupChatParticipantLastReadGetByOrdinalAndGroupChatAndUserIds\" />
-    <Folder Include="Entity\GroupChatParticipants\Commands\GroupChatParticipantCreate\" />
-    <Folder Include="Entity\GroupChatParticipants\Commands\GroupChatParticipantDelete\" />
     <Folder Include="Entity\GroupChatParticipants\Events\" />
-    <Folder Include="Entity\GroupChatParticipants\Queries\GroupChatParticipantGetByUserAndGroupChatIds\" />
     <Folder Include="Entity\GroupChatMessages\Events\" />
-    <Folder Include="Entity\GroupChats\Commands\GroupChatCreate\" />
-    <Folder Include="Entity\GroupChats\Commands\GroupChatDelete\" />
-    <Folder Include="Entity\GroupChats\Commands\GroupChatAddParticipant\" />
     <Folder Include="Entity\GroupChats\Events\" />
-    <Folder Include="Entity\GroupChats\Queries\GroupChatGetById\" />
     <Folder Include="Entity\GroupTasks\Commands\GroupTaskCreate\" />
     <Folder Include="Entity\GroupTasks\Commands\GroupTaskDelete\" />
     <Folder Include="Entity\GroupTasks\Events\" />
     <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetById\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
-    <Folder Include="Entity\GroupInvites\Commands\GroupInviteCreate\" />
-    <Folder Include="Entity\GroupInvites\Commands\GroupInviteDelete\" />
     <Folder Include="Entity\GroupInvites\Events\" />
-    <Folder Include="Entity\GroupInvites\Queries\GroupInviteGetByGroupAndUserIds\" />
     <Folder Include="Entity\Groups\Events\" />
     <Folder Include="Entity\Groups\Queries\GroupGetById\" />
     <Folder Include="Entity\GroupTaskUpdates\Events\" />
@@ -65,14 +46,8 @@
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusDelete\" />
     <Folder Include="Entity\GroupTaskStatuses\Events\" />
     <Folder Include="Entity\GroupTaskStatuses\Queries\GroupTaskStatusGetById\" />
-    <Folder Include="Entity\GroupRoles\Commands\GroupRoleCreate\" />
-    <Folder Include="Entity\GroupRoles\Commands\GroupRoleDelete\" />
     <Folder Include="Entity\GroupRoles\Events\" />
-    <Folder Include="Entity\GroupRoles\Queries\GroupRoleGetById\" />
-    <Folder Include="Entity\BlockedUserInfos\Commands\BlockedUserInfoCreate\" />
-    <Folder Include="Entity\BlockedUserInfos\Commands\BlockedUserInfoDelete\" />
     <Folder Include="Entity\BlockedUserInfos\Events\" />
-    <Folder Include="Entity\BlockedUserInfos\Queries\BlockedUserInfoGetByUserId\" />
     <Folder Include="Entity\SystemRoles\Events\" />
   </ItemGroup>
 
