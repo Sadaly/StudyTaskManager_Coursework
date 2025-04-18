@@ -16,19 +16,14 @@ namespace ConsoleAppTest
 
             using (AppDbContext db = new())
             {
-                await PrintListAll.Users(db);
-                //await PrintListAll.SystemRoles(db);
-                await PrintListAll.PersonalChats(db);
-                await PrintListAll.PersonatMessages(db);
+                await Diagnostic(db);
 
-                //await Run(db);
+                Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- ");
+
+                await Test(db);
             }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
-
-            //Console.ReadLine();
-            //Console.Clear();
-            //await Main(args);
 
             Console.CursorVisible = false;
             await Task.Delay(500);
@@ -36,6 +31,35 @@ namespace ConsoleAppTest
             Console.SetCursorPosition(0, 0);
             await Main(args);
         }
+
+        private static async Task Test(AppDbContext db)
+        {
+            var rep = new UserRepository(db);
+            var users = await rep.TakeAsync(0, 4);
+
+            if (users.IsFailure)
+            {
+                Console.WriteLine(users.Error.ToString(true));
+            }
+            else
+            {
+                foreach (User u in users.Value)
+                {
+                    Console.WriteLine("* " + users.Value[0].Id);
+                }
+            }
+        }
+
+        private static async Task Diagnostic(AppDbContext db)
+        {
+            await PrintListAll.Users(db);
+            //await PrintListAll.SystemRoles(db);
+            //await PrintListAll.PersonalChats(db);
+            //await PrintListAll.PersonatMessages(db);
+
+            //await Run(db);
+        }
+
         private static async Task Run(AppDbContext db)
         {
             (Func<AppDbContext, Task> Function, string Description)[] menuItems =
@@ -102,11 +126,11 @@ namespace ConsoleAppTest
             if (userChoice == 0) return;
             var userToDelete = users[userChoice - 1];
             UserRepository userRep = new UserRepository(db);
-            
-                await userRep.RemoveAsync(userToDelete);
-                await db.SaveChangesAsync();
-                Console.WriteLine("Пользователь успешно удален.");
-            
+
+            await userRep.RemoveAsync(userToDelete);
+            await db.SaveChangesAsync();
+            Console.WriteLine("Пользователь успешно удален.");
+
         }
 
         private static async Task CreateAndAddUser(AppDbContext db)

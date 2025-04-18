@@ -159,7 +159,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             int count,
             CancellationToken cancellationToken = default)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken); ;
+            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
         }
 
         public async Task<Result<List<T>>> TakeAsync(
@@ -167,7 +167,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             int count,
             CancellationToken cancellationToken = default)
         {
-            return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken); ;
+            return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken);
         }
     }
 }
