@@ -21,7 +21,7 @@ namespace NUnitTestProject.Unit.Commands.Users
 
         readonly IUnitOfWork unitOfWork = new UnitOfWorkStub();
         AppDbContext appDbContext;
-        Guid NewUserId;
+        Guid NewUserId = Guid.Empty;
 
         [SetUp]
         public void Setup()
@@ -38,8 +38,8 @@ namespace NUnitTestProject.Unit.Commands.Users
         public void CreateUser()
         {
             var userCreateCommand = new UserCreateCommand(
-                "UserNameTestUniqueName8908201",
-                "email8908201@mail",
+                "testUser",
+                "test@mail",
                 "password",
                 null,
                 null);
@@ -62,19 +62,20 @@ namespace NUnitTestProject.Unit.Commands.Users
         [Test, Order(2)]
         public void DeleteUser()
         {
-            //var userDeleteCommand = new UserDeleteCommand(NewUserId);
+            if (NewUserId == Guid.Empty) throw new Exception("NewUserId == Guid.Empty");
+            var userDeleteCommand = new UserDeleteCommand(NewUserId);
 
-            //IUserRepository userRepository = new UserRepository(appDbContext);
+            IUserRepository userRepository = new UserRepository(appDbContext);
 
-            //var handler = new DeleteByIdCommandHandler<User>(unitOfWork, userRepository);
+            var handler = new UserDeleteCommandHandler(unitOfWork, userRepository);
 
-            //var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
+            var result = handler.Handle(userDeleteCommand, CancellationToken.None).GetAwaiter().GetResult();
 
-            //Assert.That(result.Error, Is.EqualTo(Error.None));
-            //Assert.That(result.IsSuccess, Is.True);
+            Assert.That(result.Error, Is.EqualTo(Error.None));
+            Assert.That(result.IsSuccess, Is.True);
 
-            //var userExists = userRepository.GetByIdAsync(NewUserId, CancellationToken.None).GetAwaiter().GetResult();
-            //Assert.That(userExists.IsFailure, Is.True);
+            var userExists = userRepository.GetByIdAsync(NewUserId, CancellationToken.None).GetAwaiter().GetResult();
+            Assert.That(userExists.IsFailure, Is.True);
         }
     }
 }
