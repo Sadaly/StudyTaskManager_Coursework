@@ -28,10 +28,10 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupCh
 			if (gcmResult.IsFailure) return Result.Failure<(Guid, ulong)>(gcmResult.Error);
 
 
-			var remove = await _groupChatMessageRepository.RemoveAsync(gcmResult.Value);
+			var remove = await _groupChatMessageRepository.RemoveAsync(gcmResult.Value, cancellationToken);
 			if (remove.IsFailure) return remove;
 
-			await _unitOfWork.SaveChangesAsync();
+			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 			return remove;
 		}

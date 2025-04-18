@@ -15,7 +15,7 @@ namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUs
 
         public async Task<Result<BlockedUserInfoResponse>> Handle(BlockedUserInfoGetByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var buiResult = await _blockedUserInfoRepository.GetByUser(request.UserId);
+            var buiResult = await _blockedUserInfoRepository.GetByUser(request.UserId, cancellationToken);
             if (buiResult.IsFailure) return Result.Failure<BlockedUserInfoResponse>(buiResult);
 
             return new BlockedUserInfoResponse(buiResult.Value);
