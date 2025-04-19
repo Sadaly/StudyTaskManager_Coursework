@@ -4,9 +4,6 @@ using static StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGrou
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsGetByUserId
 {
     public sealed record UserInGroupsGetByUserIdResponse(
-        Guid UserId,
-        int StartIndex,
-        int Count,
         List<UserInGroupsGetByUserIdResponseElements> List)
     {
         public class UserInGroupsGetByUserIdResponseElements
@@ -20,12 +17,6 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsG
                 GroupId = userInGroup.GroupId;
                 RoleId = userInGroup.RoleId;
                 DateEntered = userInGroup.DateEntered;
-            }
-            internal UserInGroupsGetByUserIdResponseElements(Guid groupId, Guid roleId, DateTime dateEntered)
-            {
-                GroupId = groupId;
-                RoleId = roleId;
-                DateEntered = dateEntered;
             }
         }
     }

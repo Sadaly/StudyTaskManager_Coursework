@@ -25,7 +25,7 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsG
 
             var listRes = listUIG.Value.Select(uig => new UserInGroupsGetByUserIdResponse.UserInGroupsGetByUserIdResponseElements(uig)).ToList();
 
-            return Result.Success(new UserInGroupsGetByUserIdResponse(request.Id, request.StartIndex, request.Count, listRes));
+            return Result.Success(new UserInGroupsGetByUserIdResponse(listRes));
         }
     }
 }
