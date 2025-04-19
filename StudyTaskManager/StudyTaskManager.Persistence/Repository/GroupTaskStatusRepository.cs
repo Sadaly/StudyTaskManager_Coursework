@@ -18,6 +18,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupTaskStatus>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gts => gts.GroupId == group.Id,
+                cancellationToken);
+        }
 
         public async Task<Result<List<GroupTaskStatus>>> GetBaseAsync(CancellationToken cancellationToken = default)
         {
@@ -25,6 +33,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .Where(gts => gts.GroupId == null)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+        public async Task<Result<List<GroupTaskStatus>>> GetBaseAsync(int startIndex, int count, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gts => gts.GroupId == null,
+                cancellationToken);
         }
 
         public async Task<Result<List<GroupTaskStatus>>> GetByGroupWithBaseAsync(Group group, CancellationToken cancellationToken = default)
@@ -34,6 +50,16 @@ namespace StudyTaskManager.Persistence.Repository
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupTaskStatus>>> GetByGroupWithBaseAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gts => gts.GroupId == group.Id || gts.GroupId == null,
+                cancellationToken);
+        }
+
 
         protected override Error GetErrorIdEmpty()
         {

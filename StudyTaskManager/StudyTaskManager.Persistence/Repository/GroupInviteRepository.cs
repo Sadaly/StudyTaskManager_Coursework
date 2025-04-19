@@ -18,6 +18,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupInvite>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gi => gi.GroupId == group.Id,
+                cancellationToken);
+        }
 
         public async Task<Result<List<GroupInvite>>> GetForUserAsync(User receiver, CancellationToken cancellationToken = default)
         {
@@ -26,6 +34,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupInvite>>> GetForUserAsync(int startIndex, int count, User receiver, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gi => gi.ReceiverId == receiver.Id,
+                cancellationToken);
+        }
 
         public async Task<Result<List<GroupInvite>>> GetFromUserAsync(User sender, CancellationToken cancellationToken = default)
         {
@@ -33,6 +49,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .Where(gi => gi.SenderId == sender.Id)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+        public async Task<Result<List<GroupInvite>>> GetFromUserAsync(int startIndex, int count, User sender, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gi => gi.SenderId == sender.Id,
+                cancellationToken);
         }
 
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupInvite entity, CancellationToken cancellationToken)
@@ -55,7 +79,7 @@ namespace StudyTaskManager.Persistence.Repository
             if (userInGroup.Error != notFound) { return userInGroup; }
 
             var groupInvite = await GetFromDBAsync(
-                gi =>
+                gi =>                                       // TODO
                     gi.SenderId == entity.SenderId &&       // Возможно стоит переделать
                     gi.ReceiverId == entity.ReceiverId &&   // чтобы проверка была только на 
                     gi.GroupId == entity.GroupId            // получателя и группу, без отправителя

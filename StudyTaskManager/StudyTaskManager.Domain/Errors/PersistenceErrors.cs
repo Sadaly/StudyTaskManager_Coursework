@@ -7,8 +7,15 @@ namespace StudyTaskManager.Domain.Errors
         public static readonly Error UnknowError = new(
             "UnknowError",
             "Неизвестная ошибка");
+        public static readonly Error IncorrectStartIndex = new(
+            "IncorrectStartIndex",
+            "Некорректный индекс старта взятых элементов. Значение параметра не может быть меньше нуля.");
+        public static readonly Error IncorrectCount = new(
+            "IncorrectCount",
+            "Некорректное количество взятых элементов. Значение параметра не может быть меньше единицы.");
 
-		public static class BlockedUserInfo
+
+        public static class BlockedUserInfo
         {
             public static readonly Error AlreadyExist = new(
                 "BlockedUserInfo.AlreadyExist",
@@ -253,10 +260,10 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error AlreadyExists = new(
                 "UserInGroup.AlreadyExists",
                 "Пользователь уже участник группы");
-			public static readonly Error SignedDeletedRole = new(
-				"UserInGroup.SignedDeletedRole",
-				"Невозможно присвоить пользователю удаленную роль");
-		}
+            public static readonly Error SignedDeletedRole = new(
+                "UserInGroup.SignedDeletedRole",
+                "Невозможно присвоить пользователю удаленную роль");
+        }
 
         public static class User
         {

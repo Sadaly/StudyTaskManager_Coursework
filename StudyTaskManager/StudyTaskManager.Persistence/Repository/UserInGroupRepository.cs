@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Errors;
@@ -18,12 +19,35 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<UserInGroup>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                uig => uig.GroupId == group.Id,
+                cancellationToken);
+        }
+
+        public async Task<Result<List<UserInGroup>>> GetByUserAsync(User user, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<UserInGroup>()
+                .Where(uig => uig.UserId == user.Id)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+        }
+        public async Task<Result<List<UserInGroup>>> GetByUserAsync(int startIndex, int count, User user, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                uig => uig.UserId == user.Id,
+                cancellationToken);
+        }
 
         public async Task<Result<UserInGroup>> GetByUserAndGroupAsync(User user, Group group, CancellationToken cancellationToken = default)
         {
             return await GetByUserAndGroupAsync(user.Id, group.Id, cancellationToken);
         }
-
         public async Task<Result<UserInGroup>> GetByUserAndGroupAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default)
         {
             var user = await GetFromDBAsync<User>(userId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
@@ -40,14 +64,7 @@ namespace StudyTaskManager.Persistence.Repository
                 , cancellationToken);
         }
 
-        public async Task<Result<List<UserInGroup>>> GetByUserAsync(User user, CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Set<UserInGroup>()
-                .Where(uig => uig.UserId == user.Id)
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
-        }
-
+        #region verification
         protected override async Task<Result> VerificationBeforeAddingAsync(UserInGroup entity, CancellationToken cancellationToken)
         {
             var user = await GetFromDBAsync<User>(entity.UserId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
@@ -90,5 +107,6 @@ namespace StudyTaskManager.Persistence.Repository
                 , cancellationToken);
             return userInGrup;
         }
+        #endregion
     }
 }

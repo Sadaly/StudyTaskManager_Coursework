@@ -8,8 +8,8 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
     /// </summary>
     /// <typeparam name="T">Класс для работы</typeparam>
     public interface IRepository<T> where T : Common.BaseEntity
-        // IDisposable нужен для закрытия подключения к БД
     {
+        #region Добавление изменение удаление реализация
         /// <summary>
         /// Добавление нового экземпляра. При этом передаваемый экземпляр изменяет свой Id, если Id есть вообще как поле.
         /// </summary>
@@ -27,7 +27,9 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
         Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default);
+        #endregion
 
+        #region GetAllAsync разные вариации
         /// <summary>
         /// Возвращает все объекты.
         /// </summary>
@@ -35,9 +37,18 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Возвращает часть объектов.
+        /// </summary>
+        /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
+        /// <param name="count">Количество взятых значений.</param>
+        /// <returns>Список из объектов. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
+        Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Возвращает все объекты, которые соответствуют предикату.
         /// </summary>
-        /// <returns>Возвращает лист, все объекты которого соответствуют предикату.</returns>
+        /// <param name="predicate">Условия для списка.</param>
+        /// <returns>Возвращает список, все объекты которого удовлетворяют условию <paramref name="predicate"/>.</returns>
         Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -46,11 +57,12 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         /// <param name="predicate">Условия для списка.</param>
         /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
         /// <param name="count">Количество взятых значений.</param>
-        /// <returns>Возвращает часть списка удовлетворяющий условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
-        public Task<Result<List<T>>> TakeAsync(
+        /// <returns>Возвращает часть списка элементы которого удовлетворяют условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
+        public Task<Result<List<T>>> GetAllAsync(
             int startIndex,
             int count,
-            Expression<Func<T, bool>>? predicate = null,
+            Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default);
+        #endregion
     }
 }

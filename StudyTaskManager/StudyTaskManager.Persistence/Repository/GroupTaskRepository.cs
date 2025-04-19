@@ -20,6 +20,15 @@ namespace StudyTaskManager.Persistence.Repository
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<Result<List<GroupTask>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gt => gt.GroupId == group.Id,
+                cancellationToken);
+        }
+
         protected override Error GetErrorIdEmpty()
         {
             return PersistenceErrors.GroupTask.IdEmpty;

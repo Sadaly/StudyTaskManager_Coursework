@@ -19,6 +19,15 @@ namespace StudyTaskManager.Persistence.Repository
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<Result<List<PersonalMessage>>> GetMessageByChatAsync(int startIndex, int count, PersonalChat personalChat, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                pm => pm.PersonalChatId == personalChat.Id,
+                cancellationToken);
+        }
+
         protected override Error GetErrorIdEmpty()
         {
             return PersistenceErrors.PersonalMessage.IdEmpty;

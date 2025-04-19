@@ -19,9 +19,9 @@ namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUs
 
             Result<List<BlockedUserInfo>> buiResult;
             if (request.predicate == null)
-                buiResult = await _blockedUserInfoRepository.TakeAsync(request.StartIndex, request.Count, null, cancellationToken);
+                buiResult = await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, null, cancellationToken);
             else
-                buiResult = await _blockedUserInfoRepository.TakeAsync(request.StartIndex, request.Count, request.predicate, cancellationToken);
+                buiResult = await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, request.predicate, cancellationToken);
 
             if (buiResult.IsFailure) return Result.Failure<BlockedUserInfoListResponse>(buiResult.Error);
 

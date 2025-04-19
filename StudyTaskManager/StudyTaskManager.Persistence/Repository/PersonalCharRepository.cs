@@ -18,9 +18,19 @@ namespace StudyTaskManager.Persistence.Repository
                     pc =>
                         pc.User1Id == user.Id ||
                         pc.User2Id == user.Id)
-                .Include(pc => pc.Messages) // подгрузка сообщений, думаю стоит переделать, чтобы возвращать определенное кол-во последних сообщений из чата
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<Result<List<PersonalChat>>> GetChatByUserAsync(int startIndex, int count, User user, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                pc =>
+                    pc.User1Id == user.Id ||
+                    pc.User2Id == user.Id,
+                cancellationToken);
         }
 
         public async Task<Result<PersonalChat>> GetChatByUsersAsync(User user1, User user2, CancellationToken cancellationToken = default)

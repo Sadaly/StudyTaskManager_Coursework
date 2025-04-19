@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.DomainEvents;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
@@ -17,6 +18,14 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupRole>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gr => gr.GroupId == group.Id,
+                cancellationToken);
+        }
 
         public async Task<Result<List<GroupRole>>> GetBaseAsync(CancellationToken cancellationToken = default)
         {
@@ -25,6 +34,13 @@ namespace StudyTaskManager.Persistence.Repository
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+        public async Task<Result<List<GroupRole>>> GetBaseAsync(int startIndex, int count, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                cancellationToken);
+        }
 
         public async Task<Result<List<GroupRole>>> GetByGroupWithBaseAsync(Group group, CancellationToken cancellationToken = default)
         {
@@ -32,6 +48,14 @@ namespace StudyTaskManager.Persistence.Repository
                     .Where(gr => gr.GroupId == group.Id || gr.GroupId == null)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
+        }
+        public async Task<Result<List<GroupRole>>> GetByGroupWithBaseAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gr => gr.GroupId == group.Id || gr.GroupId == null,
+                cancellationToken);
         }
 
         protected override Error GetErrorIdEmpty()

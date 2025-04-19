@@ -5,12 +5,15 @@ using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace StudyTaskManager.Persistence.Repository.Generic
 {
     public abstract class TRepository<T> : IRepository<T> where T : BaseEntity
     {
         #region GetFromDBAsync
+
+        #region получение одной сущности
         #region TBaseEntityWithID
         /// <summary>
         /// Получение сущности по Id (только для BaseEntityWithID)
@@ -40,6 +43,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return Result.Success(entity);
         }
         #endregion
+
         #region TBaseEntity
         /// <summary>
         /// Получение сущности любого типа по предикату
@@ -68,6 +72,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return Result.Success(entity);
         }
         #endregion
+
         #region сущности типа репозитория
         /// <summary>
         /// Получение сущности типа репозитория по предикату
@@ -93,6 +98,97 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         #endregion
         #endregion
 
+        #region Получение списка
+        #region Любого типа
+        /// <summary>
+        /// Получение сущностей любого типа в количестве <paramref name="count"/> начиная от <paramref name="startIndex"/> 
+        /// </summary>
+        protected async Task<Result<List<TBaseEntity>>> GetFromDBWhereAsync<TBaseEntity>(
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken) where TBaseEntity : BaseEntity
+        {
+            if (count < 1) return Result.Failure<List<TBaseEntity>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<TBaseEntity>>(PersistenceErrors.IncorrectStartIndex);
+
+            var result = await _dbContext
+                .Set<TBaseEntity>()
+                .AsNoTracking()
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
+        }
+        /// <summary>
+        /// Получение сущностей любого типа в количестве <paramref name="count"/> начиная от <paramref name="startIndex"/> по предикату <paramref name="predicate"/>
+        /// </summary>
+        protected async Task<Result<List<TBaseEntity>>> GetFromDBWhereAsync<TBaseEntity>(
+            int startIndex,
+            int count,
+            Expression<Func<TBaseEntity, bool>> predicate,
+            CancellationToken cancellationToken) where TBaseEntity : BaseEntity
+        {
+            if (count < 1) return Result.Failure<List<TBaseEntity>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<TBaseEntity>>(PersistenceErrors.IncorrectStartIndex);
+
+            var result = await _dbContext
+                .Set<TBaseEntity>()
+                .AsNoTracking()
+                .Where(predicate)
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
+        }
+        #endregion
+
+        #region типа репозитория
+        /// <summary>
+        /// Получение сущностей в количестве <paramref name="count"/> начиная от <paramref name="startIndex"/> 
+        /// </summary>
+        protected async Task<Result<List<T>>> GetFromDBWhereAsync(
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
+
+            var result = await _dbSet
+                .AsNoTracking()
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
+        }
+        /// <summary>
+        /// Получение сущностей в количестве <paramref name="count"/> начиная от <paramref name="startIndex"/> по предикату <paramref name="predicate"/>
+        /// </summary>
+        protected async Task<Result<List<T>>> GetFromDBWhereAsync(
+            int startIndex,
+            int count,
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken)
+        {
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
+
+            var result = await _dbSet
+                .AsNoTracking()
+                .Where(predicate)
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
+        }
+        #endregion
+        #endregion
+        #endregion
+
         protected readonly AppDbContext _dbContext;
         protected readonly DbSet<T> _dbSet;
 
@@ -106,6 +202,7 @@ namespace StudyTaskManager.Persistence.Repository.Generic
         protected abstract Task<Result> VerificationBeforeUpdateAsync(T entity, CancellationToken cancellationToken);
         protected abstract Task<Result> VerificationBeforeRemoveAsync(T entity, CancellationToken cancellationToken);
 
+        #region Добавление изменение удаление реализация
         public virtual async Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             Result result = await VerificationBeforeAddingAsync(entity, cancellationToken);
@@ -134,6 +231,8 @@ namespace StudyTaskManager.Persistence.Repository.Generic
 
             return await RemoveWithoutVerificationAsync(entity, cancellationToken);
         }
+        #endregion
+
         protected async Task<Result> RemoveWithoutVerificationAsync(T entity, CancellationToken cancellationToken)
         {
             _dbSet.Remove(entity);
@@ -141,9 +240,19 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return Result.Success();
         }
 
-        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
+        #region GetAllAsync реализация
+        public async Task<Result<List<T>>> GetAllAsync(
+            CancellationToken cancellationToken = default)
         {
             return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+        }
+
+        public async Task<Result<List<T>>> GetAllAsync(
+            int startIndex,
+            int count,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBWhereAsync(startIndex, count, cancellationToken);
         }
 
         public async Task<Result<List<T>>> GetAllAsync(
@@ -153,18 +262,14 @@ namespace StudyTaskManager.Persistence.Repository.Generic
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken); ;
         }
 
-        public async Task<Result<List<T>>> TakeAsync(int startIndex, int count, Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(
+            int startIndex,
+            int count,
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken = default)
         {
-            if (count < 1) return Result.Failure<List<T>>(new Error(
-                nameof(TakeAsync) + "." + nameof(count),
-                "Значение параметра не может быть меньше единицы."));
-            if (startIndex < 0) return Result.Failure<List<T>>(new Error(
-                nameof(TakeAsync) + "." + nameof(startIndex),
-                "Значение параметра не может быть меньше нуля."));
-
-            if (predicate == null) return await _dbSet.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(cancellationToken);
-
-            return await _dbSet.AsNoTracking().Where(predicate).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
+            return await GetFromDBWhereAsync(startIndex, count, predicate, cancellationToken);
         }
+        #endregion
     }
 }

@@ -10,6 +10,7 @@ namespace StudyTaskManager.Persistence.Repository
     {
         public GroupChatMessageRepository(AppDbContext dbContext) : base(dbContext) { }
 
+        #region verification
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupChatMessage entity, CancellationToken cancellationToken)
         {
             Result<User> sender = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
@@ -63,6 +64,7 @@ namespace StudyTaskManager.Persistence.Repository
                 , cancellationToken);
             return res;
         }
+        #endregion
 
         public async Task<Result<GroupChatMessage>> GetMessageAsync(Guid groupChatId, ulong ordinal, CancellationToken cancellationToken)
         {
@@ -84,8 +86,23 @@ namespace StudyTaskManager.Persistence.Repository
             if (groupChat.IsFailure) return Result.Failure<List<GroupChatMessage>>(groupChat);
 
             return await GetAllAsync(
-                x =>
-                    x.GroupChatId == groupChatId,
+                x => x.GroupChatId == groupChatId,
+                cancellationToken);
+        }
+        public async Task<Result<List<GroupChatMessage>>> GetMessagesByGroupChatIdAsync(
+            int startIndex, int count, Guid groupChatId, CancellationToken cancellationToken)
+        {
+            var groupChat = await GetFromDBAsync<GroupChat>(
+                groupChatId,
+                PersistenceErrors.GroupChat.IdEmpty,
+                PersistenceErrors.GroupChat.NotFound,
+                cancellationToken);
+            if (groupChat.IsFailure) return Result.Failure<List<GroupChatMessage>>(groupChat);
+
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gcm => gcm.GroupChatId == groupChatId,
                 cancellationToken);
         }
 
@@ -98,8 +115,22 @@ namespace StudyTaskManager.Persistence.Repository
             if (sender.IsFailure) return Result.Failure<List<GroupChatMessage>>(sender);
 
             return await GetAllAsync(
-                x =>
-                    x.SenderId == senderId,
+                x => x.SenderId == senderId,
+                cancellationToken);
+        }
+        public async Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(
+            int startIndex, int count, Guid senderId, CancellationToken cancellationToken)
+        {
+            var sender = await GetFromDBAsync<GroupChat>(senderId,
+                PersistenceErrors.User.IdEmpty,
+                PersistenceErrors.User.NotFound,
+                cancellationToken);
+            if (sender.IsFailure) return Result.Failure<List<GroupChatMessage>>(sender);
+
+            return await GetFromDBWhereAsync(
+                startIndex,
+                count,
+                gcm => gcm.SenderId == senderId,
                 cancellationToken);
         }
     }
