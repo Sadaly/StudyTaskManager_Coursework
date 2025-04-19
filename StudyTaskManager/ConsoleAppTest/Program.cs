@@ -35,7 +35,7 @@ namespace ConsoleAppTest
         private static async Task Test(AppDbContext db)
         {
             var rep = new UserRepository(db);
-            var users = await rep.GetAllAsync(0, 4);
+            var users = await rep.GetAllAsync(2, 2);
 
             if (users.IsFailure)
             {

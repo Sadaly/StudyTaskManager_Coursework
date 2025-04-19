@@ -4,4 +4,4 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGe
 
 public sealed record UserInGroupGetByUserAndGroupIdsQuery(
     Guid UserId, 
-    Guid GroupId) : IQuery<UserInGroupResponse>;
+    Guid GroupId) : IQuery<UserInGroupGetByUserAndGroupIdsResponse>;
