@@ -10,5 +10,10 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// Получить все задачи группы.
         /// </summary>
         Task<Result<List<GroupTask>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получить часть задач группы.
+        /// </summary>
+        Task<Result<List<GroupTask>>> GetByGroupAsync(int startIndex, int count, Group group, CancellationToken cancellationToken = default);
     }
 }

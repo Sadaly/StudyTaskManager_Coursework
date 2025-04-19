@@ -9,15 +9,15 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
     public interface IRepositoryWithID<T> : IRepository<T> where T : Common.BaseEntityWithID
     {
         /// <summary>
-        /// Возвращает объект по id.
+        /// Возвращает объект по Id.
         /// </summary>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
         Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Удаление экземпляра.
+        /// Удаление экземпляра по Id.
         /// </summary>
-        /// <param name="entity">Ссылка на entity.</param>
+        /// <param name="entityId">Id сущности.</param>
         Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default);
     }
 }

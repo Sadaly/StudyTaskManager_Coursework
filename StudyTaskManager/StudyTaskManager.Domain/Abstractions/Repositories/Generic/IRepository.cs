@@ -41,25 +41,16 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories.Generic
         Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Метод возвращающий часть данных из БД по указанному предикату (сначала выполняется условие, а затем берутся элементы)
+        /// Метод возвращающий часть данных из БД по указанному предикату (сначала выполняется условие, а затем берутся элементы).
         /// </summary>
-        /// <param name="predicate">Условия для списка</param>
-        /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0</param>
-        /// <param name="count">Количество взятых значений</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Возвращает часть списка удовлетворяющий условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей</returns>
+        /// <param name="predicate">Условия для списка.</param>
+        /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
+        /// <param name="count">Количество взятых значений.</param>
+        /// <returns>Возвращает часть списка удовлетворяющий условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
         public Task<Result<List<T>>> TakeAsync(
             int startIndex,
             int count,
             Expression<Func<T, bool>>? predicate = null,
             CancellationToken cancellationToken = default);
-
-        ///// <summary>
-        ///// Возвращает какое-то кол-во элементов после того как пропустил какое-то кол-во элементов
-        ///// </summary>
-        ///// <param name="skip">количество пропущенных элементов</param>
-        ///// <param name="take">количество элементов, которые он возьмет и вернет</param>
-        //// что-то типо пагинации, полезность под вопросом, если нужно сделаю
-        //public Task<List<T>> Get(int skip, int take, CancellationToken cancellationToken = default);
     }
 }

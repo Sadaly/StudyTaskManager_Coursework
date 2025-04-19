@@ -89,9 +89,9 @@ namespace StudyTaskManager.Persistence.Repository
                 cancellationToken);
         }
 
-        public async Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(Guid SenderId, CancellationToken cancellationToken)
+        public async Task<Result<List<GroupChatMessage>>> GetMessagesBySenderIdAsync(Guid senderId, CancellationToken cancellationToken)
         {
-            var sender = await GetFromDBAsync<GroupChat>(SenderId,
+            var sender = await GetFromDBAsync<GroupChat>(senderId,
                 PersistenceErrors.User.IdEmpty,
                 PersistenceErrors.User.NotFound,
                 cancellationToken);
@@ -99,7 +99,7 @@ namespace StudyTaskManager.Persistence.Repository
 
             return await GetAllAsync(
                 x =>
-                    x.SenderId == SenderId,
+                    x.SenderId == senderId,
                 cancellationToken);
         }
     }
