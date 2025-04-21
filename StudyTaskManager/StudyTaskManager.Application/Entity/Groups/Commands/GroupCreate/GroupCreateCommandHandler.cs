@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate
 {
-    class GroupCreateCommandHandler : ICommandHandler<GroupCreateCommand, Guid>
+    public class GroupCreateCommandHandler : ICommandHandler<GroupCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGroupRepository _groupRepository;

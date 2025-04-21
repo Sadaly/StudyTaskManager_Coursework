@@ -1,12 +1,8 @@
-﻿using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
-using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate;
+﻿using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleCreate;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleDelete;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdatePrivileges;
 using StudyTaskManager.Application.Entity.SystemRoles.Commands.SystemRoleUpdateTitle;
-using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
-using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 using StudyTaskManager.Domain.Abstractions;
-using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;

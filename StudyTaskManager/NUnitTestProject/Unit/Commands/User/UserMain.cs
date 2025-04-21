@@ -4,7 +4,6 @@ using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
-using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
 using NUnitTestProject.Unit.Commands.SystemRole;
 
