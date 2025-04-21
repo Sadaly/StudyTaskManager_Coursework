@@ -13,16 +13,8 @@ using StudyTaskManager.Persistence.Repository;
 
 namespace NUnitTestProject.Unit.Commands.SystemRole
 {
-    class SystemRoleMain
+    partial class SystemRoleMain
     {
-        class UnitOfWorkStub : IUnitOfWork
-        {
-            public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-            {
-                return Task.CompletedTask;
-            }
-        }
-
         readonly IUnitOfWork unitOfWorkStub = new UnitOfWorkStub();
 
         AppDbContext appDbContext;

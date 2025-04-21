@@ -6,19 +6,12 @@ using StudyTaskManager.Persistence;
 using StudyTaskManager.Persistence.Repository;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Application.Entity.Users.Commands.UserDelete;
+using NUnitTestProject.Unit.Commands.SystemRole;
 
 namespace NUnitTestProject.Unit.Commands.Users
 {
     class UserMain
     {
-        class UnitOfWorkStub : IUnitOfWork
-        {
-            public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-            {
-                return Task.CompletedTask;
-            }
-        }
-
         readonly IUnitOfWork unitOfWorkStub = new UnitOfWorkStub();
         AppDbContext appDbContext;
         Guid NewId = Guid.Empty;
