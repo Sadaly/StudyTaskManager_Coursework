@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGetByUserAndGroupIds;
 
-public sealed record UserInGroupGetByUserAndGroupIdsResponse(UserInGroup UserInGroup);
+public sealed record UserInGroupGetByUserAndGroupIdsResponse(Guid RoleId, DateTime DateEntered);

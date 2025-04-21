@@ -18,7 +18,7 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGe
             var userInGroup = await _userInGroupRepository.GetByUserAndGroupAsync(request.UserId, request.GroupId, cancellationToken);
             if (userInGroup.IsFailure) return Result.Failure<UserInGroupGetByUserAndGroupIdsResponse>(userInGroup);
 
-            return Result.Success(new UserInGroupGetByUserAndGroupIdsResponse(userInGroup.Value));
+            return Result.Success(new UserInGroupGetByUserAndGroupIdsResponse(userInGroup.Value.RoleId, userInGroup.Value.DateEntered));
         }
     }
 }

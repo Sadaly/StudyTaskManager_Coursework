@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsGetByUserId
 {
-    class UserInGroupsGetByUserIdQueryHandler : IQueryHandler<UserInGroupsGetByUserIdQuery, List<UserInGroupsGetByUserIdResponseElements>>
+    public class UserInGroupsGetByUserIdQueryHandler : IQueryHandler<UserInGroupsGetByUserIdQuery, List<UserInGroupsGetByUserIdResponseElements>>
     {
         private readonly IUserInGroupRepository _userInGroupRepository;
         private readonly IUserRepository _userRepository;
@@ -17,7 +17,7 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsG
 
         public async Task<Result<List<UserInGroupsGetByUserIdResponseElements>>> Handle(UserInGroupsGetByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user.IsFailure) return Result.Failure<List<UserInGroupsGetByUserIdResponseElements>>(user);
 
             var listUIG = await _userInGroupRepository.GetByUserAsync(request.StartIndex, request.Count, user.Value, cancellationToken);

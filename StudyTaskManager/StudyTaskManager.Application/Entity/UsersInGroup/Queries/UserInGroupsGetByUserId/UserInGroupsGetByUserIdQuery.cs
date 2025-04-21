@@ -3,6 +3,6 @@
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsGetByUserId;
 
 public sealed record UserInGroupsGetByUserIdQuery(
-    Guid Id,
+    Guid UserId,
     int StartIndex,
     int Count) : IQuery<List<UserInGroupsGetByUserIdResponseElements>>;
