@@ -18,9 +18,11 @@ namespace ConsoleAppTest
             {
                 await Diagnostic(db);
 
-                Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- ");
+                //Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- ");
 
-                await Test(db);
+                //await Test(db);
+
+                await Run(db);
             }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
@@ -54,10 +56,8 @@ namespace ConsoleAppTest
         {
             await PrintListAll.Users(db);
             //await PrintListAll.SystemRoles(db);
-            //await PrintListAll.PersonalChats(db);
-            //await PrintListAll.PersonatMessages(db);
-
-            //await Run(db);
+            await PrintListAll.PersonalChats(db);
+            await PrintListAll.PersonatMessages(db);
         }
 
         private static async Task Run(AppDbContext db)
@@ -65,9 +65,8 @@ namespace ConsoleAppTest
             (Func<AppDbContext, Task> Function, string Description)[] menuItems =
             [
                 (CreateAndAddUser, "Создать и добавить пользователя"),
-                (PrintListAll.Users, "Вывести список всех пользователей"),
                 (DeleteUser, "Удалить пользователя"),
-                (PrintListAll.SystemRoles, "Вывести список всех системных ролей"),
+                (DeletePersonalChat, "Удалить PersonalChat"),
             ];
             void Print()
             {
@@ -130,6 +129,35 @@ namespace ConsoleAppTest
             await userRep.RemoveAsync(userToDelete);
             await db.SaveChangesAsync();
             Console.WriteLine("Пользователь успешно удален.");
+
+        }
+        private static async Task DeletePersonalChat(AppDbContext db)
+        {
+            var personalChats = await db.PersonalChats.ToListAsync();
+
+            if (personalChats.Count == 0)
+            {
+                Console.WriteLine("Нет personalChat для удаления.");
+                return;
+            }
+            Console.WriteLine("Выберите personalChat для удаления:");
+            for (int i = 0; i < personalChats.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {personalChats[i].Id}");
+            }
+            Console.WriteLine("0. Отмена");
+            if (!int.TryParse(Console.ReadLine(), out int personalChatChoice) || personalChatChoice < 0 || personalChatChoice > personalChats.Count)
+            {
+                Console.WriteLine("Неверный выбор.");
+                return;
+            }
+            if (personalChatChoice == 0) return;
+            var personalChatToDelete = personalChats[personalChatChoice - 1];
+            PersonalCharRepository repository = new(db);
+
+            await repository.RemoveAsync(personalChatToDelete);
+            await db.SaveChangesAsync();
+            Console.WriteLine("PersonalChat успешно удален.");
 
         }
 

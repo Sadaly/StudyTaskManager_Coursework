@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete
 {
-    class PersonalChatDeleteCommandHandler : ICommandHandler<PersonalChatDeleteCommand>
+    public class PersonalChatDeleteCommandHandler : ICommandHandler<PersonalChatDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPersonalChatRepository _personalChatRepository;
@@ -19,7 +19,7 @@ namespace StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalCha
 
         public async Task<Result> Handle(PersonalChatDeleteCommand request, CancellationToken cancellationToken)
         {
-            var remove = await _personalChatRepository.GetByIdAsync(request.Id, cancellationToken);
+            var remove = await _personalChatRepository.RemoveAsync(request.Id, cancellationToken);
             if (remove.IsFailure) return remove;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
