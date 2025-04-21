@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
 using StudyTaskManager.Domain.Entity.User;
@@ -10,6 +11,18 @@ namespace StudyTaskManager.Persistence.Repository
     public class GroupInviteRepository : Generic.TRepository<GroupInvite>, IGroupInviteRepository
     {
         public GroupInviteRepository(AppDbContext dbContext) : base(dbContext) { }
+
+
+        public async Task<Result<GroupInvite>> GetByUserAndGropu(User reseiver, Group group, CancellationToken cancellationToken = default)
+        {
+            return await GetFromDBAsync(
+                gi =>
+                    gi.ReceiverId == reseiver.Id &&
+                    gi.GroupId == group.Id
+                , PersistenceErrors.GroupInvite.NotFound
+                , cancellationToken);
+        }
+
 
         public async Task<Result<List<GroupInvite>>> GetByGroupAsync(Group group, CancellationToken cancellationToken = default)
         {
@@ -27,6 +40,7 @@ namespace StudyTaskManager.Persistence.Repository
                 cancellationToken);
         }
 
+
         public async Task<Result<List<GroupInvite>>> GetForUserAsync(User receiver, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<GroupInvite>()
@@ -42,6 +56,7 @@ namespace StudyTaskManager.Persistence.Repository
                 gi => gi.ReceiverId == receiver.Id,
                 cancellationToken);
         }
+
 
         public async Task<Result<List<GroupInvite>>> GetFromUserAsync(User sender, CancellationToken cancellationToken = default)
         {
@@ -59,6 +74,7 @@ namespace StudyTaskManager.Persistence.Repository
                 cancellationToken);
         }
 
+        #region verification
         protected override async Task<Result> VerificationBeforeAddingAsync(GroupInvite entity, CancellationToken cancellationToken)
         {
             var sender = await GetFromDBAsync<User>(entity.SenderId, PersistenceErrors.User.IdEmpty, PersistenceErrors.User.NotFound, cancellationToken);
@@ -130,5 +146,6 @@ namespace StudyTaskManager.Persistence.Repository
                 , cancellationToken);
             return groupInvite;
         }
+        #endregion
     }
 }

@@ -7,6 +7,14 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
     public interface IGroupInviteRepository : Generic.IRepository<GroupInvite>
     {
         /// <summary>
+        /// Получения приглашения по пользователю(получателю) и группе.
+        /// </summary>
+        /// <param name="reseiver">Получатель приглашения</param>
+        /// <param name="group">Группа, куда приглашают</param>
+        Task<Result<GroupInvite>> GetByUserAndGropu(User reseiver, Group group, CancellationToken cancellationToken = default);
+
+
+        /// <summary>
         /// Получить все приглашения для пользователя.
         /// </summary>
         /// <param name="receiver">Пользователь, которого приглашают в группу.</param>
@@ -20,7 +28,6 @@ namespace StudyTaskManager.Domain.Abstractions.Repositories
         /// <param name="receiver">Пользователь, которого приглашают.</param>
         /// <returns>Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
         Task<Result<List<GroupInvite>>> GetForUserAsync(int startIndex, int count, User receiver, CancellationToken cancellationToken = default);
-
 
 
         /// <summary>
