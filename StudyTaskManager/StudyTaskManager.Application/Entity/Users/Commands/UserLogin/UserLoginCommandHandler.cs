@@ -10,11 +10,13 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
     internal sealed class UserLoginCommandHandler : ICommandHandler<UserLoginCommand, string>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IBlockedUserInfoRepository _blockedUserInfoRepository;
         private readonly IJwtProvider _jwtProvider;
 
-        public UserLoginCommandHandler(IUserRepository userRepository, IJwtProvider jwtProvider)
+        public UserLoginCommandHandler(IUserRepository userRepository, IBlockedUserInfoRepository blockedUserInfoRepository, IJwtProvider jwtProvider)
         {
             _userRepository = userRepository;
+            _blockedUserInfoRepository = blockedUserInfoRepository;
             _jwtProvider = jwtProvider;
         }
 
@@ -31,6 +33,9 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
 
             var user = await _userRepository.GetByEmailAsync(email.Value, cancellationToken);
             if (user.IsFailure) return Result.Failure<string>(email.Error);
+
+            var blockedUserInfo = await _blockedUserInfoRepository.GetByUser(user.Value, cancellationToken);
+            if (blockedUserInfo.IsSuccess) return Result.Failure<string>(CommandErrors.UserBlocked);
 
             if (user.Value.PasswordHash.Value != passwordHash.Value.Value)
             {

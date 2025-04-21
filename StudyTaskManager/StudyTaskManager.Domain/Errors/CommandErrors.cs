@@ -16,5 +16,9 @@ namespace StudyTaskManager.Domain.Errors
         public static readonly Error DeleteFromAnotherGroup = new(
             "CommandErrors.DeleteFromAnotherGroup",
             "Попытка удаления из другой группы");
+
+        public static readonly Error UserBlocked = new(
+            "CommandErrors.UserBlocked",
+            "Пользователь заблокирован");
     }
 }
