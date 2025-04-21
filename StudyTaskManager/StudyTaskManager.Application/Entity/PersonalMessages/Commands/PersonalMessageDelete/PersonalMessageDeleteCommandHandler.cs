@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.Shared;
 namespace StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageDelete
 
 {
-    class PersonalMessageDeleteCommandHandler : ICommandHandler<PersonalMessageDeleteCommand>
+    public class PersonalMessageDeleteCommandHandler : ICommandHandler<PersonalMessageDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPresonalMessageRepository _presonalMessageRepository;

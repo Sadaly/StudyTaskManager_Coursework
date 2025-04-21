@@ -22,13 +22,13 @@ namespace ConsoleAppTest
 
                 //await Test(db);
 
-                await Run(db);
+                //await Run(db);
             }
 
             DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
 
             Console.CursorVisible = false;
-            await Task.Delay(500);
+            //await Task.Delay(500);
             if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.C) Console.Clear();
             Console.SetCursorPosition(0, 0);
             await Main(args);
@@ -55,11 +55,10 @@ namespace ConsoleAppTest
         private static async Task Diagnostic(AppDbContext db)
         {
             await PrintListAll.Users(db);
-            //await PrintListAll.SystemRoles(db);
+            await PrintListAll.SystemRoles(db);
             await PrintListAll.PersonalChats(db);
             await PrintListAll.PersonatMessages(db);
         }
-
         private static async Task Run(AppDbContext db)
         {
             (Func<AppDbContext, Task> Function, string Description)[] menuItems =
@@ -67,6 +66,7 @@ namespace ConsoleAppTest
                 (CreateAndAddUser, "Создать и добавить пользователя"),
                 (DeleteUser, "Удалить пользователя"),
                 (DeletePersonalChat, "Удалить PersonalChat"),
+                (ClearAllTables, "Польностью очищает таблицу"),
             ];
             void Print()
             {
@@ -102,6 +102,7 @@ namespace ConsoleAppTest
             }
         }
 
+        #region  work with DB
         private static async Task DeleteUser(AppDbContext db)
         {
             var users = await db.Users.ToListAsync();
@@ -193,5 +194,34 @@ namespace ConsoleAppTest
 
             Console.WriteLine($"после:  {newUser.Value.Id} - {newUser.Value.Username.Value}");
         }
+
+        public static Task ClearAllTables(AppDbContext context)
+        {
+            // Отключаем проверку внешних ключей для текущей сессии
+            context.Database.ExecuteSqlRaw("SET session_replication_role = replica;");
+
+            try
+            {
+                // Получаем все таблицы из метаданных EF Core
+                var tableNames = context.Model.GetEntityTypes()
+                    .Select(t => t.GetTableName())
+                    .Where(t => t != null)
+                    .Distinct()
+                    .ToList();
+
+                // Для каждой таблицы выполняем TRUNCATE с CASCADE
+                foreach (var tableName in tableNames)
+                {
+                    context.Database.ExecuteSqlRaw($"TRUNCATE TABLE \"{tableName}\" CASCADE;");
+                }
+            }
+            finally
+            {
+                // Всегда восстанавливаем проверку внешних ключей
+                context.Database.ExecuteSqlRaw("SET session_replication_role = default;");
+            }
+            return Task.CompletedTask;
+        }
+        #endregion
     }
 }

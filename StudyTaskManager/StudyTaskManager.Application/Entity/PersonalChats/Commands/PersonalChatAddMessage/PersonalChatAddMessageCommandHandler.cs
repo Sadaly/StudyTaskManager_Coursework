@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage
 {
-    class PersonalChatAddMessageCommandHandler : ICommandHandler<PersonalChatAddMessageCommand, Guid>
+    public class PersonalChatAddMessageCommandHandler : ICommandHandler<PersonalChatAddMessageCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
