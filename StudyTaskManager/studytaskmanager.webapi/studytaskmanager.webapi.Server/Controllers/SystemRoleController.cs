@@ -56,7 +56,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var query = new SystemRoleGetByIdQuery(systemRoleId);
 
-            Result<SystemRoleResponse> response = await Sender.Send(query, cancellationToken);
+            var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
