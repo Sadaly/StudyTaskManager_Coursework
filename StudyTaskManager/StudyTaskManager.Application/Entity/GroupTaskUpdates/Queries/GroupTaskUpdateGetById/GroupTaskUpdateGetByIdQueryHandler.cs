@@ -7,6 +7,12 @@ namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Queries.GroupTask
     public class GroupTaskUpdateGetByIdQueryHandler : IQueryHandler<GroupTaskUpdateGetByIdQuery, GroupTaskUpdateGetByIdResponse>
     {
         private readonly IGroupTaskUpdateRepository _groupTaskUpdateRepository;
+
+        public GroupTaskUpdateGetByIdQueryHandler(IGroupTaskUpdateRepository groupTaskUpdateRepository)
+        {
+            _groupTaskUpdateRepository = groupTaskUpdateRepository;
+        }
+
         public async Task<Result<GroupTaskUpdateGetByIdResponse>> Handle(GroupTaskUpdateGetByIdQuery request, CancellationToken cancellationToken)
         {
             var update = await _groupTaskUpdateRepository.GetByIdAsync(request.Id, cancellationToken);

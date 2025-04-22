@@ -40,7 +40,6 @@
     <Folder Include="Entity\Groups\Events\" />
     <Folder Include="Entity\GroupTaskUpdates\Events\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusCreate\" />
-    <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusDelete\" />
     <Folder Include="Entity\GroupTaskStatuses\Events\" />
     <Folder Include="Entity\GroupRoles\Events\" />
     <Folder Include="Entity\BlockedUserInfos\Events\" />

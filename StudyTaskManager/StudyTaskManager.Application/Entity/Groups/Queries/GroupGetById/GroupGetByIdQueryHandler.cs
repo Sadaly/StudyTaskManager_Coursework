@@ -8,6 +8,11 @@ namespace StudyTaskManager.Application.Entity.Groups.Queries.GroupGetById
     {
         private readonly IGroupRepository _groupRepository;
 
+        public GroupGetByIdQueryHandler(IGroupRepository groupRepository)
+        {
+            _groupRepository = groupRepository;
+        }
+
         public async Task<Result<GroupGetByIdResponse>> Handle(GroupGetByIdQuery request, CancellationToken cancellationToken)
         {
             var group = await _groupRepository.GetByIdAsync(request.Id, cancellationToken);
