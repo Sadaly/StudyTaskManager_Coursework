@@ -65,11 +65,14 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         [Authorize]
         [HttpGet()]
-        public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllUsers(
+            [FromBody] int StartIndex,
+            [FromBody] int Count,
+            CancellationToken cancellationToken)
         {
-            var query = new GetAllUsersQuery();
+            var query = new GetAllUsersQuery(StartIndex, Count);
 
-            Result<UserListResponse> response = await Sender.Send(query, cancellationToken);
+            var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }

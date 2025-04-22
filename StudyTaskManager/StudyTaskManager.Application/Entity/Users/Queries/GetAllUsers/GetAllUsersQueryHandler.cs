@@ -1,11 +1,11 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Application.Entity.Users.Queries.GetAllUsers;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
 {
-    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, UserListResponse>
+    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, List<GetAllUsersResponseElements>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -14,13 +14,14 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserListResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<GetAllUsersResponseElements>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var usersResult = await _userRepository.GetAllAsync(cancellationToken);
+            var users = await _userRepository.GetAllAsync(request.StartIndex, request.Count, cancellationToken);
+            if (users.IsFailure) return Result.Failure<List<GetAllUsersResponseElements>>(users.Error);
 
-            if (usersResult.IsFailure) return Result.Failure<UserListResponse>(usersResult.Error);
+            var listRes = users.Value.Select(u => new GetAllUsersResponseElements(u)).ToList();
 
-            return new UserListResponse(usersResult.Value);
+            return Result.Success(listRes);
         }
     }
 }
