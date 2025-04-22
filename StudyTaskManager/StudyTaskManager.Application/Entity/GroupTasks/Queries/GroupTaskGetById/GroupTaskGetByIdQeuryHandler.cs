@@ -1,11 +1,10 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.Group.Task;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetById
 {
-    class GroupTaskGetByIdQeuryHandler : IQueryHandler<GroupTaskGetByIdQeury, GroupTask>
+    class GroupTaskGetByIdQeuryHandler : IQueryHandler<GroupTaskGetByIdQeury, GroupTaskGetByIdResponse>
     {
         private readonly IGroupTaskRepository _groupTaskRepository;
 
@@ -14,9 +13,12 @@ namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetByI
             _groupTaskRepository = groupTaskRepository;
         }
 
-        public async Task<Result<GroupTask>> Handle(GroupTaskGetByIdQeury request, CancellationToken cancellationToken)
+        public async Task<Result<GroupTaskGetByIdResponse>> Handle(GroupTaskGetByIdQeury request, CancellationToken cancellationToken)
         {
-            return await _groupTaskRepository.GetByIdAsync(request.Id, cancellationToken);
+            var task = await _groupTaskRepository.GetByIdAsync(request.Id, cancellationToken);
+            if (task.IsFailure) return Result.Failure<GroupTaskGetByIdResponse>(task);
+
+            return new GroupTaskGetByIdResponse(task.Value);
         }
     }
 }
