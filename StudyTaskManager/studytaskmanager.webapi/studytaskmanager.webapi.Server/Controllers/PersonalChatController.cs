@@ -4,7 +4,7 @@ using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAdd
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
-using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser;
+using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
