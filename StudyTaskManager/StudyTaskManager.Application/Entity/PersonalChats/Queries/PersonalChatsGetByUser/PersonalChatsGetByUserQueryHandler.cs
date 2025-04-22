@@ -1,10 +1,8 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser
+namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser
 {
     class PersonalChatsGetByUserQueryHandler : ICommandHandler<PersonalChatsGetByUserQuery, List<PersonalChatsGetByUserResponseElements>>
     {

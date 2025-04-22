@@ -1,7 +1,6 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
 
-namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetByUser;
+namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
 
 public sealed record PersonalChatsGetByUserQuery(
     Guid UserId) : ICommand<List<PersonalChatsGetByUserResponseElements>>;
