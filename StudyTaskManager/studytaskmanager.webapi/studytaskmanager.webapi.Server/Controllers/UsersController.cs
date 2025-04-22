@@ -58,7 +58,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var query = new UserGetByIdQuery(id);
 
-            Result<UserResponse> response = await Sender.Send(query, cancellationToken);
+            var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
