@@ -1,11 +1,10 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.User.Chat;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById
 {
-    class PersonalChatGetByIdQueryHandler : IQueryHandler<PersonalChatGetByIdQuery, PersonalChatResponse>
+    class PersonalChatGetByIdQueryHandler : IQueryHandler<PersonalChatGetByIdQuery, PersonalChatGetByIdResponse>
     {
         private readonly IPersonalChatRepository _personalChatRepository;
 
@@ -14,11 +13,12 @@ namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChat
             _personalChatRepository = personalChatRepository;
         }
 
-        public async Task<Result<PersonalChatResponse>> Handle(PersonalChatGetByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PersonalChatGetByIdResponse>> Handle(PersonalChatGetByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await _personalChatRepository.GetByIdAsync(request.IdPersonalChat, cancellationToken);
-            if (result.IsFailure) return Result.Failure<PersonalChatResponse>(result);
-            return new PersonalChatResponse(result.Value);
+            if (result.IsFailure) return Result.Failure<PersonalChatGetByIdResponse>(result);
+
+            return new PersonalChatGetByIdResponse(result.Value);
         }
     }
 }
