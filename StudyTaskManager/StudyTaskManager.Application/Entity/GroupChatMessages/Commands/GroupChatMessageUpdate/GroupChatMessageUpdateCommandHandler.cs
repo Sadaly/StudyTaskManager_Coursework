@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageUpdate
 {
-	public class GroupChatMessageUpdateCommandHandler : ICommandHandler<GroupChatMessageUpdateCommand, (Guid, ulong)>
+    internal sealed class GroupChatMessageUpdateCommandHandler : ICommandHandler<GroupChatMessageUpdateCommand, (Guid, ulong)>
 	{
 		private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 		private readonly IUnitOfWork _unitOfWork;
