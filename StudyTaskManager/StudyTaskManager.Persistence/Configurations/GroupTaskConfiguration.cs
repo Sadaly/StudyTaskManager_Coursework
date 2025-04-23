@@ -31,31 +31,27 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasForeignKey(gt => gt.StatusId)
                 .IsRequired(false);
 
-            builder.OwnsOne(gt => gt.HeadLine, headLine =>
-            {
-                headLine
-                    .Property(v => v.Value)
-                    .HasConversion(
-                        v => v,
-                        str => Title.Create(str).Value.Value)
-                    .HasMaxLength(Title.MAX_LENGTH)
-                    .HasColumnName(TableNames.GroupTaskTable.HeadLine);
-            });
-
-            builder.OwnsOne(gt => gt.Description, description =>
-            {
-                description
-                .Property(v => v.Value)
+            builder
+                .Property(gt => gt.HeadLine)
                 .HasConversion(
-                    v => v,
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupTaskTable.HeadLine);
+            builder
+                .Property(gt => gt.Description)
+                .HasConversion(
+                    c =>
+                        c == null ?
+                            null :
+                            c.Value,
                     str =>
                         string.IsNullOrEmpty(str) ?
-                            "" :
-                            Content.Create(str).Value.Value)
+                            null :
+                            Content.Create(str).Value)
                 .HasMaxLength(Content.MAX_LENGTH)
                 .IsRequired(false)
                 .HasColumnName(TableNames.GroupTaskTable.Description);
-            });
         }
     }
 }

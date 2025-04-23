@@ -23,16 +23,13 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey(pm => pm.SenderId);
 
-            builder.OwnsOne(pm => pm.Content, content =>
-            {
-                content
-                    .Property(v => v.Value)
-                    .HasConversion(
-                        v => v,
-                        str => Content.Create(str).Value.Value)
-                    .HasMaxLength(Content.MAX_LENGTH)
-                    .HasColumnName(TableNames.PersonalMessageTable.Content);
-            });
+            builder
+                .Property(pm => pm.Content)
+                .HasConversion(
+                    c => c.Value,
+                    str => Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .HasColumnName(TableNames.PersonalMessageTable.Content);
         }
     }
 }

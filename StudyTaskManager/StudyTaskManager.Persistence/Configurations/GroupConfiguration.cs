@@ -25,31 +25,27 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasMany(g => g.GroupInvites)
                 .WithOne(gi => gi.Group);
 
-            builder.OwnsOne(g => g.Title, title =>
-            {
-                title
-                    .Property(v => v.Value)
-                    .HasConversion(
-                        v => v,
-                        str => Title.Create(str).Value.Value)
-                    .HasMaxLength(Title.MAX_LENGTH)
-                    .HasColumnName(TableNames.GroupTable.Title);
-            });
-
-            builder.OwnsOne(g => g.Description, description =>
-            {
-                description
-                    .Property(v => v.Value)
-                    .HasConversion(
-                        v => v,
-                        str =>
-                            string.IsNullOrEmpty(str) ?
-                                "" :
-                                Content.Create(str).Value.Value)
-                    .HasMaxLength(Content.MAX_LENGTH)
-                    .IsRequired(false)
-                    .HasColumnName(TableNames.GroupTable.Description);
-            });
+            builder
+                .Property(g => g.Title)
+                .HasConversion(
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupTable.Title);
+            builder
+                .Property(g => g.Description)
+                .HasConversion(
+                    c =>
+                        c == null ?
+                            null :
+                            c.Value,
+                    str =>
+                        string.IsNullOrEmpty(str) ?
+                            null :
+                            Content.Create(str).Value)
+                .HasMaxLength(Content.MAX_LENGTH)
+                .IsRequired(false)
+                .HasColumnName(TableNames.GroupTable.Description);
         }
     }
 }

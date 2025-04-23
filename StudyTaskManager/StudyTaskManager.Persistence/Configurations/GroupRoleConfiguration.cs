@@ -19,16 +19,13 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasForeignKey(gr => gr.GroupId)
                 .IsRequired(false); // GroupId может быть null
 
-            builder.OwnsOne(gr => gr.Title, title =>
-            {
-                title
-                    .Property(v => v.Value)
-                    .HasConversion(
-                        v => v,
-                        str => Title.Create(str).Value.Value)
-                    .HasMaxLength(Title.MAX_LENGTH)
-                    .HasColumnName(TableNames.GroupRoleTable.RoleName);
-            });
+            builder
+                .Property(g => g.Title)
+                .HasConversion(
+                    t => t.Value,
+                    str => Title.Create(str).Value)
+                .HasMaxLength(Title.MAX_LENGTH)
+                .HasColumnName(TableNames.GroupRoleTable.RoleName);
         }
     }
 }
