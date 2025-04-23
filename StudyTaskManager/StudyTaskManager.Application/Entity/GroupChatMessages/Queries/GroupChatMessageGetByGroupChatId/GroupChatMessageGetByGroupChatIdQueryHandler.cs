@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetByGroupChatId
 {
-	internal class GroupChatMessageGetByGroupChatIdQueryHandler : IQueryHandler<GroupChatMessageGetByGroupChatIdQuery, GroupChatMessageListResponse>
+	internal class GroupChatMessageGetByGroupChatIdQueryHandler : IQueryHandler<GroupChatMessageGetByGroupChatIdQuery, List<GroupChatMessageResponse>>
 	{
 		private readonly IGroupChatMessageRepository _gcm;
 
@@ -13,12 +13,14 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupCha
 			_gcm = gcm;
 		}
 
-		public async Task<Result<GroupChatMessageListResponse>> Handle(GroupChatMessageGetByGroupChatIdQuery request, CancellationToken cancellationToken)
+		public async Task<Result<List<GroupChatMessageResponse>>> Handle(GroupChatMessageGetByGroupChatIdQuery request, CancellationToken cancellationToken)
 		{
 			var gcmResult = await _gcm.GetMessagesByGroupChatIdAsync(request.GroupChatId, cancellationToken);
-			if (gcmResult.IsFailure) return Result.Failure<GroupChatMessageListResponse>(gcmResult);
+			if (gcmResult.IsFailure) return Result.Failure<List<GroupChatMessageResponse>>(gcmResult);
 
-            return new GroupChatMessageListResponse(gcmResult.Value);
+            var listRes = gcmResult.Value.Select(u => new GroupChatMessageResponse(u)).ToList();
+
+            return listRes;
 		}
 	}
 }
