@@ -1,6 +1,4 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups;
-using StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsGetByUserId;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
