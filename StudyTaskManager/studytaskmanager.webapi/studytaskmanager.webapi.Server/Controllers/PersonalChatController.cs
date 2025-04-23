@@ -45,7 +45,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid userId,
             CancellationToken cancellationToken)
         {
-            var query = new PersonalChatsGetByUserQuery(userId);
+            var query = new PersonalChatsGetAllByUserQuery(userId);
 
             var response = await Sender.Send(query, cancellationToken);
 
