@@ -71,6 +71,7 @@ namespace ConsoleAppTest
                 (DeleteUser, "Удалить пользователя"),
                 (DeletePersonalChat, "Удалить PersonalChat"),
                 (ClearAllTables, "Польностью очищает таблицу"),
+                (RecreateDatabase, "Удаляет и создает БД"),
                 (CreateDefaultEntity.AddAllDefaultEntities, "Добавляет базовые сущности"),
             ];
             void Print()
@@ -225,6 +226,16 @@ namespace ConsoleAppTest
                 // Всегда восстанавливаем проверку внешних ключей
                 context.Database.ExecuteSqlRaw("SET session_replication_role = default;");
             }
+            return Task.CompletedTask;
+        }
+        public static Task RecreateDatabase(AppDbContext context)
+        {
+            // Удаляем базу данных, если она существует
+            context.Database.EnsureDeleted();
+
+            // Создаём базу данных заново
+            context.Database.EnsureCreated();
+
             return Task.CompletedTask;
         }
         #endregion
