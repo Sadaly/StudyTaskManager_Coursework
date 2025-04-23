@@ -2,5 +2,5 @@
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
 
-public sealed record PersonalChatsGetByUserQuery(
+public sealed record PersonalChatsGetAllByUserQuery(
     Guid UserId) : ICommand<List<PersonalChatsResponse>>;

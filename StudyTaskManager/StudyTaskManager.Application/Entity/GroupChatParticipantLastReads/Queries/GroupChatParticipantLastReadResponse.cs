@@ -1,6 +1,14 @@
-﻿namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries
+﻿using StudyTaskManager.Domain.Entity.Group.Chat;
+
+namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries
 {
-    internal class GroupChatParticipantLastReadResponse
+    public sealed record GroupChatParticipantLastReadResponse(
+    Guid GroupChatId,
+    Guid UserId
+    )
     {
+        internal GroupChatParticipantLastReadResponse(GroupChatParticipant gcp)
+            : this(gcp.GroupChatId, gcp.UserId)
+        { }
     }
 }

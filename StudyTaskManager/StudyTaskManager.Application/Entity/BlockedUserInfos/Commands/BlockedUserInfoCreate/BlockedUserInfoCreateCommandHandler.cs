@@ -7,7 +7,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Commands.BlockedUserInfoCreate
 {
-    public class BlockedUserInfoCreateCommandHandler : ICommandHandler<BlockedUserInfoCreateCommand, Guid>
+    internal sealed class BlockedUserInfoCreateCommandHandler : ICommandHandler<BlockedUserInfoCreateCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;

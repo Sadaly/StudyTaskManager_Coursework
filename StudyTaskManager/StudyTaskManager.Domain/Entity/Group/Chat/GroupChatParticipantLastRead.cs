@@ -64,11 +64,11 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <param name="groupChat">Групповой чат, к которому относится прочитанное сообщение.</param>
         /// <param name="user">Пользователь, который прочитал сообщение.</param>
         /// <returns>Новая сущность GroupChatParticipantLastRead.</returns>
-        public static Result<GroupChatParticipantLastRead> Create(Guid groupChatId, GroupChatMessage readMessage, GroupChat groupChat, User.User user)
+        public static Result<GroupChatParticipantLastRead> Create(User.User user, GroupChat groupChat, GroupChatMessage readMessage)
         {
             var gcp = new GroupChatParticipantLastRead(
                 readMessage.Ordinal,
-                groupChatId,
+                groupChat.Id,
                 user.Id)
             {
                 GroupChat = groupChat,

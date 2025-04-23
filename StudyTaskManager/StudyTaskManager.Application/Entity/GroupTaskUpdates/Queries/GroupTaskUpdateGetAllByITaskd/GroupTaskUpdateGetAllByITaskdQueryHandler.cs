@@ -4,18 +4,18 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Queries.GroupTaskUpdateGetByITaskd
 {
-    public class GroupTaskUpdateGetByITaskdQueryHandler : IQueryHandler<GroupTaskUpdateGetByITaskdQuery, List<GroupTaskUpdateResponse>>
+    public class GroupTaskUpdateGetAllByITaskdQueryHandler : IQueryHandler<GroupTaskUpdateGetAllByITaskdQuery, List<GroupTaskUpdateResponse>>
     {
         private readonly IGroupTaskUpdateRepository _groupTaskUpdateRepository;
         private readonly IGroupTaskRepository _groupTaskRepository;
 
-        public GroupTaskUpdateGetByITaskdQueryHandler(IGroupTaskUpdateRepository groupTaskUpdateRepository, IGroupTaskRepository groupTaskRepository)
+        public GroupTaskUpdateGetAllByITaskdQueryHandler(IGroupTaskUpdateRepository groupTaskUpdateRepository, IGroupTaskRepository groupTaskRepository)
         {
             _groupTaskUpdateRepository = groupTaskUpdateRepository;
             _groupTaskRepository = groupTaskRepository;
         }
 
-        public async Task<Result<List<GroupTaskUpdateResponse>>> Handle(GroupTaskUpdateGetByITaskdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<GroupTaskUpdateResponse>>> Handle(GroupTaskUpdateGetAllByITaskdQuery request, CancellationToken cancellationToken)
         {
             var task = await _groupTaskRepository.GetByIdAsync(request.TaskId, cancellationToken);
             if (task.IsFailure) return Result.Failure<List<GroupTaskUpdateResponse>>(task);

@@ -6,7 +6,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageDelete
 {
-	public class GroupChatMessageDeleteCommandHandler : ICommandHandler<GroupChatMessageDeleteCommand>
+    internal sealed class GroupChatMessageDeleteCommandHandler : ICommandHandler<GroupChatMessageDeleteCommand>
 	{
 		private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 		private readonly IUnitOfWork _unitOfWork;

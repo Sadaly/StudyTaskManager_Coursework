@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Commands.BlockedUserInfoDelete
 {
-    public class BlockedUserInfoDeleteCommandHandler : ICommandHandler<BlockedUserInfoDeleteCommand>
+    internal sealed class BlockedUserInfoDeleteCommandHandler : ICommandHandler<BlockedUserInfoDeleteCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlockedUserInfoRepository _blockedUserInfoRepository;

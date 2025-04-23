@@ -25,7 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entity\GroupInvites\Queries\GroupInviteGetAllByRecieverId\" />
     <Folder Include="Entity\GroupRoles\Commands\GroupRoleUpdateTitle\" />
+    <Folder Include="Entity\GroupRoles\Queries\GroupRoleGetAllByGroupId\" />
+    <Folder Include="Entity\Groups\Queries\GroupTake\" />
+    <Folder Include="Entity\Groups\Queries\GroupGetAll\" />
+    <Folder Include="Entity\Groups\Queries\GroupGetAllByUserId\" />
+    <Folder Include="Entity\GroupTasks\Queries\GroupTaskGetAllByStatusId\" />
+    <Folder Include="Entity\PersonalChats\Queries\PersonalChatTake\" />
     <Folder Include="Entity\PersonalMessages\Events\" />
     <Folder Include="Entity\PersonalChats\Events\" />
     <Folder Include="Entity\GroupChatParticipantLastReads\Events\" />
@@ -35,6 +42,9 @@
     <Folder Include="Entity\GroupTasks\Commands\GroupTaskCreate\" />
     <Folder Include="Entity\GroupTasks\Events\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
+    <Folder Include="Entity\PersonalMessages\Queries\PersonalMessageGetAll\" />
+    <Folder Include="Entity\PersonalMessages\Queries\PersonalMessageTake\" />
+    <Folder Include="Entity\SystemRoles\Queries\SystemRoleGetAll\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Events\" />
     <Folder Include="Entity\Groups\Events\" />
