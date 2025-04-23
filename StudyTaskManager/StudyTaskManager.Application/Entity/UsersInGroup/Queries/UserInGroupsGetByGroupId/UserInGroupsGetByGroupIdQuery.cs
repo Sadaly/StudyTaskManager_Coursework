@@ -5,4 +5,4 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupsG
 public sealed record UserInGroupsGetByGroupIdQuery(
     Guid GroupId,
     int StartIndex,
-    int Count) : IQuery<List<UserInGroupsGetByGroupIdResponseElements>>;
+    int Count) : IQuery<List<UserInGroupsResponse>>;

@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGetByUserAndGroupIds
 {
-    internal sealed class UserInGroupGetByUserAndGroupIdsQueryHandler : IQueryHandler<UserInGroupGetByUserAndGroupIdsQuery, UserInGroupGetByUserAndGroupIdsResponse>
+    internal sealed class UserInGroupGetByUserAndGroupIdsQueryHandler : IQueryHandler<UserInGroupGetByUserAndGroupIdsQuery, UserInGroupsResponse>
     {
         private readonly IUserInGroupRepository _userInGroupRepository;
 
@@ -13,12 +13,16 @@ namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.UserInGroupGe
             _userInGroupRepository = userInGroupRepository;
         }
 
-        public async Task<Result<UserInGroupGetByUserAndGroupIdsResponse>> Handle(UserInGroupGetByUserAndGroupIdsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserInGroupsResponse>> Handle(UserInGroupGetByUserAndGroupIdsQuery request, CancellationToken cancellationToken)
         {
             var userInGroup = await _userInGroupRepository.GetByUserAndGroupAsync(request.UserId, request.GroupId, cancellationToken);
-            if (userInGroup.IsFailure) return Result.Failure<UserInGroupGetByUserAndGroupIdsResponse>(userInGroup);
+            if (userInGroup.IsFailure) return Result.Failure<UserInGroupsResponse>(userInGroup);
 
-            return Result.Success(new UserInGroupGetByUserAndGroupIdsResponse(userInGroup.Value.RoleId, userInGroup.Value.DateEntered));
+            return new UserInGroupsResponse(
+                userInGroup.Value.UserId, 
+                userInGroup.Value.GroupId, 
+                userInGroup.Value.RoleId, 
+                userInGroup.Value.DateEntered);
         }
     }
 }

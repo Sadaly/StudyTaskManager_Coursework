@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
+using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.Group;
 
-namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups
-{
-    //Todo
-    internal class GetAllUserInGroupsQuery
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups;
+public sealed record GetAllUserInGroupsQuery(
+    Expression<Func<UserInGroup, bool>>? Predicate) : IQuery<List<UserInGroupsResponse>>;
