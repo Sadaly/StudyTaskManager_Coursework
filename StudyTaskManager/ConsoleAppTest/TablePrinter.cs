@@ -11,7 +11,7 @@ public static class TablePrinter
     private static int _columnsCount;
 
     // Цвета элементов таблицы
-    private static readonly ConsoleColor BorderColor = ConsoleColor.Black;
+    private static readonly ConsoleColor BorderColor = ConsoleColor.DarkGray;
     private static readonly ConsoleColor TitleColor = ConsoleColor.White;
     private static readonly ConsoleColor HeaderColor = ConsoleColor.White;
     private static readonly ConsoleColor ContentColor = ConsoleColor.White;

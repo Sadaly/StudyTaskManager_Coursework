@@ -135,7 +135,7 @@ namespace ConsoleAppTest
             {
                 role.Id.ToString(),
                 role.Title?.Value ?? "null",
-                role.GroupId?.ToString() ?? "Common role",
+                role.GroupId?.ToString() ?? "null",
                 role.CanCreateTasks ? "+" : "-",
                 role.CanManageRoles ? "+" : "-",
                 role.CanCreateTaskUpdates ? "+" : "-",
@@ -169,7 +169,7 @@ namespace ConsoleAppTest
             {
                 status.Id.ToString(),
                 status.Name?.Value ?? "null",
-                status.GroupId?.ToString() ?? "Common status",
+                status.GroupId?.ToString() ?? "null",
                 status.CanBeUpdated ? "+" : "-",
                 status.Description?.Value ?? "null"
             }).ToList();
