@@ -4,4 +4,4 @@ using StudyTaskManager.Domain.Entity.Group.Chat;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetAll;
 public sealed record GroupChatMessageGetAllQuery(
-    Expression<Func<GroupChatMessage, bool>>? Predicate) : IQuery<GroupChatMessageResponse>;
+    Expression<Func<GroupChatMessage, bool>>? Predicate) : IQuery<List<GroupChatMessageResponse>>;

@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetAll
 {
-    internal sealed class GroupChatMessageGetAllQueryHandler : IQueryHandler<GroupChatMessageGetAllQuery, GroupChatMessageResponse>
+    internal sealed class GroupChatMessageGetAllQueryHandler : IQueryHandler<GroupChatMessageGetAllQuery, List<GroupChatMessageResponse>>
     {
         private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 
@@ -13,11 +13,17 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupCha
             _groupChatMessageRepository = groupChatMessageRepository;
         }
 
-        public async Task<Result<GroupChatMessageResponse>> Handle(GroupChatMessageGetAllQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<GroupChatMessageResponse>>> Handle(GroupChatMessageGetAllQuery request, CancellationToken cancellationToken)
         {
-            var gcmResult = await _groupChatMessageRepository.GetAllAsync(cancellationToken);
-            if (gcmResult.IsFailure) return Result.Failure<GroupChatMessageResponse>(gcmResult);
-            return new GroupChatMessageResponse(gcmResult.Value);
+            var gcm = request.Predicate == null
+                ? await _groupChatMessageRepository.GetAllAsync(cancellationToken)
+                : await _groupChatMessageRepository.GetAllAsync(request.Predicate, cancellationToken);
+
+            if (gcm.IsFailure) return Result.Failure<List<GroupChatMessageResponse>>(gcm.Error);
+
+            var listRes = gcm.Value.Select(u => new GroupChatMessageResponse(u)).ToList();
+
+            return listRes;
         }
     }
 }
