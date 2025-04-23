@@ -3,7 +3,6 @@ using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 namespace StudyTaskManager.Application.Entity.Users.Queries.TakeUsers
 {
-    //Todo
     internal class UsersTakeQueryHandler : IQueryHandler<UsersTakeQuery, List<UserResponse>>
     {
         private readonly IUserRepository _userRepository;

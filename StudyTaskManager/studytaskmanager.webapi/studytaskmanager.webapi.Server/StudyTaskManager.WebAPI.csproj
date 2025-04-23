@@ -47,4 +47,8 @@
     <ProjectReference Include="..\studytaskmanager.webapi.client\StudyTaskManager.Presentation.esproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>

@@ -74,7 +74,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Название группового чата не уникально");
             public static readonly Error IdEmpty = new(
                 "GroupChat.IdEmpty",
-                "Групповой чат не имеет Id");
+                "Групповой чат с указанным Id не найдено");
             public static readonly Error AlreadyExist = new(
                 "GroupChat.AlreadyExist",
                 "Этот чат в группе уже существует");
@@ -112,7 +112,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Название групповой роли не уникально");
             public static readonly Error IdEmpty = new(
                 "GroupRole.IdEmpty",
-                "Групповая роль не имеет Id");
+                "Групповая роль с указанным Id не найдено");
             public static readonly Error AlreadyExist = new(
                 "GroupRole.AlreadyExist",
                 "Запись о роли в группе уже существует");
@@ -128,7 +128,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Статус задачи не позволяет создавать новые апдейты");
             public static readonly Error IdEmpty = new(
                 "GroupTaskStatus.IdEmpty",
-                "Групповой статус задачи не имеет Id");
+                "Групповой статус задачи с указанным Id не найдено");
             public static readonly Error AlreadyExists = new(
                 "GroupTaskStatus.AlreadyExists",
                 "Статус задачи уже существует");
@@ -144,7 +144,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Апдейт задачи не найден");
             public static readonly Error IdEmpty = new(
                 "GroupTaskUpdate.IdEmpty",
-                "Апдейт задачи не имеет Id");
+                "Апдейт задачи с указанным Id не найдено");
             public static readonly Error AlreadyExists = new(
                 "GroupTaskUpdate.AlreadyExists",
                 "Апдейт задачи уже существует");
@@ -161,7 +161,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Задача не может быть родительской для себя");
             public static readonly Error IdEmpty = new(
                 "GroupTask.IdEmpty",
-                "Задача не имеет Id");
+                "Задача с указанным Id не найдено");
             public static readonly Error AlreadyExist = new(
                 "GroupTask.AlreadyExist",
                 "Эта задача уже существует");
@@ -195,7 +195,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Запись о группе не найдена");
             public static readonly Error IdEmpty = new(
                 "Group.IdEmpty",
-                "Группа не имеет Id");
+                "Группа с указанным Id не найдено");
             public static readonly Error AlreadyExists = new(
                 "Group.AlreadyExists",
                 "Группа уже существует");
@@ -214,7 +214,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Запись о персональном чате не найдена");
             public static readonly Error IdEmpty = new(
                 "PersonalChat.IdEmpty",
-                "Персональный чат не имеет Id");
+                "Персональный чат с указанным Id не найдено");
         }
 
         public static class PersonalMessage
@@ -227,7 +227,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Запись о персональном сообщении не найдена");
             public static readonly Error IdEmpty = new(
                 "PersonalMessage.IdEmpty",
-                "Персональное сообщение не имеет Id");
+                "Персональное сообщение с указанным Id не найдено");
             public static readonly Error IncorrectUser = new(
                 "PersonalMessage.IncorrectUser",
                 "Персональное сообщение имеет некорректного создатель");
@@ -246,7 +246,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Название системной роли не уникально");
             public static readonly Error IdEmpty = new(
                 "SystemRole.IdEmpty",
-                "Системная роль не имеет Id");
+                "Системная роль с указанным Id не найдено");
             public static readonly Error AlreadyExists = new(
                 "SystemRole.AlreadyExists",
                 "Системная роль уже существует");
@@ -284,7 +284,7 @@ namespace StudyTaskManager.Domain.Errors
                 "Пользователь не найден");
             public static readonly Error IdEmpty = new(
                 "User.IdEmpty",
-                "Пользователь не имеет Id");
+                "Пользователь с указанным Id не найдено");
             public static readonly Error NotUniqueUsername = new(
                 "User.NotUniqueUsername",
                 "Username пользователя не уникален");

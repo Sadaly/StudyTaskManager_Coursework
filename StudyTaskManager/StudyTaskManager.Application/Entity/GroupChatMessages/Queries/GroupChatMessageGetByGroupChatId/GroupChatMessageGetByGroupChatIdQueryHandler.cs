@@ -6,16 +6,16 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupCha
 {
 	internal class GroupChatMessageGetByGroupChatIdQueryHandler : IQueryHandler<GroupChatMessageGetByGroupChatIdQuery, List<GroupChatMessageResponse>>
 	{
-		private readonly IGroupChatMessageRepository _gcm;
+		private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 
-		public GroupChatMessageGetByGroupChatIdQueryHandler(IGroupChatMessageRepository gcm)
+		public GroupChatMessageGetByGroupChatIdQueryHandler(IGroupChatMessageRepository groupChatMessageRepository)
 		{
-			_gcm = gcm;
+            _groupChatMessageRepository = groupChatMessageRepository;
 		}
 
 		public async Task<Result<List<GroupChatMessageResponse>>> Handle(GroupChatMessageGetByGroupChatIdQuery request, CancellationToken cancellationToken)
 		{
-			var gcmResult = await _gcm.GetMessagesByGroupChatIdAsync(request.GroupChatId, cancellationToken);
+			var gcmResult = await _groupChatMessageRepository.GetMessagesByGroupChatIdAsync(request.StartIndex, request.Count, request.GroupChatId, cancellationToken);
 			if (gcmResult.IsFailure) return Result.Failure<List<GroupChatMessageResponse>>(gcmResult);
 
             var listRes = gcmResult.Value.Select(u => new GroupChatMessageResponse(u)).ToList();

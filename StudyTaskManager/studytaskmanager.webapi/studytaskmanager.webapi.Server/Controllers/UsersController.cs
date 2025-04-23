@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Application.Entity.Users.Commands.UserLogin;
 using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
