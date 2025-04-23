@@ -124,5 +124,67 @@ namespace ConsoleAppTest
                 rows: tableData
             );
         }
+
+        public static async Task GroupRoles(AppDbContext db)
+        {
+            var groupRoleRepository = new GroupRoleRepository(db);
+            var groupRoles = await groupRoleRepository.GetAllAsync();
+            if (groupRoles.IsFailure) throw new Exception(groupRoles.Error.Code + " - " + groupRoles.Error.Message);
+
+            var tableData = groupRoles.Value.Select(role => new string[]
+            {
+                role.Id.ToString(),
+                role.Title?.Value ?? "null",
+                role.GroupId?.ToString() ?? "Common role",
+                role.CanCreateTasks ? "+" : "-",
+                role.CanManageRoles ? "+" : "-",
+                role.CanCreateTaskUpdates ? "+" : "-",
+                role.CanChangeTaskUpdates ? "+" : "-",
+                role.CanInviteUsers ? "+" : "-"
+            }).ToList();
+
+            TablePrinter.PrintTable(
+                tableTitle: "Список ролей групп",
+                columnNames: [
+                    "ID",
+                    "Название",
+                    "ID группы",
+                    "Создание задач",
+                    "Управление ролями",
+                    "Создание обновлений",
+                    "Изменение обновлений",
+                    "Приглашение пользователей"
+                ],
+                rows: tableData
+            );
+        }
+
+        public static async Task GroupTaskStatuses(AppDbContext db)
+        {
+            var groupTaskStatusRepository = new GroupTaskStatusRepository(db);
+            var groupTaskStatuses = await groupTaskStatusRepository.GetAllAsync();
+            if (groupTaskStatuses.IsFailure) throw new Exception(groupTaskStatuses.Error.Code + " - " + groupTaskStatuses.Error.Message);
+
+            var tableData = groupTaskStatuses.Value.Select(status => new string[]
+            {
+                status.Id.ToString(),
+                status.Name?.Value ?? "null",
+                status.GroupId?.ToString() ?? "Common status",
+                status.CanBeUpdated ? "+" : "-",
+                status.Description?.Value ?? "null"
+            }).ToList();
+
+            TablePrinter.PrintTable(
+                tableTitle: "Список статусов задач групп",
+                columnNames: [
+                    "ID",
+                    "Название",
+                    "ID группы",
+                    "Можно обновлять",
+                    "Описание"
+                ],
+                rows: tableData
+            );
+        }
     }
 }

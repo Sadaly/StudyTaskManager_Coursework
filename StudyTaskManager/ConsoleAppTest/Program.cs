@@ -55,7 +55,11 @@ namespace ConsoleAppTest
         private static async Task Diagnostic(AppDbContext db)
         {
             await PrintListAll.Users(db);
+            Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- ");
             await PrintListAll.SystemRoles(db);
+            await PrintListAll.GroupRoles(db);
+            await PrintListAll.GroupTaskStatuses(db);
+            Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- ");
             await PrintListAll.PersonalChats(db);
             await PrintListAll.PersonatMessages(db);
         }
@@ -67,6 +71,7 @@ namespace ConsoleAppTest
                 (DeleteUser, "Удалить пользователя"),
                 (DeletePersonalChat, "Удалить PersonalChat"),
                 (ClearAllTables, "Польностью очищает таблицу"),
+                (CreateDefaultEntity.AddAllDefaultEntities, "Добавляет базовые сущности"),
             ];
             void Print()
             {
