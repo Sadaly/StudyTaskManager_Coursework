@@ -11,7 +11,6 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        protected Group() { } // Для EF Core
         private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : base(id)
         {
             Title = title;

@@ -14,7 +14,6 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     /// </remarks>
     public class GroupChatMessage : BaseEntity
     {
-        protected GroupChatMessage() { } // Для EF Core
 
         // Приватный конструктор для предотвращения невалидного создания объектов.
         private GroupChatMessage(Guid GroupChatId, ulong ordinal, Guid SenderId, Content content) : base()
