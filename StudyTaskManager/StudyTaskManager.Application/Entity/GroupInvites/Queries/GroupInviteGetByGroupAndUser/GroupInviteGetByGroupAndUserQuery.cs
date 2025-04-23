@@ -4,4 +4,4 @@ namespace StudyTaskManager.Application.Entity.GroupInvites.Queries.GroupInviteGe
 
 public sealed record GroupInviteGetByGroupAndUserQuery(
     Guid ReceiverId,
-    Guid GroupId) : IQuery<GroupInviteGetByGroupAndUserResponse>;
+    Guid GroupId) : IQuery<GroupInviteResponse>;

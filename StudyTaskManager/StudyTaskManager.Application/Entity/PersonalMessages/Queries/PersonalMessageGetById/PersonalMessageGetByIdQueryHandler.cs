@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.PersonalMessages.Queries.PersonalMessageGetById
 {
-    public sealed class PersonalMessageGetByIdQueryHandler : IQueryHandler<PersonalMessageGetByIdQuery, PersonalMessageGetByIdResponse>
+    public sealed class PersonalMessageGetByIdQueryHandler : IQueryHandler<PersonalMessageGetByIdQuery, PersonalMessageResponse>
     {
         private readonly IPresonalMessageRepository _presonalMessageRepository;
 
@@ -14,12 +14,12 @@ namespace StudyTaskManager.Application.Entity.PersonalMessages.Queries.PersonalM
             _presonalMessageRepository = presonalMessageRepository;
         }
 
-        public async Task<Result<PersonalMessageGetByIdResponse>> Handle(PersonalMessageGetByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PersonalMessageResponse>> Handle(PersonalMessageGetByIdQuery request, CancellationToken cancellationToken)
         {
             var message = await _presonalMessageRepository.GetByIdAsync(request.PersonalMessageId, cancellationToken);
-            if (message.IsFailure) return Result.Failure<PersonalMessageGetByIdResponse>(message);
+            if (message.IsFailure) return Result.Failure<PersonalMessageResponse>(message);
 
-            return new PersonalMessageGetByIdResponse(message.Value);
+            return new PersonalMessageResponse(message.Value);
         }
     }
 }

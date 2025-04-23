@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetById;
 
-public sealed record GroupTaskGetByIdQeury(Guid Id) : IQuery<GroupTaskGetByIdResponse>;
+public sealed record GroupTaskGetByIdQeury(Guid Id) : IQuery<GroupTaskResponse>;

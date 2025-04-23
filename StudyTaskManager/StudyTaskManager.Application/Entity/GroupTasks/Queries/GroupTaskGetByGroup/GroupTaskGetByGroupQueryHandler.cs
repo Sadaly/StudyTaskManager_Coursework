@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetByGroup
 {
-    class GroupTaskGetByGroupQueryHandler : IQueryHandler<GroupTaskGetByGroupQuery, List<GroupTaskGetByGroupResponseElements>>
+    class GroupTaskGetByGroupQueryHandler : IQueryHandler<GroupTaskGetByGroupQuery, List<GroupTaskResponse>>
     {
         private readonly IGroupRepository _groupRepository;
         private readonly IGroupTaskRepository _groupTaskRepository;
@@ -16,15 +16,15 @@ namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetByG
             _groupTaskRepository = groupTaskRepository;
         }
 
-        public async Task<Result<List<GroupTaskGetByGroupResponseElements>>> Handle(GroupTaskGetByGroupQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<GroupTaskResponse>>> Handle(GroupTaskGetByGroupQuery request, CancellationToken cancellationToken)
         {
             var group = await _groupRepository.GetByIdAsync(request.GroupId, cancellationToken);
-            if (group.IsFailure) return Result.Failure<List<GroupTaskGetByGroupResponseElements>>(group);
+            if (group.IsFailure) return Result.Failure<List<GroupTaskResponse>>(group);
 
             var tasks = await _groupTaskRepository.GetByGroupAsync(group.Value, cancellationToken);
-            if (tasks.IsFailure) return Result.Failure<List<GroupTaskGetByGroupResponseElements>>(tasks);
+            if (tasks.IsFailure) return Result.Failure<List<GroupTaskResponse>>(tasks);
 
-            var listRes = tasks.Value.Select(t => new GroupTaskGetByGroupResponseElements(t)).ToList();
+            var listRes = tasks.Value.Select(t => new GroupTaskResponse(t)).ToList();
 
             return listRes;
         }

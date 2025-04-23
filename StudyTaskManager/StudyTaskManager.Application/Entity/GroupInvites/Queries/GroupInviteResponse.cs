@@ -1,13 +1,13 @@
 ﻿using StudyTaskManager.Domain.Entity.Group;
 
-namespace StudyTaskManager.Application.Entity.GroupInvites.Queries.GroupInviteGetByGroupAndUser;
+namespace StudyTaskManager.Application.Entity.GroupInvites.Queries;
 
-public sealed record GroupInviteGetByGroupAndUserResponse(
+public sealed record GroupInviteResponse(
     Guid SenderId,
     DateTime DateInvitation,
     bool? InvitationAccepted)
 {
-    internal GroupInviteGetByGroupAndUserResponse(GroupInvite groupInvite)
+    internal GroupInviteResponse(GroupInvite groupInvite)
         : this(groupInvite.SenderId, groupInvite.DateInvitation, groupInvite.InvitationAccepted)
     { }
 }

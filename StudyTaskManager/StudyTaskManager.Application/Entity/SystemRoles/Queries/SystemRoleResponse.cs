@@ -1,14 +1,14 @@
 ﻿using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.SystemRoles.Queries;
-public sealed record SystemRoleGetByIdResponse(
+public sealed record SystemRoleResponse(
     string Name,
     bool CanViewPeoplesGroups,
     bool CanChangeSystemRoles,
     bool CanBlockUsers,
     bool CanDeleteChats)
 {
-    internal SystemRoleGetByIdResponse(SystemRole role)
+    internal SystemRoleResponse(SystemRole role)
         : this(
             role.Name.Value,
             role.CanViewPeoplesGroups,

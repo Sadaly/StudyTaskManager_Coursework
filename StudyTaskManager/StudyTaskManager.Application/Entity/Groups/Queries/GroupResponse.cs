@@ -1,13 +1,13 @@
 ﻿using StudyTaskManager.Domain.Entity.Group;
 
-namespace StudyTaskManager.Application.Entity.Groups.Queries.GroupGetById;
+namespace StudyTaskManager.Application.Entity.Groups.Queries;
 
-public sealed record GroupGetByIdResponse(
+public sealed record GroupResponse(
     string Title,
     string? Description,
     Guid DefaultRoleId)
 {
-    internal GroupGetByIdResponse(Group gropu)
+    internal GroupResponse(Group gropu)
         : this(
               gropu.Title.Value,
               gropu.Description?.Value,

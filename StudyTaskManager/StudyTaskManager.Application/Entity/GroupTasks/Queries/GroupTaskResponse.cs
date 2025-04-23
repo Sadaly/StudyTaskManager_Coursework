@@ -1,8 +1,9 @@
 ﻿using StudyTaskManager.Domain.Entity.Group.Task;
 
-namespace StudyTaskManager.Application.Entity.GroupTasks.Queries.GroupTaskGetById;
+namespace StudyTaskManager.Application.Entity.GroupTasks.Queries;
 
-public sealed record GroupTaskGetByIdResponse(
+public sealed record GroupTaskResponse(
+    Guid Id,
     Guid GroupId,
     Guid? ParentId,
     DateTime DateCreated,
@@ -12,8 +13,9 @@ public sealed record GroupTaskGetByIdResponse(
     string? Description,
     Guid? ResponsibleId)
 {
-    internal GroupTaskGetByIdResponse(GroupTask task)
+    internal GroupTaskResponse(GroupTask task)
         : this(
+             task.Id,
              task.GroupId,
              task.ParentId,
              task.DateCreated,

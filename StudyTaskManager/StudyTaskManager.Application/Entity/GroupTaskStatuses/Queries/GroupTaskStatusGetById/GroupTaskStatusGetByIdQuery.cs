@@ -2,4 +2,4 @@
 
 namespace StudyTaskManager.Application.Entity.GroupTaskStatuses.Queries.GroupTaskStatusGetById;
 
-public sealed record GroupTaskStatusGetByIdQuery(Guid Id) : IQuery<GroupTaskStatusGetByIdResponse>;
+public sealed record GroupTaskStatusGetByIdQuery(Guid Id) : IQuery<GroupTaskStatusRepsonse>;

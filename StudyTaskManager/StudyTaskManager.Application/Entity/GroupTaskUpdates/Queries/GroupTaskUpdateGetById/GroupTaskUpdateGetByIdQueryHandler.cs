@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Queries.GroupTaskUpdateGetById
 {
-    public class GroupTaskUpdateGetByIdQueryHandler : IQueryHandler<GroupTaskUpdateGetByIdQuery, GroupTaskUpdateGetByIdResponse>
+    public class GroupTaskUpdateGetByIdQueryHandler : IQueryHandler<GroupTaskUpdateGetByIdQuery, GroupTaskUpdateResponse>
     {
         private readonly IGroupTaskUpdateRepository _groupTaskUpdateRepository;
 
@@ -13,12 +13,12 @@ namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Queries.GroupTask
             _groupTaskUpdateRepository = groupTaskUpdateRepository;
         }
 
-        public async Task<Result<GroupTaskUpdateGetByIdResponse>> Handle(GroupTaskUpdateGetByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GroupTaskUpdateResponse>> Handle(GroupTaskUpdateGetByIdQuery request, CancellationToken cancellationToken)
         {
             var update = await _groupTaskUpdateRepository.GetByIdAsync(request.Id, cancellationToken);
-            if (update.IsFailure) return Result.Failure<GroupTaskUpdateGetByIdResponse>(update);
+            if (update.IsFailure) return Result.Failure<GroupTaskUpdateResponse>(update);
 
-            return new GroupTaskUpdateGetByIdResponse(update.Value);
+            return new GroupTaskUpdateResponse(update.Value);
         }
     }
 }

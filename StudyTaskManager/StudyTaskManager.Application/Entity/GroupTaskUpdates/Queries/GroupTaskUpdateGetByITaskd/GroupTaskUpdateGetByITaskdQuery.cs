@@ -5,4 +5,4 @@ namespace StudyTaskManager.Application.Entity.GroupTaskUpdates.Queries.GroupTask
 public sealed record GroupTaskUpdateGetByITaskdQuery(
     Guid TaskId,
     int StartIndex,
-    int Count) : IQuery<List<GroupTaskUpdateGetByITaskdResponseElements>>;
+    int Count) : IQuery<List<GroupTaskUpdateResponse>>;

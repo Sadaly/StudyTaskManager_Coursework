@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser
 {
-    class PersonalChatsGetByUserQueryHandler : ICommandHandler<PersonalChatsGetByUserQuery, List<PersonalChatsGetByUserResponseElements>>
+    class PersonalChatsGetByUserQueryHandler : ICommandHandler<PersonalChatsGetByUserQuery, List<PersonalChatsResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPersonalChatRepository _personalChatRepository;
@@ -15,15 +15,15 @@ namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChat
             _personalChatRepository = personalChatRepository;
         }
 
-        public async Task<Result<List<PersonalChatsGetByUserResponseElements>>> Handle(PersonalChatsGetByUserQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<PersonalChatsResponse>>> Handle(PersonalChatsGetByUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-            if (user.IsFailure) return Result.Failure<List<PersonalChatsGetByUserResponseElements>>(user);
+            if (user.IsFailure) return Result.Failure<List<PersonalChatsResponse>>(user);
 
             var listPC = await _personalChatRepository.GetChatByUserAsync(user.Value, cancellationToken);
-            if (user.IsFailure) return Result.Failure<List<PersonalChatsGetByUserResponseElements>>(listPC);
+            if (user.IsFailure) return Result.Failure<List<PersonalChatsResponse>>(listPC);
 
-            var listRes = listPC.Value.Select(pc => new PersonalChatsGetByUserResponseElements(pc, request.UserId)).ToList();
+            var listRes = listPC.Value.Select(pc => new PersonalChatsResponse(pc)).ToList();
 
             return listRes;
         }
