@@ -1,10 +1,11 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
+using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUserInfoGetAll
 {
-    internal sealed class BlockedUserInfoGetAllQueryHandler : IQueryHandler<BlockedUserInfoGetAllQuery, BlockedUserInfoListResponse>
+    internal sealed class BlockedUserInfoGetAllQueryHandler : IQueryHandler<BlockedUserInfoGetAllQuery, List<BlockedUserInfoResponse>>
     {
         private readonly IBlockedUserInfoRepository _blockedUserInfoRepository;
 
@@ -13,12 +14,17 @@ namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUs
             _blockedUserInfoRepository = blockedUserInfoRepository;
         }
 
-        public async Task<Result<BlockedUserInfoListResponse>> Handle(BlockedUserInfoGetAllQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<BlockedUserInfoResponse>>> Handle(BlockedUserInfoGetAllQuery request, CancellationToken cancellationToken)
         {
-            var list = await _blockedUserInfoRepository.GetAllAsync(cancellationToken);
-            if (list.IsFailure) return Result.Failure<BlockedUserInfoListResponse>(list);
+            var bui = request.predicate == null 
+                ? await _blockedUserInfoRepository.GetAllAsync(cancellationToken)
+                : await _blockedUserInfoRepository.GetAllAsync(request.predicate, cancellationToken);
 
-            return new BlockedUserInfoListResponse(list.Value);
+            if (bui.IsFailure) return Result.Failure<List<BlockedUserInfoResponse>>(bui.Error);
+
+            var listRes = bui.Value.Select(u => new BlockedUserInfoResponse(u)).ToList();
+
+            return listRes;
         }
     }
 }

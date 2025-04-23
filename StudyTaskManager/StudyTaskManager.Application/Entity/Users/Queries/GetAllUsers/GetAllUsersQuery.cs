@@ -1,8 +1,8 @@
-﻿using StudyTaskManager.Application.Abstractions.Messaging;
-using StudyTaskManager.Application.Entity.Users.Queries.GetAllUsers;
+﻿using System.Linq.Expressions;
+using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 
 public sealed record GetAllUsersQuery(
-    int StartIndex,
-    int Count) : IQuery<List<GetAllUsersResponseElements>>;
+    Expression<Func<User, bool>>? Predicate, CancellationToken CancellationToken) : IQuery<List<UserResponse>>;

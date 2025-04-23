@@ -1,19 +1,19 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
-
-namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
+namespace StudyTaskManager.Application.Entity.Users.Queries.TakeUsers
 {
-    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, List<UserResponse>>
+    //Todo
+    internal class TakeUsersQueryHandler : IQueryHandler<TakeUsersQuery, List<UserResponse>>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetAllUsersQueryHandler(IUserRepository userRepository)
+        public TakeUsersQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<UserResponse>>> Handle(TakeUsersQuery request, CancellationToken cancellationToken)
         {
             var users = request.Predicate == null
                 ? await _userRepository.GetAllAsync(cancellationToken)

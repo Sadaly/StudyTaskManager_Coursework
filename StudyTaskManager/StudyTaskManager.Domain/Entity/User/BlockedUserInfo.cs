@@ -50,7 +50,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// Ссылка на пользователя, который был заблокирован
         /// </summary>
         [JsonIgnore]
-        public User? User { get; private set; } = null!;
+        public User User { get; private set; } = null!;
 
         /// <summary>
         /// Ссылка на роль пользователя до блокировки

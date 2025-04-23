@@ -5,7 +5,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUserInfoTake
 {
-    internal sealed class BlockedUserInfoTakeQueryHandler : IQueryHandler<BlockedUserInfoTakeQuery, BlockedUserInfoListResponse>
+    internal sealed class BlockedUserInfoTakeQueryHandler : IQueryHandler<BlockedUserInfoTakeQuery, List<BlockedUserInfoResponse>>
     {
         private readonly IBlockedUserInfoRepository _blockedUserInfoRepository;
 
@@ -14,18 +14,17 @@ namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUs
             _blockedUserInfoRepository = blockedUserInfoRepository;
         }
 
-        public async Task<Result<BlockedUserInfoListResponse>> Handle(BlockedUserInfoTakeQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<BlockedUserInfoResponse>>> Handle(BlockedUserInfoTakeQuery request, CancellationToken cancellationToken)
         {
+            var bui = request.predicate == null
+                ? await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, cancellationToken)
+                : await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, request.predicate, cancellationToken);
 
-            Result<List<BlockedUserInfo>> buiResult;
-            if (request.predicate == null)
-                buiResult = await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, null, cancellationToken);
-            else
-                buiResult = await _blockedUserInfoRepository.GetAllAsync(request.StartIndex, request.Count, request.predicate, cancellationToken);
+            if (bui.IsFailure) return Result.Failure<List<BlockedUserInfoResponse>>(bui.Error);
 
-            if (buiResult.IsFailure) return Result.Failure<BlockedUserInfoListResponse>(buiResult.Error);
+            var listRes = bui.Value.Select(u => new BlockedUserInfoResponse(u)).ToList();
 
-            return new BlockedUserInfoListResponse(buiResult.Value);
+            return listRes;
         }
     }
 }
