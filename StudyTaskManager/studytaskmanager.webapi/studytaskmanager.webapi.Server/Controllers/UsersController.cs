@@ -1,15 +1,16 @@
-﻿using MediatR;
+﻿using System.Linq.Expressions;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Application.Entity.Users.Commands.UserLogin;
-using StudyTaskManager.Application.Entity.Users.Queries;
 using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
+using StudyTaskManager.Application.Entity.Users.Queries.TakeUsers;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.WebAPI.Contracts.Users;
-
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
@@ -18,12 +19,10 @@ namespace StudyTaskManager.WebAPI.Controllers
     {
         public UsersController(ISender sender) : base(sender) { }
 
-        [HttpPost]
-        [Route("Registration")]
+        [HttpPost("Registration")]
         public async Task<IActionResult> CreateUser(
             [FromBody] CreateUserRequest request,
-            CancellationToken cancellationToken
-            )
+            CancellationToken cancellationToken)
         {
             var command = new UserCreateCommand(
                 request.Username,
@@ -37,12 +36,10 @@ namespace StudyTaskManager.WebAPI.Controllers
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
-        [HttpPost]
-        [Route("Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginUser(
             [FromBody] UserLoginRequest request,
-            CancellationToken cancellationToken
-            )
+            CancellationToken cancellationToken)
         {
             var command = new UserLoginCommand(
                 request.Email, request.Password);
@@ -63,18 +60,55 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
-        [Authorize]
-        [HttpGet()]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllUsers(
-            [FromBody] int StartIndex,
-            [FromBody] int Count,
+            [FromQuery] UserFilter userFilter,
             CancellationToken cancellationToken)
         {
-            var query = new GetAllUsersQuery(StartIndex, Count);
+            var query = new GetAllUsersQuery(userFilter.ToPredicate());
 
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+        }
+
+        [HttpGet("take")]
+        public async Task<IActionResult> TakeUsers(
+            [FromQuery] int startIndex,
+            [FromQuery] int count,
+            [FromQuery] UserFilter userFilter,
+            CancellationToken cancellationToken)
+        {
+            var query = new TakeUsersQuery(startIndex, count, userFilter.ToPredicate());
+
+            var response = await Sender.Send(query, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+        }
+
+        public class UserFilter
+        {
+            public string? Username { get; set; }
+            public string? Email { get; set; }
+            public bool? IsEmailVerified { get; set; }
+            public bool? IsPhoneNumberVerified { get; set; }
+            public string? PhoneNumber { get; set; }
+            public DateTime? RegistrationDateFrom { get; set; }
+            public DateTime? RegistrationDateTo { get; set; }
+            public Guid? SystemRoleId { get; set; }
+
+            public Expression<Func<User, bool>> ToPredicate()
+            {
+                return user =>
+                    (string.IsNullOrEmpty(Username) || user.Username.Value.Contains(Username)) &&
+                    (string.IsNullOrEmpty(Email) || user.Email.Value.Contains(Email)) &&
+                    (!IsEmailVerified.HasValue || user.IsEmailVerifed == IsEmailVerified.Value) &&
+                    (!IsPhoneNumberVerified.HasValue || user.IsPhoneNumberVerifed == IsPhoneNumberVerified.Value) &&
+                    (string.IsNullOrEmpty(PhoneNumber) || (user.PhoneNumber != null && user.PhoneNumber.Value.Contains(PhoneNumber))) &&
+                    (!RegistrationDateFrom.HasValue || user.RegistrationDate >= RegistrationDateFrom.Value) &&
+                    (!RegistrationDateTo.HasValue || user.RegistrationDate <= RegistrationDateTo.Value) &&
+                    (!SystemRoleId.HasValue || user.SystemRoleId == SystemRoleId);
+            }
         }
     }
 }

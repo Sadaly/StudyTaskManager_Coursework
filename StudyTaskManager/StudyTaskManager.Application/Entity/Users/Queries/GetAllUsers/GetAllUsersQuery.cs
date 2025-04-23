@@ -5,4 +5,4 @@ using StudyTaskManager.Domain.Entity.User;
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 
 public sealed record GetAllUsersQuery(
-    Expression<Func<User, bool>>? Predicate, CancellationToken CancellationToken) : IQuery<List<UserResponse>>;
+    Expression<Func<User, bool>>? Predicate) : IQuery<List<UserResponse>>;

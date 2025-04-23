@@ -16,8 +16,8 @@ namespace StudyTaskManager.Application.Entity.Users.Queries.TakeUsers
         public async Task<Result<List<UserResponse>>> Handle(TakeUsersQuery request, CancellationToken cancellationToken)
         {
             var users = request.Predicate == null
-                ? await _userRepository.GetAllAsync(cancellationToken)
-                : await _userRepository.GetAllAsync(request.Predicate, cancellationToken);
+                ? await _userRepository.GetAllAsync(request.StartIndex, request.Count, cancellationToken)
+                : await _userRepository.GetAllAsync(request.StartIndex, request.Count, request.Predicate, cancellationToken);
 
             if (users.IsFailure) return Result.Failure<List<UserResponse>>(users.Error);
 

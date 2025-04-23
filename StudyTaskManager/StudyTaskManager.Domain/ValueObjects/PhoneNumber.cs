@@ -11,6 +11,10 @@ namespace StudyTaskManager.Domain.ValueObjects
         public const int MAX_LENGTH = 15;
         //Международный стандарт
         public const int MIN_LENGTH = 8;
+
+        public PhoneNumber() {
+            Value = "";
+        }
         private PhoneNumber(string phoneNumber)
         {
             Value = phoneNumber;

@@ -21,34 +21,39 @@ namespace StudyTaskManager.Persistence.Configurations
 
             builder.Ignore(user => user.PersonalChats);
 
-            builder
-                .Property(u => u.Username)
-                .HasConversion(
-                    un => un.Value,
-                    str => Username.Create(str).Value)
-                .HasMaxLength(Username.MAX_LENGTH)
-                .HasColumnName(TableNames.UserTable.Username);
-            builder
-                .Property(u => u.Email)
-                .HasConversion(
-                    e => e.Value,
-                    str => Email.Create(str).Value)
-                .HasColumnName(TableNames.UserTable.Email);
-            builder
-                .Property(u => u.PhoneNumber)
-                .HasConversion(
-                    pn =>
-                        pn == null ?
-                            null :
-                            pn.Value,
-                    str =>
-                        string.IsNullOrEmpty(str) ?
-                            null :
-                            PhoneNumber.Create(str).Value)
-                .HasMaxLength(PhoneNumber.MAX_LENGTH)
-                // проверки на мин длинну нет
-                .IsRequired(false)
-                .HasColumnName(TableNames.UserTable.PhoneNumber);
+            builder.OwnsOne(u => u.Username, username =>
+            {
+                username
+                    .Property(v => v.Value)
+                    .HasConversion(
+                        v => v,
+                        str => Username.Create(str).Value.Value)
+                    .HasMaxLength(Username.MAX_LENGTH)
+                    .HasColumnName(TableNames.UserTable.Username);
+            });
+
+            builder.OwnsOne(u => u.Email, email =>
+            {
+                email
+                    .Property(v => v.Value)
+                    .HasConversion(
+                        v => v,
+                        str => Email.Create(str).Value.Value)
+                    .HasColumnName(TableNames.UserTable.Email);
+            });
+
+            builder.OwnsOne(u => u.PhoneNumber, phone =>
+            {
+                phone
+                    .Property(v => v.Value)
+                    .HasConversion(
+                        v => v,
+                        str => string.IsNullOrEmpty(str) ? "" : PhoneNumber.Create(str).Value.Value)
+                    .HasMaxLength(PhoneNumber.MAX_LENGTH)
+                    .IsRequired(false)
+                    .HasColumnName(TableNames.UserTable.PhoneNumber);
+            });
+
             builder
                 .Property(u => u.PasswordHash)
                 .HasConversion(
