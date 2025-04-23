@@ -65,7 +65,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             [FromQuery] UserFilter userFilter,
             CancellationToken cancellationToken)
         {
-            var query = new GetAllUsersQuery(userFilter.ToPredicate());
+            var query = new UsersGetAllQuery(userFilter.ToPredicate());
 
             var response = await Sender.Send(query, cancellationToken);
 
@@ -79,7 +79,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             [FromQuery] UserFilter userFilter,
             CancellationToken cancellationToken)
         {
-            var query = new TakeUsersQuery(startIndex, count, userFilter.ToPredicate());
+            var query = new UsersTakeQuery(startIndex, count, userFilter.ToPredicate());
 
             var response = await Sender.Send(query, cancellationToken);
 

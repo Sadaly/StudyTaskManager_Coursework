@@ -2,6 +2,8 @@
 using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Entity.Group;
 
-namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups;
-public sealed record GetAllUserInGroupsQuery(
+namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.TakeUserInGroups;
+public sealed record UserInGroupsTakeQuery(
+    int StartIndex,
+    int Count,
     Expression<Func<UserInGroup, bool>>? Predicate) : IQuery<List<UserInGroupsResponse>>;

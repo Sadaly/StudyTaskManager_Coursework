@@ -5,16 +5,16 @@ using StudyTaskManager.Domain.Shared;
 namespace StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups
 {
     //todo
-    internal class GetAllUserInGroupsQueryHandler : IQueryHandler<GetAllUserInGroupsQuery, List<UserInGroupsResponse>>
+    internal class UserInGroupsGetAllQueryHandler : IQueryHandler<UserInGroupsGetAllQuery, List<UserInGroupsResponse>>
     {
         private readonly IUserInGroupRepository _userInGroupRepository;
 
-        public GetAllUserInGroupsQueryHandler(IUserInGroupRepository userInGroupRepository)
+        public UserInGroupsGetAllQueryHandler(IUserInGroupRepository userInGroupRepository)
         {
             _userInGroupRepository = userInGroupRepository;
         }
 
-        public async Task<Result<List<UserInGroupsResponse>>> Handle(GetAllUserInGroupsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<UserInGroupsResponse>>> Handle(UserInGroupsGetAllQuery request, CancellationToken cancellationToken)
         {
             var listUIG = request.Predicate == null
                 ? await _userInGroupRepository.GetAllAsync(cancellationToken)

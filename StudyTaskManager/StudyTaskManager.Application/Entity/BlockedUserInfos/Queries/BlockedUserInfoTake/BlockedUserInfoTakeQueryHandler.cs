@@ -1,6 +1,5 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 using StudyTaskManager.Domain.Abstractions.Repositories;
-using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.BlockedUserInfos.Queries.BlockedUserInfoTake

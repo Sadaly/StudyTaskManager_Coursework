@@ -4,5 +4,5 @@ using StudyTaskManager.Domain.Entity.User;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
 
-public sealed record GetAllUsersQuery(
+public sealed record UsersGetAllQuery(
     Expression<Func<User, bool>>? Predicate) : IQuery<List<UserResponse>>;

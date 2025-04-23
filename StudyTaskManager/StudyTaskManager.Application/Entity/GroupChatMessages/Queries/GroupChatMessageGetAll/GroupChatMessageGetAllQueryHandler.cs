@@ -4,7 +4,7 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetAll
 {
-    internal sealed class GroupChatMessageGetAllQueryHandler : IQueryHandler<GroupChatMessageGetAllQuery, GroupChatMessageListResponse>
+    internal sealed class GroupChatMessageGetAllQueryHandler : IQueryHandler<GroupChatMessageGetAllQuery, GroupChatMessageResponse>
     {
         private readonly IGroupChatMessageRepository _groupChatMessageRepository;
 
@@ -13,11 +13,11 @@ namespace StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupCha
             _groupChatMessageRepository = groupChatMessageRepository;
         }
 
-        public async Task<Result<GroupChatMessageListResponse>> Handle(GroupChatMessageGetAllQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GroupChatMessageResponse>> Handle(GroupChatMessageGetAllQuery request, CancellationToken cancellationToken)
         {
             var gcmResult = await _groupChatMessageRepository.GetAllAsync(cancellationToken);
-            if (gcmResult.IsFailure) return Result.Failure<GroupChatMessageListResponse>(gcmResult);
-            return new GroupChatMessageListResponse(gcmResult.Value);
+            if (gcmResult.IsFailure) return Result.Failure<GroupChatMessageResponse>(gcmResult);
+            return new GroupChatMessageResponse(gcmResult.Value);
         }
     }
 }

@@ -4,16 +4,16 @@ using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Application.Entity.Users.Queries.GetUserById
 {
-    internal sealed class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, List<UserResponse>>
+    internal sealed class UsersGetAllQueryHandler : IQueryHandler<UsersGetAllQuery, List<UserResponse>>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetAllUsersQueryHandler(IUserRepository userRepository)
+        public UsersGetAllQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<UserResponse>>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
         {
             var users = request.Predicate == null
                 ? await _userRepository.GetAllAsync(cancellationToken)
