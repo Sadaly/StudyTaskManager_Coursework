@@ -22,13 +22,16 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey(gtu => gtu.CreatorId);
 
-            builder
-                .Property(gtu => gtu.Content)
-                .HasConversion(
-                    c => c.Value,
-                    str => Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupTaskUpdateTable.Content);
+            builder.OwnsOne(gtu => gtu.Content, content =>
+            {
+                content
+                    .Property(v => v.Value)
+                    .HasConversion(
+                        v => v,
+                        str => Content.Create(str).Value.Value)
+                    .HasMaxLength(Content.MAX_LENGTH)
+                    .HasColumnName(TableNames.GroupTaskUpdateTable.Content);
+            });
         }
     }
 }

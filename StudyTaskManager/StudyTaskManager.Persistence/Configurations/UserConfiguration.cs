@@ -48,7 +48,10 @@ namespace StudyTaskManager.Persistence.Configurations
                     .Property(v => v.Value)
                     .HasConversion(
                         v => v,
-                        str => string.IsNullOrEmpty(str) ? "" : PhoneNumber.Create(str).Value.Value)
+                        str =>
+                            string.IsNullOrEmpty(str) ?
+                                "" :
+                                PhoneNumber.Create(str).Value.Value)
                     .HasMaxLength(PhoneNumber.MAX_LENGTH)
                     .IsRequired(false)
                     .HasColumnName(TableNames.UserTable.PhoneNumber);

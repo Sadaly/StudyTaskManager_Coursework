@@ -22,13 +22,16 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany(gc => gc.GroupChatMessages)
                 .HasForeignKey(gcm => gcm.GroupChatId);
 
-            builder
-                .Property(gcm => gcm.Content)
-                .HasConversion(
-                    c => c.Value,
-                    str => Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupChatMessageTable.Context);
+            builder.OwnsOne(gcm => gcm.Content, content =>
+            {
+                content
+                    .Property(v => v.Value)
+                    .HasConversion(
+                        v => v,
+                        str => Content.Create(str).Value.Value)
+                    .HasMaxLength(Content.MAX_LENGTH)
+                    .HasColumnName(TableNames.GroupChatMessageTable.Context);
+            });
         }
     }
 }
