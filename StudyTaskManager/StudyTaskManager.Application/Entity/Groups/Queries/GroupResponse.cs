@@ -3,14 +3,16 @@
 namespace StudyTaskManager.Application.Entity.Groups.Queries;
 
 public sealed record GroupResponse(
+    Guid IdGroup,
     string Title,
     string? Description,
     Guid DefaultRoleId)
 {
-    internal GroupResponse(Group gropu)
+    internal GroupResponse(Group group)
         : this(
-              gropu.Title.Value,
-              gropu.Description?.Value,
-              gropu.DefaultRoleId)
+              group.Id,
+              group.Title.Value,
+              group.Description?.Value,
+              group.DefaultRoleId)
     { }
 }
