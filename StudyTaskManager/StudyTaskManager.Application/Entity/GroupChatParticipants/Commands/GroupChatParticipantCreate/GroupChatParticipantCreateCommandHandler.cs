@@ -38,7 +38,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Commands.Gro
 			await _groupChatParticipantRepository.AddAsync(result.Value, cancellationToken);
 			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-			return Result.Success(result);
+			return Result.Success();
 		}
 	}
 }
