@@ -35,7 +35,7 @@ namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Comm
             var gcmRes = await _groupChatMessageRepository.GetMessageAsync(request.GroupChatId, request.LastReadId, cancellationToken);
             if (gcmRes.IsFailure) return Result.Failure(userRes);
 
-            var gcpRes = await _groupChatParticipantLastReadRepository.GetParticipantLastReadAsync(request.UserId, request.GroupChatId, request.LastReadId, cancellationToken);
+            var gcpRes = await _groupChatParticipantLastReadRepository.GetParticipantLastReadAsync(request.UserId, request.GroupChatId, cancellationToken);
             if (userRes.IsSuccess) return Result.Failure(PersistenceErrors.GroupChatParticipantLastRead.AlreadyExist);
 
             var result = GroupChatParticipantLastRead.Create(userRes.Value, groupChatRes.Value, gcmRes.Value);

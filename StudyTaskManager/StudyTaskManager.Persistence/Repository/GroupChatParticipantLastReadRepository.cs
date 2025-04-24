@@ -65,16 +65,15 @@ namespace StudyTaskManager.Persistence.Repository
             return groupChatParticipantLastRead;
         }
 
-        public async Task<Result<GroupChatParticipantLastRead>> GetParticipantLastReadAsync(Guid userId, Guid groupChatId, ulong lastReadMessageId, CancellationToken cancellationToken)
-        {
-            Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
-                gcplr =>
-                    gcplr.LastReadMessageId == lastReadMessageId &&
-                    gcplr.GroupChatId == groupChatId &&
-                    gcplr.UserId == userId
-                , PersistenceErrors.GroupChatMessage.NotFound
-                , cancellationToken);
-            return groupChatParticipantLastRead;
-        }
-    }
+		public async Task<Result<GroupChatParticipantLastRead>> GetParticipantLastReadAsync(Guid userId, Guid groupChatId, CancellationToken cancellationToken)
+		{
+			Result<GroupChatParticipantLastRead> groupChatParticipantLastRead = await GetFromDBAsync(
+				gcplr =>
+					gcplr.GroupChatId == groupChatId &&
+					gcplr.UserId == userId
+				, PersistenceErrors.GroupChatMessage.NotFound
+				, cancellationToken);
+			return groupChatParticipantLastRead;
+		}
+	}
 }
