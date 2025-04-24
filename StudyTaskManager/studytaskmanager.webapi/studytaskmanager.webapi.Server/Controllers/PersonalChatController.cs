@@ -4,7 +4,7 @@ using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAdd
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
-using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetByUser;
+using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetAll;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
@@ -45,7 +45,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid userId,
             CancellationToken cancellationToken)
         {
-            var query = new PersonalChatsGetAllByUserQuery(userId);
+            var query = new PersonalChatsGetAllQuery(pc => pc.UsersID.Contains(userId));
 
             var response = await Sender.Send(query, cancellationToken);
 

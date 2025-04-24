@@ -47,7 +47,6 @@
     <Folder Include="Entity\GroupTasks\Events\" />
     <Folder Include="Entity\GroupTaskStatuses\Commands\GroupTaskStatusUpdate\" />
     <Folder Include="Entity\PersonalMessages\Queries\PersonalMessageGetAll\" />
-    <Folder Include="Entity\PersonalMessages\Queries\PersonalMessageTake\" />
     <Folder Include="Entity\SystemRoles\Queries\SystemRoleGetAll\" />
     <Folder Include="Entity\UsersInGroup\Events\" />
     <Folder Include="Entity\GroupInvites\Events\" />
