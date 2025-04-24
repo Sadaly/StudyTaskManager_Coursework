@@ -1,4 +1,4 @@
 ﻿using StudyTaskManager.Application.Abstractions.Messaging;
 
-namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGetByOrdinalAndGroupChatAndUserIds;
+namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGet;
 public sealed record GroupChatParticipantLastReadGetQuery(Guid UserId, Guid GroupChatId) : IQuery<GroupChatParticipantLastReadResponse>;
