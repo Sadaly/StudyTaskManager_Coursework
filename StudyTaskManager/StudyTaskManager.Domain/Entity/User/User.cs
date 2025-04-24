@@ -33,10 +33,8 @@ namespace StudyTaskManager.Domain.Entity.User
             PasswordHash = PasswordHash.Create(password).Value;
             RegistrationDate = registrationDate;
 
-            if (phoneNumber != null)
-            {
-                PhoneNumber = phoneNumber;
-            }
+            if (phoneNumber == null) { PhoneNumber = PhoneNumber.CreateDefault(); }
+            else { PhoneNumber = phoneNumber; }
 
             if (systemRole != null)
             {
@@ -70,7 +68,7 @@ namespace StudyTaskManager.Domain.Entity.User
         /// <summary>
         /// Номер телефона пользователя
         /// </summary>
-        public PhoneNumber? PhoneNumber { get; set; }
+        public PhoneNumber PhoneNumber { get; set; }
 
         /// <summary>
         /// Дата регистрации пользователя. Устанавливается автоматически при создании пользователя.
