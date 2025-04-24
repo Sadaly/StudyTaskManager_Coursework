@@ -46,7 +46,10 @@ namespace StudyTaskManager.Domain.Errors
             public static readonly Error AlreadyExist = new(
                 "GroupChatParticipantLastRead.AlreadyExist",
                 "Запись о прочитанном сообщении в групповом чате уже существует");
-        }
+			public static readonly Error UpdatedSameValue = new(
+				"GroupChatParticipantLastRead.UpdatedSameValue",
+				"Обнаружена попытка установить тоже самое значение Id последнего прочитанного");
+		}
 
         public static class GroupChatParticipant
         {

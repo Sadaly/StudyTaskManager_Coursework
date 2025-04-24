@@ -4,11 +4,12 @@ namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Quer
 {
     public sealed record GroupChatParticipantLastReadResponse(
     Guid GroupChatId,
-    Guid UserId
+    Guid UserId,
+    ulong LastRead
     )
     {
-        internal GroupChatParticipantLastReadResponse(GroupChatParticipant gcp)
-            : this(gcp.GroupChatId, gcp.UserId)
+        internal GroupChatParticipantLastReadResponse(GroupChatParticipantLastRead gcplr)
+            : this(gcplr.GroupChatId, gcplr.UserId, gcplr.LastReadMessageId)
         { }
     }
 }
