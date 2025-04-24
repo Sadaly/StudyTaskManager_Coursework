@@ -1,26 +1,28 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
+    [ComplexType]
     public class PhoneNumber : ValueObject
     {
-        //Международный стандарт
         public const int MAX_LENGTH = 15;
-        //Международный стандарт
         public const int MIN_LENGTH = 8;
+        public const string DEFAULT_VALUE = "~~~";
 
-        public PhoneNumber() {
-            Value = "";
+        public PhoneNumber()
+        {
+            Value = DEFAULT_VALUE;
         }
         private PhoneNumber(string phoneNumber)
         {
             Value = phoneNumber;
         }
 
-        public string Value { get; set; }
+        public string Value { get; private set; }
 
         /// <summary>
         /// Создание экземпляра <see cref="PhoneNumber"/> с проверкой входящих значений
@@ -32,21 +34,21 @@ namespace StudyTaskManager.Domain.ValueObjects
             var cleanedNumber = Regex.Replace(phoneNumber, @"[^0-9+]", "");
 
             if (string.IsNullOrWhiteSpace(cleanedNumber))
-            {
                 return Result.Failure<PhoneNumber>(DomainErrors.PhoneNumber.Empty);
-            }
+
 
             if (cleanedNumber.Length > MAX_LENGTH)
-            {
                 return Result.Failure<PhoneNumber>(DomainErrors.PhoneNumber.TooLong);
-            }
+
 
             if (cleanedNumber.Length < MIN_LENGTH)
-            {
                 return Result.Failure<PhoneNumber>(DomainErrors.PhoneNumber.TooShort);
-            }
 
             return new PhoneNumber(cleanedNumber);
+        }
+        public static PhoneNumber CreateDefault()
+        {
+            return new PhoneNumber();
         }
         public override IEnumerable<object> GetAtomicValues()
         {

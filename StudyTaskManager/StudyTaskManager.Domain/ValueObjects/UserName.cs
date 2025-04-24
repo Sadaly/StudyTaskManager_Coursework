@@ -1,13 +1,16 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
+    [ComplexType]
     public class Username : ValueObject
     {
         public const int MAX_LENGTH = 50;
 
+        //private Username() { Value = ""; }
         private Username(string value)
         {
             Value = value;

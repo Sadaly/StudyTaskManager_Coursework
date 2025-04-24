@@ -18,6 +18,7 @@ namespace StudyTaskManager.Persistence.Repository
 
         public async Task<Result<bool>> IsPhoneNumberUniqueAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken = default)
         {
+            if (phoneNumber.Value == PhoneNumber.DEFAULT_VALUE) return true;
             return !await _dbContext.Set<User>().AnyAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
         }
 

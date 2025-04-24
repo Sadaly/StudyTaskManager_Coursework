@@ -1,12 +1,20 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 using System.Text;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
+    [ComplexType]
     public class PasswordHash : ValueObject
     {
+        public const string DEFAULT_VALUE = "~~~";
+
+        public PasswordHash()
+        {
+            Value = DEFAULT_VALUE;
+        }
         public PasswordHash(string hashedPassword)
         {
             Value = hashedPassword;

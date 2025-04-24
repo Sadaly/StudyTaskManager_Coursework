@@ -1,17 +1,20 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
+    [ComplexType]
     public sealed class Email : ValueObject
     {
+        //private Email() { Value = ""; }
         private Email(string value)
         {
             Value = value;
         }
 
-        public string Value { get; }
+        public string Value { get; private set; }
 
         /// <summary>
         /// Создание экземпляра <see cref="Email"/>  с проверкой входящих значений
