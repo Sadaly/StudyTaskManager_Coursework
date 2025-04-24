@@ -7,4 +7,4 @@ namespace StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChat
 public sealed record PersonalChatTakeQuery(
     int StartIndex,
     int Count,
-    Expression<Func<PersonalChat, bool>> Perdicate) : IQuery<List<PersonalChatsResponse>>;
+    Expression<Func<PersonalChat, bool>>? Perdicate) : IQuery<List<PersonalChatsResponse>>;
