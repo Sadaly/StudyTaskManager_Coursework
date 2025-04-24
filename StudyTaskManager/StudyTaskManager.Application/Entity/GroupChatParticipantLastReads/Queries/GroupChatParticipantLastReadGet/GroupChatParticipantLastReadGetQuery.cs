@@ -1,6 +1,4 @@
-﻿namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGetByOrdinalAndGroupChatAndUserIds
-{
-    internal class GroupChatParticipantLastReadGetQuery
-    {
-    }
-}
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
+
+namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGetByOrdinalAndGroupChatAndUserIds;
+public sealed record GroupChatParticipantLastReadGetQuery(Guid UserId, Guid GroupChatId) : IQuery<GroupChatParticipantLastReadResponse>;
