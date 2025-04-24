@@ -1,6 +1,4 @@
-﻿namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Commands.GroupChatParticipantCreate
-{
-    internal class GroupChatParticipantCreateCommand
-    {
-    }
-}
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
+
+namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Commands.GroupChatParticipantCreate;
+public sealed record GroupChatParticipantCreateCommand(Guid UserId, Guid GroupChatId) : ICommand;
