@@ -40,7 +40,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut]
+        [HttpGet]
         public async Task<IActionResult> GetAll(
             CancellationToken cancellationToken)
         {
@@ -63,7 +63,5 @@ namespace StudyTaskManager.WebAPI.Controllers
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
-
-
     }
 }
