@@ -13,15 +13,6 @@ namespace StudyTaskManager.Persistence.Configurations
             builder.ToTable(TableNames.SystemRole);
 
             // Приватный ключ
-            builder.HasKey(sr => sr.Id);
-
-            builder
-                .Property(sr => sr.Name)
-                .HasConversion(
-                    t => t.Value,
-                    str => Title.Create(str).Value)
-                .HasMaxLength(Title.MAX_LENGTH)
-                .HasColumnName(TableNames.SystemRoleTable.Name);
-        }
+            builder.HasKey(sr => sr.Id);}
     }
 }

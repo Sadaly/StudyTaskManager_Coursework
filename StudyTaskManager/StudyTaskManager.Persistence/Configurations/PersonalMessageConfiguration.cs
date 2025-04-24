@@ -22,14 +22,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(pm => pm.Sender)
                 .WithMany()
                 .HasForeignKey(pm => pm.SenderId);
-
-            builder
-                .Property(pm => pm.Content)
-                .HasConversion(
-                    c => c.Value,
-                    str => Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .HasColumnName(TableNames.PersonalMessageTable.Content);
         }
     }
 }

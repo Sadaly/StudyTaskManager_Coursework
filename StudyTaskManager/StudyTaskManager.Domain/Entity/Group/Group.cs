@@ -11,12 +11,16 @@ namespace StudyTaskManager.Domain.Entity.Group
     /// </summary>
     public class Group : BaseEntityWithID
     {
-        private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : base(id)
+        private Group(Guid id, Guid defaultRoleId) : base(id)
+        {
+            DefaultRoleId = defaultRoleId;
+        }
+        private Group(Guid id, Title title, Content? description, Guid defaultRoleId) : this(id, defaultRoleId)
         {
             Title = title;
-            Description = description;
 
-            DefaultRoleId = defaultRoleId;
+            if (description == null) { Description = Content.CreateDefault(); }
+            else { Description = description; }
 
             _usersInGroup = [];
             _groupRoles = [];
@@ -26,14 +30,14 @@ namespace StudyTaskManager.Domain.Entity.Group
         #region свойства
 
         /// <summary>
-        /// Название группы (обязательно).
+        /// Название группы.
         /// </summary>
         public Title Title { get; private set; }
 
         /// <summary>
-        /// Описание группы (может быть пустым).
+        /// Описание группы.
         /// </summary>
-        public Content? Description { get; private set; }
+        public Content Description { get; private set; }
 
         /// <summary>
         /// ID роли по умолчанию для новых пользователей.

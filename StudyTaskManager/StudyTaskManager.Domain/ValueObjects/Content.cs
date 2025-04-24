@@ -1,19 +1,28 @@
 ﻿using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
+    [ComplexType]
     public class Content : ValueObject
     {
         public const int MAX_LENGTH = 5000;
+        public const string DEFAULT_VALUE = "~empty~";
+
+        public Content()
+        {
+            Value = DEFAULT_VALUE;
+        }
         private Content(string value)
         {
             Value = value;
         }
 
-        public string Value { get; set; }
+        public string Value { get; private set; }
 
+        public static Content CreateDefault() { return new Content(); }
         /// <summary>
         /// Создание экземпляра <see cref="Content"/> с проверкой входящих значений
         /// </summary>

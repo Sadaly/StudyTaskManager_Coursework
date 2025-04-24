@@ -21,14 +21,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gcm => gcm.GroupChat)
                 .WithMany(gc => gc.GroupChatMessages)
                 .HasForeignKey(gcm => gcm.GroupChatId);
-
-            builder
-                .Property(gcm => gcm.Content)
-                .HasConversion(
-                    c => c.Value,
-                    str => Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupChatMessageTable.Context);
         }
     }
 }

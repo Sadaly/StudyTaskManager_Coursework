@@ -18,14 +18,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany(g => g.GroupRoles)
                 .HasForeignKey(gr => gr.GroupId)
                 .IsRequired(false); // GroupId может быть null
-
-            builder
-                .Property(g => g.Title)
-                .HasConversion(
-                    t => t.Value,
-                    str => Title.Create(str).Value)
-                .HasMaxLength(Title.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupRoleTable.RoleName);
         }
     }
 }

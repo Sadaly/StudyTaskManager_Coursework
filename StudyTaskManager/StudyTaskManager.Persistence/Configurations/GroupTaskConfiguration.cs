@@ -30,28 +30,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey(gt => gt.StatusId)
                 .IsRequired(false);
-
-            builder
-                .Property(gt => gt.HeadLine)
-                .HasConversion(
-                    t => t.Value,
-                    str => Title.Create(str).Value)
-                .HasMaxLength(Title.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupTaskTable.HeadLine);
-            builder
-                .Property(gt => gt.Description)
-                .HasConversion(
-                    c =>
-                        c == null ?
-                            null :
-                            c.Value,
-                    str =>
-                        string.IsNullOrEmpty(str) ?
-                            null :
-                            Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .IsRequired(false)
-                .HasColumnName(TableNames.GroupTaskTable.Description);
         }
     }
 }

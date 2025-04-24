@@ -21,14 +21,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gtu => gtu.Creator)
                 .WithMany()
                 .HasForeignKey(gtu => gtu.CreatorId);
-
-            builder
-                .Property(gtu => gtu.Content)
-                .HasConversion(
-                    c => c.Value,
-                    str => Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupTaskUpdateTable.Content);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Описание статуса.
         /// </summary>
-        public Content? Description { get; set; }
+        public Content Description { get; set; }
 
         #endregion
 

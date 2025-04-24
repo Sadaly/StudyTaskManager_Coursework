@@ -24,6 +24,7 @@ namespace StudyTaskManager.Domain.ValueObjects
 
         public string Value { get; private set; }
 
+        public static PhoneNumber CreateDefault() { return new PhoneNumber(); }
         /// <summary>
         /// Создание экземпляра <see cref="PhoneNumber"/> с проверкой входящих значений
         /// </summary>
@@ -45,10 +46,6 @@ namespace StudyTaskManager.Domain.ValueObjects
                 return Result.Failure<PhoneNumber>(DomainErrors.PhoneNumber.TooShort);
 
             return new PhoneNumber(cleanedNumber);
-        }
-        public static PhoneNumber CreateDefault()
-        {
-            return new PhoneNumber();
         }
         public override IEnumerable<object> GetAtomicValues()
         {

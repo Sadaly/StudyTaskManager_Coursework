@@ -17,14 +17,6 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gc => gc.Group)
                 .WithMany()
                 .HasForeignKey(gc => gc.GroupId);
-
-            builder
-                .Property(gc => gc.Name)
-                .HasConversion(
-                    n => n.Value,
-                    str => Title.Create(str).Value)
-                .HasMaxLength(Title.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupChatTable.Title);
         }
     }
 }

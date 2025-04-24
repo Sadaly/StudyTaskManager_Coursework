@@ -16,13 +16,16 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
     {
 
         // Приватный конструктор для предотвращения невалидного создания объектов.
-        private GroupChatMessage(Guid GroupChatId, ulong ordinal, Guid SenderId, Content content) : base()
+        private GroupChatMessage(Guid groupChatId, ulong ordinal, Guid senderId) : base()
         {
-            this.GroupChatId = GroupChatId;
-            this.Ordinal = ordinal;
-            this.SenderId = SenderId;
-            this.Content = content;
-            this.DateTime = DateTime.UtcNow;
+            GroupChatId = groupChatId;
+            Ordinal = ordinal;
+            SenderId = senderId;
+        }
+        private GroupChatMessage(Guid groupChatId, ulong ordinal, Guid senderId, Content content, DateTime dateTime) : this(groupChatId, ordinal, senderId)
+        {
+            Content = content;
+            DateTime = dateTime;
         }
 
         #region свойства
@@ -76,7 +79,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// <returns>Новая сущность GroupChatMessage.</returns>
         public static Result<GroupChatMessage> Create(GroupChat GroupChat, ulong ordinal, User.User Sender, Content content)
         {
-            GroupChatMessage gcm = new(GroupChat.Id, ordinal, Sender.Id, content)
+            GroupChatMessage gcm = new(GroupChat.Id, ordinal, Sender.Id, content, DateTime.UtcNow)
             {
                 Sender = Sender,
                 GroupChat = GroupChat

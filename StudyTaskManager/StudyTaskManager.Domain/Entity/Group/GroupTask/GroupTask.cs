@@ -61,7 +61,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Task
         /// <summary>
         /// Описание задачи.
         /// </summary>
-        public Content? Description { get; set; }
+        public Content Description { get; set; }
 
         /// <summary>
         /// Id ответственного за задачу.

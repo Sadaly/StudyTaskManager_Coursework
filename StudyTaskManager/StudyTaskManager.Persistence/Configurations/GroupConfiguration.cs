@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Configurations
 {
@@ -24,28 +23,6 @@ namespace StudyTaskManager.Persistence.Configurations
             builder
                 .HasMany(g => g.GroupInvites)
                 .WithOne(gi => gi.Group);
-
-            builder
-                .Property(g => g.Title)
-                .HasConversion(
-                    t => t.Value,
-                    str => Title.Create(str).Value)
-                .HasMaxLength(Title.MAX_LENGTH)
-                .HasColumnName(TableNames.GroupTable.Title);
-            builder
-                .Property(g => g.Description)
-                .HasConversion(
-                    c =>
-                        c == null ?
-                            null :
-                            c.Value,
-                    str =>
-                        string.IsNullOrEmpty(str) ?
-                            null :
-                            Content.Create(str).Value)
-                .HasMaxLength(Content.MAX_LENGTH)
-                .IsRequired(false)
-                .HasColumnName(TableNames.GroupTable.Description);
         }
     }
 }
