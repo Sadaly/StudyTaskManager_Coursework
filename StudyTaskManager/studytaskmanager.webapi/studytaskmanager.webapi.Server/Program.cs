@@ -7,6 +7,7 @@ using MediatR;
 using StudyTaskManager.Persistence.Interceptors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StudyTaskManager.WebAPI.OptionsSetup;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -35,6 +36,34 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeli
 
 builder.Services.AddValidatorsFromAssembly(StudyTaskManager.Application.AssemblyReference.Assembly,
     includeInternalTypes: true);
+
+builder.Services.AddSwaggerGen(opt =>
+{
+	opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+	opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Please enter token",
+		Name = "Authorization",
+		Type = SecuritySchemeType.Http,
+		BearerFormat = "JWT",
+		Scheme = "bearer"
+	});
+	opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type=ReferenceType.SecurityScheme,
+					Id="Bearer"
+				}
+			},
+			new string[]{}
+		}
+	});
+});
 
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 

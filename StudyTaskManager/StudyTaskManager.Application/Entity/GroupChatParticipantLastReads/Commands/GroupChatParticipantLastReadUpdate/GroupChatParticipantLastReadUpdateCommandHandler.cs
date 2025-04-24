@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Shared;
-using StudyTaskManager.Domain.Entity.Group.Chat;
 
 namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Commands.GroupChatParticipantLastReadUpdate
 {
@@ -34,10 +33,13 @@ namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Comm
             var gcmRes = await _groupChatMessageRepository.GetMessageAsync(request.GroupChatId, request.LastReadId, cancellationToken);
             if (gcmRes.IsFailure) return Result.Failure(userRes);
 
-            var result = GroupChatParticipantLastRead.Create(userRes.Value, groupChatRes.Value, gcmRes.Value);
+            var result = await _groupChatParticipantLastReadRepository.GetParticipantLastReadAsync(userRes.Value.Id, groupChatRes.Value.Id, cancellationToken);
             if (result.IsFailure) return Result.Failure(result);
 
-            await _groupChatParticipantLastReadRepository.UpdateAsync(result.Value, cancellationToken);
+            result.Value.UpdateReadMessage(gcmRes.Value);
+			if (result.IsFailure) return Result.Failure(result);
+
+			await _groupChatParticipantLastReadRepository.UpdateAsync(result.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
