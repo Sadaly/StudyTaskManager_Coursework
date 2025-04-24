@@ -3,7 +3,7 @@ using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Shared;
 
-namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGetByOrdinalAndGroupChatAndUserIds
+namespace StudyTaskManager.Application.Entity.GroupChatParticipantLastReads.Queries.GroupChatParticipantLastReadGet
 {
     internal class GroupChatParticipantLastReadGetQueryHandler : IQueryHandler<GroupChatParticipantLastReadGetQuery, GroupChatParticipantLastReadResponse>
     {
