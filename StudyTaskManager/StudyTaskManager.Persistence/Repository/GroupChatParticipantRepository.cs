@@ -53,5 +53,13 @@ namespace StudyTaskManager.Persistence.Repository
                 , cancellationToken);
             return groupChatParticipant;
         }
-    }
+
+		public async Task<Result<GroupChatParticipant>> Get(Guid UserId, Guid GroupChatId, CancellationToken cancellationToken)
+		{
+			return await GetFromDBAsync(
+				gcp => gcp.UserId == UserId && gcp.GroupChatId == GroupChatId
+				, PersistenceErrors.GroupChatParticipant.NotFound
+				, cancellationToken);
+		}
+	}
 }
