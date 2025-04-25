@@ -32,8 +32,13 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
             Guid groupRoleId,
             CancellationToken cancellationToken)
         {
-            var command = new GroupRoleDeleteCommand(groupRoleId);
+            var queryGetById = new GroupRoleGetByIdQuery(groupRoleId);
+            var responseGetById = await Sender.Send(queryGetById, cancellationToken);
 
+            if (responseGetById.IsFailure) return BadRequest(responseGetById.Error);
+            if (responseGetById.Value.GroupId != null) return BadRequest(); //TODO Добавил ошибку что роль не общая
+
+            var command = new GroupRoleDeleteCommand(groupRoleId);
             var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
@@ -46,10 +51,12 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
             CancellationToken cancellationToken)
         {
             var query = new GroupRoleGetByIdQuery(groupRoleId);
-
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            if (response.IsFailure) return BadRequest(response.Error);
+            if (response.Value.GroupId != null) return BadRequest(); //TODO Добавил ошибку что роль не общая
+
+            return Ok(response.Value);
         }
 
         //[Authorize]
@@ -58,7 +65,6 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
             CancellationToken cancellationToken)
         {
             var query = new GroupRoleGetAllQuery(gr => gr.GroupId == null);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
