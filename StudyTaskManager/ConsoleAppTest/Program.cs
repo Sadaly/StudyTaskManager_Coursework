@@ -12,12 +12,10 @@ namespace ConsoleAppTest
     {
         static async Task Main(string[] args)
         {
+            int TaskDelay = 500;
             Console.WriteLine("Тестовый проект просто для проверки реализации.");
-            using (AppDbContext db = new())
-            {
-                await Run(db);
-            }
-
+            using (AppDbContext db = new()) { await Run(db); }
+            Console.Clear();
             while (true)
             {
                 DateTime __timeStart = DateTime.Now; Console.WriteLine($"Начало работы: {__timeStart}\n------------------------\n");
@@ -35,14 +33,13 @@ namespace ConsoleAppTest
                 DateTime __timeEnd = DateTime.Now; Console.WriteLine($"\n------------------------\nКонец работы: {__timeEnd}\nВремя работы: {__timeEnd - __timeStart}\n------------------------\n");
 
                 Console.CursorVisible = false;
-                await Task.Delay(500);
+                await Task.Delay(TaskDelay);
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true).Key;
                     if (key == ConsoleKey.Escape) break;
                     if (key == ConsoleKey.C) Console.Clear();
                 }
-
                 Console.SetCursorPosition(0, 0);
             }
         }
