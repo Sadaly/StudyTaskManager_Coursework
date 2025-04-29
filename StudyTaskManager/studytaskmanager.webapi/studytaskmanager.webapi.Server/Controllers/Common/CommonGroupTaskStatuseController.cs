@@ -45,7 +45,6 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
             if (responseGetById.IsFailure) return BadRequest(responseGetById.Error);
             if (responseGetById.Value.GroupId != null) return BadRequest(); //TODO написать ошибку то статус не общий
 
-
             var command = new GroupTaskStatusDeleteCommand(groupTaskStatusId);
             var response = await Sender.Send(command, cancellationToken);
 

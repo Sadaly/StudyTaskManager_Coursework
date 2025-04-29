@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleCreate;
 using StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleDelete;
 using StudyTaskManager.Application.Entity.GroupRoles.Queries.GroupRoleGetAll;
 using StudyTaskManager.Application.Entity.GroupRoles.Queries.GroupRoleGetById;
-using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers.Common
 {
