@@ -75,10 +75,10 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         [HttpGet("All")]
         public async Task<IActionResult> GetAllUsers(
-            [FromQuery] UserFilter userFilter,
+            [FromQuery] UserFilter filter,
             CancellationToken cancellationToken)
         {
-            var query = new UsersGetAllQuery(userFilter.ToPredicate());
+            var query = new UsersGetAllQuery(filter.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -86,10 +86,10 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         [HttpGet("Take")]
         public async Task<IActionResult> TakeUsers(
-            [FromQuery] TakeData<UserFilter, User> data,
+            [FromQuery] TakeData<UserFilter, User> take,
             CancellationToken cancellationToken)
         {
-            var query = new UsersTakeQuery(data.StartIndex, data.Count, data.Filter.ToPredicate());
+            var query = new UsersTakeQuery(take.StartIndex, take.Count, take.Filter.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
