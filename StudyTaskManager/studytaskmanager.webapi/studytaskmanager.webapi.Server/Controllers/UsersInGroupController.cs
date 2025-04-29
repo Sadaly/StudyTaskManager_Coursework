@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageUpdateContent;
 using StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupDelete;
 using StudyTaskManager.Application.Entity.UsersInGroup.Commands.UserInGroupUpdateRole;
 using StudyTaskManager.Application.Entity.UsersInGroup.Queries.GetAllUserInGroups;
@@ -36,8 +35,8 @@ namespace StudyTaskManager.WebAPI.Controllers
             [FromBody] Guid roleId,
             CancellationToken cancellationToken)
         {
-            var request = new UserInGroupUpdateRoleCommand(userId, groupId, roleId);
-            var response = await Sender.Send(request, cancellationToken);
+            var command = new UserInGroupUpdateRoleCommand(userId, groupId, roleId);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : NotFound(response.Error);
         }

@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate;
 using StudyTaskManager.Application.Entity.Groups.Commands.GroupDelete;
-using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetById;
 using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetAll;
 
