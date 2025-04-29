@@ -9,13 +9,14 @@ using StudyTaskManager.Application.Entity.Users.Queries.TakeUsers;
 using StudyTaskManager.Domain.Entity.User;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
+using StudyTaskManager.WebAPI.Controllers.SupportData;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public sealed class UsersController : ApiController
     {
-        public class UserFilter
+        public class UserFilter : IEntityFilter<User>
         {
             public string? Username { get; set; }
             public string? Email { get; set; }
@@ -39,11 +40,6 @@ namespace StudyTaskManager.WebAPI.Controllers
                     (!SystemRoleId.HasValue || user.SystemRoleId == SystemRoleId);
             }
         }
-
-        public sealed record TakeUsersData(
-            int StartIndex,
-            int Count,
-            UserFilter UserFilter);
 
         public UsersController(ISender sender) : base(sender) { }
 
@@ -90,10 +86,10 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         [HttpGet("Take")]
         public async Task<IActionResult> TakeUsers(
-            [FromQuery] TakeUsersData data,
+            [FromQuery] TakeData<UserFilter, User> data,
             CancellationToken cancellationToken)
         {
-            var query = new UsersTakeQuery(data.StartIndex, data.Count, data.UserFilter.ToPredicate());
+            var query = new UsersTakeQuery(data.StartIndex, data.Count, data.Filter.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
