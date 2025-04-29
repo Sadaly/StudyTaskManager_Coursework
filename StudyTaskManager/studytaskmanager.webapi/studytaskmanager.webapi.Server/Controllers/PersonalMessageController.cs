@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageCreate;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageDelete;
@@ -14,7 +15,6 @@ namespace StudyTaskManager.WebAPI.Controllers
     public class PersonalMessageController : ApiController
     {
         public PersonalMessageController(ISender sender) : base(sender) { }
-
 
         //[Authorize]
         [HttpPost]
@@ -34,7 +34,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var request = new PersonalMessageGetByIdQuery(personalMessageId);
-
             var response = await Sender.Send(request, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
@@ -46,36 +45,33 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid personalMessageId,
             CancellationToken cancellationToken)
         {
-            var command = new PersonalMessageDeleteCommand(personalMessageId);
-
-            Result response = await Sender.Send(command, cancellationToken);
+            var request = new PersonalMessageDeleteCommand(personalMessageId);
+            Result response = await Sender.Send(request, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
 
         //[Authorize]
-        [HttpPut("MarkAsRead/{personalMessageId:Guid}")]
+        [HttpPut("{personalMessageId:Guid}/MarkAsRead")]
         public async Task<IActionResult> MarkAsRead(
             Guid personalMessageId,
             CancellationToken cancellationToken)
         {
-            var command = new PersonalMessageMarkAsReadCommand(personalMessageId);
-
-            var response = await Sender.Send(command, cancellationToken);
+            var request = new PersonalMessageMarkAsReadCommand(personalMessageId);
+            var response = await Sender.Send(request, cancellationToken);
 
             return response.IsSuccess ? Ok() : NotFound(response.Error);
         }
 
         //[Authorize]
-        [HttpPut("UpdateContent/{personalMessageId:Guid}")]
+        [HttpPut("{personalMessageId:Guid}/UpdateContent")]
         public async Task<IActionResult> UpdateContent(
             Guid personalMessageId,
-            [FromBody] string content,
+            [FromBody] string newContent,
             CancellationToken cancellationToken)
         {
-            var command = new PersonalMessageUpdateContentCommand(personalMessageId, content);
-
-            var response = await Sender.Send(command, cancellationToken);
+            var request = new PersonalMessageUpdateContentCommand(personalMessageId, newContent);
+            var response = await Sender.Send(request, cancellationToken);
 
             return response.IsSuccess ? Ok() : NotFound(response.Error);
         }

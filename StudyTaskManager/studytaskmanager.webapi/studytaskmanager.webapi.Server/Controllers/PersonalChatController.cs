@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatAddMessage;
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCreate;
@@ -18,10 +19,10 @@ namespace StudyTaskManager.WebAPI.Controllers
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] PersonalChatCreateCommand request,
+            [FromBody] PersonalChatCreateCommand command,
             CancellationToken cancellationToken)
         {
-            var response = await Sender.Send(request, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
@@ -33,7 +34,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new PersonalChatGetByIdQuery(perconalChatId);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -46,7 +46,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new PersonalChatsGetAllQuery(pc => pc.UsersID.Contains(userId));
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -54,7 +53,7 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         //[Authorize]
         [HttpPut]
-        public async Task<IActionResult> GetUserByUser(
+        public async Task<IActionResult> AddMessage(
             [FromBody] PersonalChatAddMessageCommand query,
             CancellationToken cancellationToken)
         {

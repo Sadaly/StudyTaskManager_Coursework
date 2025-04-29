@@ -18,22 +18,21 @@ namespace StudyTaskManager.WebAPI.Controllers
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] GroupCreateCommand request,
+            [FromBody] GroupCreateCommand command,
             CancellationToken cancellationToken)
         {
-            var response = await Sender.Send(request, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
 
         //[Authorize]
         [HttpGet("{groupId:guid}")]
-        public async Task<IActionResult> GetUserById(
+        public async Task<IActionResult> Get(
             Guid groupId,
             CancellationToken cancellationToken)
         {
             var query = new GroupGetByIdQuery(groupId);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -45,7 +44,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new GroupGetAllQuery(null);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -58,8 +56,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var command = new GroupDeleteCommand(groupId);
-
-            Result response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }

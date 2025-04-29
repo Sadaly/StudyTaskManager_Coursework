@@ -14,12 +14,11 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
     public class CommonGroupTaskStatuseController : ApiController
     {
         public const string CONTROLLER_NAME = "GroupTaskStatus";
-        public CommonGroupTaskStatuseController(ISender sender) : base(sender) { }
-
         public sealed record GroupTaskStatusCreateCommandData(
             string Title,
             bool CanBeUpdated,
             string? Description);
+        public CommonGroupTaskStatuseController(ISender sender) : base(sender) { }
 
         //[Authorize]
         [HttpPost]
@@ -28,7 +27,7 @@ namespace StudyTaskManager.WebAPI.Controllers.Common
             CancellationToken cancellationToken)
         {
             var command = new GroupTaskStatusCreateCommand(data.Title, data.CanBeUpdated, null, data.Description);
-            Result<Guid> response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }

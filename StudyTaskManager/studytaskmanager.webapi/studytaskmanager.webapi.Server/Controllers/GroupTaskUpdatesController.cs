@@ -18,14 +18,13 @@ namespace StudyTaskManager.WebAPI.Controllers
     {
         public GroupTaskUpdatesController(ISender sender) : base(sender) { }
 
-
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] GroupTaskUpdateCreateCommand request,
+            [FromBody] GroupTaskUpdateCreateCommand command,
             CancellationToken cancellationToken)
         {
-            var response = await Sender.Send(request, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
@@ -36,8 +35,8 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid updateId,
             CancellationToken cancellationToken)
         {
-            var request = new GroupTaskUpdateDeleteCommand(updateId);
-            var response = await Sender.Send(request, cancellationToken);
+            var command = new GroupTaskUpdateDeleteCommand(updateId);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
         }
@@ -49,13 +48,11 @@ namespace StudyTaskManager.WebAPI.Controllers
            [FromBody] string newContent,
             CancellationToken cancellationToken)
         {
-            var request = new GroupTaskUpdateUpdateCommand(updateId, newContent);
-            var response = await Sender.Send(request, cancellationToken);
+            var command = new GroupTaskUpdateUpdateCommand(updateId, newContent);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
         }
-
-
 
         //[Authorize]
         [HttpGet("{updateId:guid}")]
@@ -64,7 +61,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new GroupTaskUpdateGetByIdQuery(updateId);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -76,7 +72,6 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new GroupTaskUpdateGetAllQuery(null);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);

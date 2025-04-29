@@ -5,7 +5,6 @@ using StudyTaskManager.Application.Entity.GroupRoles.Commands.GroupRoleDelete;
 using StudyTaskManager.Application.Entity.GroupRoles.Queries.GroupRoleGetAll;
 using StudyTaskManager.Application.Entity.GroupRoles.Queries.GroupRoleGetById;
 using StudyTaskManager.Application.Entity.Groups.Commands.GroupCreateRole;
-using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -18,14 +17,13 @@ namespace StudyTaskManager.WebAPI.Controllers
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-        [FromBody] GroupCreateRoleCommand request, // это команда группы, а не ролиГруппы (у них одинаковое имя).
+        [FromBody] GroupCreateRoleCommand command, // это команда группы, а не ролиГруппы (у них одинаковое имя).
             CancellationToken cancellationToken)
         {
-            var response = await Sender.Send(request, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
-
 
         //[Authorize]
         [HttpDelete("{roleId:guid}")]
@@ -33,20 +31,25 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid roleId,
             CancellationToken cancellationToken)
         {
+            var query = new GroupRoleGetByIdQuery(roleId);
+            var responseGetById = await Sender.Send(query, cancellationToken);
+
+            if (responseGetById.IsFailure) return BadRequest(responseGetById.Error);
+            if (responseGetById.Value.GroupId == null) return BadRequest(); //TODO Добавил ошибку что роль общая
+
             var command = new GroupRoleDeleteCommand(roleId);
+            var responseDelete = await Sender.Send(command, cancellationToken);
 
-            Result response = await Sender.Send(command, cancellationToken);
-
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return responseDelete.IsSuccess ? Ok() : BadRequest(responseDelete.Error);
         }
 
         //[Authorize]
-        [HttpGet("{groupRoleId:guid}")]
+        [HttpGet("{roleId:guid}")]
         public async Task<IActionResult> Get(
-            Guid groupRoleId,
+            Guid roleId,
             CancellationToken cancellationToken)
         {
-            var query = new GroupRoleGetByIdQuery(groupRoleId);
+            var query = new GroupRoleGetByIdQuery(roleId);
             var response = await Sender.Send(query, cancellationToken);
 
             if (response.IsFailure) return BadRequest(response.Error);
@@ -56,9 +59,9 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpGet]
+        [HttpGet("Group/{groupId:guid}")]
         public async Task<IActionResult> GetAll(
-            [FromBody] Guid groupId,
+            Guid groupId,
             CancellationToken cancellationToken)
         {
             var query = new GroupRoleGetAllQuery(gr => gr.GroupId == groupId);

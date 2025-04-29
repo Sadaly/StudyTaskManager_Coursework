@@ -14,7 +14,6 @@ namespace StudyTaskManager.WebAPI.Controllers
     [Route("api/[controller]")]
     public class GroupTaskStatusController : ApiController
     {
-        public const string CONTROLLER_NAME = "GroupTaskStatus";
         public GroupTaskStatusController(ISender sender) : base(sender) { }
 
         //[Authorize]
@@ -72,6 +71,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid groupTaskStatusId,
             CancellationToken cancellationToken)
         {
+            // Сначало получить GroupTaskStatus, чтобу удостовериться что он не общий, после удалить
             var queryGetById = new GroupTaskStatusGetByIdQuery(groupTaskStatusId);
             var responseGetById = await Sender.Send(queryGetById, cancellationToken);
 

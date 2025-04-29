@@ -16,22 +16,21 @@ namespace StudyTaskManager.WebAPI.Controllers
     [Route("api/[controller]")]
     public class SystemRoleController : ApiController
     {
+        public sealed record SystemRoleUpdatePrivilegesCommandData(
+            bool CanViewPeoplesGroups,
+            bool CanChangeSystemRoles,
+            bool CanBlockUsers,
+            bool CanDeleteChats);
+
         public SystemRoleController(ISender sender) : base(sender) { }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] SystemRoleCreateCommand request,
+            [FromBody] SystemRoleCreateCommand command,
             CancellationToken cancellationToken)
         {
-            var command = new SystemRoleCreateCommand(
-                request.Name,
-                request.CanViewPeoplesGroups,
-                request.CanChangeSystemRoles,
-                request.CanBlockUsers,
-                request.CanDeleteChats);
-
-            Result<Guid> response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }
@@ -43,8 +42,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var command = new SystemRoleDeleteCommand(systemRoleId);
-
-            Result response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
@@ -52,36 +50,30 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         [Authorize]
         [HttpGet("{systemRoleId:guid}")]
-        public async Task<IActionResult> GetUserById(Guid systemRoleId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserById(
+            Guid systemRoleId,
+            CancellationToken cancellationToken)
         {
             var query = new SystemRoleGetByIdQuery(systemRoleId);
-
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
-        public sealed record SystemRoleUpdatePrivilegesCommandRequest(
-            bool CanViewPeoplesGroups,
-            bool CanChangeSystemRoles,
-            bool CanBlockUsers,
-            bool CanDeleteChats);
-
         [Authorize]
         [HttpPut("{systemRoleId:guid}/Privileges")]
         public async Task<IActionResult> UpdatePrivileges(
             Guid systemRoleId,
-            [FromBody] SystemRoleUpdatePrivilegesCommandRequest request,
+            [FromBody] SystemRoleUpdatePrivilegesCommandData data,
             CancellationToken cancellationToken)
         {
             var command = new SystemRoleUpdatePrivilegesCommand(
                 systemRoleId,
-                request.CanViewPeoplesGroups,
-                request.CanChangeSystemRoles,
-                request.CanBlockUsers,
-                request.CanDeleteChats);
-
-            Result response = await Sender.Send(command, cancellationToken);
+                data.CanViewPeoplesGroups,
+                data.CanChangeSystemRoles,
+                data.CanBlockUsers,
+                data.CanDeleteChats);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
@@ -90,14 +82,11 @@ namespace StudyTaskManager.WebAPI.Controllers
         [HttpPut("{systemRoleId:guid}/Title")]
         public async Task<IActionResult> UpdateTitle(
             Guid systemRoleId,
-            string NewTitle,
+            [FromBody] string newTitle,
             CancellationToken cancellationToken)
         {
-            var command = new SystemRoleUpdateTitleCommand(
-                systemRoleId,
-                NewTitle);
-
-            Result response = await Sender.Send(command, cancellationToken);
+            var command = new SystemRoleUpdateTitleCommand(systemRoleId, newTitle);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
