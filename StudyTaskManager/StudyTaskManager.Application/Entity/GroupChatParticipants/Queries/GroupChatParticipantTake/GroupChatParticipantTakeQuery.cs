@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.Group.Chat;
+using System.Linq.Expressions;
 
-namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantTake
-{
-    internal class GroupChatParticipantTakeQuery
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantTake;
+
+public sealed record GroupChatParticipantTakeQuery(
+    int StartIndex,
+    int Count,
+    Expression<Func<GroupChatParticipant, bool>> Perdicate) : IQuery<List<GroupChatParticipantResponse>>;

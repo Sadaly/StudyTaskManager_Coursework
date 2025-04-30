@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudyTaskManager.Application.Abstractions.Messaging;
+using StudyTaskManager.Domain.Entity.Group.Chat;
+using System.Linq.Expressions;
 
-namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantGetAll
-{
-    internal class GroupChatParticipantGetAllQuery
-    {
-    }
-}
+namespace StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantGetAll;
+
+public sealed record GroupChatParticipantGetAllQuery(
+    Expression<Func<GroupChatParticipant, bool>>? Predicate) : IQuery<List<GroupChatParticipantResponse>>;
