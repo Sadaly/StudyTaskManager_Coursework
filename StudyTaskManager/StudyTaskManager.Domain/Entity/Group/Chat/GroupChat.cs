@@ -19,7 +19,7 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
             _groupChatParticipants = [];
         }
         // Приватный конструктор для инициализации объекта
-        private GroupChat(Guid id, Guid groupId, Title name, bool isPublic):base(id)
+        private GroupChat(Guid id, Guid groupId, Title name, bool isPublic) : base(id)
         {
             GroupId = groupId;
             Name = name;
@@ -55,13 +55,13 @@ namespace StudyTaskManager.Domain.Entity.Group.Chat
         /// Перечисление сообщений в чате
         /// </summary>
         public IEnumerable<GroupChatMessage> GroupChatMessages => _groupChatMessages;
-        private List<GroupChatMessage> _groupChatMessages;
+        private readonly List<GroupChatMessage> _groupChatMessages;
 
         /// <summary>
         /// Перечисление участников в чате
         /// </summary>
         public IEnumerable<GroupChatParticipant> GroupChatParticipants => _groupChatParticipants;
-        private List<GroupChatParticipant> _groupChatParticipants;
+        private readonly List<GroupChatParticipant> _groupChatParticipants;
 
         #endregion
 
