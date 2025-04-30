@@ -10,9 +10,9 @@ using StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupCha
 namespace StudyTaskManager.WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class GroupChatParticipantsController : ApiController
+    public class GroupChatParticipantController : ApiController
     {
-        public GroupChatParticipantsController(ISender sender) : base(sender) { }
+        public GroupChatParticipantController(ISender sender) : base(sender) { }
 
 
         //[Authorize]
