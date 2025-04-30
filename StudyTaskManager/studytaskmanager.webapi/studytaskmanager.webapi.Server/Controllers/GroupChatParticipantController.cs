@@ -14,7 +14,6 @@ namespace StudyTaskManager.WebAPI.Controllers
     {
         public GroupChatParticipantController(ISender sender) : base(sender) { }
 
-
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
@@ -51,7 +50,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpDelete("{groupId:guid}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(
             [FromBody] GroupChatParticipantDeleteCommand command,
             CancellationToken cancellationToken)
