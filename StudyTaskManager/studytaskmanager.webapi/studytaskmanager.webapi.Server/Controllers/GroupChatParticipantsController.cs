@@ -2,36 +2,38 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.WebAPI.Abstractions;
-using StudyTaskManager.Application.Entity.GroupChats.Commands.GroupChatCreate;
-using StudyTaskManager.Application.Entity.GroupChats.Commands.GroupChatDelete;
-using StudyTaskManager.Application.Entity.GroupChats.Queries.GroupChatGetAll;
-using StudyTaskManager.Application.Entity.GroupChats.Queries.GroupChatGetById;
+using StudyTaskManager.Application.Entity.GroupChatParticipants.Commands.GroupChatParticipantCreate;
+using StudyTaskManager.Application.Entity.GroupChatParticipants.Commands.GroupChatParticipantDelete;
+using StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantGetAll;
+using StudyTaskManager.Application.Entity.GroupChatParticipants.Queries.GroupChatParticipantGetByUserAndGroupChat;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class GroupChatsController : ApiController
+    public class GroupChatParticipantsController : ApiController
     {
-        public GroupChatsController(ISender sender) : base(sender) { }
+        public GroupChatParticipantsController(ISender sender) : base(sender) { }
+
 
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] GroupChatCreateCommand command,
+            [FromBody] GroupChatParticipantCreateCommand command,
             CancellationToken cancellationToken)
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
         }
 
         //[Authorize]
-        [HttpGet("{groupChatId:guid}")]
+        [HttpGet("{userId:Guid}_{groupChatId:guid}")]
         public async Task<IActionResult> Get(
+            Guid userId,
             Guid groupChatId,
             CancellationToken cancellationToken)
         {
-            var query = new GroupChatGetByIdQuery(groupChatId);
+            var query = new GroupChatParticipantGetByUserAndGroupChatQuery(userId, groupChatId);
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -42,7 +44,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         public async Task<IActionResult> GetAll(
             CancellationToken cancellationToken)
         {
-            var query = new GroupChatGetAllQuery(null);
+            var query = new GroupChatParticipantGetAllQuery(null);
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
@@ -51,10 +53,9 @@ namespace StudyTaskManager.WebAPI.Controllers
         //[Authorize]
         [HttpDelete("{groupId:guid}")]
         public async Task<IActionResult> Delete(
-            Guid groupChatId,
+            [FromBody] GroupChatParticipantDeleteCommand command,
             CancellationToken cancellationToken)
         {
-            var command = new GroupChatDeleteCommand(groupChatId);
             var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
