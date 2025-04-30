@@ -1,12 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudyTaskManager.WebAPI.Abstractions;
 using StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageCreate;
 using StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageDelete;
 using StudyTaskManager.Application.Entity.GroupChatMessages.Commands.GroupChatMessageUpdate;
 using StudyTaskManager.Application.Entity.GroupChatMessages.Queries.GroupChatMessageGetAll;
-using StudyTaskManager.WebAPI.Abstractions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace StudyTaskManager.WebAPI.Controllers
 {
@@ -38,7 +37,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpDelete("{groupChatId:guid}_{ordinal:ulong}")]
+        [HttpDelete("{groupChatId:guid}_{ordinal:long}")]
         public async Task<IActionResult> Delete(
             Guid groupChatId,
             ulong ordinal,
@@ -51,7 +50,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut("{groupChatId:guid}_{ordinal:ulong}")]
+        [HttpPut("{groupChatId:guid}_{ordinal:long}")]
         public async Task<IActionResult> Update(
             Guid groupChatId,
             ulong ordinal,
@@ -63,7 +62,5 @@ namespace StudyTaskManager.WebAPI.Controllers
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
-
-
     }
 }
