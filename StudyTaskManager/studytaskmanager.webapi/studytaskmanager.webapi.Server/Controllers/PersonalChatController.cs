@@ -6,7 +6,6 @@ using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCre
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetAll;
-using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -70,8 +69,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var command = new PersonalChatDeleteCommand(personalChatId);
-
-            Result response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }

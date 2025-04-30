@@ -5,10 +5,6 @@ using StudyTaskManager.Application.Entity.GroupChats.Commands.GroupChatCreate;
 using StudyTaskManager.Application.Entity.GroupChats.Commands.GroupChatDelete;
 using StudyTaskManager.Application.Entity.GroupChats.Queries.GroupChatGetAll;
 using StudyTaskManager.Application.Entity.GroupChats.Queries.GroupChatGetById;
-using StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate;
-using StudyTaskManager.Application.Entity.Groups.Commands.GroupDelete;
-using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetAll;
-using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetById;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers

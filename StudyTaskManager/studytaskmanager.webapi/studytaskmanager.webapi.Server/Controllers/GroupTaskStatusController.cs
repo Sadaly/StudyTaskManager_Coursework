@@ -6,7 +6,6 @@ using StudyTaskManager.Application.Entity.GroupTaskStatuses.Commands.GroupTaskSt
 using StudyTaskManager.Application.Entity.GroupTaskStatuses.Commands.GroupTaskStatusUpdate;
 using StudyTaskManager.Application.Entity.GroupTaskStatuses.Queries.GroupTaskStatusGetAll;
 using StudyTaskManager.Application.Entity.GroupTaskStatuses.Queries.GroupTaskStatusGetById;
-using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -22,7 +21,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             [FromBody] GroupTaskStatusCreateCommand command,
             CancellationToken cancellationToken)
         {
-            Result<Guid> response = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
         }

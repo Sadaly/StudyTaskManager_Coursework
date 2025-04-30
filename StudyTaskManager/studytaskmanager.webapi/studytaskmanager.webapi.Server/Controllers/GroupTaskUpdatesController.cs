@@ -2,8 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetAll;
-using StudyTaskManager.Application.Entity.Groups.Queries.GroupGetById;
 using StudyTaskManager.Application.Entity.GroupTaskUpdates.Commands.GroupTaskUpdateCreate;
 using StudyTaskManager.Application.Entity.GroupTaskUpdates.Commands.GroupTaskUpdateDelete;
 using StudyTaskManager.Application.Entity.GroupTaskUpdates.Commands.GroupTaskUpdateUpdate;

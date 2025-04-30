@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyTaskManager.Application.Entity.GroupTasks.Commands.GroupTaskCreate;
 using StudyTaskManager.Application.Entity.GroupTasks.Commands.GroupTaskDelete;

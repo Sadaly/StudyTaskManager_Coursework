@@ -6,7 +6,6 @@ using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMess
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageMarkAsRead;
 using StudyTaskManager.Application.Entity.PersonalMessages.Commands.PersonalMessageUpdateContent;
 using StudyTaskManager.Application.Entity.PersonalMessages.Queries.PersonalMessageGetById;
-using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -46,7 +45,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var request = new PersonalMessageDeleteCommand(personalMessageId);
-            Result response = await Sender.Send(request, cancellationToken);
+            var response = await Sender.Send(request, cancellationToken);
 
             return response.IsSuccess ? Ok() : BadRequest(response.Error);
         }
