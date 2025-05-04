@@ -32,7 +32,7 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserLogin
             if (passwordHash.IsFailure) return Result.Failure<string>(passwordHash.Error);
 
             var user = await _userRepository.GetByEmailAsync(email.Value, cancellationToken);
-            if (user.IsFailure) return Result.Failure<string>(email.Error);
+            if (user.IsFailure) return Result.Failure<string>(user.Error);
 
             var blockedUserInfo = await _blockedUserInfoRepository.GetByUser(user.Value, cancellationToken);
             if (blockedUserInfo.IsSuccess) return Result.Failure<string>(CommandErrors.UserBlocked);
