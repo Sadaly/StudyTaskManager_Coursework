@@ -19,8 +19,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         {
             Title = title;
 
-            if (description == null) { Description = Content.CreateDefault(); }
-            else { Description = description; }
+            Description = description;
 
             _usersInGroup = [];
             _groupRoles = [];
@@ -37,7 +36,7 @@ namespace StudyTaskManager.Domain.Entity.Group
         /// <summary>
         /// Описание группы.
         /// </summary>
-        public Content Description { get; private set; }
+        public Content? Description { get; private set; }
 
         /// <summary>
         /// ID роли по умолчанию для новых пользователей.

@@ -30,6 +30,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey(gt => gt.StatusId)
                 .IsRequired(false);
+
+            // Конфигурация OwnedType
+            builder.OwnsOne(gt => gt.Description);
         }
     }
 }

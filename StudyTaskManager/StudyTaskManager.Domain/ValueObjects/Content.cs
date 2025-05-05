@@ -5,11 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
-    [ComplexType]
     public class Content : ValueObject
     {
         public const int MAX_LENGTH = 5000;
-        public const string DEFAULT_VALUE = "~empty~";
+        public const string DEFAULT_VALUE = "Content DEFAULT_VALUE";
 
         public Content()
         {

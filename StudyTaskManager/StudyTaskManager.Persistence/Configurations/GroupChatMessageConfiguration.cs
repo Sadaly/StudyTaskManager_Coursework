@@ -21,6 +21,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gcm => gcm.GroupChat)
                 .WithMany(gc => gc.GroupChatMessages)
                 .HasForeignKey(gcm => gcm.GroupChatId);
+
+            // Конфигурация OwnedType
+            builder.OwnsOne(gcm => gcm.Content);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gts => gts.Group)
                 .WithMany()
                 .HasForeignKey(gts => gts.GroupId);
+
+            // Конфигурация OwnedType
+            builder.OwnsOne(gts => gts.Description);
         }
     }
 }

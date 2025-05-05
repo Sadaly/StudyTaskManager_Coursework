@@ -22,6 +22,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(pm => pm.Sender)
                 .WithMany()
                 .HasForeignKey(pm => pm.SenderId);
+
+            // Конфигурация OwnedType
+            builder.OwnsOne(pm => pm.Content);
         }
     }
 }

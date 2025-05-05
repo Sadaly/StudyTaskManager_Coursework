@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudyTaskManager.Domain.Entity.Group;
+using StudyTaskManager.Domain.ValueObjects;
 
 namespace StudyTaskManager.Persistence.Configurations
 {
@@ -23,6 +24,9 @@ namespace StudyTaskManager.Persistence.Configurations
             builder
                 .HasMany(g => g.GroupInvites)
                 .WithOne(gi => gi.Group);
+
+            // Конфигурация OwnedType для Description
+            builder.OwnsOne(g => g.Description);
         }
     }
 }

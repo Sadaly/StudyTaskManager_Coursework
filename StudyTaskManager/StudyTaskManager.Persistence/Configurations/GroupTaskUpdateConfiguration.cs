@@ -21,6 +21,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasOne(gtu => gtu.Creator)
                 .WithMany()
                 .HasForeignKey(gtu => gtu.CreatorId);
+
+            // Конфигурация OwnedType
+            builder.OwnsOne(gtu => gtu.Content);
         }
     }
 }
