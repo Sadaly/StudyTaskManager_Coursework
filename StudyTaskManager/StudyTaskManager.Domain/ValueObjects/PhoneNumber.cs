@@ -1,17 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using StudyTaskManager.Domain.Common;
 using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 
 namespace StudyTaskManager.Domain.ValueObjects
 {
-    [ComplexType]
     public class PhoneNumber : ValueObject
     {
         public const int MAX_LENGTH = 15;
         public const int MIN_LENGTH = 8;
-        public const string DEFAULT_VALUE = "~~~";
+        public const string DEFAULT_VALUE = "Phone number DEFAULT_VALUE";
 
         public PhoneNumber()
         {

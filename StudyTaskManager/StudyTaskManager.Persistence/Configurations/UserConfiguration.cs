@@ -20,6 +20,9 @@ namespace StudyTaskManager.Persistence.Configurations
                 .HasForeignKey(user => user.SystemRoleId);
 
             builder.Ignore(user => user.PersonalChats);
+
+            // Конфигурация PhoneNumber как owned-типа
+            builder.OwnsOne(user => user.PhoneNumber);
         }
     }
 }
