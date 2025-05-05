@@ -68,15 +68,6 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.Property<Guid>("SenderId")
                         .HasColumnType("uuid");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Content", "StudyTaskManager.Domain.Entity.Group.Chat.GroupChatMessage.Content#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
-
                     b.HasKey("GroupChatId", "Ordinal");
 
                     b.HasIndex("SenderId");
@@ -136,15 +127,6 @@ namespace StudyTaskManager.Persistence.Migrations
 
                     b.Property<bool>("DeleteFlag")
                         .HasColumnType("boolean");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Description", "StudyTaskManager.Domain.Entity.Group.Group.Description#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("Title", "StudyTaskManager.Domain.Entity.Group.Group.Title#Title", b1 =>
                         {
@@ -258,15 +240,6 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uuid");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Description", "StudyTaskManager.Domain.Entity.Group.Task.GroupTask.Description#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("HeadLine", "StudyTaskManager.Domain.Entity.Group.Task.GroupTask.HeadLine#Title", b1 =>
                         {
                             b1.IsRequired();
@@ -304,15 +277,6 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.Property<Guid?>("GroupId")
                         .HasColumnType("uuid");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Description", "StudyTaskManager.Domain.Entity.Group.Task.GroupTaskStatus.Description#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Name", "StudyTaskManager.Domain.Entity.Group.Task.GroupTaskStatus.Name#Title", b1 =>
                         {
                             b1.IsRequired();
@@ -343,15 +307,6 @@ namespace StudyTaskManager.Persistence.Migrations
 
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uuid");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Content", "StudyTaskManager.Domain.Entity.Group.Task.GroupTaskUpdate.Content#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
 
                     b.HasKey("Id");
 
@@ -451,15 +406,6 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.Property<Guid>("SenderId")
                         .HasColumnType("uuid");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Content", "StudyTaskManager.Domain.Entity.User.Chat.PersonalMessage.Content#Content", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
-
                     b.HasKey("Id");
 
                     b.HasIndex("PersonalChatId");
@@ -543,15 +489,6 @@ namespace StudyTaskManager.Persistence.Migrations
                                 .HasColumnType("text");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "StudyTaskManager.Domain.Entity.User.User.PhoneNumber#PhoneNumber", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Username", "StudyTaskManager.Domain.Entity.User.User.Username#Username", b1 =>
                         {
                             b1.IsRequired();
@@ -621,6 +558,29 @@ namespace StudyTaskManager.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Content", b1 =>
+                        {
+                            b1.Property<Guid>("GroupChatMessageGroupChatId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("GroupChatMessageOrdinal")
+                                .HasColumnType("numeric(20,0)");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("GroupChatMessageGroupChatId", "GroupChatMessageOrdinal");
+
+                            b1.ToTable("GroupChatMessage");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GroupChatMessageGroupChatId", "GroupChatMessageOrdinal");
+                        });
+
+                    b.Navigation("Content")
+                        .IsRequired();
+
                     b.Navigation("GroupChat");
 
                     b.Navigation("Sender");
@@ -680,7 +640,26 @@ namespace StudyTaskManager.Persistence.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("GroupId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("GroupId");
+
+                            b1.ToTable("Group");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GroupId");
+                        });
+
                     b.Navigation("DefaultRole");
+
+                    b.Navigation("Description");
                 });
 
             modelBuilder.Entity("StudyTaskManager.Domain.Entity.Group.GroupInvite", b =>
@@ -739,6 +718,26 @@ namespace StudyTaskManager.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId");
 
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("GroupTaskId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("GroupTaskId");
+
+                            b1.ToTable("GroupTask");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GroupTaskId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
                     b.Navigation("Group");
 
                     b.Navigation("Parent");
@@ -753,6 +752,26 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.HasOne("StudyTaskManager.Domain.Entity.Group.Group", "Group")
                         .WithMany()
                         .HasForeignKey("GroupId");
+
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("GroupTaskStatusId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("GroupTaskStatusId");
+
+                            b1.ToTable("GroupTaskStatus");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GroupTaskStatusId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
 
                     b.Navigation("Group");
                 });
@@ -769,6 +788,26 @@ namespace StudyTaskManager.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Content", b1 =>
+                        {
+                            b1.Property<Guid>("GroupTaskUpdateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("GroupTaskUpdateId");
+
+                            b1.ToTable("GroupTaskUpdate");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GroupTaskUpdateId");
+                        });
+
+                    b.Navigation("Content")
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -853,6 +892,26 @@ namespace StudyTaskManager.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.Content", "Content", b1 =>
+                        {
+                            b1.Property<Guid>("PersonalMessageId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("PersonalMessageId");
+
+                            b1.ToTable("PersonalMessage");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PersonalMessageId");
+                        });
+
+                    b.Navigation("Content")
+                        .IsRequired();
+
                     b.Navigation("PersonalChat");
 
                     b.Navigation("Sender");
@@ -863,6 +922,25 @@ namespace StudyTaskManager.Persistence.Migrations
                     b.HasOne("StudyTaskManager.Domain.Entity.User.SystemRole", "SystemRole")
                         .WithMany()
                         .HasForeignKey("SystemRoleId");
+
+                    b.OwnsOne("StudyTaskManager.Domain.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("PhoneNumber");
 
                     b.Navigation("SystemRole");
                 });

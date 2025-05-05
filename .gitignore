@@ -5,6 +5,7 @@
 
 # указание не сохранять миграции
 StudyTaskManager/StudyTaskManager.Persistence/Migrations/
+StudyTaskManager/StudyTaskManager.Persistence/Migrations/AppDbContextModelSnapshot.cs
 
 # User-specific files
 *.rsuser
