@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import UsersList from "./Components/UsersList";
 import { UserResponse } from "./TypesFromTheServer/UserResponse";
-import axios from "axios"; 
+import axios from "axios";
 function App() {
-
     const [users, setUsers] = useState<UserResponse[]>([])
 
     useEffect(() => {
-        populateWeatherData()
+        fetchUsers()
     }, [])
 
     async function fetchUsers() {
@@ -19,18 +18,8 @@ function App() {
         }
     }
 
-    async function populateWeatherData() {
-        const response = await fetch('api/Users/All');
-        const data = await response.json();
-        setUsers(data);
-    }
-
     return (
-        <div>
-            <p>---</p>
-            <UsersList users={users} />
-            <p>---</p>
-        </div>
+        <UsersList users={users} />
         //<BrowserRouter>
         //    <Routes>
         //        <Route path="/login" element={<Login />} />

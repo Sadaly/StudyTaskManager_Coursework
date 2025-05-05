@@ -1,68 +1,65 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: '3270 Nerd Font', system-ui, Avenir, Helvetica, Arial, sans-serif; /* Шрифт */
+    line-height: 1.5; /* Межстрочный интервал */
+    font-weight: 400; /* Жирность шрифта */
+    color-scheme: light dark; /* Поддержка светлой/тёмной темы */
+    color: rgba(255, 255, 255, 0.87); /* Цвет текста (белый с прозрачностью) */
+    background-color: #1e1e1e; /* Тёмный фон */
+    font-synthesis: none; /* Запрет на искусственное выделение жирным/курсивом */
+    text-rendering: optimizeLegibility; /* Улучшение читаемости текста */
+    -webkit-font-smoothing: antialiased; /* Сглаживание шрифтов в Safari */
+    -moz-osx-font-smoothing: grayscale; /* Сглаживание шрифтов в Firefox */
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+    font-weight: 500;
+    color: #646cff; /* Фиолетово-синий цвет */
+    text-decoration: inherit; /* Убирает подчёркивание */
 }
-a:hover {
-  color: #535bf2;
-}
+    a:hover {
+        color: #535bf2; /* Цвет при наведении */
+    }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0; /* Убирает отступы по умолчанию */
+    display: flex;
+    place-items: center; /* Центрирует содержимое по вертикали и горизонтали */
+    min-width: 320px; /* Минимальная ширина */
+    min-height: 100vh; /* На всю высоту экрана */
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 3.2em; /* Очень крупный текст */
+    line-height: 1.1; /* Компактный межстрочный интервал */
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+    border-radius: 8px; /* Скруглённые углы */
+    border: 1px solid transparent; /* Прозрачная граница */
+    padding: 0.6em 1.2em; /* Внутренние отступы */
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit; /* Наследует шрифт от родителя */
+    background-color: #1a1a1a; /* Тёмный фон */
+    cursor: pointer; /* Курсор-указатель */
+    transition: border-color 0.25s; /* Плавное изменение границы */
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+    button:hover {
+        border-color: #646cff; /* Фиолетовая граница при наведении */
+    }
+    button:focus, button:focus-visible {
+        outline: 4px auto -webkit-focus-ring-color; /* Контур при фокусе (для доступности) */
+    }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    :root {
+        color: #213547; /* Тёмно-синий текст */
+        background-color: #ffffff; /* Белый фон */
+    }
+    a:hover {
+        color: #747bff; /* Светло-фиолетовый при наведении */
+    }
+    button {
+        background-color: #f9f9f9; /* Светло-серый фон кнопок */
+    }
 }
