@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import UsersList from "./Components/UsersList";
 import { UserResponse } from "./TypesFromTheServer/UserResponse";
 import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import WelcomePage from "./Pages/WelcomePage";
+
 function App() {
     const [users, setUsers] = useState<UserResponse[]>([])
 
@@ -19,14 +25,15 @@ function App() {
     }
 
     return (
-        <UsersList users={users} />
-        //<BrowserRouter>
-        //    <Routes>
-        //        <Route path="/login" element={<Login />} />
-        //        <Route path="/register" element={<Register />} />
-        //        <Route path="/" element={<Home />} />
-        //    </Routes>
-        //</BrowserRouter>
+        <BrowserRouter>
+            {/*<UsersList users={users} />*/}
+            <Routes>
+                <Route path="/" element={<WelcomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/home" element={<HomePage />} />
+            </Routes>
+        </BrowserRouter>
     );
 
 }

@@ -9,6 +9,7 @@ interface UserListProps {
 const UserList: FC<UserListProps> = ({ users }) => {
     return (
         <div>
+            <h1>Список пользователей</h1>
             {users.map(user => <UserCard user={user} />)}
         </div>
     )
