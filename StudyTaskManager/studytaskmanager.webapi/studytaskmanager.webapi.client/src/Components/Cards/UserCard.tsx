@@ -1,13 +1,13 @@
 ﻿import React from 'react';
 import { UserResponse } from '../../TypesFromTheServer/UserResponse';
-import { CSSProperties } from 'react'; 
+import { CSSProperties } from 'react';
 
 interface UserCardProps {
     user: UserResponse;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
-    
+
     const cardStyle: CSSProperties = {
         border: '1px solid #ccc',
         borderRadius: '8px',
@@ -17,14 +17,28 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
         textAlign: 'left',
     };
 
+    // Форматирование даты регистрации
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     return (
         <div className="user-card" style={cardStyle}>
             <h3>{user.username}</h3>
-            <p>Email: {user.email}</p>
-            <p>Email verified: {user.isEmailVerifed ? 'Yes' : 'No'}</p>
-            <p>Phone: {user.phoneNumber}</p>
-            <p>Phone verified: {user.isPhoneNumberVerifed ? 'Yes' : 'No'}</p>
-            <p>Registered: {user.registrationDate}</p>
+            <p><strong>ID пользователя:</strong> {user.userId}</p>
+            <p><strong>Электронная почта:</strong> {user.email}</p>
+            <p><strong>Почта подтверждена:</strong> {user.isEmailVerifed ? 'Да' : 'Нет'}</p>
+            <p><strong>Телефон:</strong> {user.phoneNumber || 'Не указан'}</p>
+            <p><strong>Телефон подтверждён:</strong> {user.phoneNumber ? (user.isPhoneNumberVerifed ? 'Да' : 'Нет') : 'Не применимо'}</p>
+            <p><strong>Дата регистрации:</strong> {formatDate(user.registrationDate)}</p>
+            <p><strong>Роль в системе:</strong> {user.systemRoleId || 'Не назначена'}</p>
         </div>
     );
 };
