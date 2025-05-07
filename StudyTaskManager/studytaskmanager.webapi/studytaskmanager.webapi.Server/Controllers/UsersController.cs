@@ -61,6 +61,8 @@ namespace StudyTaskManager.WebAPI.Controllers
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
 
             return tokenResult.IsSuccess ? Ok(tokenResult.Value) : HandleFailure(tokenResult);
+            {
+                    SameSite = SameSiteMode.Strict, // 🛡️ Защита от CSRF
         }
 
         [Authorize]
