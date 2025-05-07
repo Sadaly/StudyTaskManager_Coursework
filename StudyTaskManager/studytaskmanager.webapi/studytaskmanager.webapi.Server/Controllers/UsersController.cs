@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
+using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using StudyTaskManager.Application.Entity.Users.Commands.UserCreate;
 using StudyTaskManager.Application.Entity.Users.Commands.UserLogin;
 using StudyTaskManager.Application.Entity.Users.Queries.GetUserById;
@@ -69,10 +71,11 @@ namespace StudyTaskManager.WebAPI.Controllers
                     SameSite = SameSiteMode.Strict, 
                     Expires = DateTimeOffset.UtcNow.AddYears(1)
                 };
-
+                Response.Cookies.Delete("access_token");
                 Response.Cookies.Append("access_token", tokenResult.Value, cookieOptions);
+                string? userId = JwtHelper.GetClaim(tokenResult.Value, "sub");
 
-                return Ok(new { message = "Token установлен в cookie" });
+                return Ok(new { message = userId });
             }
 
             return HandleFailure(tokenResult);
