@@ -28,6 +28,19 @@ namespace StudyTaskManager.WebAPI.OptionsSetup
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_jwtOptions.SecretKey))
             };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    if (context.Request.Cookies.ContainsKey("access_token"))
+                    {
+                        context.Token = context.Request.Cookies["access_token"];
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
         }
 
         public void Configure(string? name, JwtBearerOptions options)

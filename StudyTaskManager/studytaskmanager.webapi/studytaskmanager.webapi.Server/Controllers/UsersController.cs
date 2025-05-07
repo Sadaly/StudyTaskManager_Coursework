@@ -60,7 +60,22 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
 
-            return tokenResult.IsSuccess ? Ok(tokenResult.Value) : HandleFailure(tokenResult);
+            if (tokenResult.IsSuccess)
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, 
+                    SameSite = SameSiteMode.Strict, 
+                    Expires = DateTimeOffset.UtcNow.AddYears(1)
+                };
+
+                Response.Cookies.Append("access_token", tokenResult.Value, cookieOptions);
+
+                return Ok(new { message = "Token установлен в cookie" });
+            }
+
+            return HandleFailure(tokenResult);
         }
 
         [Authorize]
