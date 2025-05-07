@@ -13,18 +13,18 @@ import RoleProtectedRoute from './components/RoleProtectedRoute';
 function App() {
     const [users, setUsers] = useState<UserResponse[]>([])
 
-    useEffect(() => {
-        fetchUsers()
-    }, [])
+    //useEffect(() => {
+    //    fetchUsers()
+    //}, [])
 
-    async function fetchUsers() {
-        try {
-            const response = await axios.get<UserResponse[]>('https://localhost:7241/api/Users/All')
-            setUsers(response.data)
-        } catch (e) {
-            alert(e)
-        }
-    }
+    //async function fetchUsers() {
+    //    try {
+    //        const response = await axios.get<UserResponse[]>('https://localhost:7241/api/Users/All')
+    //        setUsers(response.data)
+    //    } catch (e) {
+    //        alert(e)
+    //    }
+    //}
 
     return (
         <BrowserRouter>

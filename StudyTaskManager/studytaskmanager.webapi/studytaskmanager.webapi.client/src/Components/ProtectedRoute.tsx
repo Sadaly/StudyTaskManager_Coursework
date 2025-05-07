@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import axios from 'axios';
 
-const isAuthenticated = (): boolean => {
-    // Здесь ты можешь использовать локальное хранилище, контекст или запрос к API
-    // Пример: проверка наличия куки (если JWT хранится в HttpOnly, надо запрашивать сервер)
-    const token = document.cookie.includes('access_token');
-    return token;
-};
+const ProtectedRoute = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-const ProtectedRoute: React.FC = () => {
-    return isAuthenticated() ? <Outlet /> : <Navigate to="/login" />;
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const res = await axios.get('https://localhost:7241/api/users/me', {
+                    withCredentials: true,
+                });
+                if (res.status === 200) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch {
+                setIsAuthenticated(false);
+            }
+        };
+
+        checkAuth();
+    }, []);
+
+    if (isAuthenticated === null) {
+        return <div>Загрузка...</div>; // пока проверяем, не редиректим!
+    }
+
+    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
