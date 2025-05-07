@@ -81,7 +81,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             return HandleFailure(tokenResult);
         }
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetUserById(Guid userId, CancellationToken cancellationToken)
         {
@@ -91,6 +91,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet("All")]
         public async Task<IActionResult> GetAllUsers(
             [FromQuery] UserFilter filter,
@@ -102,12 +103,13 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet("Take")]
         public async Task<IActionResult> TakeUsers(
             [FromQuery] TakeData<UserFilter, User> take,
             CancellationToken cancellationToken)
         {
-            var query = new UsersTakeQuery(take.StartIndex, take.Count, take.Filter.ToPredicate());
+            var query = new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
