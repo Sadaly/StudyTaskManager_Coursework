@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
+using System.Security.Claims;
 using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -114,5 +116,15 @@ namespace StudyTaskManager.WebAPI.Controllers
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
+
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult GetMe()
+        {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            return Ok(new { userId, role });
+        }
+
     }
 }
