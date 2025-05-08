@@ -4,7 +4,7 @@ export default function WelcomePage() {
     return (
         <div className="welcome-container" style={{
             //backgroundColor: "#1a1a2e",
-            marginLeft: "20%",  /* Отступ 20% от левого края */
+            marginLeft: "150px",  /* Отступ от левого края */
             width: "100%",  /* Ширина 100% от родителя */
             minHeight: "100vh",  /* На всю высоту экрана */
             padding: "2rem",    /* Внутренние отступы */

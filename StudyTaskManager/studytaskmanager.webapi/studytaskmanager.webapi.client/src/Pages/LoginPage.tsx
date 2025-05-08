@@ -49,8 +49,14 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div>
-            <h2>Вход</h2>
+        <div style={{
+            marginLeft: "150px",  /* Отступ от левого края */
+            width: "100%",  /* Ширина 100% от родителя */
+            minHeight: "100vh",  /* На всю высоту экрана */
+            padding: "2rem",    /* Внутренние отступы */
+            boxSizing: "border-box" /* Учёт padding в ширине */
+        }}>
+            <h1>Вход</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email:</label><br />

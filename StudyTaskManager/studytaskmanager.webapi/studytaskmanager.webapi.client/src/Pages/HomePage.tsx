@@ -53,7 +53,11 @@ const HomePage: React.FC = () => {
         <div
             ref={listRef}
             onScroll={handleScroll}
-            style={{ height: "500px", overflowY: "auto", border: "1px solid gray", padding: "1rem" }}
+            style={{
+                marginLeft: "150px",  /* Отступ от левого края */
+                width: "100%",  /* Ширина 100% от родителя */
+                height: "500px", overflowY: "auto", border: "1px solid gray", padding: "1rem"
+            }}
         >
             {users.map((user) => (
                 <div key={user.id}>
