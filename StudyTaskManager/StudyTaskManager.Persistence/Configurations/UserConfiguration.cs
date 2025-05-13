@@ -22,7 +22,13 @@ namespace StudyTaskManager.Persistence.Configurations
             builder.Ignore(user => user.PersonalChats);
 
             // Конфигурация PhoneNumber как owned-типа
-            builder.OwnsOne(user => user.PhoneNumber);
+            builder.OwnsOne(user => user.PhoneNumber, phone =>
+            {
+                phone.Property(p => p.Value)  // Маппим Value в столбец PhoneNumber_Value
+                    .HasColumnName("PhoneNumber");
+            });
+
+            builder.Navigation(user => user.PhoneNumber).IsRequired(false);
         }
     }
 }
