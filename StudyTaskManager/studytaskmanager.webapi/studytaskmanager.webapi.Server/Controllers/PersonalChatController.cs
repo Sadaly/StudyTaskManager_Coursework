@@ -28,7 +28,7 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         //[Authorize]
         [HttpGet("{perconalChatId:guid}")]
-        public async Task<IActionResult> GetUserById(
+        public async Task<IActionResult> GetPersonalChatById(
             Guid perconalChatId,
             CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ namespace StudyTaskManager.WebAPI.Controllers
 
         //[Authorize]
         [HttpGet("Chats/{userId:guid}")]
-        public async Task<IActionResult> GetUserByUser(
+        public async Task<IActionResult> GetPersonalChatsByUser(
             Guid userId,
             CancellationToken cancellationToken)
         {
