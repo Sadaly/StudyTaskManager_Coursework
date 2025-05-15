@@ -4,6 +4,7 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import HomeLayout from "./Pages/HomeLayout ";
 
 function App() {
     return (
@@ -22,6 +23,14 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/home" element={<HomePage />} />
                 </Route>
+
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/home" element={<HomeLayout />}>
+                        <Route index element={<HomePage />} />
+                    </Route>
+                </Route>
+
+
             </Routes>
         </BrowserRouter>
     );
