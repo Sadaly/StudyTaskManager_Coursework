@@ -1,7 +1,7 @@
 ﻿using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Persistence;
 
-namespace Gatherly.Persistence;
+namespace StudyTaskManager.Persistence;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {

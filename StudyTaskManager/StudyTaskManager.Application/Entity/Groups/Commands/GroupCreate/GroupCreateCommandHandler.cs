@@ -12,15 +12,17 @@ namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGroupRepository _groupRepository;
         private readonly IGroupRoleRepository _groupRoleRepository;
+		private readonly IUserInGroupRepository _userInGroupRepository;
 
-        public GroupCreateCommandHandler(IUnitOfWork unitOfWork, IGroupRepository groupRepository, IGroupRoleRepository groupRoleRepository)
-        {
-            _unitOfWork = unitOfWork;
-            _groupRepository = groupRepository;
-            _groupRoleRepository = groupRoleRepository;
-        }
+		public GroupCreateCommandHandler(IUnitOfWork unitOfWork, IGroupRepository groupRepository, IGroupRoleRepository groupRoleRepository, IUserInGroupRepository userInGroupRepository)
+		{
+			_unitOfWork = unitOfWork;
+			_groupRepository = groupRepository;
+			_groupRoleRepository = groupRoleRepository;
+			_userInGroupRepository = userInGroupRepository;
+		}
 
-        public async Task<Result<Guid>> Handle(GroupCreateCommand request, CancellationToken cancellationToken)
+		public async Task<Result<Guid>> Handle(GroupCreateCommand request, CancellationToken cancellationToken)
         {
             var title = Title.Create(request.Title);
             if (title.IsFailure) return Result.Failure<Guid>(title);
@@ -41,6 +43,8 @@ namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate
 
             var add = await _groupRepository.AddAsync(group.Value, cancellationToken);
             if (add.IsFailure) return Result.Failure<Guid>(add);
+
+            
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

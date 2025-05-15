@@ -57,9 +57,10 @@ namespace StudyTaskManager.WebAPI.Controllers
         //[Authorize]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(
-            CancellationToken cancellationToken)
+			[FromQuery] TakeData<GroupFilter, Group> take,
+			CancellationToken cancellationToken)
         {
-            var query = new GroupGetAllQuery(null);
+            var query = new GroupGetAllQuery(take.Filter?.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
