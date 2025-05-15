@@ -122,7 +122,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         public IActionResult GetMe()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return Ok(new { userId, role });
         }
 

@@ -20,8 +20,8 @@ namespace StudyTaskManager.Infrastructure.Authentication
         public string Generate(User user)
         {
             var claims = new Claim[] {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email.Value),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email.Value),
                 new Claim(ClaimTypes.Role, user.SystemRole != null
                 ? user.SystemRole.Name.Value
                 : "User")
