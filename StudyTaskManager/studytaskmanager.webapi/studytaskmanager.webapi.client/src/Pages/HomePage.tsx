@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface User {
     id: string;
@@ -19,6 +20,7 @@ const HomePage: React.FC = () => {
     const [startIndex, setStartIndex] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const listRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate(); 
 
     // Загрузка информации о текущем пользователе
     const loadCurrentUser = async () => {
@@ -63,6 +65,18 @@ const HomePage: React.FC = () => {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            await axios.post("https://localhost:7241/api/Users/Logout", {}, {
+                withCredentials: true,
+            });
+
+            navigate("/login");
+        } catch (error) {
+            console.error("Ошибка при выходе", error);
+        }
+    };
+
     useEffect(() => {
         loadCurrentUser(); // Загружаем информацию о текущем пользователе
         loadUsers();
@@ -70,6 +84,21 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
+            <button
+                onClick={handleLogout}
+                style={{
+                    marginTop: "1rem",
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#c62828",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer"
+                }}
+            >
+                Выйти
+            </button>
+
             {/* Блок с информацией о текущем пользователе */}
             {currentUser && (
                 <div style={{ marginLeft: "150px", padding: "1rem", borderBottom: "1px solid gray" }}>
