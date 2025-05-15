@@ -1,6 +1,5 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import LogoutButton from "../Components/LogoutButton";
 import { Me } from "../TypesFromTheServer/Me";
 
 

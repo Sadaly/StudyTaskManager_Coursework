@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Quartz;
 
-namespace Gatherly.Infrastructure.BackgroundJobs;
+namespace StudyTaskManager.Infrastructure.BackgroundJobs;
 
 [DisallowConcurrentExecution]
 public class ProcessOutboxMessagesJob : IJob

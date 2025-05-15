@@ -1,7 +1,7 @@
 ﻿using StudyTaskManager.Application.Abstractions;
 using StudyTaskManager.Domain.Entity.User;
 
-namespace Gatherly.Infrastructure.Services;
+namespace StudyTaskManager.Infrastructure.Services;
 
 internal sealed class EmailService : IEmailService
 {
