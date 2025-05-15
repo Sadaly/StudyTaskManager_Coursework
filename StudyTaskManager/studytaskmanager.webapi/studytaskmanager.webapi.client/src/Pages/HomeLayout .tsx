@@ -1,4 +1,5 @@
 ﻿import { Outlet, Link } from "react-router-dom";
+import LogoutButton from "../Components/LogoutButton";
 
 const HomeLayout = () => {
     return (
@@ -17,7 +18,9 @@ const HomeLayout = () => {
                     }}
                 >
                     <li><Link to="/home">Главная</Link></li>
+                    <li><Link to="/home/PersonalChats">PersonalChats</Link></li>
                 </ul>
+                <LogoutButton />
             </nav>
 
             <div>

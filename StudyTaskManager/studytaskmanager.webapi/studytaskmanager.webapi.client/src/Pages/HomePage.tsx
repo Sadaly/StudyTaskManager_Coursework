@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import LogoutButton from "../Components/LogoutButton";
+import { Me } from "../TypesFromTheServer/Me";
 
 
 interface User {
@@ -10,14 +11,10 @@ interface User {
     registrationDate: string;
 }
 
-interface CurrentUser {
-    userId: string;
-    role: string;
-}
 
 const HomePage: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
-    const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+    const [currentUser, setCurrentUser] = useState<Me | null>(null);
     const [startIndex, setStartIndex] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const listRef = useRef<HTMLDivElement>(null);
@@ -72,7 +69,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <LogoutButton />
             {/* Блок с информацией о текущем пользователе */}
             {currentUser && (
                 <div style={{ marginLeft: "150px", padding: "1rem", borderBottom: "1px solid gray" }}>
