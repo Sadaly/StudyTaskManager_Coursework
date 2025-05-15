@@ -2,6 +2,7 @@
 
 namespace StudyTaskManager.Application.Entity.PersonalMessages.Queries;
 public sealed record PersonalMessageResponse(
+    Guid MessageId,
     Guid PersonalChatId,
     Guid SenderId,
     DateTime DateWriten,
@@ -10,6 +11,7 @@ public sealed record PersonalMessageResponse(
 {
     internal PersonalMessageResponse(PersonalMessage message)
         : this(
+              message.Id,
               message.PersonalChatId,
               message.SenderId,
               message.DateWriten,

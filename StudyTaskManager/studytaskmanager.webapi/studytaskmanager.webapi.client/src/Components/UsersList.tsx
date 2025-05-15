@@ -1,9 +1,9 @@
 ﻿import React, { FC } from 'react';
-import { UserResponse } from '../TypesFromTheServer/UserResponse';
+import { User } from '../TypesFromTheServer/User';
 import UserCard from './Cards/UserCard';
 
 interface UserListProps {
-    users: UserResponse[]
+    users: User[]
 }
 
 const UserList: FC<UserListProps> = ({ users }) => {

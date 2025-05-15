@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface UserResponse {
+export interface User {
     userId: string;
     username: string;
     email: string;
@@ -12,7 +12,7 @@ export interface UserResponse {
 }
 
 // Функция для получения пользователя по ID
-const fetchUserById = async (userId: string): Promise<UserResponse | null> => {
+const fetchUserById = async (userId: string): Promise<User | null> => {
     try {
         const response = await axios.get(
             `https://localhost:7241/api/Users/${userId}`,

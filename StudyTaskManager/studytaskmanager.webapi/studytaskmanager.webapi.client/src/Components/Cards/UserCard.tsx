@@ -1,9 +1,9 @@
 ﻿import React from 'react';
-import { UserResponse } from '../../TypesFromTheServer/UserResponse';
+import { User } from '../../TypesFromTheServer/User';
 import { CSSProperties } from 'react';
 
 interface UserCardProps {
-    user: UserResponse;
+    user: User;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {

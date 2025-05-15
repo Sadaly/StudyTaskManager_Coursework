@@ -6,6 +6,8 @@ using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatCre
 using StudyTaskManager.Application.Entity.PersonalChats.Commands.PersonalChatDelete;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatGetById;
 using StudyTaskManager.Application.Entity.PersonalChats.Queries.PersonalChatsGetAll;
+using StudyTaskManager.Application.Entity.PersonalMessages.Queries.PersonalMessageGetAll;
+using StudyTaskManager.Application.Entity.PersonalMessages.Queries.PersonalMessageTake;
 using StudyTaskManager.WebAPI.Abstractions;
 
 namespace StudyTaskManager.WebAPI.Controllers
@@ -33,6 +35,17 @@ namespace StudyTaskManager.WebAPI.Controllers
             CancellationToken cancellationToken)
         {
             var query = new PersonalChatGetByIdQuery(perconalChatId);
+            var response = await Sender.Send(query, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+        }
+        //[Authorize]
+        [HttpGet("{perconalChatId:guid}/Messages")]
+        public async Task<IActionResult> GetMessageByPersonalChatId(
+            Guid perconalChatId,
+            CancellationToken cancellationToken)
+        {
+            var query = new PersonalMessageGetAllQuery(pm => pm.PersonalChatId == perconalChatId);
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);

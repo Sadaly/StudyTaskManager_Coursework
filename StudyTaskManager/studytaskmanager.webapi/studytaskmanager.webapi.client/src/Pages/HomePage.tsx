@@ -4,7 +4,7 @@ import { Me } from "../TypesFromTheServer/Me";
 
 
 interface User {
-    id: string;
+    userId: string;
     username: string;
     email: string;
     registrationDate: string;
@@ -92,10 +92,13 @@ const HomePage: React.FC = () => {
             >
                 <h2>Список пользователей</h2>
                 {users.map((user) => (
-                    <div key={user.id}>
+                    <div key={user.userId}>
                         <h4>{user.username}</h4>
-                        <p>Email: {user.email}</p>
-                        <p>Дата регистрации: {new Date(user.registrationDate).toLocaleDateString()}</p>
+                        <p>
+                            Email: {user.email}<br />
+                            Дата регистрации: {new Date(user.registrationDate).toLocaleDateString()}<br />
+                            Id: {user.userId}
+                        </p>
                         <hr />
                     </div>
                 ))}
