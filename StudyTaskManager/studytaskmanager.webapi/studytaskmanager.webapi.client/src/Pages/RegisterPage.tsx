@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -14,10 +14,26 @@ export default function RegisterPage() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [errorDetail, setErrorDetail] = useState('');
     const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [dots, setDots] = useState(3);
     const navigate = useNavigate();
+
+    // Анимация точек во время загрузки
+    useEffect(() => {
+        if (!isLoading) return;
+
+        const interval = setInterval(() => {
+            setDots(prev => prev > 1 ? prev - 1 : 3);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, [isLoading]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
+        setErrorDetail('');
+        setValidationErrors([]);
 
         const command = {
             username,
@@ -36,29 +52,29 @@ export default function RegisterPage() {
             });
 
             console.log('User registered successfully:', response.data.message);
-            setErrorDetail('');
-            setValidationErrors([]);
-            navigate('/login'); // Перенаправляем на страницу входа после успешной регистрации
+            navigate('/login');
         } catch (error: any) {
             const responseData = error.response?.data;
-
-            // Устанавливаем основное сообщение
             setErrorDetail(responseData?.detail || 'Произошла ошибка при регистрации');
 
-            // Устанавливаем ошибки валидации, если есть
             if (Array.isArray(responseData?.errors)) {
                 setValidationErrors(responseData.errors);
-            } else {
-                setValidationErrors([]);
             }
-
             console.error('Registration failed', responseData);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const renderButtonText = () => {
+        if (!isLoading) return 'Зарегистрироваться';
+
+        const dotsText = '.'.repeat(dots);
+        return `Загрузка${dotsText}`;
     };
 
     return (
         <div style={{
-            //backgroundColor: "#2d0a0a",
             marginLeft: "150px",
             width: "100%",
             minHeight: "100vh",
@@ -104,27 +120,27 @@ export default function RegisterPage() {
                 />
                 <button
                     type="submit"
+                    disabled={isLoading}
                     style={{
                         padding: "10px",
-                        backgroundColor: "#f44336",
+                        backgroundColor: isLoading ? "#777" : "#f44336",
                         color: "white",
                         border: "none",
                         borderRadius: "5px",
-                        cursor: "pointer"
+                        cursor: isLoading ? "wait" : "pointer",
+                        transition: "background-color 0.3s"
                     }}
                 >
-                    Зарегистрироваться
+                    {renderButtonText()}
                 </button>
             </form>
 
-            {/* Общая ошибка */}
             {errorDetail && (
                 <div style={{ color: 'red', marginTop: '10px' }}>
                     {errorDetail}
                 </div>
             )}
 
-            {/* Ошибки валидации */}
             {validationErrors.length > 0 && (
                 <ul style={{ color: 'red', marginTop: '10px' }}>
                     {validationErrors.map((err, idx) => (
