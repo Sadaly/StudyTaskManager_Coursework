@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { UserResponse } from "./TypesFromTheServer/UserResponse";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WelcomePage from "./Pages/WelcomePage";
 import LoginPage from "./Pages/LoginPage";
@@ -8,8 +6,6 @@ import HomePage from "./Pages/HomePage";
 import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
-    const [users, setUsers] = useState<UserResponse[]>([])
-
     return (
         <BrowserRouter>
             <Routes>

@@ -83,7 +83,14 @@ namespace StudyTaskManager.WebAPI.Controllers
             return HandleFailure(tokenResult);
         }
 
-        [Authorize(Roles = "User")]
+		[HttpPost("Logout")]
+		public IActionResult LogoutUser()
+		{
+			Response.Cookies.Delete("access_token");
+            return Ok();
+		}
+
+		[Authorize(Roles = "User")]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetUserById(Guid userId, CancellationToken cancellationToken)
         {
