@@ -8,11 +8,29 @@ interface User {
     registrationDate: string;
 }
 
+interface CurrentUser {
+    userId: string;
+    role: string;
+}
+
 const HomePage: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
+    const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
     const [startIndex, setStartIndex] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const listRef = useRef<HTMLDivElement>(null);
+
+    // Загрузка информации о текущем пользователе
+    const loadCurrentUser = async () => {
+        try {
+            const response = await axios.get("https://localhost:7241/api/Users/me", {
+                withCredentials: true,
+            });
+            setCurrentUser(response.data);
+        } catch (error) {
+            console.error("Ошибка при загрузке информации о пользователе", error);
+        }
+    };
 
     const loadUsers = async () => {
         try {
@@ -46,27 +64,44 @@ const HomePage: React.FC = () => {
     };
 
     useEffect(() => {
+        loadCurrentUser(); // Загружаем информацию о текущем пользователе
         loadUsers();
     }, []);
 
     return (
-        <div
-            ref={listRef}
-            onScroll={handleScroll}
-            style={{
-                marginLeft: "150px",  /* Отступ от левого края */
-                width: "100%",  /* Ширина 100% от родителя */
-                height: "500px", overflowY: "auto", border: "1px solid gray", padding: "1rem"
-            }}
-        >
-            {users.map((user) => (
-                <div key={user.id}>
-                    <h4>{user.username}</h4>
-                    <p>Email: {user.email}</p>
-                    <p>Дата регистрации: {new Date(user.registrationDate).toLocaleDateString()}</p>
-                    <hr />
+        <div>
+            {/* Блок с информацией о текущем пользователе */}
+            {currentUser && (
+                <div style={{ marginLeft: "150px", padding: "1rem", borderBottom: "1px solid gray" }}>
+                    <h2>Ваш профиль</h2>
+                    <p>userId: {currentUser.userId ? currentUser.userId : "--//--"}</p>
+                    <p>role: {currentUser.role}</p>
                 </div>
-            ))}
+            )}
+
+            {/* Блок со списком пользователей */}
+            <div
+                ref={listRef}
+                onScroll={handleScroll}
+                style={{
+                    marginLeft: "150px",
+                    width: "100%",
+                    height: "500px",
+                    overflowY: "auto",
+                    border: "1px solid gray",
+                    padding: "1rem"
+                }}
+            >
+                <h2>Список пользователей</h2>
+                {users.map((user) => (
+                    <div key={user.id}>
+                        <h4>{user.username}</h4>
+                        <p>Email: {user.email}</p>
+                        <p>Дата регистрации: {new Date(user.registrationDate).toLocaleDateString()}</p>
+                        <hr />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
