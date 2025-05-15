@@ -55,7 +55,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(
             CancellationToken cancellationToken)
         {
@@ -65,7 +65,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
         }
 
-		[HttpGet]
+		[HttpGet("Take")]
 		public async Task<IActionResult> Take(
 			[FromQuery] TakeData<GroupFilter, Group> take,
 			CancellationToken cancellationToken)
