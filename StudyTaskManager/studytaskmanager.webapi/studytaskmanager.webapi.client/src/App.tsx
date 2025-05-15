@@ -5,6 +5,8 @@ import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import HomeLayout from "./Pages/HomeLayout ";
+import PersonalChatsPage from "./Pages/PersonalChatsPage";
+import PersonalChatPage from "./Pages/PersonalChatPage";
 
 function App() {
     return (
@@ -18,11 +20,13 @@ function App() {
                 {/*<Route element={<RoleProtectedRoute allowedRoles={['Admin']} />}>*/}
                 {/*    <Route path="/admin" element={<AdminPage />} />*/}
                 {/*</Route>*/}
-                
+
 
                 <Route element={<ProtectedRoute />}>
                     <Route path="/home" element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
+                        <Route path="chats" element={<PersonalChatsPage />} />
+                        <Route path="chats/:id" element={<PersonalChatPage />} />
                         <Route path="groups" element={<HomePage />} />
                     </Route>
                 </Route>
