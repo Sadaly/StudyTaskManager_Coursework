@@ -16,9 +16,9 @@ namespace StudyTaskManager.Application.Entity.Groups.Queries.GroupTake
 
         public async Task<Result<List<GroupResponse>>> Handle(GroupTakeQuery request, CancellationToken cancellationToken)
         {
-            var groups = request.Perdicate == null
+            var groups = request.Predicate == null
                 ? await _groupRepository.GetAllAsync(request.StartIndex, request.Count, cancellationToken)
-                : await _groupRepository.GetAllAsync(request.StartIndex, request.Count, request.Perdicate, cancellationToken);
+                : await _groupRepository.GetAllAsync(request.StartIndex, request.Count, request.Predicate, cancellationToken);
 
             if (groups.IsFailure) return Result.Failure<List<GroupResponse>>(groups);
 
