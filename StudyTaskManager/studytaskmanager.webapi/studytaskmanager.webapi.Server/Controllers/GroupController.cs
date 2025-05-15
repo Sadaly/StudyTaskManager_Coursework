@@ -67,12 +67,10 @@ namespace StudyTaskManager.WebAPI.Controllers
 
 		[HttpGet]
 		public async Task<IActionResult> Take(
-            int startIndex,
-            int count,
 			[FromQuery] TakeData<GroupFilter, Group> take,
 			CancellationToken cancellationToken)
 		{
-			var query = new GroupTakeQuery(startIndex, count, take.Filter?.ToPredicate());
+			var query = new GroupTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate());
 			var response = await Sender.Send(query, cancellationToken);
 
 			return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
