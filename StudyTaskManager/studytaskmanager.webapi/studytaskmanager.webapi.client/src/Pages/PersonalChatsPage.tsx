@@ -5,12 +5,12 @@ import { Me } from "../TypesFromTheServer/Me";
 import { PersonalChat } from "../TypesFromTheServer/PersonalChat";
 import Accordion from "../Components/Accordion";
 import { User } from "../TypesFromTheServer/User";
+import ChatListItem from "../Components/PersonalChat/ChatListItem";
 
 const PersonalChatsPage = () => {
     const [load, setLoad] = useState<Boolean>(false);
     const [me, setMe] = useState<Me | null>(null);
     const [chats, setChats] = useState<PersonalChat[]>([]);
-    const [openDivFromCreateNew, setOpenDivFromCreateNew] = useState<Boolean>(false);
     const [serchUserName, setSerchUserName] = useState<string>();
     const [usersData, setUsersData] = useState<Record<string, User>>({});
 
@@ -72,17 +72,6 @@ const PersonalChatsPage = () => {
         }
     };
 
-    // Функция для получения имени пользователя в чате
-    const getChatUserName = (chat: PersonalChat): string => {
-        if (!me) return "Unknown User";
-
-        // Определяем ID другого пользователя
-        const otherUserId = chat.user1Id === me.userId ? chat.user2Id : chat.user1Id;
-
-        // Возвращаем имя пользователя или "Unknown User", если данные не загружены
-        return usersData[otherUserId]?.username || "Unknown User";
-    };
-
     useEffect(() => {
         setLoad(true);
         const loadData = async () => {
@@ -97,28 +86,32 @@ const PersonalChatsPage = () => {
     }, []);
 
     return (
-        <div>
-            <Accordion title="Открыть новый чат">
-                <input
-                    type="search"
-                    placeholder="search"
-                    value={serchUserName}
-                    onChange={(e) => setSerchUserName(e.target.value)}
-                    required
-                />
-                <button>Search</button>
-            </Accordion>
+        me == null || load ?
+            <p>Загрузка...</p> :
+            <div>
+                <Accordion title="Открыть новый чат">
+                    <input
+                        type="search"
+                        placeholder="search"
+                        value={serchUserName}
+                        onChange={(e) => setSerchUserName(e.target.value)}
+                        required
+                    />
+                    <button>Search</button>
+                </Accordion>
 
-            <p>Персональные чаты {load ? "loading..." : "loaded"}</p>
+                <p>Персональные чаты</p>
 
-            {chats.map((chat) => (
-                <div key={chat.chatId}>
-                    <p><Link to={`/home/chats/${chat.chatId}`}>
-                        {getChatUserName(chat)}
-                    </Link> <br />(Chat ID: {chat.chatId})    </p>
-                </div>
-            ))}
-        </div>
+                {chats.map((chat) => (
+                    <ChatListItem
+                        key={chat.chatId}
+                        chat={chat}
+                        currentUserId={me.userId}
+                        usersData={usersData}
+                    />
+                ))
+                }
+            </div>
     );
 };
 
