@@ -51,7 +51,8 @@ button {
     }
 
     button:focus, button:focus-visible {
-        outline: 4px auto -webkit-focus-ring-color; /* Контур при фокусе (для доступности) */
+        border-color: #646cff;
+        outline: 4px none -webkit-focus-ring-color; /*Контур при фокусе (для доступности) */
     }
 
 input, textarea, select {
@@ -64,6 +65,10 @@ input, textarea, select {
     font-family: inherit; /* Наследуем шрифт */
     transition: border-color 0.25s; /* Плавное изменение цвета границы */
 }
+
+    input:hover, textarea:hover, select:hover {
+        border-bottom-color: #646cff;
+    }
 
     /* Стиль при фокусе (подсветка снизу) */
     input:focus, textarea:focus, select:focus {
