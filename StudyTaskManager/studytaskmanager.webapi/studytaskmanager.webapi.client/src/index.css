@@ -16,6 +16,7 @@ a {
     color: #646cff; /* Фиолетово-синий цвет */
     text-decoration: inherit; /* Убирает подчёркивание */
 }
+
     a:hover {
         color: #535bf2; /* Цвет при наведении */
     }
@@ -44,21 +45,55 @@ button {
     cursor: pointer; /* Курсор-указатель */
     transition: border-color 0.25s; /* Плавное изменение границы */
 }
+
     button:hover {
         border-color: #646cff; /* Фиолетовая граница при наведении */
     }
+
     button:focus, button:focus-visible {
         outline: 4px auto -webkit-focus-ring-color; /* Контур при фокусе (для доступности) */
     }
+
+input, textarea, select {
+    background-color: #1e1e1e; /* Фон как у страницы */
+    color: rgba(255, 255, 255, 0.87); /* Цвет текста */
+    border: none; /* Убираем все границы */
+    border-bottom: 1px solid #333; /* Только нижняя граница */
+    border-radius: 0; /* Убираем скругления */
+    padding: 8px 0; /* Отступы (горизонтальный можно добавить по желанию) */
+    font-family: inherit; /* Наследуем шрифт */
+    transition: border-color 0.25s; /* Плавное изменение цвета границы */
+}
+
+    /* Стиль при фокусе (подсветка снизу) */
+    input:focus, textarea:focus, select:focus {
+        outline: none; /* Убираем стандартный outline */
+        border-bottom-color: #646cff; /* Фиолетовая линия, как у кнопок */
+    }
+
+/* Стили для светлой темы */
+@media (prefers-color-scheme: light) {
+    input, textarea, select {
+        background-color: #ffffff; /* Белый фон */
+        color: #213547; /* Тёмный текст */
+        border-bottom-color: #ccc; /* Серая нижняя граница */
+    }
+        /* Подсветка в светлой теме */
+        input:focus, textarea:focus, select:focus {
+            border-bottom-color: #747bff; /* Голубоватый акцент */
+        }
+}
 
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547; /* Тёмно-синий текст */
         background-color: #ffffff; /* Белый фон */
     }
+
     a:hover {
         color: #747bff; /* Светло-фиолетовый при наведении */
     }
+
     button {
         background-color: #f9f9f9; /* Светло-серый фон кнопок */
     }

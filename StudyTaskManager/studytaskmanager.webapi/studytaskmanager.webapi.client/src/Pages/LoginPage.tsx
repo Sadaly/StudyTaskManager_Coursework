@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,10 +12,26 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
     const [errorDetail, setErrorDetail] = useState('');
     const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [dots, setDots] = useState(3);
     const navigate = useNavigate();
+
+    // Анимация точек во время загрузки
+    useEffect(() => {
+        if (!isLoading) return;
+
+        const interval = setInterval(() => {
+            setDots(prev => prev > 1 ? prev - 1 : 3);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, [isLoading]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
+        setErrorDetail('');
+        setValidationErrors([]);
 
         const command = { email, password };
 
@@ -28,55 +44,66 @@ const LoginPage: React.FC = () => {
             });
 
             console.log('User logged in successfully:', response.data.message);
-            setErrorDetail('');
-            setValidationErrors([]);
             navigate('/home');
         } catch (error: any) {
             const responseData = error.response?.data;
-
-            // Устанавливаем основное сообщение
             setErrorDetail(responseData?.detail || 'Произошла ошибка входа');
 
-            // Устанавливаем ошибки валидации, если есть
             if (Array.isArray(responseData?.errors)) {
                 setValidationErrors(responseData.errors);
-            } else {
-                setValidationErrors([]);
             }
-
             console.error('Login failed', responseData);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const renderButtonText = () => {
+        if (!isLoading) return 'Войти';
+
+        const dotsText = '.'.repeat(dots);
+        return `Загрузка${dotsText}`;
     };
 
     return (
         <div style={{
-            marginLeft: "150px",  /* Отступ от левого края */
-            width: "100%",  /* Ширина 100% от родителя */
-            minHeight: "100vh",  /* На всю высоту экрана */
-            padding: "2rem",    /* Внутренние отступы */
-            boxSizing: "border-box" /* Учёт padding в ширине */
+            marginLeft: "150px",
+            width: "100%",
+            minHeight: "100vh",
+            padding: "2rem",
+            boxSizing: "border-box"
         }}>
             <h1>Вход</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label><br />
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Пароль:</label><br />
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Войти</button>
+            <form
+                onSubmit={handleSubmit}
+                style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}
+            >
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Пароль"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    style={{
+                        padding: "10px",
+                        color: "white",
+                        borderRadius: "5px",
+                        cursor: isLoading ? "wait" : "pointer",
+                    }}
+                >
+                    {renderButtonText()}
+                </button>
             </form>
 
             {/* Общая ошибка */}

@@ -79,10 +79,9 @@ export default function RegisterPage() {
             width: "100%",
             minHeight: "100vh",
             padding: "2rem",
-            boxSizing: "border-box",
-            color: "white"
+            boxSizing: "border-box"
         }}>
-            <h2>Регистрация</h2>
+            <h1>Регистрация</h1>
             <form
                 onSubmit={handleSubmit}
                 style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}
@@ -93,7 +92,6 @@ export default function RegisterPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    style={{ padding: "10px", borderRadius: "5px", border: "none" }}
                 />
                 <input
                     type="email"
@@ -101,7 +99,6 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    style={{ padding: "10px", borderRadius: "5px", border: "none" }}
                 />
                 <input
                     type="password"
@@ -109,26 +106,21 @@ export default function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    style={{ padding: "10px", borderRadius: "5px", border: "none" }}
                 />
                 <input
                     type="tel"
-                    placeholder="Номер телефона (необязательно)"
+                    placeholder="Номер телефона (опционально)"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    style={{ padding: "10px", borderRadius: "5px", border: "none" }}
                 />
                 <button
                     type="submit"
                     disabled={isLoading}
                     style={{
                         padding: "10px",
-                        backgroundColor: isLoading ? "#777" : "#f44336",
                         color: "white",
-                        border: "none",
                         borderRadius: "5px",
-                        cursor: isLoading ? "wait" : "pointer",
-                        transition: "background-color 0.3s"
+                        cursor: isLoading ? "wait" : "pointer"
                     }}
                 >
                     {renderButtonText()}
@@ -150,7 +142,7 @@ export default function RegisterPage() {
             )}
 
             <p style={{ marginTop: "20px" }}>
-                Уже есть аккаунт? <Link to="/login" style={{ color: "#f44336" }}>Вход</Link>
+                Уже есть аккаунт? <Link to="/login">Вход</Link>
             </p>
         </div>
     );
