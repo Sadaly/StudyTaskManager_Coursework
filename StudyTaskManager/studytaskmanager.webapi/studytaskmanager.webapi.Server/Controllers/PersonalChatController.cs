@@ -44,7 +44,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             Guid userId,
             CancellationToken cancellationToken)
         {
-            var query = new PersonalChatsGetAllQuery(pc => pc.UsersID.Contains(userId));
+            var query = new PersonalChatsGetAllQuery(pc => pc.User1Id == userId || pc.User2Id == userId);
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
