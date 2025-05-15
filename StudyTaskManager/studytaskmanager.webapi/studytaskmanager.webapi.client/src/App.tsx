@@ -5,6 +5,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import HomeLayout from "./Pages/HomeLayout ";
+import PersonalChatsPage from "./Pages/PersonalChatsPage";
 
 function App() {
     return (
@@ -21,12 +22,9 @@ function App() {
 
                 {/* Страница для всех авторизованных */}
                 <Route element={<ProtectedRoute />}>
-                    <Route path="/home" element={<HomePage />} />
-                </Route>
-
-                <Route element={<ProtectedRoute />}>
                     <Route path="/home" element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
+                        <Route path="PersonalChats" element={<PersonalChatsPage />} />
                     </Route>
                 </Route>
 

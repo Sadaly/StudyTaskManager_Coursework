@@ -72,7 +72,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <LogoutButton />
             {/* Блок с информацией о текущем пользователе */}
             {currentUser && (
                 <div style={{ marginLeft: "150px", padding: "1rem", borderBottom: "1px solid gray" }}>
