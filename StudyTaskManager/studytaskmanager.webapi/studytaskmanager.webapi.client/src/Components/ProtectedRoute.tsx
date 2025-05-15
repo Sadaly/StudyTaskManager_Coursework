@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+п»їimport React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
@@ -25,10 +25,12 @@ const ProtectedRoute = () => {
     }, []);
 
     if (isAuthenticated === null) {
-        return <div>Загрузка...</div>; // пока проверяем, не редиректим!
+        //return <div>РџСЂРѕРІРµСЂРєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё...</div>; // РїРѕРєР° РїСЂРѕРІРµСЂСЏРµРј, РЅРµ СЂРµРґРёСЂРµРєС‚РёРј!
+        return;
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
+
