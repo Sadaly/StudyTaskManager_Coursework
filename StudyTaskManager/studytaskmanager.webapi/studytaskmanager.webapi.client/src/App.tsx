@@ -7,6 +7,7 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import HomeLayout from "./Pages/HomeLayout ";
 import PersonalChatsPage from "./Pages/PersonalChatsPage";
 import PersonalChatPage from "./Pages/PersonalChatPage";
+import NotFoundPage from "./Pages/NotFountPage";
 
 function App() {
     return (
@@ -16,21 +17,21 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 
-                {/* Страница только для админа */}
-                {/*<Route element={<RoleProtectedRoute allowedRoles={['Admin']} />}>*/}
-                {/*    <Route path="/admin" element={<AdminPage />} />*/}
-                {/*</Route>*/}
-
-
                 <Route element={<ProtectedRoute />}>
                     <Route path="/home" element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
                         <Route path="chats" element={<PersonalChatsPage />} />
                         <Route path="chats/:idPersonalChat" element={<PersonalChatPage />} />
                         <Route path="groups" element={<HomePage />} />
+
+                        <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Route>
 
+                {/* Страница только для админа */}
+                {/*<Route element={<RoleProtectedRoute allowedRoles={['Admin']} />}>*/}
+                {/*    <Route path="/admin" element={<AdminPage />} />*/}
+                {/*</Route>*/}
 
             </Routes>
         </BrowserRouter>

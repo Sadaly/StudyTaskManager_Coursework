@@ -25,12 +25,10 @@ const ProtectedRoute = () => {
     }, []);
 
     if (isAuthenticated === null) {
-        //return <div>Проверка аутентификации...</div>; // пока проверяем, не редиректим!
-        return;
+        return <p className="loading-text">Проверка аутентификации...</p>;
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
-

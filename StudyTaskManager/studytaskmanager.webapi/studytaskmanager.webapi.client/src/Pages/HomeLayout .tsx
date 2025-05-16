@@ -23,6 +23,7 @@ const HomeLayout = () => {
             </nav>
 
             <div style={{
+                width: '100vh',
                 padding: '1rem',
                 //marginTop: '20px',
                 //paddingTop: '20px'
