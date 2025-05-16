@@ -26,7 +26,7 @@ function App() {
                     <Route path="/home" element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
                         <Route path="chats" element={<PersonalChatsPage />} />
-                        <Route path="chats/:id" element={<PersonalChatPage />} />
+                        <Route path="chats/:idPersonalChat" element={<PersonalChatPage />} />
                         <Route path="groups" element={<HomePage />} />
                     </Route>
                 </Route>

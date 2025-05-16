@@ -26,7 +26,7 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ allowedRoles })
         checkRole();
     }, [allowedRoles]);
 
-    if (isAllowed === null) return <div>Загрузка...</div>;
+    if (isAllowed === null) return <p className="loading-text">Загрузка...</p>;
 
     return isAllowed ? <Outlet /> : <Navigate to="/unauthorized" />;
 };

@@ -6,7 +6,7 @@ import MessageBubble from '../Components/PersonalChat/Message';
 
 
 function PersonalChatPage() {
-    const { id } = useParams<{ id: string }>();
+    const { idPersonalChat } = useParams<{ idPersonalChat: string }>();
     const [messages, setMessages] = useState<PersonalMessage[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -16,7 +16,7 @@ function PersonalChatPage() {
             try {
                 setLoading(true);
                 const response = await axios.get<PersonalMessage[]>(
-                    `https://localhost:7241/api/PersonalChat/${id}/Messages`
+                    `https://localhost:7241/api/PersonalChat/${idPersonalChat}/Messages`
                 );
                 setMessages(response.data);
                 setError(null);
@@ -28,13 +28,13 @@ function PersonalChatPage() {
             }
         };
 
-        if (id) {
+        if (idPersonalChat) {
             fetchMessages();
         }
-    }, [id]);
+    }, [idPersonalChat]);
 
     if (loading) {
-        return <div>Loading messages...</div>;
+        return <p className="loading-text">Загрузка сообщений...</p>;
     }
 
     if (error) {
@@ -43,10 +43,10 @@ function PersonalChatPage() {
 
     return (
         <div>
-            <h2>Personal Chat: {id}</h2>
+            <h2>Personal Chat: {idPersonalChat}</h2>
             <div>
                 {messages.length === 0 ? (
-                    <p>No messages found</p>
+                    <p>Здесь пока нет сообщений</p>
                 ) : (
                     <ul>
                         {messages.map((message) => (

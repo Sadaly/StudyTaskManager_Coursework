@@ -1,5 +1,4 @@
 ﻿import React, { useEffect, useState } from "react";
-import { Outlet, Link } from "react-router-dom";
 import axios from "axios";
 import { Me } from "../TypesFromTheServer/Me";
 import { PersonalChat } from "../TypesFromTheServer/PersonalChat";
@@ -52,7 +51,7 @@ const PersonalChatsPage = () => {
     }, []);
 
     if (me == null || load) {
-        return (<p>Загрузка чатов...</p>);
+        return (<p className="loading-text">Загрузка чатов...</p>);
     }
 
     return (

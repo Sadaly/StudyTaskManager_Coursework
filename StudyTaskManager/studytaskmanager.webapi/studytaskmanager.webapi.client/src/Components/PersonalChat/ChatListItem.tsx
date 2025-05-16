@@ -45,15 +45,15 @@ const ChatListItem: React.FC<ChatListItemProps> = ({
     }, [chat, currentUserId]);
 
     if (loading) {
-        return <div className="chat-list-item">Загрузка чата ({chat.chatId})...</div>;
+        return <div className="loading-text">Загрузка чата ({chat.chatId})...</div>;
     }
 
     if (error) {
-        return <div className="chat-list-item">{error}</div>;
+        return <div>{error}</div>;
     }
 
     return (
-        <div className="chat-list-item">
+        <div>
             <p>
                 <Link to={`/home/chats/${chat.chatId}`}>
                     {otherUser?.username || "Неизвестный пользователь"}

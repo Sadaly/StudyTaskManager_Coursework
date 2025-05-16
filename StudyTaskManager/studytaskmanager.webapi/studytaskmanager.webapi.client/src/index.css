@@ -103,3 +103,10 @@ input, textarea, select {
         background-color: #f9f9f9; /* Светло-серый фон кнопок */
     }
 }
+
+
+.loading-text {
+    color: #bbbbbb;
+    margin: 20px 0;
+    padding: 10px;
+}
