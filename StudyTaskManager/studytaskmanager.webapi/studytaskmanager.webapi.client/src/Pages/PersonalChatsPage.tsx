@@ -4,17 +4,14 @@ import axios from "axios";
 import { Me } from "../TypesFromTheServer/Me";
 import { PersonalChat } from "../TypesFromTheServer/PersonalChat";
 import Accordion from "../Components/Accordion";
-import { User } from "../TypesFromTheServer/User";
 import ChatListItem from "../Components/PersonalChat/ChatListItem";
 import PersonalChatsSearch from "../Components/PersonalChat/PersonalChatsSearch";
 
 const PersonalChatsPage = () => {
-    const [load, setLoad] = useState<Boolean>(false);
+    const [load, setLoad] = useState<boolean>(false);
     const [me, setMe] = useState<Me | null>(null);
     const [chats, setChats] = useState<PersonalChat[]>([]);
-    const [usersData, setUsersData] = useState<Record<string, User>>({});
 
-    // Загрузка информации о текущем пользователе
     const loadCurrentUser = async () => {
         try {
             const response = await axios.get(
@@ -29,20 +26,6 @@ const PersonalChatsPage = () => {
         }
     };
 
-    // Функция для получения пользователя по ID
-    const fetchUserById = async (userId: string): Promise<User | null> => {
-        try {
-            const response = await axios.get(
-                `https://localhost:7241/api/Users/${userId}`,
-                { withCredentials: true }
-            );
-            return response.data;
-        } catch (error) {
-            console.error(`Ошибка при загрузке пользователя с ID ${userId}`, error);
-            return null;
-        }
-    };
-
     const loadPersonalChats = async (userId: string) => {
         try {
             const response = await axios.get(
@@ -50,23 +33,6 @@ const PersonalChatsPage = () => {
                 { withCredentials: true }
             );
             setChats(response.data);
-
-            // Загружаем данные о пользователях для каждого чата
-            const users: Record<string, User> = {};
-            for (const chat of response.data) {
-                // Определяем ID другого пользователя в чате
-                const otherUserId = chat.user1Id === userId ? chat.user2Id : chat.user1Id;
-
-                // Загружаем данные пользователя, если еще не загружены
-                if (!users[otherUserId]) {
-                    const userData = await fetchUserById(otherUserId);
-                    if (userData) {
-                        users[otherUserId] = userData;
-                    }
-                }
-            }
-
-            setUsersData(users);
         } catch (error) {
             console.error("Ошибка при загрузке персональных чатов", error);
         }
@@ -85,26 +51,25 @@ const PersonalChatsPage = () => {
         loadData();
     }, []);
 
+    if (me == null || load) {
+        return (<p>Загрузка чатов...</p>);
+    }
+
     return (
-        me == null || load ?
-            <p>Загрузка...</p> :
-            <div>
-                <Accordion title="Открыть новый чат">
-                    <PersonalChatsSearch />
-                </Accordion>
+        <div>
+            <Accordion title="Открыть новый чат">
+                <PersonalChatsSearch />
+            </Accordion>
 
-                <p>Персональные чаты</p>
-
-                {chats.map((chat) => (
-                    <ChatListItem
-                        key={chat.chatId}
-                        chat={chat}
-                        currentUserId={me.userId}
-                        usersData={usersData}
-                    />
-                ))
-                }
-            </div>
+            <p>Персональные чаты</p>
+            {chats.map((chat) => (
+                <ChatListItem
+                    key={chat.chatId}
+                    chat={chat}
+                    currentUserId={me.userId}
+                />
+            ))}
+        </div>
     );
 };
 

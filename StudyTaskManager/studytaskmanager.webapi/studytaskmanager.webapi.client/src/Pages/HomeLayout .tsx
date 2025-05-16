@@ -4,7 +4,6 @@ import LogoutButton from "../Components/LogoutButton";
 const HomeLayout = () => {
     return (
         <div style={{ display: 'flex' }}>
-            {/* Боковая панель навигации */}
             <nav style={{
                 width: '200px',
                 height: '100vh',
@@ -23,8 +22,12 @@ const HomeLayout = () => {
                 <LogoutButton />
             </nav>
 
-            <div>
-                <Outlet /> {/* Здесь будут рендериться подстраницы */}
+            <div style={{
+                padding: '1rem',
+                //marginTop: '20px',
+                //paddingTop: '20px'
+            }}>
+                <Outlet />
             </div>
         </div>
     );
