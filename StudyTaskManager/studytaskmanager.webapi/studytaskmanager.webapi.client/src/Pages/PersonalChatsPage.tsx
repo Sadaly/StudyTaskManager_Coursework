@@ -6,12 +6,12 @@ import { PersonalChat } from "../TypesFromTheServer/PersonalChat";
 import Accordion from "../Components/Accordion";
 import { User } from "../TypesFromTheServer/User";
 import ChatListItem from "../Components/PersonalChat/ChatListItem";
+import PersonalChatsSearch from "../Components/PersonalChat/PersonalChatsSearch";
 
 const PersonalChatsPage = () => {
     const [load, setLoad] = useState<Boolean>(false);
     const [me, setMe] = useState<Me | null>(null);
     const [chats, setChats] = useState<PersonalChat[]>([]);
-    const [serchUserName, setSerchUserName] = useState<string>();
     const [usersData, setUsersData] = useState<Record<string, User>>({});
 
     // Загрузка информации о текущем пользователе
@@ -90,14 +90,7 @@ const PersonalChatsPage = () => {
             <p>Загрузка...</p> :
             <div>
                 <Accordion title="Открыть новый чат">
-                    <input
-                        type="search"
-                        placeholder="search"
-                        value={serchUserName}
-                        onChange={(e) => setSerchUserName(e.target.value)}
-                        required
-                    />
-                    <button>Search</button>
+                    <PersonalChatsSearch />
                 </Accordion>
 
                 <p>Персональные чаты</p>
