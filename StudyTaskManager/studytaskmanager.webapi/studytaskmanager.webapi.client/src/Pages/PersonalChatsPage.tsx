@@ -3,7 +3,7 @@ import axios from "axios";
 import { Me } from "../TypesFromTheServer/Me";
 import { PersonalChat } from "../TypesFromTheServer/PersonalChat";
 import Accordion from "../Components/Accordion";
-import ChatListItem from "../Components/PersonalChat/ChatListItem";
+import PersonalChatListItem from "../Components/PersonalChat/PersonalChatListItem";
 import PersonalChatsSearch from "../Components/PersonalChat/PersonalChatsSearch";
 
 const PersonalChatsPage = () => {
@@ -62,7 +62,7 @@ const PersonalChatsPage = () => {
 
             <p>Персональные чаты</p>
             {chats.map((chat) => (
-                <ChatListItem
+                <PersonalChatListItem
                     key={chat.chatId}
                     chat={chat}
                     currentUserId={me.userId}

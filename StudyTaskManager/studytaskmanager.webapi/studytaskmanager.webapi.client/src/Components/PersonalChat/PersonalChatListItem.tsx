@@ -4,12 +4,12 @@ import axios from "axios";
 import { User } from "../../TypesFromTheServer/User";
 import { PersonalChat } from "../../TypesFromTheServer/PersonalChat";
 
-interface ChatListItemProps {
+interface PersonalChatListItemProps {
     chat: PersonalChat;
     currentUserId: string;
 }
 
-const ChatListItem: React.FC<ChatListItemProps> = ({
+const PersonalChatListItem: React.FC<PersonalChatListItemProps> = ({
     chat,
     currentUserId
 }) => {
@@ -65,4 +65,4 @@ const ChatListItem: React.FC<ChatListItemProps> = ({
     );
 };
 
-export default ChatListItem;
+export default PersonalChatListItem;
