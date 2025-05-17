@@ -4,6 +4,7 @@ import axios from 'axios';
 import { PersonalMessage } from '../TypesFromTheServer/PersonalMessage';
 import PersonalMessageElem from '../Components/PersonalChat/PersonalMessageElem';
 import { Me } from '../TypesFromTheServer/Me';
+import PersonalMessageSendElem from '../Components/PersonalChat/PersonalMessageSendElem';
 
 
 function PersonalChatPage() {
@@ -73,6 +74,7 @@ function PersonalChatPage() {
                     )
                 }
             </div>
+            <PersonalMessageSendElem />
         </div>
     );
 }

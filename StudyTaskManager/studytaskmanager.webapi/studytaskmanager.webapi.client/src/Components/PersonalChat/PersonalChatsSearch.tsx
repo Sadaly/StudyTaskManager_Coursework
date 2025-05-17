@@ -12,7 +12,6 @@ const PersonalChatsSearch: React.FC<PersonalChatsSearchProps> = () => {
     return (
         <>
             <input
-                type="search"
                 placeholder="search"
                 value={searchUserName}
                 onChange={(e) => setSearchUserName(e.target.value)}
