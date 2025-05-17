@@ -125,8 +125,8 @@ public abstract class ValueObject : IEquatable<ValueObject>
 - Фоновая задача `ProcessOutboxMessagesJob` обрабатывает и публикует события через MediatR  
 - Atomic persistence и fail-safe повторная доставка  
 - Перехватчик `ConvertDomainEventsToOutboxMessagesInterceptor` автоматически конвертирует доменные события в Outbox-сообщения при вызове `SaveChangesAsync`  
+![image](https://github.com/user-attachments/assets/96347de2-0a7a-4cb2-bdaf-72761a6cf261)
 
-![image](https://github.com/user-attachments/assets/3fe683bf-bd3a-48ae-90be-fdc3d96553df)
 ---
 
 ## 📦 Persistence Layer: Generic Repository
