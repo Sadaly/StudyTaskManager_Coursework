@@ -58,7 +58,66 @@
 - Абстрактный класс `ValueObject` — основа для объектов-значений  
 - Сравнение по атомарным свойствам, а не по идентификатору  
 - Реализованы методы `GetAtomicValues()`, `Equals(...)`, `GetHashCode()`  
-- Примеры использования: Email, Username, PhoneNumber, Password  
+- Примеры использования: Email, Username, PhoneNumber, Password
+
+```csharp
+namespace StudyTaskManager.Domain.Common;
+
+/// <summary>
+/// Базовый класс для объектов-значений (Value Objects) в Domain-Driven Design.
+/// Объекты-значения идентифицируются по их свойствам, а не по идентификатору.
+/// </summary>
+public abstract class ValueObject : IEquatable<ValueObject>
+{
+    /// <summary>
+    /// Возвращает значения всех свойств объекта-значения.
+    /// </summary>
+    /// <returns>Коллекция значений свойств.</returns>
+    public abstract IEnumerable<object> GetAtomicValues();
+
+    /// <summary>
+    /// Сравнивает текущий объект-значение с другим объектом-значением.
+    /// </summary>
+    /// <param name="other">Другой объект-значение для сравнения.</param>
+    /// <returns>True, если объекты равны; иначе False.</returns>
+    public bool Equals(ValueObject? other)
+    {
+        return other is not null && ValuesAreEqual(other);
+    }
+
+    /// <summary>
+    /// Сравнивает текущий объект-значение с другим объектом.
+    /// </summary>
+    /// <param name="obj">Другой объект для сравнения.</param>
+    /// <returns>True, если объекты равны; иначе False.</returns>
+    public override bool Equals(object? obj)
+    {
+        return obj is ValueObject other && ValuesAreEqual(other);
+    }
+
+    /// <summary>
+    /// Вычисляет хэш-код на основе значений свойств объекта-значения.
+    /// </summary>
+    /// <returns>Хэш-код объекта.</returns>
+    public override int GetHashCode()
+    {
+        return GetAtomicValues()
+            .Aggregate(
+                default(int),
+                HashCode.Combine);
+    }
+
+    /// <summary>
+    /// Проверяет, равны ли значения свойств текущего объекта и другого объекта-значения.
+    /// </summary>
+    /// <param name="other">Другой объект-значение для сравнения.</param>
+    /// <returns>True, если значения свойств равны; иначе False.</returns>
+    private bool ValuesAreEqual(ValueObject other)
+    {
+        return GetAtomicValues().SequenceEqual(other.GetAtomicValues());
+    }
+}
+```
 
 ### Outbox Pattern (Гарантированная доставка событий)
 
@@ -66,8 +125,67 @@
 - Фоновая задача `ProcessOutboxMessagesJob` обрабатывает и публикует события через MediatR  
 - Atomic persistence и fail-safe повторная доставка  
 - Перехватчик `ConvertDomainEventsToOutboxMessagesInterceptor` автоматически конвертирует доменные события в Outbox-сообщения при вызове `SaveChangesAsync`  
-![image](https://github.com/user-attachments/assets/3fe683bf-bd3a-48ae-90be-fdc3d96553df)
 
+```chsarp
+using StudyTaskManager.Domain.Common;
+using StudyTaskManager.Persistence.Outbox;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Newtonsoft.Json;
+
+namespace StudyTaskManager.Persistence.Interceptors;
+
+public sealed class ConvertDomainEventsToOutboxMessagesInterceptor
+     : SaveChangesInterceptor
+{
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
+        CancellationToken cancellationToken = default)
+    {
+        DbContext? dbContext = eventData.Context;
+
+        if (dbContext is null)
+        {
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
+        }
+
+        var outboxMessages = dbContext.ChangeTracker
+            .Entries<BaseEntity>()
+            .Select(x => x.Entity)
+            .SelectMany(aggregateRoot =>
+            {
+                var domainEvents = aggregateRoot.GetDomainEvents();
+
+                aggregateRoot.ClearDomainEvents();
+
+                return domainEvents;
+            })
+            .Select(domainEvent => new OutboxMessage
+            {
+                Id = Guid.NewGuid(),
+                OccurredOnUtc = DateTime.UtcNow,
+                Type = domainEvent.GetType().Name,
+                Content = JsonConvert.SerializeObject(
+                    domainEvent,
+                    new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    }),
+                //Todo: придумать как записывать ошибки. Возможно стоит добавить событие в конструктор класса Error 
+                //Error = cancellationToken.ToString()
+            })
+            .ToList();
+
+        dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
+
+        return base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
+}
+
+```
+
+![image](https://github.com/user-attachments/assets/3fe683bf-bd3a-48ae-90be-fdc3d96553df)
 ---
 
 ## 📦 Persistence Layer: Generic Repository
@@ -115,3 +233,4 @@ internal sealed class UnitOfWork : IUnitOfWork
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
+```
