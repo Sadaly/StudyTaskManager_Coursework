@@ -46,6 +46,8 @@
   - Формирует `ProblemDetails` в едином формате  
   - Поддержка валидационных ошибок через `IValidationResult` с массивом `Error[]`  
 - **Абстрактный контроллер `ApiController`:** интеграция с MediatR и централизованная обработка ошибок  
+![image](https://github.com/user-attachments/assets/b1453d19-4e8e-4f25-a5ec-4b2def0493cb)
+![image](https://github.com/user-attachments/assets/faba8347-4f3c-470c-8988-0cce583d9ede)
 
 ---
 
@@ -64,6 +66,7 @@
 - Фоновая задача `ProcessOutboxMessagesJob` обрабатывает и публикует события через MediatR  
 - Atomic persistence и fail-safe повторная доставка  
 - Перехватчик `ConvertDomainEventsToOutboxMessagesInterceptor` автоматически конвертирует доменные события в Outbox-сообщения при вызове `SaveChangesAsync`  
+![image](https://github.com/user-attachments/assets/3fe683bf-bd3a-48ae-90be-fdc3d96553df)
 
 ---
 
@@ -88,6 +91,7 @@
 - Автоматическое создание базы данных при первом запуске (`Database.EnsureCreated()`)  
 - Конфигурации сущностей в папке `Configurations`  
 - Настройка подключения к PostgreSQL  
+![image](https://github.com/user-attachments/assets/cbe07b26-c5df-445a-a41d-6a18a4bc46b6)
 
 ---
 
