@@ -57,7 +57,7 @@ const PersonalChatsPage = () => {
     return (
         <div>
             <Accordion title="Открыть новый чат">
-                <PersonalChatsSearch />
+                <PersonalChatsSearch me={me} />
             </Accordion>
 
             <p>Персональные чаты</p>
