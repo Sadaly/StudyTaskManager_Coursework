@@ -24,7 +24,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -36,7 +36,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupTaskUpdateDeleteCommand(updateId);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -49,7 +49,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupTaskUpdateUpdateCommand(updateId, newContent);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -61,7 +61,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupTaskUpdateGetByIdQuery(updateId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -72,7 +72,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupTaskUpdateGetAllQuery(null);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
     }
 }

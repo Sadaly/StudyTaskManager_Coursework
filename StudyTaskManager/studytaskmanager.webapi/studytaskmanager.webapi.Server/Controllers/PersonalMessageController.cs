@@ -23,7 +23,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -35,7 +35,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new PersonalMessageGetByIdQuery(personalMessageId);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -47,7 +47,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new PersonalMessageDeleteCommand(personalMessageId);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -59,7 +59,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new PersonalMessageMarkAsReadCommand(personalMessageId);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok() : NotFound(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -72,7 +72,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new PersonalMessageUpdateContentCommand(personalMessageId, newContent);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok() : NotFound(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
     }
 }

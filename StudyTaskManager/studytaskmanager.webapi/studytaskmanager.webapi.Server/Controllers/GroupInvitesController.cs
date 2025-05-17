@@ -26,7 +26,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupInviteDeleteCommand(receiverId, groupId);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -39,7 +39,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupInviteGetByGroupAndUserQuery(receiverId, groupId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -88,7 +88,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupInviteGetAllQuery(gi => gi.ReceiverId == receiverId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
         //[Authorize]
         [HttpGet("Group/{groupId:guid}")]
@@ -99,7 +99,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupInviteGetAllQuery(gi => gi.GroupId == groupId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
         //[Authorize]
         [HttpGet("Sender/{senderId:guid}")]
@@ -110,7 +110,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupInviteGetAllQuery(gi => gi.SenderId == senderId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
     }
 }

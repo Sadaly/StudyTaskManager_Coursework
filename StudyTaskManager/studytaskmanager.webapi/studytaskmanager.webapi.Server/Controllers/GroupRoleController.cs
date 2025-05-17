@@ -22,7 +22,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -52,7 +52,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupRoleGetByIdQuery(roleId);
             var response = await Sender.Send(query, cancellationToken);
 
-            if (response.IsFailure) return BadRequest(response.Error);
+            if (response.IsFailure) return HandleFailure(response);
             if (response.Value.GroupId == null) return BadRequest(); //TODO Добавил ошибку что роль общая
 
             return Ok(response.Value);
@@ -67,7 +67,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupRoleGetAllQuery(gr => gr.GroupId == groupId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
     }
 }

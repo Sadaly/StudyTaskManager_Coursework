@@ -25,7 +25,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -37,7 +37,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new PersonalChatGetByIdQuery(perconalChatId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
         //[Authorize]
         [HttpGet("{perconalChatId:guid}/Messages")]
@@ -48,7 +48,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new PersonalMessageGetAllQuery(pm => pm.PersonalChatId == perconalChatId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -60,7 +60,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new PersonalChatsGetAllQuery(pc => pc.User1Id == userId || pc.User2Id == userId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -71,7 +71,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
 
@@ -84,7 +84,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new PersonalChatDeleteCommand(personalChatId);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -33,7 +33,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new GroupTaskDeleteCommand(taskId);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -45,7 +45,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var request = new GroupTaskGetAllQuery(gt => gt.GroupId == groupId);
             var response = await Sender.Send(request, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
     }
 }

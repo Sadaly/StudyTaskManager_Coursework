@@ -23,7 +23,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -35,7 +35,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupTaskStatusGetByIdQuery(groupTaskStatusId);
             var response = await Sender.Send(query, cancellationToken);
 
-            if (response.IsFailure) return BadRequest(response.Error);
+            if (response.IsFailure) return HandleFailure(response);
             if (response.Value.GroupId == null) return BadRequest(); //TODO написать ошибку что статус общий
 
             return Ok(response.Value);
@@ -50,7 +50,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupTaskStatusGetAllQuery(gts => gts.GroupId == groupId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -61,7 +61,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : NotFound(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -80,7 +80,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupTaskStatusDeleteCommand(groupTaskStatusId);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
     }
 }

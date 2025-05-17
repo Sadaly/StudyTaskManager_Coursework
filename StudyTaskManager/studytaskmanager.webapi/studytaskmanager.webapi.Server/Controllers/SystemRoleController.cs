@@ -29,7 +29,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [Authorize]
@@ -41,7 +41,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new SystemRoleDeleteCommand(systemRoleId);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
 
@@ -54,7 +54,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new SystemRoleGetByIdQuery(systemRoleId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [Authorize]
@@ -72,7 +72,7 @@ namespace StudyTaskManager.WebAPI.Controllers
                 data.CanDeleteChats);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         [Authorize]
@@ -85,7 +85,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new SystemRoleUpdateTitleCommand(systemRoleId, newTitle);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
     }
 }

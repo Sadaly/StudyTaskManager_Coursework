@@ -22,7 +22,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         {
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Error);
+            return response.IsSuccess ? Ok(response) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -33,7 +33,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new GroupChatMessageGetAllQuery(null);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         //[Authorize]
@@ -46,7 +46,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupChatMessageDeleteCommand(groupChatId, ordinal);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
 
         //[Authorize]
@@ -60,7 +60,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var command = new GroupChatMessageUpdateCommand(groupChatId, ordinal, newContent);
             var response = await Sender.Send(command, cancellationToken);
 
-            return response.IsSuccess ? Ok() : BadRequest(response.Error);
+            return response.IsSuccess ? Ok() : HandleFailure(response);
         }
     }
 }
