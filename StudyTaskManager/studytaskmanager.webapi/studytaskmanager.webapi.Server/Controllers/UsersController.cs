@@ -69,8 +69,8 @@ namespace StudyTaskManager.WebAPI.Controllers
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true, 
-                    SameSite = SameSiteMode.Strict, 
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
                     Expires = DateTimeOffset.UtcNow.AddYears(1)
                 };
                 Response.Cookies.Delete("access_token");
@@ -83,14 +83,14 @@ namespace StudyTaskManager.WebAPI.Controllers
             return HandleFailure(tokenResult);
         }
 
-		[HttpPost("Logout")]
-		public IActionResult LogoutUser()
-		{
-			Response.Cookies.Delete("access_token");
+        [HttpPost("Logout")]
+        public IActionResult LogoutUser()
+        {
+            Response.Cookies.Delete("access_token");
             return Ok();
-		}
+        }
 
-		[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetUserById(Guid userId, CancellationToken cancellationToken)
         {
@@ -133,5 +133,16 @@ namespace StudyTaskManager.WebAPI.Controllers
             return Ok(new { userId, role });
         }
 
+        [Authorize(Roles = "User")]
+        [HttpGet("Serch")]
+        public async Task<IActionResult> SerchUsers(
+            [FromQuery] string userName,
+            CancellationToken cancellationToken)
+        {
+            var query = new UsersGetAllQuery(u => u.Username.Value.ToLower().Contains(userName.ToLower()));
+            var response = await Sender.Send(query, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+        }
     }
 }
