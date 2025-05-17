@@ -52,9 +52,9 @@ namespace StudyTaskManager.WebAPI.Controllers
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
         {
-            Result<Guid> result = await Sender.Send(command, cancellationToken);
+            var response = await Sender.Send(command, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [HttpPost("Login")]
@@ -97,7 +97,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new UserGetByIdQuery(userId);
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [Authorize(Roles = "User")]
@@ -109,7 +109,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new UsersGetAllQuery(filter.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [Authorize(Roles = "User")]
@@ -121,7 +121,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate());
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
         [HttpGet("me")]
@@ -142,7 +142,7 @@ namespace StudyTaskManager.WebAPI.Controllers
             var query = new UsersGetAllQuery(u => u.Username.Value.ToLower().Contains(userName.ToLower()));
             var response = await Sender.Send(query, cancellationToken);
 
-            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
     }
 }
