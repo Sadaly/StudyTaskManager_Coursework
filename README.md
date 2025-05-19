@@ -47,7 +47,7 @@
   - Поддержка валидационных ошибок через `IValidationResult` с массивом `Error[]`  
 - **Абстрактный контроллер `ApiController`:** интеграция с MediatR и централизованная обработка ошибок
 
-Приер валидации передаваемых значений:
+Пример валидации передаваемых значений:
 ![image](https://github.com/user-attachments/assets/b1453d19-4e8e-4f25-a5ec-4b2def0493cb)
 ![image](https://github.com/user-attachments/assets/faba8347-4f3c-470c-8988-0cce583d9ede)
 
