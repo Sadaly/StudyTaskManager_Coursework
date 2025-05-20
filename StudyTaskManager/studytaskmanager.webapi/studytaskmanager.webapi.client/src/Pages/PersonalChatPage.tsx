@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { PersonalMessage } from '../TypesFromTheServer/PersonalMessage';
@@ -6,13 +6,13 @@ import PersonalMessageElem from '../Components/PersonalChat/PersonalMessageElem'
 import { Me } from '../TypesFromTheServer/Me';
 import PersonalMessageSendElem from '../Components/PersonalChat/PersonalMessageSendElem';
 
-
 function PersonalChatPage() {
     const [me, setMe] = useState<Me | null>(null);
     const { idPersonalChat } = useParams<{ idPersonalChat: string }>();
     const [messages, setMessages] = useState<PersonalMessage[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const intervalRef = useRef<number>(1000);
 
     const loadCurrentUser = async () => {
         try {
@@ -28,41 +28,8 @@ function PersonalChatPage() {
         }
     };
 
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                setLoading(true);
-                await loadCurrentUser();
-                const response = await axios.get<PersonalMessage[]>(
-                    `https://localhost:7241/api/PersonalChat/${idPersonalChat}/Messages`
-                );
-                setMessages(response.data);
-                setError(null);
-            } catch (err) {
-                setError('Failed to fetch messages');
-                console.error('Error fetching messages:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (idPersonalChat) {
-            fetchMessages();
-        }
-    }, [idPersonalChat]);
-
-    if (me == null || loading) {
-        return <p className="loading-text">Загрузка сообщений...</p>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    // В PersonalChatPage добавьте эту функцию
-    const refreshMessages = async () => {
+    const fetchMessages = async () => {
         try {
-            setLoading(true);
             const response = await axios.get<PersonalMessage[]>(
                 `https://localhost:7241/api/PersonalChat/${idPersonalChat}/Messages`
             );
@@ -75,6 +42,42 @@ function PersonalChatPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const initializeChat = async () => {
+            try {
+                setLoading(true);
+                await loadCurrentUser();
+                await fetchMessages();
+
+                // Устанавливаем интервал для проверки новых сообщений
+                intervalRef.current = setInterval(fetchMessages, 1000); // Проверка каждую секунду
+
+            } catch (err) {
+                setError('Failed to initialize chat');
+                console.error('Error initializing chat:', err);
+            }
+        };
+
+        if (idPersonalChat) {
+            initializeChat();
+        }
+
+        // Очистка интервала при размонтировании компонента
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, [idPersonalChat]);
+
+    if (me == null || loading) {
+        return <p className="loading-text">Загрузка сообщений...</p>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div>
@@ -95,9 +98,8 @@ function PersonalChatPage() {
             <PersonalMessageSendElem
                 me={me}
                 personalChatId={idPersonalChat!}
-                onMessageSent={refreshMessages}
+                onMessageSent={fetchMessages} // Используем fetchMessages вместо refreshMessages
             />
-
         </div>
     );
 }
