@@ -59,6 +59,23 @@ function PersonalChatPage() {
         return <div>Error: {error}</div>;
     }
 
+    // В PersonalChatPage добавьте эту функцию
+    const refreshMessages = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get<PersonalMessage[]>(
+                `https://localhost:7241/api/PersonalChat/${idPersonalChat}/Messages`
+            );
+            setMessages(response.data);
+            setError(null);
+        } catch (err) {
+            setError('Failed to fetch messages');
+            console.error('Error fetching messages:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <h2>Personal Chat: {idPersonalChat}</h2>
@@ -74,7 +91,13 @@ function PersonalChatPage() {
                     )
                 }
             </div>
-            <PersonalMessageSendElem />
+
+            <PersonalMessageSendElem
+                me={me}
+                personalChatId={idPersonalChat!}
+                onMessageSent={refreshMessages}
+            />
+
         </div>
     );
 }
