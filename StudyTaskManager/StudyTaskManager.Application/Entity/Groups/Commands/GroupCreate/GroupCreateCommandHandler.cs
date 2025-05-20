@@ -2,7 +2,6 @@
 using StudyTaskManager.Domain.Abstractions;
 using StudyTaskManager.Domain.Abstractions.Repositories;
 using StudyTaskManager.Domain.Entity.Group;
-using StudyTaskManager.Domain.Errors;
 using StudyTaskManager.Domain.Shared;
 using StudyTaskManager.Domain.ValueObjects;
 
@@ -14,22 +13,17 @@ namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate
         private readonly IGroupRepository _groupRepository;
         private readonly IGroupRoleRepository _groupRoleRepository;
 		private readonly IUserInGroupRepository _userInGroupRepository;
-        private IUserRepository _userRepository;
 
-        public GroupCreateCommandHandler(IUnitOfWork unitOfWork, IGroupRepository groupRepository, IGroupRoleRepository groupRoleRepository, IUserInGroupRepository userInGroupRepository, IUserRepository userRepository)
+		public GroupCreateCommandHandler(IUnitOfWork unitOfWork, IGroupRepository groupRepository, IGroupRoleRepository groupRoleRepository, IUserInGroupRepository userInGroupRepository)
+		{
+			_unitOfWork = unitOfWork;
+			_groupRepository = groupRepository;
+			_groupRoleRepository = groupRoleRepository;
+			_userInGroupRepository = userInGroupRepository;
+		}
+
+		public async Task<Result<Guid>> Handle(GroupCreateCommand request, CancellationToken cancellationToken)
         {
-            _unitOfWork = unitOfWork;
-            _groupRepository = groupRepository;
-            _groupRoleRepository = groupRoleRepository;
-            _userInGroupRepository = userInGroupRepository;
-            _userRepository = userRepository;
-        }
-
-        public async Task<Result<Guid>> Handle(GroupCreateCommand request, CancellationToken cancellationToken)
-        {
-            var foundGroup = await _groupRepository.GetAllAsync(g=> g.Title.Value == request.Title,cancellationToken);
-            if (foundGroup.Value.Count != 0 ) return Result.Failure<Guid>(PersistenceErrors.Group.AlreadyExists);
-
             var title = Title.Create(request.Title);
             if (title.IsFailure) return Result.Failure<Guid>(title);
 
@@ -40,28 +34,17 @@ namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate
                 if (descriptionRes.IsFailure) return Result.Failure<Guid>(descriptionRes);
                 description = descriptionRes.Value;
             }
-            var baseRoles = await _groupRoleRepository.GetBaseAsync(cancellationToken);
-            if (baseRoles.IsFailure) return Result.Failure<Guid>(baseRoles);
 
-            var memberRole = baseRoles.Value.FirstOrDefault(r => r.Title.Value == "Участник");
-            var creatorRole = baseRoles.Value.FirstOrDefault(r => r.Title.Value == "Создатель");
+            var defaultRole = await _groupRoleRepository.GetByIdAsync(request.DefaultRoleId, cancellationToken);
+            if (defaultRole.IsFailure) return Result.Failure<Guid>(defaultRole);
 
-            if(memberRole == null || creatorRole == null) return Result.Failure<Guid>(PersistenceErrors.SystemRole.NotFound);
-
-            var group = Group.Create(title.Value, description, memberRole);
+            var group = Group.Create(title.Value, description, defaultRole.Value);
             if (group.IsFailure) return Result.Failure<Guid>(group);
 
             var add = await _groupRepository.AddAsync(group.Value, cancellationToken);
             if (add.IsFailure) return Result.Failure<Guid>(add);
 
-            var user = await _userRepository.GetByIdAsync(request.CreatorId);
-            if (user.IsFailure) return Result.Failure<Guid>(user);
-
-            var uig = UserInGroup.Create(group.Value, user.Value, creatorRole);
-            if (uig.IsFailure) return Result.Failure<Guid>(uig);
-
-            var addUIG = await _userInGroupRepository.AddAsync(uig.Value, cancellationToken);
-            if (addUIG.IsFailure) return Result.Failure<Guid>(addUIG);
+            
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -20,7 +20,7 @@ const PersonalChatsSearch: React.FC<PersonalChatsSearchProps> = ({ me }) => {
             }
 
             const response = await axios.get<User[]>(
-                `https://localhost:7241/api/Users/Search`,
+                `https://localhost:7241/api/Users/Serch`,
                 {
                     withCredentials: true,
                     params: {

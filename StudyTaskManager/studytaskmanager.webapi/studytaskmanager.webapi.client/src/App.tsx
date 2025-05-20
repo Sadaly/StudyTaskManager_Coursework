@@ -8,9 +8,6 @@ import HomeLayout from "./Pages/HomeLayout ";
 import PersonalChatsPage from "./Pages/PersonalChatsPage";
 import PersonalChatPage from "./Pages/PersonalChatPage";
 import NotFoundPage from "./Pages/NotFountPage";
-import GroupsPage from "./Pages/GroupsPage";
-import CreateGroupForm from "./Pages/CreateGroupForm";
-import GroupDetailsPage from "./Pages/GroupDetailsPage";
 
 function App() {
     return (
@@ -25,10 +22,8 @@ function App() {
                         <Route index element={<HomePage />} />
                         <Route path="chats" element={<PersonalChatsPage />} />
                         <Route path="chats/:idPersonalChat" element={<PersonalChatPage />} />
-                        <Route path="groups" element={<GroupsPage />} />
-                        <Route path="groups/:id" element={<GroupDetailsPage />} />
-                        <Route path="groups/create" element={<CreateGroupForm />} />
-                        
+                        <Route path="groups" element={<HomePage />} />
+
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Route>

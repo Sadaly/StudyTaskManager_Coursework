@@ -3,7 +3,7 @@
 namespace StudyTaskManager.Application.Entity.Groups.Queries;
 
 public sealed record GroupResponse(
-    Guid id,
+    Guid IdGroup,
     string Title,
     string? Description,
     Guid DefaultRoleId)

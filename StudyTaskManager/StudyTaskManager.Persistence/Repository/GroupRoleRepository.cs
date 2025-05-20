@@ -31,6 +31,7 @@ namespace StudyTaskManager.Persistence.Repository
         {
             return await _dbContext.Set<GroupRole>()
                 .Where(gr => gr.GroupId == null)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
         public async Task<Result<List<GroupRole>>> GetBaseAsync(int startIndex, int count, CancellationToken cancellationToken = default)

@@ -52,11 +52,13 @@ namespace NUnitTestProject.Unit.Commands.PersonalChats
                 "testPersonalChatUser1",
                 "testPersonalChatUser1@mail",
                 "password",
+                null,
                 null);
             var user2CreateCommand = new UserCreateCommand(
                 "testPersonalChatUser2",
                 "testPersonalChatUser2@mail",
                 "password",
+                null,
                 null);
 
             var userCreateCommandHandler = new UserCreateCommandHandler(unitOfWorkStub, userRepository, systemRoleRepository);

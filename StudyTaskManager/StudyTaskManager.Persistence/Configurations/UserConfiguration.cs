@@ -24,7 +24,8 @@ namespace StudyTaskManager.Persistence.Configurations
             // Конфигурация PhoneNumber как owned-типа
             builder.OwnsOne(user => user.PhoneNumber, phone =>
             {
-                phone.Property(p => p.Value);  // Маппим Value в столбец PhoneNumber_Value
+                phone.Property(p => p.Value)  // Маппим Value в столбец PhoneNumber_Value
+                    .HasColumnName("PhoneNumber");
             });
 
             builder.Navigation(user => user.PhoneNumber).IsRequired(false);

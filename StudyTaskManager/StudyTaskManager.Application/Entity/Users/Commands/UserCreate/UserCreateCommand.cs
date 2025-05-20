@@ -6,4 +6,5 @@ public sealed record UserCreateCommand(
     string Username,
     string Email,
     string Password,
-    string? PhoneNumber) : ICommand<Guid>;
+    string? PhoneNumber,
+    Guid? SystemRoleId) : ICommand<Guid>;
