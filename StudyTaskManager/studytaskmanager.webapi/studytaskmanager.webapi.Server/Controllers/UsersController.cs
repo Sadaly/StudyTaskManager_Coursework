@@ -134,8 +134,8 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpGet("Serch")]
-        public async Task<IActionResult> SerchUsers(
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchUsers(
             [FromQuery] string userName,
             CancellationToken cancellationToken)
         {

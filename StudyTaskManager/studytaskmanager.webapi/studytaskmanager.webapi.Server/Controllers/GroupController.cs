@@ -43,12 +43,12 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpGet("{groupId:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(
-            Guid groupId,
+            Guid id,
             CancellationToken cancellationToken)
         {
-            var query = new GroupGetByIdQuery(groupId);
+            var query = new GroupGetByIdQuery(id);
             var response = await Sender.Send(query, cancellationToken);
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
@@ -78,7 +78,7 @@ namespace StudyTaskManager.WebAPI.Controllers
 		}
 
 		//[Authorize]
-		[HttpDelete("{groupId:guid}")]
+		[HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(
             Guid groupId,
             CancellationToken cancellationToken)
