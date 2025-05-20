@@ -41,13 +41,6 @@ namespace StudyTaskManager.Application.Entity.Users.Commands.UserCreate
                 phoneNumber = phoneNumberResult.Value;
             }
 
-            if (request.SystemRoleId != null)
-            {
-                var foundRoleResult = _systemRoleRepository.GetByIdAsync(request.SystemRoleId.Value, cancellationToken).Result;
-                if (foundRoleResult.IsFailure) return Result.Failure<Guid>(foundRoleResult.Error);
-                role = foundRoleResult.Value;
-            }
-
             var user = User.Create(username.Value, email.Value, password.Value, phoneNumber, role);
             if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 

@@ -5,4 +5,4 @@ namespace StudyTaskManager.Application.Entity.Groups.Commands.GroupCreate;
 public sealed record GroupCreateCommand(
     string Title,
     string? Description,
-    Guid DefaultRoleId) : ICommand<Guid>;
+    Guid CreatorId) : ICommand<Guid>;

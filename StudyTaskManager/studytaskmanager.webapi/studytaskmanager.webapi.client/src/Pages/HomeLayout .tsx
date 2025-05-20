@@ -18,6 +18,7 @@ const HomeLayout = () => {
                 >
                     <li><Link to="/home">Главная</Link></li>
                     <li><Link to="/home/Chats">PersonalChats</Link></li>
+                    <li><Link to="/home/groups">Groups</Link></li>
                 </ul>
                 <LogoutButton />
             </nav>
