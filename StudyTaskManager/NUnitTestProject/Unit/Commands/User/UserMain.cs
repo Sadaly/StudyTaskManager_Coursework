@@ -33,7 +33,6 @@ namespace NUnitTestProject.Unit.Commands.Users
                 "testUser",
                 "test@mail",
                 "password",
-                null,
                 null);
 
             IUserRepository userRepository = new UserRepository(appDbContext);
