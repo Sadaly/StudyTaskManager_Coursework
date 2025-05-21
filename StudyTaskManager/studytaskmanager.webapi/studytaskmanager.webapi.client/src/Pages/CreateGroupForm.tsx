@@ -15,7 +15,8 @@ const CreateGroupForm = ({ onSuccess }: Props) => {
     // Получаем creatorId из /user/me
     useEffect(() => {
         axios.get("https://localhost:7241/api/Users/me", {
-            withCredentials: true, })
+            withCredentials: true,
+        })
             .then(res => setCreatorId(res.data.userId))
             .catch(() => setError("Не удалось получить данные пользователя"));
     }, []);
@@ -41,6 +42,7 @@ const CreateGroupForm = ({ onSuccess }: Props) => {
             onSuccess?.();
         } catch (err) {
             setError("Ошибка при создании группы");
+            console.error("Ошибка при создании группы:", err);
         } finally {
             setLoading(false);
         }
