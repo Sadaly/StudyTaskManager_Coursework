@@ -930,8 +930,7 @@ namespace StudyTaskManager.Persistence.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("PhoneNumber");
+                                .HasColumnType("text");
 
                             b1.HasKey("UserId");
 

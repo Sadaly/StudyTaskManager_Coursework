@@ -23,12 +23,11 @@ const PersonalChatsSearchResultElement: React.FC<PersonalChatsSearchResultElemen
             );
 
             if (response.status === 200) {
-                const chatId = response.data.id; // Предполагаем, что сервер возвращает объект с id чата
+                const chatId = response.data.id;
                 navigate(`/home/chats/${chatId}`);
             }
         } catch (error) {
             console.error("Error creating chat:", error);
-            // Здесь можно добавить обработку ошибок, например, показать уведомление пользователю
         }
     };
 
