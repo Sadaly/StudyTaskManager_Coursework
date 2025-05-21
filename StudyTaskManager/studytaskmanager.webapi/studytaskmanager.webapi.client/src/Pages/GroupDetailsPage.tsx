@@ -185,7 +185,7 @@ const GroupDetailsPage: React.FC = () => {
             </div>
 
             {/* Список задач */}
-            <div className="max-w-6xl mx-auto px-6 py-10">
+            <div className="max-w-6xl mx-auto px-6 py-10 ">
                 <h2 className="text-4xl font-extrabold text-indigo-600 mb-12 text-center tracking-wide">
                     Задачи группы
                 </h2>
@@ -197,34 +197,37 @@ const GroupDetailsPage: React.FC = () => {
                         {tasks.map(task => (
                             <li
                                 key={task.id}
-                                className="bg-gradient-to-r from-white via-indigo-50 to-white rounded-2xl shadow-lg p-8 flex flex-col md:flex-row md:justify-between md:items-center transition-transform hover:-translate-y-1 hover:shadow-2xl"
+                                className="bg-gradient-to-r from-white via-indigo-50 to-white rounded-2xl shadow-lg p-8 flex flex-col md:flex-row md:justify-between md:items-start transition-transform hover:-translate-y-1 hover:shadow-2xl"
                             >
                                 <div className="mb-6 md:mb-0 md:flex-1">
                                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{task.headLine}</h3>
-                                    <p className="text-gray-700 leading-relaxed mb-4 max-w-xl">{task.description}</p>
+                                    <p className="text-gray-700 leading-relaxed mb-4 max-w-xl break-words whitespace-pre-wrap">{task.description}</p>
                                     <p className="text-sm text-gray-500">
                                         <strong>Дедлайн:</strong> {new Date(task.deadline).toLocaleString()}
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center gap-5 md:gap-8">
-                                    <select
-                                        value={task.statusId}
-                                        onChange={e => updateTaskStatus(task.id, e.target.value)}
-                                        className="appearance-none bg-indigo-100 text-indigo-700 font-semibold px-5 py-3 rounded-xl shadow-sm cursor-pointer transition hover:bg-indigo-200 focus:outline-none focus:ring-4 focus:ring-indigo-300"
-                                    >
-                                        {statuses.map(status => (
-                                            <option key={status.id} value={status.id}>{status.name}</option>
-                                        ))}
-                                    </select>
+                                <div className="flex flex-col sm:flex-row items-start gap-5 md:gap-8 pl-3 pt-9">
+                                    <div className="flex flex-col gap-4 w-full max-w-xs">
+                                        <select
+                                            value={task.statusId}
+                                            onChange={e => updateTaskStatus(task.id, e.target.value)}
+                                            className="w-full bg-indigo-100 text-indigo-700 font-semibold px-5 py-3 pl-4 rounded-xl shadow-sm cursor-pointer transition hover:bg-indigo-200 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+                                        >
+                                            {statuses.map(status => (
+                                                <option key={status.id} value={status.id}>{status.name}</option>
+                                            ))}
+                                        </select>
 
-                                    <button
-                                        onClick={() => deleteTask(task.id)}
-                                        className="bg-red-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 transition focus:outline-none focus:ring-4 focus:ring-red-300"
-                                    >
-                                        Удалить
-                                    </button>
+                                        <button
+                                            onClick={() => deleteTask(task.id)}
+                                            className="w-full bg-red-500 text-white font-semibold px-5 py-3 pl-4 rounded-xl shadow-md hover:bg-red-600 transition focus:outline-none focus:ring-4 focus:ring-red-300"
+                                        >
+                                            Удалить
+                                        </button>
+                                    </div>
                                 </div>
+
                             </li>
                         ))}
                     </ul>
