@@ -1,112 +1,99 @@
+@import "tailwindcss";
+
 :root {
-    font-family: '3270 Nerd Font', system-ui, Avenir, Helvetica, Arial, sans-serif; /* Шрифт */
-    line-height: 1.5; /* Межстрочный интервал */
-    font-weight: 400; /* Жирность шрифта */
-    color-scheme: light dark; /* Поддержка светлой/тёмной темы */
-    color: rgba(255, 255, 255, 0.87); /* Цвет текста (белый с прозрачностью) */
-    background-color: #1e1e1e; /* Тёмный фон */
-    font-synthesis: none; /* Запрет на искусственное выделение жирным/курсивом */
-    text-rendering: optimizeLegibility; /* Улучшение читаемости текста */
-    -webkit-font-smoothing: antialiased; /* Сглаживание шрифтов в Safari */
-    -moz-osx-font-smoothing: grayscale; /* Сглаживание шрифтов в Firefox */
+    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
+    color: #1e293b; /* slate-800 */
+    background-color: #f9fafb; /* gray-50 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
-    font-weight: 500;
-    color: #646cff; /* Фиолетово-синий цвет */
-    text-decoration: inherit; /* Убирает подчёркивание */
+    color: #3b82f6;
+    text-decoration: none;
 }
 
     a:hover {
-        color: #535bf2; /* Цвет при наведении */
+        color: #2563eb;
+        text-decoration: underline;
     }
 
-body {
-    margin: 0; /* Убирает отступы по умолчанию */
-    display: flex;
-    place-items: center; /* Центрирует содержимое по вертикали и горизонтали */
-    min-width: 320px; /* Минимальная ширина */
-    min-height: 100vh; /* На всю высоту экрана */
-}
-
-h1 {
-    font-size: 3.2em; /* Очень крупный текст */
-    line-height: 1.1; /* Компактный межстрочный интервал */
-}
-
+/* Кнопки */
 button {
-    border-radius: 8px; /* Скруглённые углы */
-    border: 1px solid transparent; /* Прозрачная граница */
-    padding: 0.6em 1.2em; /* Внутренние отступы */
-    font-size: 1em;
+    background-color: #2563eb;
+    color: white;
     font-weight: 500;
-    font-family: inherit; /* Наследует шрифт от родителя */
-    background-color: #1a1a1a; /* Тёмный фон */
-    cursor: pointer; /* Курсор-указатель */
-    transition: border-color 0.25s; /* Плавное изменение границы */
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
     button:hover {
-        border-color: #646cff; /* Фиолетовая граница при наведении */
+        background-color: #1d4ed8;
     }
 
-    button:focus, button:focus-visible {
-        border-color: #646cff;
-        outline: 4px none -webkit-focus-ring-color; /*Контур при фокусе (для доступности) */
+    button:focus {
+        outline: 2px solid #60a5fa;
+        outline-offset: 2px;
     }
 
-input, textarea, select {
-    background-color: #1e1e1e; /* Фон как у страницы */
-    color: rgba(255, 255, 255, 0.87); /* Цвет текста */
-    border: none; /* Убираем все границы */
-    border-bottom: 1px solid #333; /* Только нижняя граница */
-    border-radius: 0; /* Убираем скругления */
-    padding: 8px 0; /* Отступы (горизонтальный можно добавить по желанию) */
-    font-family: inherit; /* Наследуем шрифт */
-    transition: border-color 0.25s; /* Плавное изменение цвета границы */
+/* Инпуты и поля */
+input,
+textarea,
+select {
+    width: 100%;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+    color: #1e293b; /* slate-800 */
+    background-color: white;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
-    input:hover, textarea:hover, select:hover {
-        border-bottom-color: #646cff;
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border-color: #60a5fa; /* blue-300 */
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
     }
 
-    /* Стиль при фокусе (подсветка снизу) */
-    input:focus, textarea:focus, select:focus {
-        outline: none; /* Убираем стандартный outline */
-        border-bottom-color: #646cff; /* Фиолетовая линия, как у кнопок */
-    }
-
-/* Стили для светлой темы */
-@media (prefers-color-scheme: light) {
-    input, textarea, select {
-        background-color: #ffffff; /* Белый фон */
-        color: #213547; /* Тёмный текст */
-        border-bottom-color: #ccc; /* Серая нижняя граница */
-    }
-        /* Подсветка в светлой теме */
-        input:focus, textarea:focus, select:focus {
-            border-bottom-color: #747bff; /* Голубоватый акцент */
-        }
+textarea {
+    resize: vertical;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547; /* Тёмно-синий текст */
-        background-color: #ffffff; /* Белый фон */
-    }
-
-    a:hover {
-        color: #747bff; /* Светло-фиолетовый при наведении */
-    }
-
-    button {
-        background-color: #f9f9f9; /* Светло-серый фон кнопок */
-    }
+/* Заголовки */
+h1, h2, h3 {
+    margin-bottom: 0.5rem;
 }
 
+h1 {
+    font-size: 2.5rem;
+}
 
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+/* Текст загрузки */
 .loading-text {
-    color: #bbbbbb;
-    margin: 20px 0;
-    padding: 10px;
+    color: #94a3b8; /* slate-400 */
+    text-align: center;
 }

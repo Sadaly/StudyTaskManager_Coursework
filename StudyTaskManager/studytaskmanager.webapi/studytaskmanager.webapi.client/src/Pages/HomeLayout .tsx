@@ -5,8 +5,8 @@ const HomeLayout = () => {
     return (
         <div style={{ display: 'flex' }}>
             <nav style={{
-                width: '200px',
-                height: '100vh',
+                width: '15vw',
+                height: '90vh',
                 padding: '1rem',
             }}>
                 <h2>Меню</h2>
@@ -24,8 +24,7 @@ const HomeLayout = () => {
             </nav>
 
             <div style={{
-                width: '100vh',
-                padding: '1rem',
+                width: '80vw',
                 //marginTop: '20px',
                 //paddingTop: '20px'
             }}>
