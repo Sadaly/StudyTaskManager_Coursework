@@ -14,6 +14,12 @@ const PersonalMessageElem: React.FC<PersonalMessageElemProps> = ({ message, send
         paddingRight: '70px' // Оставляем место для времени справа
     };
 
+    // Стили для текста сообщения
+    const messageStyle: React.CSSProperties = {
+        whiteSpace: 'pre-wrap', // Сохраняет переносы строк и пробелы
+        wordBreak: 'break-word' // Переносит длинные слова
+    };
+
     // Стили для времени
     const timeStyle: React.CSSProperties = {
         opacity: 0.7,
@@ -26,7 +32,7 @@ const PersonalMessageElem: React.FC<PersonalMessageElemProps> = ({ message, send
 
     return (
         <div style={bubbleStyle}>
-            <p>
+            <p style={messageStyle}>
                 {message.content}
                 <span style={timeStyle}>
                     {senderMy && message.is_Read_By_Other_User ?

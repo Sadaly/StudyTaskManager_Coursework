@@ -5,7 +5,7 @@ import axios from "axios";
 import PersonalChatsSearchResultElement from "./PersonalChatsSearchResultElement";
 
 interface PersonalChatsSearchProps {
-    me: Me
+    me: Me;
 }
 
 const PersonalChatsSearch: React.FC<PersonalChatsSearchProps> = ({ me }) => {
@@ -15,7 +15,7 @@ const PersonalChatsSearch: React.FC<PersonalChatsSearchProps> = ({ me }) => {
     const handleSearch = async () => {
         try {
             if (!searchUserName.trim()) {
-                // Не делаем запрос если строка пустая
+                setResultUsers([]);
                 return;
             }
 
@@ -23,41 +23,45 @@ const PersonalChatsSearch: React.FC<PersonalChatsSearchProps> = ({ me }) => {
                 `https://localhost:7241/api/Users/Search`,
                 {
                     withCredentials: true,
-                    params: {
-                        userName: searchUserName
-                    }
+                    params: { userName: searchUserName }
                 }
             );
 
             setResultUsers(response.data);
         } catch (error) {
             console.error("Error fetching users:", error);
-            // Можно добавить обработку ошибки, например:
-            // setError("Failed to search users");
+            setResultUsers([]);
         }
     };
 
     return (
-        <>
-            <input
-                placeholder="Имя пользователя"
-                value={searchUserName}
-                onChange={(e) => setSearchUserName(e.target.value)}
-                required
-            />
-            <button onClick={handleSearch}>Search</button>
+        <div style={{ width: '300px' }}>
+            <div style={{ display: 'flex', marginBottom: '10px' }}>
+                <input
+                    style={{ flex: 1, padding: '8px', marginRight: '5px' }}
+                    placeholder="Имя пользователя"
+                    value={searchUserName}
+                    onChange={(e) => setSearchUserName(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                />
+                <button onClick={handleSearch}>Поиск</button>
+            </div>
 
-            {/* Можно добавить отображение результатов */}
             {resultUsers.length > 0 && (
-                <div>
-                    <ul>
-                        {resultUsers.map(user => (
-                            <PersonalChatsSearchResultElement key={user.userId} me={me} user={user} />
-                        ))}
-                    </ul>
-                </div>
+                <ul style={{
+                    listStyle: 'none',
+                    padding: 0,
+                    border: '1px solid #ddd',
+                    borderRadius: '4px'
+                }}>
+                    {resultUsers.map(user => (
+                        <li key={user.userId} style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
+                            <PersonalChatsSearchResultElement me={me} user={user} />
+                        </li>
+                    ))}
+                </ul>
             )}
-        </>
+        </div>
     );
 };
 
