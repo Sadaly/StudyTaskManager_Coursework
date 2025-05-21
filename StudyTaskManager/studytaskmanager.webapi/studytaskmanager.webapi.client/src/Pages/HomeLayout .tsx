@@ -5,7 +5,6 @@ const HomeLayout = () => {
     return (
         <div style={{
             display: 'flex',
-            maxWidth: '1200px',
             margin: '0 0 0 20px', // Прижимаем к левому краю с небольшим отступом
             height: '100vh'
         }}>
