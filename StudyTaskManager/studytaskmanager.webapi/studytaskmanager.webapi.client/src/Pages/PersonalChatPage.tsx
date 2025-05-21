@@ -13,6 +13,7 @@ function PersonalChatPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const intervalRef = useRef<number>(1000);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const loadCurrentUser = async () => {
         try {
@@ -50,8 +51,7 @@ function PersonalChatPage() {
                 await loadCurrentUser();
                 await fetchMessages();
 
-                // Устанавливаем интервал для проверки новых сообщений
-                intervalRef.current = setInterval(fetchMessages, 1000); // Проверка каждую секунду
+                intervalRef.current = setInterval(fetchMessages, 1000);
 
             } catch (err) {
                 setError('Failed to initialize chat');
@@ -63,13 +63,16 @@ function PersonalChatPage() {
             initializeChat();
         }
 
-        // Очистка интервала при размонтировании компонента
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
         };
     }, [idPersonalChat]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     if (me == null || loading) {
         return <p className="loading-text">Загрузка сообщений...</p>;
@@ -80,26 +83,44 @@ function PersonalChatPage() {
     }
 
     return (
-        <div>
-            <h2>Personal Chat: {idPersonalChat}</h2>
-            <div>
-                {messages.length === 0 ?
-                    (<p>Здесь пока нет сообщений</p>)
-                    : (
-                        messages.map((message) => (<PersonalMessageElem
+        <div style={{
+            maxWidth: '1200px',
+            margin: '0 0 0 20px', // Прижимаем к левому краю с небольшим отступом
+            padding: '20px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
+            <h2 style={{ marginBottom: '20px' }}>Personal Chat: {idPersonalChat}</h2>
+
+            <div style={{
+                flex: 1,
+                overflowY: 'auto',
+                marginBottom: '20px',
+                padding: '15px'
+            }}>
+                {messages.length === 0 ? (
+                    <p>Здесь пока нет сообщений</p>
+                ) : (
+                    messages.map((message) => (
+                        <PersonalMessageElem
                             key={message.messageId}
                             message={message}
                             senderMy={message.senderId == me.userId}
-                        />))
-                    )
-                }
+                        />
+                    ))
+                )}
+                <div ref={messagesEndRef} />
             </div>
 
-            <PersonalMessageSendElem
-                me={me}
-                personalChatId={idPersonalChat!}
-                onMessageSent={fetchMessages} // Используем fetchMessages вместо refreshMessages
-            />
+
+            <div style={{ marginTop: 'auto' }}>
+                <PersonalMessageSendElem
+                    me={me}
+                    personalChatId={idPersonalChat!}
+                    onMessageSent={fetchMessages}
+                />
+            </div>
         </div>
     );
 }
