@@ -25,7 +25,7 @@ namespace StudyTaskManager.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpGet("{taskId:guid}")]
+        [HttpDelete("{taskId:guid}")]
         public async Task<IActionResult> Delete(
             Guid taskId,
             CancellationToken cancellationToken)
