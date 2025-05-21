@@ -23,8 +23,8 @@ const HomeLayout = () => {
                         padding: 0
                     }}>
                         <li style={{ marginBottom: '10px' }}><Link to="/home">Главная</Link></li>
-                        <li style={{ marginBottom: '10px' }}><Link to="/home/Chats">PersonalChats</Link></li>
-                        <li style={{ marginBottom: '10px' }}><Link to="/home/groups">Groups</Link></li>
+                        <li style={{ marginBottom: '10px' }}><Link to="/home/Chats">Чаты</Link></li>
+                        <li style={{ marginBottom: '10px' }}><Link to="/home/groups">Группы</Link></li>
                     </ul>
                 </div>
                 <div style={{ marginTop: 'auto', marginBottom: '20px' }} >
