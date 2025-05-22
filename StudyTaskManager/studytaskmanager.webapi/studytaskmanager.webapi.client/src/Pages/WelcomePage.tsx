@@ -12,10 +12,14 @@ export default function WelcomePage() {
         }}>
             <h1>StudyTaskManager</h1>
             <p>
-                Тут будет какой-нибудь текст с описанием проекта, думаю<br />
-                Исходный код на <a href="https://github.com/Sadaly/StudyTaskManager">GitHub</a>
+                Это полнофункциональное веб-приложение для <br />
+                управления учебными задачами, ориентированно <br />
+                на студентов, преподавателей и учебные группы<br />
             </p>
-            <div className="welcome-links" style={{ display: "flex", gap: "1rem" }}>
+            <p style={{ marginTop: "10px" }}>
+                Исходный код можно просмотреть на <a href="https://github.com/Sadaly/StudyTaskManager">GitHub</a>
+            </p>
+            <div className="welcome-links" style={{ marginTop: "10px", display: "flex", gap: "1rem" }}>
                 <Link to="/login">Вход</Link>
                 <Link to="/register">Регистрация</Link>
             </div>
