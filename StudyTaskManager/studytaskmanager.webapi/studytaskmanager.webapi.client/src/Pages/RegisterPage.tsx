@@ -75,9 +75,9 @@ export default function RegisterPage() {
 
     return (
         <div style={{
-            marginLeft: "150px",
-            width: "100%",
-            minHeight: "100vh",
+            marginLeft: "40vw",
+            marginTop: "20vh",
+            alignContent: 'center',
             padding: "2rem",
             boxSizing: "border-box"
         }}>
