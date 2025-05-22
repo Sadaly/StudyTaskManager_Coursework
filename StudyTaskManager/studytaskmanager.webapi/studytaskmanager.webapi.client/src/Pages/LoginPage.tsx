@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface ValidationError {
     code: string;
@@ -104,6 +104,10 @@ const LoginPage: React.FC = () => {
                 >
                     {renderButtonText()}
                 </button>
+
+                <p style={{ marginTop: "20px" }}>
+                    Еще нет аккаутна? <Link to="/register">Создать</Link>
+                </p>
             </form>
 
             {/* Общая ошибка */}
